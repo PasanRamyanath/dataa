@@ -1,0 +1,147 @@
+System design
+Targets and horizon
+- Primary target: 24‑hour forward distribution of log returns, expressed via quantiles (e.g., 5%, 25%, 50%, 75%, 95%) and expected realized volatility.
+- Secondary targets:
+- Directional regime: up, down, chop (probabilities).
+- Volatility regime: low/medium/high (probabilities).
+- Tail risk: probability of ±X% moves or liquidation clusters within 24h.
+- Multi‑horizon support: 5m/15m/1h auxiliary heads to stabilize the 24h head through hierarchical training.
+Model ensemble
+- Microstructure encoder (low latency):
+- TCN/LSTM over rolling windows (e.g., 5–30 minutes) of spot and futures trades/aggTrades, and bookTicker changes.
+- Cross‑sectional features: buyer‑maker flags, trade size quantiles, short‑term realized vol, spread dynamics.
+- Order book topology module:
+- CNN or GNN on bookDepth snapshots to encode imbalance, liquidity walls, and depth slopes; optionally a temporal CNN over sequential snapshots.
+- Multi‑resolution trend/derivatives encoder:
+- Temporal Transformer with time‑aware positional encodings over klines (spot and futures), markPriceKlines, indexPriceKlines, premiumIndexKlines at 1m/5m/1h/4h resolutions; integrates metrics (open interest, long/short ratios) and fundingRate.
+- Implied volatility and options module:
+- Feature MLP ingesting BVOLIndex and aggregated EOHSummary surfaces (term structure, skew, ATM IV, open interest concentration).
+- Regime classifier:
+- Auxiliary head classifying market regimes (e.g., high IV + negative premium + rising OI = potential squeeze) to condition the probabilistic 24h forecast via mixture-of-experts routing.
+- Probabilistic forecasting head:
+- Quantile regression or mixture density network predicting the 24h return distribution and realized vol; calibrated post‑hoc.
+Fusion and conditioning
+- Cross‑attention: From microstructure/order book embeddings to macro/derivatives embeddings.
+- State conditioning: Funding time proximity, session (Asia/EU/US), and known event windows condition attention weights and the regime classifier.
+- Ensembling: Average or stack generalization across 3–5 diverse seeds/architectures; apply probability calibration (isotonic/Platt for regimes, quantile calibration for tails).
+
+Datasets and labeling
+Core datasets you have
+- Spot data: aggTrades, trades, klines (1m and higher).
+- Futures data (UM/CM): aggTrades, trades, klines, markPriceKlines, indexPriceKlines, premiumIndexKlines, bookTicker, bookDepth, fundingRate (monthly), metrics (open interest and long/short ratios), liquidationSnapshot (CM).
+- Options/volatility: BVOLIndex, EOHSummary (surface snapshot).
+Labels
+- Return quantiles: Compute 24h forward log return from midprice (e.g., index price) at each timestamp; derive quantile targets for supervised learning.
+- Realized volatility: 24h realized vol from intraday returns (e.g., Parkinson/realized measure).
+- Regimes: Unsupervised clustering (HDBSCAN/k‑means) on IV, premium, funding, OI deltas, and liquidity imbalance; or rule‑based labels for initial training.
+- Tail events: Binary labels for return > thresholds (e.g., 2%, 5%), liquidation cluster occurrence.
+
+Feature extraction plan
+Microstructure and order book
+- Price and returns:
+- Micro-returns: log returns over 1s/5s/30s/1m; drift and mean‑reversion stats.
+- Spread and slippage:
+- Bid‑ask spread, spread volatility, and impact proxies from bookTicker.
+- Depth/imbalance (from bookDepth):
+- Depth by percentage levels (e.g., −5 to −2) normalized by notional; order book imbalance per level and aggregated; depth slope and convexity.
+- Order flow:
+- Trade sign (is_buyer_maker), signed volume, order flow imbalance (OFI) across sliding windows; VWAP and cumulative volume delta.
+- Event flags:
+- Large trade spikes, sudden depth withdrawal, quote stuffing (rapid update_id bursts), mini-liquidity vacuum.
+Multi-resolution price series (spot/futures)
+- Returns and volatility:
+- Rolling returns (1m/5m/15m/1h/4h), realized vol, Garman‑Klass/Parkinson estimators; volatility of volatility.
+- Skewness/kurtosis:
+- Distributional moments to capture regime changes.
+- Autocorrelation structure:
+- Lag‑ACFs and partial autocorrelations across horizons.
+- Trend and oscillators:
+- Short/long EMA, MACD‑like deltas, RSI‑like normalized momentum (engineered; not as trading rules but as orthogonal features).
+- Cross‑price relationships:
+- Spot vs mark vs index spreads and co-movements; premiumIndex levels and changes.
+Derivatives, funding, and positioning
+- Funding dynamics:
+- Last funding rate, time‑to‑funding, funding drift, and surprises relative to recent average.
+- Open interest and long/short ratios (metrics):
+- OI level and delta, top‑trader long/short ratio level and trend, taker long/short vol ratio; interaction terms with returns/vol.
+- Basis and carry:
+- Futures mark/index vs spot basis, premium term structure signs.
+- Liquidations (CM):
+- Counts and notional of liquidationSnapshot over windows; proximity to price; cluster indicators.
+Implied volatility and options (EOH + BVOL)
+- Term structure and skew:
+- ATM IV per tenor, slope across strikes, risk reversal proxies; changes in BVOLIndex vs realized vol.
+- OI concentration:
+- Aggregated OI and volume near key strikes; gamma exposure proxies (directional pressure).
+- IV‑RV spread:
+- Difference between implied (BVOL/options) and realized vol to flag mean‑reversion or breakouts.
+Time/context features
+- Session/time‑of‑day:
+- Asia/Europe/US session flags; day‑of‑week and funding windows.
+- Regime priors:
+- Rolling macro regime label embedding injected to the Transformer.
+
+Training, validation, and calibration
+Data handling
+- Synchronization:
+- Align timestamps across spot/futures/derivatives; resample to common grids (e.g., 1m and 5m) and maintain a low‑latency stream for microstructure encoder.
+- Missing values:
+- Forward‑fill for slow series (funding, BVOL) with staleness masks; avoid leakage.
+- Normalization:
+- Robust scalers per feature family; preserve sign for microstructure features.
+Losses
+- Distributional forecasts:
+- Quantile loss (pinball) over 24h return quantiles; optionally CRPS for continuous distributions.
+- Regimes and tails:
+- Cross‑entropy for regimes; balanced focal loss for tail events.
+- Multi‑task weighting:
+- Uncertainty‑based or scheduled weighting for stability.
+Validation and backtesting
+- Walk‑forward with nested CV:
+- Expanding window training; test on the next period; no look‑ahead; repeat across multiple folds.
+- Latency‑aware execution simulation:
+- Apply realistic fees, spreads, slippage, and order book impact; enforce signal staleness constraints.
+- Stress scenarios:
+- Evaluate on funding spikes, liquidation cascades, and high BVOL days; monitor calibration curves for quantiles.
+Calibration
+- Probability calibration:
+- Isotonic or Platt scaling for regime probabilities; quantile recalibration using conformal prediction to correct coverage.
+- Drift and re‑training triggers:
+- Population stability index (PSI), Kolmogorov‑Smirnov drift on key features; re‑train when drift exceeds thresholds.
+
+Realtime pipeline and precision boosters
+Streaming feature pipeline
+- Dual‑track ingestion:
+- Low‑latency track: websocket for trades/aggTrades/bookTicker; compute microstructure features every 1–5 seconds.
+- Periodic track: 1m/5m updates for klines, mark/index, premium, metrics, BVOL; refresh multi‑resolution features.
+- Stateful windows:
+- Maintain rolling buffers for OFI, depth, realized vol; lockstep inference cadence (e.g., every 15–30 seconds for microstructure head, every 1–5 minutes for ensemble).
+Precision boosters
+- Mixture‑of‑experts by regime:
+- Route inputs through specialized experts (trend, chop, squeeze) using the regime classifier to reduce variance.
+- Feature selection and regularization:
+- Elastic net/embedded importance to prune unstable features; dropout, weight decay; limit parameter count in microstructure head.
+- Multi‑objective training:
+- Jointly predict direction and volatility to stabilize tails.
+- Ensemble diversity:
+- Vary input windows/resolutions and random seeds to reduce correlation of errors.
+- Conformal risk overlays:
+- Convert forecast distribution to risk bands (e.g., max position as function of predicted vol and tail probability).
+- Latency-aware decisions:
+- Gate trades when spread widens or depth thins; exploit signals only with sufficient liquidity and calibrated confidence.
+
+Governance, risk, and monitoring
+- Risk manager:
+- Position sizing proportional to predicted vol and regime confidence; kill‑switch on model disagreement or drift; daily VaR using forecast distribution.
+- Compliance and observability:
+- Full audit trail of feature snapshots, predictions, decisions; explainability via attention maps and SHAP on slower heads.
+- Model monitoring:
+- Track calibration (PIT histograms), coverage of quantiles, regime confusion matrices, and feature drift; automated alerts and retraining.
+
+What will most improve precision with your datasets
+- Fuse order‑book imbalance and OFI with funding/premium and OI deltas: Microstructure tells you “now,” while derivatives positioning tells you “pressure” for the next 24h.
+- Add implied vs realized vol mismatch features: When BVOL materially exceeds realized vol, expect mean‑reversion or hedging flows.
+- Condition on time‑to‑funding and session transitions: Funding windows and session opens repeatedly shift flow.
+- Calibrate distribution forecasts and use regime‑specialist experts: This reduces overconfidence and sharpens tail predictions.
+- Maintain strict timestamp alignment and latency modeling: Precision dies with clock skew; build it like a trading system, not a lab script.
+If you want, I can tailor horizon granularity, risk constraints, and inference cadence to your capital and latency budget.

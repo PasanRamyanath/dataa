@@ -1,0 +1,35 @@
+name: Kaggle ensemble relaunch
+
+# External half of §11.2's session-relaunch orchestration — polls the Kaggle
+# API every 10 minutes for the ensemble-training kernel's status and
+# re-pushes it whenever a session has ended but the ensemble isn't fully
+# trained yet (see orchestration/kaggle_relay/poll_and_relaunch.py). The
+# poller itself checks orchestration.checkpoint_manager.ensemble_complete()
+# first and no-ops once every member/fusion-stage has a metrics.json in its
+# private HF model repo, so this workflow is safe to leave running
+# indefinitely — it naturally stops relaunching once training is done.
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  poll-and-relaunch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install kaggle huggingface_hub
+
+      - name: Poll Kaggle kernel and relaunch if needed
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python -m orchestration.kaggle_relay.poll_and_relaunch

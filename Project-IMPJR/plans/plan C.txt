@@ -1,0 +1,108 @@
+Model architectures
+Use a modular ensemble: each model specializes in a core market dimension (direction, volatility, liquidity, regime). Combine outputs with stacking and probabilistic calibration.
+Core ensemble
+- Directional sequence model (1h–24h):
+Temporal Fusion Transformer (TFT) / Transformer-LSTM hybrid with multi-horizon outputs (mean and quantiles). Inputs include klines (spot/futures/mark/index), premiums/funding, basis, OI/long-short ratios, BVOL, and option EOHSummary features. Designed to capture seasonality, exogenous drivers, and attention-based interpretability.
+- Volatility model (intra-day to next 24h):
+Realized volatility + EGARCH/HAR-RV + volatility Transformer, generating probabilistic forecasts of realized vol, drawdown risk, and high–low ranges. Incorporates BVOL index, option implied metrics, and realized microstructure features.
+- Microstructure model (seconds–minutes):
+Order book Transformer/TCN + Hawkes process head to model trade arrivals, imbalance, short-term drift, and price impact. Feeds features upstream to nowcasting components of the directional model.
+- Regime classifier:
+Markov Switching/HMM + clustering (k-means/DBSCAN) + shallow Transformer to tag regimes (trend, mean-reversion, high-vol/liquidity crunch). Regime tags condition the ensemble (e.g., dynamic weights, horizon-specific risk).
+- Event risk classifier:
+Gradient-boosted trees / shallow Transformer to predict tail events (≥X% move, liquidation clusters, basis dislocations). Outputs probabilities and expected severity for risk management.
+- Basis and funding arbitrage module:
+Sequence regression (LightGBM/XGBoost + Transformer features) to forecast futures-spot basis, funding rate shifts, and premium index changes; used as exogenous inputs to directional/vol models.
+Fusion and calibration
+- Stacking/meta-learner:
+Regularized logistic/linear meta-model combines directional, volatility, and event signals into final probabilistic forecasts for return, high-low, and tail-risk.
+- Probabilistic calibration:
+Isotonic regression / Platt scaling / quantile recalibration to align predicted probabilities and quantiles with empirical frequencies across regimes.
+
+Feature engineering
+Engineer features at three layers: microstructure, market structure, and derivatives-informed risk. Ensure every feature is timestamp-aligned and leakage-safe.
+Microstructure and order book
+- Trade intensity:
+Rate, inter-arrival times, buy/sell imbalance, aggressive vs passive flow, and signed volume from aggTrades/trades.
+- Order book signals:
+Best bid/ask, mid, spreads, top-level and multi-level depth, imbalance, depth elasticity, and slippage proxies from bookTicker/bookDepth.
+- Price impact metrics:
+Short-horizon impact of net order flow, Kyle’s lambda estimates, cost of crossing spread, and microprice deviation.
+- Market state flags:
+Liquidity drought indicators, quote stuffing patterns, and rapid depth withdrawals.
+Price and returns
+- Returns spectrum:
+Log returns across multiple windows (1m–4h), momentum, mean-reversion strength, and shock flags.
+- High–low structure:
+True range, realized volatility (RV), bipower variation, realized skew/kurtosis.
+- Cross-venue normalization:
+Spot vs futures spreads; mark vs index deviations; basis roll-down.
+Derivatives and funding
+- Futures basis and premium:
+Premium index klines; spot–mark/index differences; basis slope and convexity over horizons.
+- Funding rates:
+Latest and lagged funding; anticipated funding from basis/premium; funding seasonality and regime tags.
+- Open interest and positioning:
+Sum OI, OI changes, top-trader long-short ratios, taker long/short vol ratio; inferred positioning pressure.
+- Liquidations:
+Liquidation snapshot intensity, side asymmetry, price distance to mass liquidation bands.
+Options and implied risk
+- BVOL index:
+Absolute level, changes, and term structure proxies via dynamics; realized vs implied vol spread.
+- EOHSummary greeks:
+Delta/gamma/vega/theta aggregates by moneyness and tenor; skew/smile slope; IV term structure; mark IV momentum.
+- Gamma exposure proxies:
+Net gamma regime indicators (estimated via aggregated contract data), expected dealer positioning pressure.
+Cross-market and macro signals (optional if available)
+- Risk proxies:
+Stablecoin flows, ETF flows, funding dispersion across venues, if accessible.
+- Time-of-day/seasonality:
+UTC hour dummies, weekday/weekend effects, expiry/roll dates.
+Target definitions
+- Directional targets:
+Next-24h return, and multi-horizon returns (1h/4h/12h/24h).
+- Range targets:
+Next-24h high–low band, quantile forecasts (q_{10},q_{50},q_{90}).
+- Risk targets:
+Tail-event probabilities (≥X% move), drawdown exceedance, liquidation cluster probability.
+
+Training datasets and labeling
+Build supervised learning datasets per module, ensuring historical coverage and regime diversity.
+Data assembly
+- Unified timeline:
+Merge spot/futures/options feeds on a canonical 1m grid; compute microstructure features on 1s/5s and aggregate with leakage-safe windows.
+- Feature lags:
+Create lag stacks (e.g., 1–240 minutes) and rolling statistics; prevent future leakage by truncating at prediction time.
+- Cross-sectional augmentation:
+Include USDⓈ-M and COIN-M variants; align spot and mark/index; derive cross-instrument spreads and differentials.
+Labeling and horizons
+- Directional labels:
+Forward returns over 1h, 4h, 12h, 24h; classify sign for classification heads; maintain continuous labels for regression.
+- Volatility labels:
+Realized vol from intraday high–low/RV; drawdown/maximum excursion; quantiles via empirical order statistics.
+- Event labels:
+Binary flags for large moves, basis dislocations, liquidation bursts; thresholds set per regime to avoid class imbalance extremes.
+Sampling and splits
+- Regime-aware splits:
+Time-based splits preserving chronology; stratify by regimes (vol/momentum/liquidity) to test generalization.
+- Cross-validation:
+Rolling-window CV; blocked folds to avoid leakage; nested CV for hyperparameters with limited retraining frequency.
+- Class imbalance handling:
+Focal loss or class weights for event models; balanced subsampling with cost-sensitive metrics.
+
+Real-time system and precision strategies
+Precision isn’t just modeling—it’s the full system: live ingestion, adaptive ensembling, calibration, and risk-aware post-processing.
+Ingestion and feature computation
+- Websocket integration:
+Stream bookTicker/bookDepth/trades/aggTrades and compute microstructure features in-memory with low-latency queues.
+- Hierarchical features:
+Maintain fast-path (order book + trade intensity) and slow-path (funding, OI, BVOL, EOHSummary) with appropriate refresh cadence.
+- Drift detection:
+Monitor feature distributions (PSI/KS tests) and performance residuals; trigger recalibration or fallback weights.
+Adaptive ensemble and nowcasting
+- Regime-conditioned weights:
+Adjust model weights based on regime classifier outputs; emphasize microstructure model during high-liquidity/trend regimes, volatility model during stressed regimes.
+- Short-term nowcasts:
+Use microstructure outputs to update intraday risk and direction, feeding into the 24h forecast as a dynamic prior.
+- Uncertainty quantification:
+Produce prediction intervals and tail probabilities; prefer decision rules based on calibrated risk-adjusted signals rather than point estimates.

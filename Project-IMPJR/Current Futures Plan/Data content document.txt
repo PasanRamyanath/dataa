@@ -1,0 +1,157 @@
+data content in Home / data / futures / um / daily / aggTrades / BTCUSDT / BTCUSDT-aggTrades-2025-12-17.zip
+
+agg_trade_id	price	quantity	first_trade_id	last_trade_id	transact_time	is_buyer_maker
+3017086677	87826.3	0.001	7019491517	7019491517	1.76593E+12	FALSE
+3017086678	87826.2	0.05	7019491518	7019491518	1.76593E+12	TRUE
+3017086679	87826.2	0.255	7019491519	7019491519	1.76593E+12	TRUE
+
+data content in Home / data / futures / um / daily / bookDepth / BTCUSDT /BTCUSDT-bookDepth-2025-12-17.zip
+
+timestamp	percentage	depth	notional
+12/17/2025 0:00	-5	5018.817	430271027.7
+12/17/2025 0:00	-4	4126.149	355422792.6
+12/17/2025 0:00	-3	2891.594	250709638.1
+12/17/2025 0:00	-2	2210.146	192356345.4
+
+data content in Home / data / futures / um / daily / bookTicker / BTCUSDT /BTCUSDT-bookTicker-2024-03-30.zip
+
+update_id	best_bid_price	best_bid_qty	best_ask_price	best_ask_qty	transaction_time	event_time
+4.30708E+12	69903.6		0.462		69903.7		4.419		1.71176E+12		1.71176E+12
+4.30708E+12	69903.6		0.362		69903.7		4.419		1.71176E+12		1.71176E+12
+4.30708E+12	69900.2		0.047		69900.3		2.582		1.71176E+12		1.71176E+12
+
+data content in Home / data / futures / um / daily / indexPriceKlines / BTCUSDT / 1m / BTCUSDT-1m-2025-12-17.zip (avaiable in  12h/15m/1d/1h/1m/1mo/1w/2h/30m/3d/3m/4h/5m/6h/8h/)
+
+open_time	open	high	low	close	volume	close_time	quote_volume	count	taker_buy_volume	taker_buy_quote_volume	ignore
+1.76593E+12	87858.24761	87859.69239	87762.98457	87777.43043	0	1.76593E+12	0	60	0	0	0
+1.76593E+12	87773.24043	87773.24043	87671.94043	87692.43109	0	1.76593E+12	0	60	0	0	0
+1.76593E+12	87692.42022	87701.13783	87680.06348	87688.5213	0	1.76593E+12	0	60	0	0	0
+
+data content in Home / data / futures / um / daily / klines / BTCUSDT / 1m / BTCUSDT-1m-2025-12-17.zip (avaiable in  12h/15m/1d/1h/1m/1mo/1w/2h/30m/3d/3m/4h/5m/6h/8h/)
+
+open_time	open	high	low	close	volume	close_time	quote_volume	count	taker_buy_volume	taker_buy_quote_volume	ignore
+1.76593E+12	87826.3	87826.3	87722.7	87732.9	99.491	1.76593E+12	8732709.738	2514	27.52	2414959.396	0
+1.76593E+12	87732.9	87733	87626	87658.1	170.282	1.76593E+12	14928443.36	3702	22.647	1984883.797	0
+1.76593E+12	87658.1	87669.2	87635.1	87643.8	79.787	1.76593E+12	6993266.564	2052	26.62	2333334.015	0
+
+data content in Home / data / futures / um / daily / markPriceKlines / BTCUSDT / 1m / BTCUSDT-1m-2025-12-17.zip (avaiable in  12h/15m/1d/1h/1m/1mo/1w/2h/30m/3d/3m/4h/5m/6h/8h/)
+
+open_time	open	high	low	close	volume	close_time	quote_volume	count	taker_buy_volume	taker_buy_quote_volume	ignore
+1.76593E+12	87826.3	87826.3	87722.7	87739.66414	0	1.76593E+12	0	60	0	0	0
+1.76593E+12	87738.57488	87738.57488	87627.34876	87658.1	0	1.76593E+12	0	60	0	0	0
+1.76593E+12	87658.1	87663.4	87637.7604	87644.43821	0	1.76593E+12	0	60	0	0	0
+
+data content in Home / data / futures / um / daily / metrics / BTCUSDT / BTCUSDT-metrics-2025-12-17.zip
+
+create_time	symbol	sum_open_interest	sum_open_interest_value	count_toptrader_long_short_ratio	sum_toptrader_long_short_ratio	count_long_short_ratio	sum_taker_long_short_vol_ratio
+12/17/2025 0:05	BTCUSDT	88638.521	7762567072	2.43236978	2.089522	2.17458354	0.2697
+12/17/2025 0:10	BTCUSDT	88627.934	7769427746	2.42695369	2.087683	2.16993529	0.619661
+12/17/2025 0:15	BTCUSDT	88635.859	7755724013	2.42283572	2.088266	2.16494948	0.728922
+
+data content in Home / data / futures / um / daily / premiumIndexKlines / BTCUSDT / 1m /BTCUSDT-1m-2025-12-17.zip (avaiable in  12h/15m/1d/1h/1m/1mo/1w/2h/30m/3d/3m/4h/5m/6h/8h/)
+
+open_time	open	high	low	close	volume	close_time	quote_volume	count	taker_buy_volume	taker_buy_quote_volume	ignore
+1.76593E+12	-0.00036363	-0.0003303	-0.00070622	-0.00039216	0	1.76593E+12	0	12	0	0	0
+1.76593E+12	-0.00050617	-0.000386	-0.00084677	-0.000386	0	1.76593E+12	0	12	0	0	0
+1.76593E+12	-0.00039023	-0.00034816	-0.00062163	-0.00050218	0	1.76593E+12	0	12	0	0	0
+
+data content in Home / data / futures / um / daily / trades / BTCUSDT / BTCUSDT-trades-2025-12-17.zip
+
+id	price	qty	quote_qty	time	is_buyer_maker
+7019491517	87826.3	0.001	87.8263	1.76593E+12	FALSE
+7019491518	87826.2	0.05	4391.31	1.76593E+12	TRUE
+7019491519	87826.2	0.255	22395.681	1.76593E+12	TRUE
+
+Home / data / futures / um / monthly / fundingRate / BTCUSDT /BTCUSDT-fundingRate-2025-11.zip 
+
+calc_time	funding_interval_hours	last_funding_rate
+1.76196E+12	8	0.0001
+1.76198E+12	8	0.0001
+1.76201E+12	8	0.00009782
+
+data content in Home / data / futures / um / monthly / includes 
+aggTrades/		
+bookTicker/		
+fundingRate/		
+indexPriceKlines/		
+klines/		
+markPriceKlines/		
+premiumIndexKlines/		
+trades/
+with the same format as above
+
+data content in Home / data / futures / cm / daily / liquidationSnapshot / BTCUSD_PERP / BTCUSD_PERP-liquidationSnapshot-2024-10-14.zip
+
+time	side	order_type	time_in_force	original_quantity	price	average_price	order_status	last_fill_quantity	accumulated_fill_quantity
+1.72887E+12	SELL	LIMIT	IOC	1	62246.2	62472	FILLED	1	1
+1.72887E+12	SELL	LIMIT	IOC	1	62246.2	62472	FILLED	1	1
+1.72887E+12	SELL	LIMIT	IOC	9	62196.9	62436.4	FILLED	9	9
+
+data content in Home / data / futures / cm / daily / includes
+aggTrades/		
+bookDepth/		
+bookTicker/		
+indexPriceKlines/		
+klines/		
+liquidationSnapshot/		
+markPriceKlines/		
+metrics/		
+premiumIndexKlines/		
+trades/
+with the same format as futures /um / daily
+
+data content in Home / data / futures / cm / monthly / includes
+aggTrades/		
+bookTicker/		
+fundingRate/		
+indexPriceKlines/		
+klines/		
+markPriceKlines/		
+premiumIndexKlines/		
+trades/
+with the same format as futures /um / monthly
+
+
+data content in Home / data / option / daily / BVOLIndex / BTCBVOLUSDT / BTCBVOLUSDT-BVOLIndex-2025-12-14.zip
+
+calc_time	symbol	base_asset	quote_asset	index_value
+1.76567E+12	BTCBVOLUSDT	BTCBVOL	USDT	47.044
+1.76567E+12	BTCBVOLUSDT	BTCBVOL	USDT	47.044
+1.76567E+12	BTCBVOLUSDT	BTCBVOL	USDT	47.0439
+
+data content in Home / data / option / daily / EOHSummary / BTCUSDT / BTCUSDT-EOHSummary-2023-10-23.zip
+
+date	hour	symbol	underlying	type	strike	open	high	low	close	volume_contracts	volume_usdt	best_bid_price	best_ask_price	best_bid_qty	best_ask_qty	best_buy_iv	best_sell_iv	mark_price	mark_iv	delta	gamma	vega	theta	openinterest_contracts	openinterest_usdt
+10/23/2023	0	BTC-231027-33000-C	BTCUSDT	C	231027-33000	75	100	65	90	29.71	29.71	80	90	8.71	16.48		0.62905252	84.9	0.6198141	0.09250348	0.00008187	5.41260825	-39.08507011	44.79	1349056.18
+10/23/2023	0	BTC-231124-40000-P	BTCUSDT	P	231124-40000	0.00E+00	0.00E+00	0.00E+00	0.00E+00	0.00E+00	0.00E+00	8500	29640	1.5	1.5		6.96933746	10300.1	0.775	-0.8676882	0.00003084	19.18373857	-23.02047803	0.00E+00	0.00E+00
+10/23/2023	1	BTC-231229-34000-C	BTCUSDT	C	231229-34000	725	725	725	725	0.00E+00	0.00E+00	1430	1460	2.83	2.35		0.53434968	1444.9	0.53123981	0.34994338	0.00005354	48.23448652	-19.05135683	4.98	150940.7004
+
+data content in Home / data / spot / daily / aggTrades / BTCUSDT / BTCUSDT-aggTrades-2025-12-17.zip
+
+3786882132	87863.43	0.00011	5668887088	5668887089	1.76593E+15	FALSE	TRUE
+3786882133	87863.43	0.00114	5668887090	5668887090	1.76593E+15	FALSE	TRUE
+3786882134	87863.43	0.00023	5668887091	5668887091	1.76593E+15	FALSE	TRUE
+
+data content in Home / data / spot / daily / klines / BTCUSDT / 1m / BTCUSDT-1m-2025-12-17.zip (available in 12h/15m/1d/1h/1m/1s/2h/30m/3m/4h/5m/6h/8h/)
+
+1.76593E+15	87863.43	87863.43	87760.05	87768.73	12.00494	1.76593E+15	1053927.401	4953	2.25989	198377.8638	0
+1.76593E+15	87768.73	87768.73	87664.68	87688.85	10.74608	1.76593E+15	942695.7678	4971	2.84407	249410.7478	0
+1.76593E+15	87688.85	87701.13	87676.84	87688.22	2.48997	1.76593E+15	218348.2281	2217	1.37435	120514.2982	0
+
+data content in Home / data / spot / daily / trades / BTCUSDT / BTCUSDT-trades-2025-12-17.zip (available in 12h/15m/1d/1h/1m/1s/2h/30m/3m/4h/5m/6h/8h/)
+
+
+5668887088	87863.43	0.00009	7.9077087	1.76593E+15	FALSE	TRUE
+5668887089	87863.43	0.00002	1.7572686	1.76593E+15	FALSE	TRUE
+5668887090	87863.43	0.00114	100.1643102	1.76593E+15	FALSE	TRUE
+
+data content in Home / data / spot / monthly /
+aggTrades/		
+klines/		
+trades/
+with the same format as above
+
+
+
+
+

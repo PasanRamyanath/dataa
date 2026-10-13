@@ -1,0 +1,34 @@
+1. Short-Horizon Microstructure Forecaster
+• 	Purpose: Predict BTC price direction in the next 30 minutes–2 hours.
+• 	Inputs: Order book depth, book ticker dynamics, trade/aggTrade flows, taker ratios, spot–futures divergence.
+• 	Architecture: Temporal CNN or Transformer with causal masking + point-process module (Hawkes-like) for trade bursts.
+• 	Output: Probabilities of Up/Down/Flat moves for short horizons.
+
+2. Volatility Forecaster
+• 	Purpose: Estimate realized volatility and regime classification for the next 24 hours.
+• 	Inputs: BVOL index, options EOH greeks/IV skew, realized vol from klines, liquidation density, open interest changes.
+• 	Architecture: Gradient boosting (LightGBM/XGBoost) for realized vol + conditional normalizing flow for full return distribution.
+• 	Output: Volatility regime (low/medium/high) + distribution of returns.
+
+3. Basis & Funding Model
+• 	Purpose: Forecast futures–spot basis and funding rate drift.
+• 	Inputs: Premium index trajectory, mark/index price klines, funding history, open interest ratios.
+• 	Architecture: Multi-task neural network with shared encoder and separate heads for basis sign/magnitude and funding drift.
+• 	Output: Expected basis direction and funding bias.
+
+4. Liquidation Pressure Model
+• 	Purpose: Predict probability of liquidation cascades in the next hours.
+• 	Inputs: CM liquidation snapshots, order book imbalance, realized volatility, open interest deltas.
+• 	Architecture: Survival analysis (Deep Cox) + classifier for burst probability.
+• 	Output: Probability of liquidation bursts and expected stress intensity.
+
+5. 24-Hour Ensemble Meta-Learner
+• 	Purpose: Combine all submodels into a unified forecast for the next 24 hours.
+• 	Inputs: Outputs from microstructure, volatility, basis/funding, and liquidation models + global features.
+• 	Architecture: Stacking ensemble (meta-GBM or constrained linear optimizer).
+• 	Output: Directional probability, expected return, and risk bounds (VaR/ES).
+
+🛡️ Supporting Layers
+• 	Risk & Execution Policy Layer: Rule-based + Bayesian optimization for entry/exit sizing, stop-losses, and leverage caps.
+• 	Calibration Modules: Probability calibration (Platt scaling, temperature scaling) to ensure reliable confidence scores.
+• 	Drift Monitoring Models: Detect feature distribution shifts and trigger retraining or fallback conservative strategies.

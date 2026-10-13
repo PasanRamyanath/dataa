@@ -1,0 +1,237 @@
+{
+  "n_folds": 3,
+  "val_size_bars": 17280,
+  "folds": [
+    {
+      "fold_index": 0,
+      "train_rows": 25200,
+      "val_rows": 17280,
+      "classification": {
+        "majority_class": {
+          "accuracy": 0.43020833333333336,
+          "balanced_accuracy": 0.3333333333333333,
+          "f1_macro": 0.2005341102209274
+        },
+        "prior_bar_label": {
+          "accuracy": 0.973900462962963,
+          "balanced_accuracy": 0.6491913129334943,
+          "f1_macro": 0.6492130644011166
+        },
+        "train_class_balance": {
+          "0": 10303,
+          "1": 9,
+          "2": 14888
+        },
+        "val_class_balance": {
+          "0": 9839,
+          "1": 7,
+          "2": 7434
+        }
+      },
+      "regression": {
+        "label_return_h1": {
+          "zero_return": {
+            "mae": 0.00042428269430443095,
+            "rmse": 0.000620548893076264,
+            "n": 17280
+          },
+          "last_known_return": {
+            "mae": 0.0004408120845625466,
+            "rmse": 0.0006437097255754946,
+            "n": 17280
+          }
+        },
+        "label_return_h2": {
+          "zero_return": {
+            "mae": 0.0008879425349058929,
+            "rmse": 0.0013926646261315538,
+            "n": 17280
+          },
+          "last_known_return": {
+            "mae": 0.0008993977493875131,
+            "rmse": 0.001404691393094698,
+            "n": 17280
+          }
+        },
+        "label_return_h3": {
+          "zero_return": {
+            "mae": 0.0021722394007223623,
+            "rmse": 0.0034835865865812483,
+            "n": 17280
+          },
+          "last_known_return": {
+            "mae": 0.0021775370491936793,
+            "rmse": 0.003487267525285869,
+            "n": 17280
+          }
+        },
+        "label_return_h4": {
+          "zero_return": {
+            "mae": 0.020164096686575147,
+            "rmse": 0.021910024196094696,
+            "n": 17280
+          },
+          "last_known_return": {
+            "mae": 0.020162234447982284,
+            "rmse": 0.021910077991374476,
+            "n": 17280
+          }
+        }
+      }
+    },
+    {
+      "fold_index": 1,
+      "train_rows": 42480,
+      "val_rows": 17280,
+      "classification": {
+        "majority_class": {
+          "accuracy": 0.4840277777777778,
+          "balanced_accuracy": 0.3333333333333333,
+          "f1_macro": 0.2174387771018562
+        },
+        "prior_bar_label": {
+          "accuracy": 0.9778935185185185,
+          "balanced_accuracy": 0.6521800067590978,
+          "f1_macro": 0.6521983206866923
+        },
+        "train_class_balance": {
+          "0": 18191,
+          "1": 13,
+          "2": 24276
+        },
+        "val_class_balance": {
+          "0": 8909,
+          "1": 7,
+          "2": 8364
+        }
+      },
+      "regression": {
+        "label_return_h1": {
+          "zero_return": {
+            "mae": 0.0004920171918692412,
+            "rmse": 0.0007051652345030596,
+            "n": 17280
+          },
+          "last_known_return": {
+            "mae": 0.0005125862331929449,
+            "rmse": 0.0007385135339064865,
+            "n": 17280
+          }
+        },
+        "label_return_h2": {
+          "zero_return": {
+            "mae": 0.0011030458741717868,
+            "rmse": 0.0015771355370562859,
+            "n": 17280
+          },
+          "last_known_return": {
+            "mae": 0.0011133652401475289,
+            "rmse": 0.0015900033184734284,
+            "n": 17280
+          }
+        },
+        "label_return_h3": {
+          "zero_return": {
+            "mae": 0.0026090975712846826,
+            "rmse": 0.003895091460588149,
+            "n": 17280
+          },
+          "last_known_return": {
+            "mae": 0.002614202461274132,
+            "rmse": 0.0039020007497088077,
+            "n": 17280
+          }
+        },
+        "label_return_h4": {
+          "zero_return": {
+            "mae": 0.007376900867179588,
+            "rmse": 0.009289935869223075,
+            "n": 17280
+          },
+          "last_known_return": {
+            "mae": 0.007378994961675164,
+            "rmse": 0.009294929596708298,
+            "n": 17280
+          }
+        }
+      }
+    },
+    {
+      "fold_index": 2,
+      "train_rows": 59760,
+      "val_rows": 17280,
+      "classification": {
+        "majority_class": {
+          "accuracy": 0.5585069444444445,
+          "balanced_accuracy": 0.3333333333333333,
+          "f1_macro": 0.23890683598826631
+        },
+        "prior_bar_label": {
+          "accuracy": 0.9795717592592592,
+          "balanced_accuracy": 0.7087890756170717,
+          "f1_macro": 0.7065838176562669
+        },
+        "train_class_balance": {
+          "0": 28653,
+          "1": 22,
+          "2": 31085
+        },
+        "val_class_balance": {
+          "0": 7617,
+          "1": 12,
+          "2": 9651
+        }
+      },
+      "regression": {
+        "label_return_h1": {
+          "zero_return": {
+            "mae": 0.00018343108671682853,
+            "rmse": 0.00029659799741400003,
+            "n": 17280
+          },
+          "last_known_return": {
+            "mae": 0.00019042011167145375,
+            "rmse": 0.00030632838931248803,
+            "n": 17280
+          }
+        },
+        "label_return_h2": {
+          "zero_return": {
+            "mae": 0.0004232360808937638,
+            "rmse": 0.0006399519050956249,
+            "n": 17280
+          },
+          "last_known_return": {
+            "mae": 0.0004280400913723762,
+            "rmse": 0.0006456380741589452,
+            "n": 17280
+          }
+        },
+        "label_return_h3": {
+          "zero_return": {
+            "mae": 0.0010135445881772924,
+            "rmse": 0.0015805597630554513,
+            "n": 17280
+          },
+          "last_known_return": {
+            "mae": 0.0010160167950172597,
+            "rmse": 0.0015822126754927248,
+            "n": 17280
+          }
+        },
+        "label_return_h4": {
+          "zero_return": {
+            "mae": 0.005035137600368923,
+            "rmse": 0.005644053913125843,
+            "n": 9000
+          },
+          "last_known_return": {
+            "mae": 0.005034693162060244,
+            "rmse": 0.005644738579729456,
+            "n": 9000
+          }
+        }
+      }
+    }
+  ]
+}

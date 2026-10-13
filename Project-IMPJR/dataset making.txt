@@ -1,0 +1,84 @@
+# =========================================
+# 1. Mount Google Drive
+# =========================================
+from google.colab import drive
+drive.mount('/content/drive')
+
+import os
+import requests
+from datetime import datetime, timedelta
+import zipfile
+
+# =========================================
+# 2. Create working folder
+# =========================================
+save_path = "/content/btc_1s_klines"
+os.makedirs(save_path, exist_ok=True)
+
+# Date range (start → today)
+start_date = datetime(2017, 8, 17)
+end_date   = datetime(2025, 12, 6)   # your latest file date
+
+# Binance base URL
+base_url = "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1s"
+
+# =========================================
+# 3. Download all zip files day by day
+# =========================================
+current = start_date
+missing = []
+
+while current <= end_date:
+    date_str = current.strftime("%Y-%m-%d")
+    filename = f"BTCUSDT-1s-{date_str}.zip"
+    url = f"{base_url}/{filename}"
+    zip_path = f"{save_path}/{filename}"
+
+    print(f"Downloading {filename} ... ", end="")
+
+    try:
+        r = requests.get(url, stream=True)
+
+        if r.status_code == 200:
+            with open(zip_path, "wb") as f:
+                for chunk in r.iter_content(chunk_size=1024):
+                    if chunk:
+                        f.write(chunk)
+            print("OK")
+
+            # Extract CSV
+            with zipfile.ZipFile(zip_path, 'r') as z:
+                z.extractall(save_path)
+
+            os.remove(zip_path)
+
+        else:
+            print("MISSING")
+            missing.append(filename)
+
+    except Exception as e:
+        print("ERROR", e)
+        missing.append(filename)
+
+    current += timedelta(days=1)
+
+# =========================================
+# 4. Create ONE final ZIP file
+# =========================================
+final_zip_path = "/content/drive/My Drive/BTCUSDT_1s_ALL.zip"
+
+print("\nCreating final combined zip...")
+
+with zipfile.ZipFile(final_zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
+    for root, _, files in os.walk(save_path):
+        for file in files:
+            full_path = os.path.join(root, file)
+            zf.write(full_path, arcname=file)
+
+print("Final ZIP saved to:", final_zip_path)
+
+# =========================================
+# 5. Print missing files (if any)
+# =========================================
+print("\nMissing files:", missing)
+print("DONE.")
