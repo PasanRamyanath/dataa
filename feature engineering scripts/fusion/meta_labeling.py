@@ -3,9 +3,12 @@ Meta-labeling filter (Lopez de Prado-style bet sizing) — the second fusion
 stage the plan calls for alongside the "regime-gated stacking meta-learner":
 where fusion.stacking_meta_learner decides WHICH direction to bet, this
 module decides WHETHER to act on that bet at all, and how large, by
-predicting label_meta_act (the pipeline's own precomputed "was the primary
-directional call actually worth acting on" label) from the primary model's
-own predicted probabilities + confidence + regime.
+predicting "act" = the primary's call was directional (not flat) AND matched
+the realized label_triple_barrier — Lopez de Prado's meta-label, which
+depends on the primary's own side — from the primary model's predicted
+probabilities + confidence + regime. (The pipeline's label_meta_act only
+says a barrier was touched, whichever way; a filter trained on it would
+learn "a big move is coming" and happily size up wrong-side bets.)
 
 Critically, this is fit only on rows the stacking meta-learner itself never
 trained on: fusion.stacking_meta_learner.run() carves its OOF frame into
@@ -60,7 +63,8 @@ def build_bet_sizing_dataset(learner: StackingMetaLearner, meta_df: pl.DataFrame
     """`meta_df` must already be rows the primary stacking learner never
     trained on. Derives primary_prob_{down,flat,up}, primary_confidence
     (top minus second-best class prob), and primary_direction from the
-    primary model's predictions, then joins the true act/no-act label."""
+    primary model's predictions, then labels act=1 where that direction was
+    up/down and equals the realized triple-barrier outcome."""
     proba = learner.predict_proba(meta_df)
     sorted_proba = np.sort(proba, axis=1)
     confidence = sorted_proba[:, -1] - sorted_proba[:, -2]
@@ -68,9 +72,7 @@ def build_bet_sizing_dataset(learner: StackingMetaLearner, meta_df: pl.DataFrame
 
     labels = (
         filter_valid(load_days(max_days=max_days))
-        .select(["ts", "label_meta_act"])
-        .rename({"label_meta_act": "act"})
-        .with_columns(pl.col("act").cast(pl.Int64))
+        .select(["ts", (pl.col("label_triple_barrier").cast(pl.Int64) + 1).alias("true_class")])
     )
 
     regime_cols = [c for c in meta_df.columns if c.startswith("regime_")]
@@ -83,8 +85,11 @@ def build_bet_sizing_dataset(learner: StackingMetaLearner, meta_df: pl.DataFrame
     ])
     joined = out.join(labels, on="ts", how="inner")
     if joined.height == 0:
-        raise ValueError("build_bet_sizing_dataset: no overlap between primary predictions and label_meta_act")
-    return joined
+        raise ValueError("build_bet_sizing_dataset: no overlap between primary predictions and label_triple_barrier")
+    return joined.with_columns(
+        ((pl.col("primary_direction") != 1) & (pl.col("primary_direction") == pl.col("true_class")))
+        .cast(pl.Int64).alias("act")
+    ).drop("true_class")
 
 
 class MetaLabelFilter:

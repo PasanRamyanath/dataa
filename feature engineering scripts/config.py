@@ -375,7 +375,7 @@ for _kp in _kaggle_json_paths:
             pass
 if not _loaded_kaggle:
     _raw_kaggle_user = os.environ.get("KAGGLE_USERNAME", "")
-    KAGGLE_USERNAME = "rramyanath" if (not _raw_kaggle_user or _raw_kaggle_user == "pjramyanath") else _raw_kaggle_user
+    KAGGLE_USERNAME = "rimramyanath" if (not _raw_kaggle_user or _raw_kaggle_user in ("pjramyanath", "rramyanath")) else _raw_kaggle_user
     os.environ["KAGGLE_USERNAME"] = KAGGLE_USERNAME
 KAGGLE_KERNEL_SLUG = os.environ.get("KAGGLE_KERNEL_SLUG", "btcusdt-ensemble-train")
 KAGGLE_SESSION_TIME_BUDGET_HOURS = float(os.environ.get("KAGGLE_SESSION_TIME_BUDGET_HOURS", "11.5"))

@@ -43,7 +43,7 @@ def run(val_days: int, max_days: int | None, max_steps: int, upload: bool, gpus:
     result = run_member(
         MEMBER_NAME, TFT, df, split.fold,
         max_steps=max_steps, checkpoint_dir=CHECKPOINT_DIR, gpus=gpus,
-        extra_model_kwargs={"windows_batch_size": 16, "batch_size": 16, "learning_rate": 3e-4},
+        extra_model_kwargs={"windows_batch_size": 16, "batch_size": 16, "inference_windows_batch_size": 16, "learning_rate": 3e-4},
     )
 
     training_data_path = CHECKPOINT_DIR / "training_data_snapshot.parquet"

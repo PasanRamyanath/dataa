@@ -103,14 +103,24 @@ def to_long_format(df: pl.DataFrame, exog_cols: list[str] | None = None):
 
 def supported_exog(model_cls) -> tuple[list[str], list[str]]:
     """(hist_exog_list, futr_exog_list) this model class accepts."""
+    name = getattr(model_cls, "__name__", "")
+    if name in ("PatchTST", "iTransformer"):
+        return [], []
     hist = HISTORICAL_ONLY_FEATURE_COLUMNS if getattr(model_cls, "EXOGENOUS_HIST", True) else []
     futr = FUTURE_KNOWN_FEATURE_COLUMNS if getattr(model_cls, "EXOGENOUS_FUTR", True) else []
     return list(hist), list(futr)
 
 
 def build_model(model_cls, h: int, input_size: int, extra_kwargs: dict[str, Any] | None = None):
+    import inspect
     hist, futr = supported_exog(model_cls)
     kwargs = dict(h=h, input_size=input_size, scaler_type="robust")
+    try:
+        sig = inspect.signature(model_cls.__init__)
+        if "inference_windows_batch_size" in sig.parameters:
+            kwargs["inference_windows_batch_size"] = 16
+    except Exception:
+        pass
     if hist:
         kwargs["hist_exog_list"] = hist
     if futr:
@@ -187,6 +197,10 @@ def run_member(
     log.info("%s: fit on %d rows, scoring %d val rows in %d windows of h=%d every %d bars (exog: %d hist, %d futr)",
               member_name, len(long_df) - test_size, test_size, (test_size - h) // step + 1, h, step,
               len(used_hist), len(used_futr))
+    import gc
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
     try:
         cv = nf.cross_validation(df=long_df, n_windows=None, test_size=test_size, step_size=step,
                                   val_size=0, refit=False)
