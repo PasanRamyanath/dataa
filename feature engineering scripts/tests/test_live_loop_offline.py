@@ -10,7 +10,7 @@ import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
-REPO = r"F:\Downloads\Binance data\feature engineering scripts"
+REPO = str(Path(__file__).resolve().parent.parent)
 SCRATCH = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_ROOT = os.path.join(SCRATCH, "live_loop_smoke", "output")
 PAPER_ROOT = os.path.join(SCRATCH, "live_loop_smoke", "paper_trading")
@@ -126,7 +126,7 @@ try:
     tick_log_files = list(Path(TICKLOG_ROOT).glob("*.jsonl"))
     assert len(tick_log_files) == 1, f"expected 1 tick log file, got {tick_log_files}"
     lines = tick_log_files[0].read_text(encoding="utf-8").strip().splitlines()
-    assert len(lines) == 3, f"expected 3 logged ticks (A, A2 no_new_bar not logged... wait check), got {len(lines)}"
+    assert len(lines) == 2, f"expected 2 logged ticks (A and B; A2 no_new_bar is not logged), got {len(lines)}"
 finally:
     shutil.rmtree(gbm_ckpt_dir, ignore_errors=True)
     print("Cleaned up temporary gbm-family checkpoint from real repo")

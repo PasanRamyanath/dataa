@@ -187,6 +187,7 @@ def run(
     with_news: bool = False,
     restore_from_hf: bool | None = None,
     track_failures: bool | None = None,
+    force_retrain: list[str] | None = None,
 ) -> dict[str, str]:
     """`restore_from_hf` / `track_failures` default to `upload`: with HF as
     the shared state, a fresh Kaggle session restores finished members
@@ -225,12 +226,14 @@ def run(
 
     results: dict[str, str] = {}
     stopped_early = False
+    force_set = set(force_retrain or [])
     for module, member_name, checkpoint_dir, gpu_capable, extra in MEMBERS:
         if member_name in skip:
             log.info("Skipping %s (--skip)", member_name)
             results[member_name] = "skipped"
             continue
-        if resume and _already_done(checkpoint_dir, member_name, restore_from_hf):
+        should_retrain = member_name in force_set or "all" in force_set
+        if not should_retrain and resume and _already_done(checkpoint_dir, member_name, restore_from_hf):
             log.info("Skipping %s (--resume: already finished)", member_name)
             results[member_name] = "resumed-skip"
             continue
@@ -273,7 +276,8 @@ def run(
                 log.info("Skipping %s (--skip)", stage_name)
                 results[stage_name] = "skipped"
                 continue
-            if resume and _already_done(checkpoint_dir, hf_name, restore_from_hf):
+            should_retrain = stage_name in force_set or hf_name in force_set or "all" in force_set
+            if not should_retrain and resume and _already_done(checkpoint_dir, hf_name, restore_from_hf):
                 log.info("Skipping %s (--resume: already finished)", stage_name)
                 results[stage_name] = "resumed-skip"
                 continue
@@ -325,13 +329,15 @@ def main() -> None:
                          help="treat members whose HF repo has metrics.json as done and pull their files + OOF "
                               "(default: on with --upload)")
     parser.add_argument("--no-restore-from-hf", dest="restore_from_hf", action="store_false")
+    parser.add_argument("--force-retrain", nargs="*", default=[],
+                         help="member or fusion stage names to retrain even if checkpoints/HF models exist")
     args = parser.parse_args()
     budget = None
     if args.budget_hours is not None:
         from orchestration.checkpoint_manager import SessionBudget
         budget = SessionBudget(budget_hours=args.budget_hours)
     results = run(args.val_days, args.max_days, args.upload, args.skip, args.members_only, args.gpus, args.resume, budget,
-                  with_news=args.with_news, restore_from_hf=args.restore_from_hf)
+                  with_news=args.with_news, restore_from_hf=args.restore_from_hf, force_retrain=args.force_retrain)
     if any(v in {"failed", "timeout"} for v in results.values()):
         sys.exit(1)
 

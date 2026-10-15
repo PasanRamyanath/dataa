@@ -23,6 +23,18 @@ import polars as pl
 
 OOF_DIR = Path(__file__).resolve().parent.parent / "fusion" / "oof"
 
+# 8 directional members (hmm-regime gates rather than votes)
+DIRECTION_MEMBERS = [
+    "gbm-family",
+    "sentiment-branch",
+    "ssm-challenger",
+    "tft",
+    "patchtst",
+    "itransformer",
+    "nhits",
+    "kronos-finetune",
+]
+
 
 def regression_to_direction_proba(pred_return: np.ndarray, scale: float = 5e-4) -> np.ndarray:
     """Maps a predicted (log-)return into a soft 3-class [down, flat, up]

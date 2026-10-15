@@ -91,9 +91,14 @@ def main() -> None:
     log.info("Kaggle session starting: %.1fh budget (safety margin %.0fs), with_news=%s, %d GPU(s)",
               config.KAGGLE_SESSION_TIME_BUDGET_HOURS, budget.safety_margin_seconds, with_news, train_all._cuda_count())
     skip = [s for s in os.environ.get("TRAIN_SKIP", "").split(",") if s]
+    resume = os.environ.get("TRAIN_RESUME", "1").lower() not in ("0", "false", "no")
+    force_retrain_env = os.environ.get("FORCE_RETRAIN", "gbm-family,nhits,stacking-meta-learner,meta-labeling-filter,calibration")
+    force_retrain = [s.strip() for s in force_retrain_env.split(",") if s.strip()]
+    log.info("Session training flags: resume=%s, skip=%s, force_retrain=%s", resume, skip, force_retrain)
     results = train_all.run(
         val_days=config.VAL_DAYS, max_days=None, upload=True, skip=skip,
-        members_only=False, gpus=None, resume=True, budget=budget, with_news=with_news,
+        members_only=False, gpus=None, resume=resume, budget=budget, with_news=with_news,
+        force_retrain=force_retrain,
     )
     log.info("Session finished after %.2fh: %s", budget.elapsed_seconds() / 3600, results)
     failed = [k for k, v in results.items() if v in {"failed", "timeout"}]

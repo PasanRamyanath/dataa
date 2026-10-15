@@ -339,7 +339,7 @@ class _KronosPredictor:
 
         forecast = self.predictor.predict(
             df=x_df, x_timestamp=x_ts, y_timestamp=y_ts,
-            pred_len=KRONOS_PREDICT_LEN, T=1.0, top_p=0.9, sample_count=1,
+            pred_len=KRONOS_PREDICT_LEN, T=0.60, top_p=0.9, sample_count=5,
         )
         if forecast is None or len(forecast) == 0 or "close" not in forecast.columns:
             return None

@@ -173,13 +173,15 @@ def main() -> int:
     parser.add_argument("--allow-first-push", action="store_true",
                          help="push even if the kernel has never been pushed before (default: the very first "
                               "launch is left to a human, since it starts consuming Kaggle GPU quota)")
+    parser.add_argument("--force", action="store_true",
+                         help="force push/relaunch even if all 12 ensemble stages already have metrics.json on HF")
     parser.add_argument("--kernel-dir", default=None,
                          help="staging dir for the bundle + kernel-metadata.json (default: a fresh temp dir)")
     args = parser.parse_args()
 
     complete, status = ensemble_complete()
-    if complete:
-        log.info("Ensemble fully trained (all %d members/fusion stages have metrics.json) — nothing to relaunch", len(status))
+    if complete and not args.force:
+        log.info("Ensemble fully trained (all %d members/fusion stages have metrics.json) — nothing to relaunch (use --force to override)", len(status))
         return 0
     pending = [name for name, done in status.items() if not done]
     log.info("%d/%d member(s)/fusion-stage(s) still pending: %s", len(pending), len(status), pending)

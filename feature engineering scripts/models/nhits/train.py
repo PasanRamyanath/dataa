@@ -24,6 +24,22 @@ CHECKPOINT_DIR = Path(__file__).resolve().parent / "checkpoints"
 MEMBER_NAME = "nhits"
 
 
+# Pruned continuous high-conviction features: avoids feeding 184 raw exogenous columns
+# into unconstrained MLPs without a Variable Selection Network, and standard scaling
+# eliminates division-by-zero on sparse features with zero IQR under RobustScaler.
+NHITS_PRUNED_HIST_EXOG = [
+    "realized_vol_30", "realized_vol_90", "realized_vol_360",
+    "order_flow_imbalance_near", "order_flow_imbalance_wide",
+    "ofi_imbalance_decay_rate", "ofi_imbalance_decay_slope",
+    "taker_buy_sell_imbalance", "volume_delta",
+    "log_return_1", "log_return_6", "log_return_12",
+    "proxy_spread_pct", "roll_spread_30",
+]
+NHITS_PRUNED_FUTR_EXOG = [
+    "hour_sin", "hour_cos", "minute_sin", "minute_cos", "funding_cycle_phase",
+]
+
+
 def run(val_days: int, max_days: int | None, max_steps: int, upload: bool, gpus: int | None = None) -> dict:
     from neuralforecast.models import NHITS
 
@@ -33,10 +49,20 @@ def run(val_days: int, max_days: int | None, max_steps: int, upload: bool, gpus:
     val_size = val_days * config.BARS_PER_DAY
     split = purged_walk_forward_splits(df, n_folds=1, val_size=val_size)[0]
 
+    scaler = getattr(config, "NHITS_SCALER_TYPE", "standard")
     result = run_member(
         MEMBER_NAME, NHITS, df, split.fold,
         max_steps=max_steps, checkpoint_dir=CHECKPOINT_DIR, gpus=gpus,
-        extra_model_kwargs={"learning_rate": 3e-4, "windows_batch_size": 16, "batch_size": 16, "inference_windows_batch_size": 16},
+        extra_model_kwargs={
+            "learning_rate": 3e-4,
+            "windows_batch_size": 16,
+            "batch_size": 16,
+            "inference_windows_batch_size": 16,
+            "scaler_type": scaler,
+            "interpolation_mode": "linear",
+            "hist_exog_list": NHITS_PRUNED_HIST_EXOG,
+            "futr_exog_list": NHITS_PRUNED_FUTR_EXOG,
+        },
     )
 
     training_data_path = CHECKPOINT_DIR / "training_data_snapshot.parquet"
