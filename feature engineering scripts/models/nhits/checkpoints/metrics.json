@@ -1,8 +1,0 @@
-{
-  "mae": 60.6200155790103,
-  "rmse": 98.51434338017846,
-  "directional_accuracy": 0.5109271523178808,
-  "n_forecast_points": 543600,
-  "n_windows": 6040,
-  "model_alias": "NHITS"
-}

@@ -1,8 +1,0 @@
-{
-  "mae": 118.94256891268856,
-  "rmse": 190.4763686405519,
-  "directional_accuracy": 0.5185430463576159,
-  "n_forecast_points": 543600,
-  "n_windows": 6040,
-  "model_alias": "TFT"
-}

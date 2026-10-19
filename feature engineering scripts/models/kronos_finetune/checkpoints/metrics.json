@@ -1,9 +1,0 @@
-{
-  "mae": 97.6802813572059,
-  "directional_accuracy": 0.5020016012810248,
-  "n_windows": 1249,
-  "n_windows_skipped_gap": 0,
-  "temperature": 0.6,
-  "sample_count": 5,
-  "variant": "fine-tuned"
-}

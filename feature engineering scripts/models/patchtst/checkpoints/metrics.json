@@ -1,8 +1,0 @@
-{
-  "mae": 58.74966506565029,
-  "rmse": 96.13963245312101,
-  "directional_accuracy": 0.526158940397351,
-  "n_forecast_points": 543600,
-  "n_windows": 6040,
-  "model_alias": "PatchTST"
-}

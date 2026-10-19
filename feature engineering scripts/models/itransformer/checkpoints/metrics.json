@@ -1,8 +1,0 @@
-{
-  "mae": 63.663107782606694,
-  "rmse": 103.65764109824626,
-  "directional_accuracy": 0.49619205298013247,
-  "n_forecast_points": 543600,
-  "n_windows": 6040,
-  "model_alias": "iTransformer"
-}
