@@ -1,0 +1,10 @@
+{
+  "id": "rimramyanath/test-gpu-check-rimramyanath",
+  "title": "test-gpu-check-rimramyanath",
+  "code_file": "test.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true
+}

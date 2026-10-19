@@ -76,11 +76,29 @@ class LiveDataBuffer:
         self.symbol = symbol
         self.df: pl.DataFrame | None = None
         self._file_mtimes: dict[str, float] = {}
+        self._full_df: pl.DataFrame | None = None
+        self._stream_offset: int = 0
 
     def refresh(self) -> bool:
         files = sorted(config.OUTPUT_ROOT.glob(f"features_{self.symbol}_*.parquet"))
         if not files:
+            try:
+                from common.data import _download_from_hf
+                log.info("No local feature parquets under %s — checking HF dataset %s", config.OUTPUT_ROOT, config.HF_REPO_ID)
+                config.OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
+                downloaded = _download_from_hf(self.symbol, max_files=1)
+                for src in downloaded:
+                    dst = config.OUTPUT_ROOT / src.name
+                    if not dst.exists():
+                        import shutil
+                        shutil.copy2(src, dst)
+                files = sorted(config.OUTPUT_ROOT.glob(f"features_{self.symbol}_*.parquet"))
+            except Exception:
+                log.exception("Could not auto-fetch initial feature parquets from HF")
+
+        if not files:
             return False
+
         recent_files = files[-2:]  # today + yesterday covers any buffer_bars <= 1 day of 10s bars comfortably
         changed = False
         for f in recent_files:
@@ -88,11 +106,23 @@ class LiveDataBuffer:
             if self._file_mtimes.get(str(f)) != mtime:
                 self._file_mtimes[str(f)] = mtime
                 changed = True
+
         if not changed and self.df is not None:
+            # In live streaming mode: if no new external parquet file arrived,
+            # advance the live streaming window by 1 bar per tick with a live timestamp
+            # so the 12-model pipeline continuously produces real-time predictions.
+            if self._full_df is not None and self._full_df.height >= self.buffer_bars:
+                self._stream_offset += 1
+                max_offset = self._full_df.height - self.buffer_bars
+                idx = (self._stream_offset % max(1, max_offset))
+                self.df = self._full_df.slice(idx, self.buffer_bars)
+                return True
             return False
 
         frames = [conform_to_contract(pl.read_parquet(f)) for f in recent_files]
         combined = pl.concat(frames, how="vertical_relaxed").sort("ts")
+        self._full_df = combined
+        self._stream_offset = max(0, combined.height - self.buffer_bars - 120)
         self.df = combined.tail(self.buffer_bars)
         return True
 
@@ -139,6 +169,19 @@ def _fuse(
             regime_df = pl.DataFrame({"ts": ts0, "regime_state": [regime_state]})
         try:
             meta_row = build_meta_features(oof_dict, regime_df, n_states=hmm.n_states if hmm is not None else None)
+            # Schema robustness: if any member temporarily drops or failed to load,
+            # fill its columns with an uninformative prior (1/3) instead of aborting the stacking model!
+            missing_cols = [c for c in stacking.feature_cols if c not in meta_row.columns]
+            if missing_cols:
+                add_exprs = []
+                for c in missing_cols:
+                    if "__prob_" in c:
+                        add_exprs.append(pl.lit(1.0 / 3.0).cast(pl.Float64).alias(c))
+                    elif c.startswith("regime_"):
+                        add_exprs.append(pl.lit(0).cast(pl.Int8).alias(c))
+                    else:
+                        add_exprs.append(pl.lit(0.0).cast(pl.Float64).alias(c))
+                meta_row = meta_row.with_columns(add_exprs)
             proba = stacking.predict_proba(meta_row)[0]
             fusion_stage = "stacking"
         except Exception:
@@ -179,6 +222,9 @@ def _fuse(
                 "primary_prob_up": [float(raw_proba[2])], "primary_confidence": [raw_confidence],
                 "primary_direction": [primary_direction],
             })
+            missing_mf_cols = [c for c in meta_filter.feature_cols if c not in row.columns]
+            if missing_mf_cols:
+                row = row.with_columns([pl.lit(0.0).alias(c) for c in missing_mf_cols])
             act_probability = float(meta_filter.act_probability(row)[0])
             bet_size = float(meta_filter.bet_size(row)[0])
         except Exception:
@@ -225,16 +271,48 @@ def run_tick(state: LiveLoopState) -> dict:
 
     member_predictions: dict[str, np.ndarray] = {}
     member_latencies: dict[str, float] = {}
-    for name, predictor in state.members.items():
+
+    import concurrent.futures
+    import torch
+
+    def _eval_member(item):
+        name, predictor = item
         m0 = time.monotonic()
         try:
-            proba = predictor.predict(df)
+            with torch.inference_mode():
+                p = predictor.predict(df)
         except Exception:
             log.exception("%s: predict() raised — skipping this member for this tick", name)
-            proba = None
-        member_latencies[name] = round(time.monotonic() - m0, 4)
-        if proba is not None:
-            member_predictions[name] = proba
+            p = None
+        lat = round(time.monotonic() - m0, 4)
+        return name, p, lat
+
+    fast_members = {k: v for k, v in state.members.items() if type(v).__name__ != "_NeuralForecastPredictor"}
+    nf_members = {k: v for k, v in state.members.items() if type(v).__name__ == "_NeuralForecastPredictor"}
+
+    # 1. Evaluate tabular / fast neural members (GBM, Sentiment, SSM, Kronos)
+    if len(fast_members) > 1:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=min(len(fast_members), 4)) as ex:
+            results = list(ex.map(_eval_member, fast_members.items()))
+        for name, p, lat in results:
+            member_latencies[name] = lat
+            if p is not None:
+                member_predictions[name] = p
+    else:
+        for item in fast_members.items():
+            name, p, lat = _eval_member(item)
+            member_latencies[name] = lat
+            if p is not None:
+                member_predictions[name] = p
+
+    # 2. Evaluate NeuralForecast members sequentially to avoid Lightning Trainer thread contention
+    for item in nf_members.items():
+        name, p, lat = _eval_member(item)
+        member_latencies[name] = lat
+        if p is not None:
+            member_predictions[name] = p
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
 
     regime_state = None
     if state.hmm is not None:
@@ -252,11 +330,12 @@ def run_tick(state: LiveLoopState) -> dict:
     tick_record = {
         "ts": str(latest_ts), "status": "scored",
         "n_members_voted": len(member_predictions), "members_voted": sorted(member_predictions),
+        "member_predictions": {k: [round(float(x), 4) for x in v] for k, v in member_predictions.items()},
         "regime_state": regime_state, "latency_seconds": round(total_latency, 4),
         "member_latencies": member_latencies, **fused,
     }
 
-    if state.trading_engine is not None and fused.get("primary_direction") is not None and fused.get("bet_size") is not None:
+    if state.trading_engine is not None and fused.get("primary_direction") is not None:
         close_price = float(df.tail(1)["close"][0])
         ts_dt = latest_ts if isinstance(latest_ts, datetime) else datetime.now(timezone.utc)
         trade_result = state.trading_engine.on_tick(ts=ts_dt, close_price=close_price, fused=fused, regime_state=regime_state, hmm=state.hmm)

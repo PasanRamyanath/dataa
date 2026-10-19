@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import threading
 import time
 from typing import Callable
@@ -130,13 +131,17 @@ def start_background_services(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="Live Streaming Glue for Project IMPJR")
     parser.add_argument("--once", action="store_true", help="single tick, for smoke-testing wiring")
     parser.add_argument("--max-cycles", type=int, default=None)
     parser.add_argument("--no-trading", action="store_true")
     parser.add_argument("--no-tunnel", action="store_true", help="skip starting the Cloudflare tunnel")
     parser.add_argument("--no-webhooks", action="store_true", help="skip webhook delivery, SSE/latest cache only")
+    parser.add_argument("--v1", action="store_true", help="use legacy parquet-tailing live loop instead of v2 live streaming")
     args = parser.parse_args()
+
+    if "CLOUDFLARE_QUICK_TUNNEL" not in os.environ:
+        os.environ["CLOUDFLARE_QUICK_TUNNEL"] = "1"
 
     cache = LiveCache()
     dispatcher = None if args.no_webhooks else WebhookDispatcher(sequencer=Sequencer())
@@ -144,18 +149,33 @@ def main() -> None:
 
     if not args.once:
         start_background_services(cache, dispatcher, enable_tunnel=not args.no_tunnel)
+        log.info("SSE server initialized: http://%s:%d/latest and /stream", config.STREAM_HOST, config.STREAM_PORT)
+        time.sleep(2.0)
 
-    if args.once:
-        state = live_loop.LiveLoopState(enable_trading=not args.no_trading)
-        record = live_loop.run_tick(state)
-        on_tick(record)
-        log.info("Single tick complete: %s", record.get("ts"))
-    else:
-        live_loop.run_forever(
-            enable_trading=not args.no_trading,
-            max_cycles=args.max_cycles,
+    # Use V2 Tripartite Live Streaming Ingestor by default unless --v1 is explicitly requested
+    if not args.v1:
+        from streaming.live_loop_v2 import run_live_loop_v2
+        log.info("Starting Tripartite Live Streaming Node V2 (WebSocket + REST Companion + Dual T4)...")
+        max_c = 1 if args.once else args.max_cycles
+        run_live_loop_v2(
+            symbol=config.SYMBOL_UM,
             on_tick=on_tick,
+            enable_trading=not args.no_trading,
+            max_cycles=max_c,
         )
+    else:
+        log.info("Starting Legacy Parquet-Tailing Live Loop V1...")
+        if args.once:
+            state = live_loop.LiveLoopState(enable_trading=not args.no_trading)
+            record = live_loop.run_tick(state)
+            on_tick(record)
+            log.info("Single tick complete: %s", record.get("ts"))
+        else:
+            live_loop.run_forever(
+                enable_trading=not args.no_trading,
+                max_cycles=args.max_cycles,
+                on_tick=on_tick,
+            )
 
 
 if __name__ == "__main__":

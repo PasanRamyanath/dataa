@@ -18,7 +18,9 @@ os.environ["NEWS_DATA_ROOT"] = NEWS_DATA
 os.environ["NEWS_STATE_ROOT"] = NEWS_STATE
 os.environ["SENTIMENT_FEATURES_ROOT"] = SENTIMENT_FEATURES
 
-sys.path.insert(0, r"F:\Downloads\Binance data\feature engineering scripts")
+from pathlib import Path
+REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT))
 
 from inference import sentiment_scorer as ss
 

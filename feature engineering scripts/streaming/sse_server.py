@@ -57,8 +57,10 @@ class LiveCache:
     def on_tick(self, record: dict) -> None:
         """Matches inference/live_loop.py's run_forever(on_tick=...)
         callback signature exactly."""
-        self.latest = record
-        self.history.append(record)
+        if record.get("status") == "scored" or self.latest is None:
+            self.latest = record
+        if record.get("status") == "scored":
+            self.history.append(record)
         for q in list(self._subscribers):
             try:
                 q.put_nowait(record)

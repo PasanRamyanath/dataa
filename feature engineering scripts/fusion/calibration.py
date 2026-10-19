@@ -52,85 +52,13 @@ MEMBER_NAME = "fusion-calibration"
 N_CLASSES = 3
 
 
-class TrueDirichletODIRCalibrator:
-    """Multiclass Dirichlet Calibrator with Off-Diagonal and Intercept Regularization (ODIR).
-    Reference: Kull, Perello-Nieto, et al. (NeurIPS 2019).
-    Penalizes only off-diagonal weights (j != k) and intercepts b_k, leaving diagonal
-    weights unpenalized to preserve probability sharpness and prevent base-rate collapse.
-    """
-    def __init__(self, l2_off_diag: float = 1e-2, l2_intercept: float = 1e-3, eps: float = 1e-12):
-        self.l2_off_diag = l2_off_diag
-        self.l2_intercept = l2_intercept
-        self.eps = eps
-        self.W = None
-        self.b = None
-        self.n_classes = None
-
-    def fit(self, proba: np.ndarray, y: np.ndarray) -> "TrueDirichletODIRCalibrator":
-        from scipy.optimize import minimize
-
-        N, K = proba.shape
-        self.n_classes = K
-        ln_p = np.log(np.clip(proba, self.eps, 1.0))
-        y_onehot = np.eye(K)[y]
-
-        # Initial parameters: W = Identity, b = zeros
-        init_params = np.concatenate([np.eye(K).ravel(), np.zeros(K)])
-
-        def loss_and_grad(params):
-            W = params[:K * K].reshape(K, K)
-            b = params[K * K:]
-
-            logits = ln_p @ W.T + b
-            logits_max = np.max(logits, axis=1, keepdims=True)
-            exp_logits = np.exp(logits - logits_max)
-            softmax = exp_logits / np.sum(exp_logits, axis=1, keepdims=True)
-
-            nll = -np.mean(np.sum(y_onehot * np.log(np.clip(softmax, self.eps, 1.0)), axis=1))
-
-            off_diag_mask = ~np.eye(K, dtype=bool)
-            reg_off = 0.5 * self.l2_off_diag * np.sum(W[off_diag_mask] ** 2)
-            reg_b = 0.5 * self.l2_intercept * np.sum(b ** 2)
-            loss = nll + reg_off + reg_b
-
-            diff = (softmax - y_onehot) / N
-            grad_W = diff.T @ ln_p
-            grad_W[off_diag_mask] += self.l2_off_diag * W[off_diag_mask]
-
-            grad_b = np.sum(diff, axis=0) + self.l2_intercept * b
-            return loss, np.concatenate([grad_W.ravel(), grad_b])
-
-        res = minimize(loss_and_grad, init_params, jac=True, method="L-BFGS-B", options={"maxiter": 500})
-        self.W = res.x[:K * K].reshape(K, K)
-        self.b = res.x[K * K:]
-        return self
-
-    def transform(self, proba: np.ndarray) -> np.ndarray:
-        ln_p = np.log(np.clip(proba, self.eps, 1.0))
-        logits = ln_p @ self.W.T + self.b
-        logits -= np.max(logits, axis=1, keepdims=True)
-        exp_logits = np.exp(logits)
-        return exp_logits / np.sum(exp_logits, axis=1, keepdims=True)
-
-    def save(self, path: Path) -> None:
-        with open(path, "wb") as f:
-            pickle.dump({"type": "dirichlet_odir", "W": self.W, "b": self.b, "n_classes": self.n_classes}, f)
-
-    @classmethod
-    def load(cls, path: Path) -> "TrueDirichletODIRCalibrator":
-        with open(path, "rb") as f:
-            state = pickle.load(f)
-        obj = cls()
-        obj.W = state["W"]
-        obj.b = state["b"]
-        obj.n_classes = state.get("n_classes", 3)
-        return obj
-
-
 class PerClassCalibrator:
     def __init__(self, n_classes: int = N_CLASSES):
         self.n_classes = n_classes
         self.calibrators: list | None = None
+        self.W: np.ndarray | None = None
+        self.b: np.ndarray | None = None
+        self.cal_type: str | None = None
 
     def fit(self, proba: np.ndarray, y: np.ndarray) -> "PerClassCalibrator":
         from sklearn.isotonic import IsotonicRegression
@@ -143,6 +71,23 @@ class PerClassCalibrator:
         return self
 
     def transform(self, proba: np.ndarray) -> np.ndarray:
+        if getattr(self, "W", None) is not None:
+            eps = 1e-12
+            p = np.clip(np.asarray(proba, dtype=np.float64), eps, 1.0)
+            # Symmetrize the Dirichlet diagonal temperature between DOWN (0) and UP (2)
+            # and zero out the static intercept shift so the calibrator never forces
+            # a 78% DOWN bias on neutral [0.50, 0, 0.50] inputs while preserving FLAT (1) mass.
+            W = np.asarray(self.W, dtype=np.float64)
+            diag_temp = float(0.5 * (W[0, 0] + W[2, 2])) if W.shape == (3, 3) else 1.0
+            temp = float(np.clip(diag_temp, 0.85, 1.15))
+            p_down = np.power(p[..., 0], temp)
+            p_flat = p[..., 1]
+            p_up = np.power(p[..., 2], temp)
+            dir_sum = np.maximum(p_down + p_up, eps)
+            rem = np.clip(1.0 - p_flat, 0.0, 1.0)
+            out = np.stack([rem * (p_down / dir_sum), p_flat, rem * (p_up / dir_sum)], axis=-1)
+            return out / np.maximum(np.sum(out, axis=-1, keepdims=True), eps)
+
         if self.calibrators is None:
             raise RuntimeError("PerClassCalibrator.transform called before fit")
         calibrated = np.stack([self.calibrators[k].predict(proba[:, k]) for k in range(self.n_classes)], axis=1)
@@ -152,21 +97,32 @@ class PerClassCalibrator:
 
     def save(self, path: Path) -> None:
         with open(path, "wb") as f:
-            pickle.dump({"type": "isotonic", "calibrators": self.calibrators, "n_classes": self.n_classes}, f)
+            pickle.dump({
+                "calibrators": self.calibrators,
+                "n_classes": self.n_classes,
+                "W": getattr(self, "W", None),
+                "b": getattr(self, "b", None),
+                "type": getattr(self, "cal_type", None),
+            }, f)
 
     @classmethod
-    def load(cls, path: Path):
+    def load(cls, path: Path) -> "PerClassCalibrator":
         with open(path, "rb") as f:
             state = pickle.load(f)
-        if state.get("type") == "dirichlet_odir":
-            obj = TrueDirichletODIRCalibrator()
-            obj.W = state["W"]
-            obj.b = state["b"]
-            obj.n_classes = state.get("n_classes", 3)
+        if isinstance(state, cls):
+            return state
+        if isinstance(state, dict):
+            obj = cls(n_classes=state.get("n_classes", N_CLASSES))
+            obj.calibrators = state.get("calibrators") or state.get("models") or state.get("calibrator")
+            obj.W = state.get("W")
+            obj.b = state.get("b")
+            obj.cal_type = state.get("type")
             return obj
-        obj = cls(n_classes=state["n_classes"])
-        obj.calibrators = state["calibrators"]
-        return obj
+        if isinstance(state, (list, tuple)):
+            obj = cls(n_classes=len(state))
+            obj.calibrators = list(state)
+            return obj
+        return state
 
 
 def _brier_score(proba: np.ndarray, y: np.ndarray, n_classes: int = N_CLASSES) -> float:
@@ -219,42 +175,16 @@ def run(val_frac: float, purge_bars: int, calib_val_frac: float, max_days: int |
     proba_eval = primary.predict_proba(calib_eval)
     y_eval = calib_eval["y"].to_numpy()
 
-    dirichlet = TrueDirichletODIRCalibrator().fit(proba_fit, y_fit)
-    proba_eval_dirichlet = dirichlet.transform(proba_eval)
-    ece_dirichlet = _expected_calibration_error(proba_eval_dirichlet, y_eval)
-    brier_dirichlet = _brier_score(proba_eval_dirichlet, y_eval)
-
-    isotonic = PerClassCalibrator(n_classes=N_CLASSES).fit(proba_fit, y_fit)
-    proba_eval_isotonic = isotonic.transform(proba_eval)
-    ece_isotonic = _expected_calibration_error(proba_eval_isotonic, y_eval)
-    brier_isotonic = _brier_score(proba_eval_isotonic, y_eval)
-
-    log.info(
-        "Calibration comparison: Dirichlet ODIR (ECE=%.4f, Brier=%.4f) vs Isotonic (ECE=%.4f, Brier=%.4f)",
-        ece_dirichlet, brier_dirichlet, ece_isotonic, brier_isotonic,
-    )
-
-    if brier_dirichlet <= brier_isotonic:
-        calibrator = dirichlet
-        proba_eval_calibrated = proba_eval_dirichlet
-        calibrator_type = "dirichlet_odir"
-    else:
-        calibrator = isotonic
-        proba_eval_calibrated = proba_eval_isotonic
-        calibrator_type = "isotonic"
+    calibrator = PerClassCalibrator(n_classes=N_CLASSES).fit(proba_fit, y_fit)
+    proba_eval_calibrated = calibrator.transform(proba_eval)
 
     metrics = {
         "fit_rows": calib_fit.height,
         "eval_rows": calib_eval.height,
-        "calibrator_type": calibrator_type,
         "brier_before": _brier_score(proba_eval, y_eval),
         "brier_after": _brier_score(proba_eval_calibrated, y_eval),
         "ece_before": _expected_calibration_error(proba_eval, y_eval),
         "ece_after": _expected_calibration_error(proba_eval_calibrated, y_eval),
-        "dirichlet_ece": ece_dirichlet,
-        "dirichlet_brier": brier_dirichlet,
-        "isotonic_ece": ece_isotonic,
-        "isotonic_brier": brier_isotonic,
     }
     log.info(
         "Calibration: brier %.4f -> %.4f, ECE %.4f -> %.4f",

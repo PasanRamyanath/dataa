@@ -1,0 +1,12 @@
+{
+  "id": "malaysiatrip/btcusdt-prediction-engine-v2",
+  "title": "btcusdt-prediction-engine-v2",
+  "code_file": "btcusdt-prediction-engine.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "machine_shape": "NvidiaTeslaT4"
+}

@@ -1,0 +1,10 @@
+polars>=1.0
+huggingface_hub>=0.24
+requests>=2.31
+
+# inference/news_feed.py (RSS parsing)
+feedparser>=6.0
+
+# streaming/sse_server.py (§14.1 SSE + shared-secret endpoints)
+fastapi>=0.110
+uvicorn>=0.29

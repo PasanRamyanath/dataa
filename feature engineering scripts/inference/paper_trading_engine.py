@@ -186,17 +186,15 @@ class PaperTradingEngine:
         if primary_direction is None or confidence is None or bet_size is None:
             return None  # meta-labeling gate unavailable this tick — no sizing decision possible
 
-        # Meta-labeling veto gate: if probability of profitable act is below threshold, veto the trade
-        threshold = getattr(config, "PAPER_META_LABEL_THRESHOLD", 0.60)
-        if act_probability is not None:
-            if act_probability < threshold:
-                return 0.0  # VETO trade: sit 100% flat in cash
-            bet_mult = float(np.clip((act_probability - threshold) / (1.0 - threshold), 0.1, 1.0))
-        else:
-            bet_mult = float(bet_size)
+        # Hard-zero conviction veto per Lopez de Prado meta-labeling architecture:
+        # If the meta-label filter predicts conviction below the action threshold
+        # (or bet_size is zero), veto entering or holding directional exposure.
+        action_thresh = getattr(config, "META_LABEL_ACTION_THRESHOLD", 0.5)
+        if (act_probability is not None and act_probability < action_thresh) or float(bet_size) <= 0.0:
+            return 0.0
 
         sign = _DIRECTION_SIGN.get(int(primary_direction), 0.0)
-        raw = sign * (float(confidence) ** 2) * bet_mult * regime_multiplier(regime_state, hmm)
+        raw = sign * (float(confidence) ** 2) * float(bet_size) * regime_multiplier(regime_state, hmm)
         return float(np.clip(raw, -config.PAPER_MAX_POSITION_FRACTION, config.PAPER_MAX_POSITION_FRACTION))
 
     def on_tick(self, ts: datetime, close_price: float, fused: dict, regime_state: int | None = None, hmm=None) -> dict:
@@ -212,10 +210,12 @@ class PaperTradingEngine:
         trade_record = None
         if target_fraction is not None:
             target_fraction = self._clamp_for_breakers(target_fraction)
-            min_rebalance = getattr(config, "PAPER_MIN_REBALANCE_FRACTION", 0.01)
-            # Enforce deadband threshold to prevent fee bleed from tick jitter, but always allow full exit to flat
-            if abs(target_fraction - self.position_fraction) >= min_rebalance or (target_fraction == 0.0 and self.position_fraction != 0.0):
-                turnover = abs(target_fraction - self.position_fraction)
+            min_rebal = getattr(config, "PAPER_MIN_REBALANCE_FRACTION", 0.01)
+            diff = abs(target_fraction - self.position_fraction)
+            # Rebalance only if position delta exceeds deadband threshold (1% of equity)
+            # or if explicitly flattening the position (target_fraction == 0.0)
+            if diff >= min_rebal or (target_fraction == 0.0 and self.position_fraction != 0.0):
+                turnover = diff
                 cost = self.equity * turnover * (config.PAPER_TAKER_FEE_BPS + config.PAPER_SLIPPAGE_BPS) / 10_000.0
                 self.equity -= cost
                 self.n_trades += 1

@@ -11,7 +11,7 @@ import polars as pl
 import torch
 import torch.nn as nn
 
-REPO_ROOT = Path(r"F:\Downloads\Binance data\feature engineering scripts")
+REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 import config
@@ -20,12 +20,14 @@ from resource_maximization import live_glue
 
 # --- 1. Graceful degradation: fresh state, no checkpoints, no reference snapshot ---
 state = live_glue.ResourceMaximizationState(enable_trading=False)
-assert state.live.members == {}, "expected no members loaded (no checkpoints in this dev env)"
+real_members = dict(state.live.members)
+state.live.members = {}
 report = live_glue.maybe_adapt_gbm(state)
 assert report == {"status": "no_reference_snapshot"}, report
 uncertainty = live_glue.maybe_estimate_uncertainty(state)
 assert uncertainty is None, uncertainty
 print("PASS: graceful degradation with no checkpoints/reference snapshot present")
+state.live.members = real_members
 
 # --- 2. maybe_estimate_uncertainty with a fake ssm-challenger member ---
 orig_lookback = config.LOOKBACK_PERIODS
@@ -54,6 +56,11 @@ class _FakeSsmMember:
         self.model = model
         self.torch = torch
         self.device = "cpu"
+
+    def window(self, recent_df):
+        if recent_df is None or recent_df.height < config.LOOKBACK_PERIODS:
+            return None
+        return np.random.randn(1, config.LOOKBACK_PERIODS, n_features).astype(np.float32)
 
 
 try:

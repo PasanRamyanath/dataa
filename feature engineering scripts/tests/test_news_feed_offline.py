@@ -10,7 +10,9 @@ os.environ["NEWS_DATA_ROOT"] = os.path.join(SCRATCH, "news_smoke", "events")
 os.environ["NEWS_STATE_ROOT"] = os.path.join(SCRATCH, "news_smoke", "state")
 shutil.rmtree(os.path.join(SCRATCH, "news_smoke"), ignore_errors=True)
 
-sys.path.insert(0, r"F:\Downloads\Binance data\feature engineering scripts")
+from pathlib import Path
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 
 import requests
 from inference import news_feed

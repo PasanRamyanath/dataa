@@ -1,0 +1,74 @@
+{
+  "cv": {
+    "folds": [
+      {
+        "fold_index": 0,
+        "val_log_likelihood": -254460.78519707476,
+        "val_log_likelihood_per_bar": -4.207354252597136,
+        "state_occupancy": {
+          "0": 36670,
+          "1": 20009,
+          "2": 3801
+        }
+      },
+      {
+        "fold_index": 1,
+        "val_log_likelihood": -289376.96684380353,
+        "val_log_likelihood_per_bar": -4.7846720708300845,
+        "state_occupancy": {
+          "0": 5893,
+          "1": 26107,
+          "2": 28480
+        }
+      },
+      {
+        "fold_index": 2,
+        "val_log_likelihood": -300009.970723669,
+        "val_log_likelihood_per_bar": -4.960482320166484,
+        "state_occupancy": {
+          "0": 8099,
+          "1": 26324,
+          "2": 26057
+        }
+      },
+      {
+        "fold_index": 3,
+        "val_log_likelihood": -286917.96642822627,
+        "val_log_likelihood_per_bar": -4.744013995175699,
+        "state_occupancy": {
+          "0": 5787,
+          "1": 22195,
+          "2": 32498
+        }
+      },
+      {
+        "fold_index": 4,
+        "val_log_likelihood": -254995.7624189981,
+        "val_log_likelihood_per_bar": -4.216199775446397,
+        "state_occupancy": {
+          "0": 17321,
+          "1": 4022,
+          "2": 39137
+        }
+      }
+    ]
+  },
+  "final_fold": {
+    "val_log_likelihood": -254995.7624189981,
+    "val_log_likelihood_per_bar": -4.216199775446397,
+    "state_occupancy": {
+      "0": 17321,
+      "1": 4022,
+      "2": 39137
+    }
+  },
+  "features": [
+    "log_return_1",
+    "realized_vol_90",
+    "realized_vol_360",
+    "momentum_180",
+    "taker_buy_sell_imbalance",
+    "funding_rate"
+  ],
+  "n_states": 3
+}

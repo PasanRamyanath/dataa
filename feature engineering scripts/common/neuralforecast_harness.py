@@ -91,14 +91,14 @@ def to_long_format(df: pl.DataFrame, exog_cols: list[str] | None = None):
         exog_cols = HISTORICAL_ONLY_FEATURE_COLUMNS + FUTURE_KNOWN_FEATURE_COLUMNS
     out = df.select(
         pl.col("ts").alias("ds"),
-        pl.col("close").cast(pl.Float64).alias("y"),
-        *[pl.col(c).cast(pl.Float32).fill_null(0.0) for c in exog_cols],
+        pl.col("close").cast(pl.Float64).fill_nan(0.0).fill_null(0.0).alias("y"),
+        *[pl.col(c).cast(pl.Float32).fill_nan(0.0).fill_null(0.0) for c in exog_cols],
     ).with_columns(pl.lit(UNIQUE_ID).alias("unique_id"))
     try:
-        return out.to_pandas()
+        return out.to_pandas().copy()
     except Exception:
         import pandas as pd
-        return pd.DataFrame(out.to_dict(as_series=False))
+        return pd.DataFrame(out.to_dict(as_series=False)).copy()
 
 
 def supported_exog(model_cls) -> tuple[list[str], list[str]]:

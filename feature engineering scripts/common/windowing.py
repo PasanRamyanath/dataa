@@ -37,7 +37,7 @@ def make_windows(
     like."""
     feature_cols = feature_cols or FEATURE_COLUMNS
     X_full = df.select(feature_cols).with_columns(
-        [pl.col(c).cast(pl.Float32).fill_null(0.0) for c in feature_cols]
+        [pl.col(c).cast(pl.Float32).fill_nan(0.0).fill_null(0.0) for c in feature_cols]
     ).to_numpy().astype(np.float32)
 
     y_raw = df[target_col].to_numpy()
@@ -112,7 +112,7 @@ def feature_matrix(df: pl.DataFrame, feature_cols: list[str] | None = None) -> n
     """(n_rows, n_features) float32, nulls -> 0 — the per-row matrix a
     LazyWindowDataset slices windows out of (built once, never stacked)."""
     feature_cols = feature_cols or FEATURE_COLUMNS
-    return df.select([pl.col(c).cast(pl.Float32).fill_null(0.0) for c in feature_cols]).to_numpy().astype(np.float32, copy=False)
+    return df.select([pl.col(c).cast(pl.Float32).fill_nan(0.0).fill_null(0.0) for c in feature_cols]).to_numpy().astype(np.float32, copy=False)
 
 
 SCALER_CLIP = 10.0

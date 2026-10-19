@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 from unittest import mock
 
-REPO = Path(r"F:\Downloads\Binance data\feature engineering scripts")
+REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 import config
@@ -129,7 +129,7 @@ with mock.patch.object(wd.time, "sleep", return_value=None) as mock_sleep:
     r2 = d2.flush()
     check("429 exhausted retries -> target reported failed", r2["targets_failed"] == ["discord"])
     check("429 retry honors Retry-After header exactly", 3.0 in [c.args[0] for c in mock_sleep.call_args_list if c.args])
-    check("batch is requeued (not dropped) after exhausted retries", len(d2._queue) == 1 and d2._queue[0]["ts"] == "t1")
+    check("batch is requeued (not dropped) after exhausted retries", len(d2._pending.get("discord", [])) == 1 and d2._pending["discord"][0]["ts"] == "t1")
 
 
 # ---------------------------------------------------------------------------
@@ -151,9 +151,9 @@ with mock.patch.object(wd.time, "sleep", return_value=None) as mock_sleep2:
 # ---------------------------------------------------------------------------
 batch = [{"ts": "t1", "primary_direction": 1, "confidence": 0.42, "n_members_voted": 3,
           "trading": {"equity": 100100.0, "position_fraction": 0.2}}]
-discord_payload = wd._format_discord(batch, "abcd1234efgh")
-slack_payload = wd._format_slack(batch, "abcd1234efgh")
-generic_payload = wd._format_generic(batch, "abcd1234efgh")
+discord_payload = wd._format_discord(batch, "abcd1234efgh", 1)
+slack_payload = wd._format_slack(batch, "abcd1234efgh", 1)
+generic_payload = wd._format_generic(batch, "abcd1234efgh", 1)
 check("discord formatter produces 'content' field under char limit", "content" in discord_payload and len(discord_payload["content"]) <= wd.DISCORD_CONTENT_MAX_CHARS)
 check("slack formatter produces 'text' field under char limit", "text" in slack_payload and len(slack_payload["text"]) <= wd.SLACK_TEXT_MAX_CHARS)
 check("generic formatter includes full records + session_id", generic_payload["session_id"] == "abcd1234efgh" and generic_payload["records"] == batch)
@@ -265,8 +265,8 @@ combined({"ts": "t1"})  # should not raise despite dispatcher's exception
 check("combined on_tick fans out to cache even if dispatcher raises", cache2.latest == {"ts": "t1"} and fan_calls["dispatcher"] == 1)
 
 combined_no_dispatcher = build_combined_on_tick(None, cache2)
-combined_no_dispatcher({"ts": "t2"})
-check("combined on_tick works with dispatcher disabled (None)", cache2.latest == {"ts": "t2"})
+combined_no_dispatcher({"ts": "t2", "status": "scored"})
+check("combined on_tick works with dispatcher disabled (None)", cache2.latest == {"ts": "t2", "status": "scored"})
 
 # start_background_services: mock uvicorn.run so no real socket bind happens
 cache3 = LiveCache()

@@ -1,0 +1,73 @@
+{
+  "target_k": 30,
+  "selected_features": [
+    "eth_lead_return_lag_1",
+    "eth_lead_return_lag_2",
+    "eth_lead_return_lag_3",
+    "cross_return_spread_10s",
+    "cross_return_spread_30s",
+    "cross_return_residual_10s",
+    "cross_ofi_divergence_10s",
+    "cross_ofi_divergence_30s",
+    "cross_mom_diff_30s",
+    "cross_mom_diff_zscore_30s",
+    "basis_spread_bps",
+    "basis_zscore_180",
+    "basis_zscore_720",
+    "basis_velocity_10s",
+    "basis_velocity_30s",
+    "basis_acceleration_30s",
+    "funding_pressure_bps",
+    "funding_basis_divergence",
+    "l1_queue_imbalance",
+    "l1_queue_imbalance_ma3",
+    "l1_queue_velocity",
+    "microprice_drift_bps",
+    "microprice_velocity_10s",
+    "microprice_velocity_30s",
+    "trade_flow_imbalance",
+    "tfi_ma_3",
+    "vpin_toxicity_6",
+    "vpin_surge_ratio",
+    "liq_net_flow_bps",
+    "liq_burst_zscore"
+  ],
+  "feature_families": {
+    "cross_asset": [
+      "eth_lead_return_lag_1",
+      "eth_lead_return_lag_2",
+      "eth_lead_return_lag_3",
+      "cross_return_spread_10s",
+      "cross_return_spread_30s",
+      "cross_return_residual_10s",
+      "cross_ofi_divergence_10s",
+      "cross_ofi_divergence_30s",
+      "cross_mom_diff_30s",
+      "cross_mom_diff_zscore_30s"
+    ],
+    "basis_funding": [
+      "basis_spread_bps",
+      "basis_zscore_180",
+      "basis_zscore_720",
+      "basis_velocity_10s",
+      "basis_velocity_30s",
+      "basis_acceleration_30s",
+      "funding_pressure_bps",
+      "funding_basis_divergence"
+    ],
+    "microstructure_vpin": [
+      "l1_queue_imbalance",
+      "l1_queue_imbalance_ma3",
+      "l1_queue_velocity",
+      "microprice_drift_bps",
+      "microprice_velocity_10s",
+      "microprice_velocity_30s",
+      "trade_flow_imbalance",
+      "tfi_ma_3",
+      "vpin_toxicity_6",
+      "vpin_surge_ratio",
+      "liq_net_flow_bps",
+      "liq_burst_zscore"
+    ]
+  }
+}

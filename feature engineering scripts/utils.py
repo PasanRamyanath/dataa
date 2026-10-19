@@ -39,12 +39,12 @@ def downcast_floats_to_f32(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def clean_inf_nan(df: pl.DataFrame, cols: list[str] | None = None) -> pl.DataFrame:
-    """Replace +-inf with null across float columns. Does NOT fill NaN with 0 —
+    """Replace +-inf and NaN with null across float columns. Does NOT fill null with 0 —
     that decision belongs to the caller (imputation strategy is feature-specific
     and must never leak future information via bfill)."""
     cols = cols or [c for c, t in df.schema.items() if t in (pl.Float32, pl.Float64)]
     exprs = [
-        pl.when(pl.col(c).is_infinite()).then(None).otherwise(pl.col(c)).alias(c)
+        pl.when(pl.col(c).is_infinite() | pl.col(c).is_nan()).then(None).otherwise(pl.col(c)).alias(c)
         for c in cols
     ]
     return df.with_columns(exprs)

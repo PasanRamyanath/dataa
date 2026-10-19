@@ -1,0 +1,62 @@
+# Model-training dependencies for models/*, fusion/*, validation/naive_baselines.py.
+# Separate from requirements.txt (feature-engineering pipeline only) since these are
+# heavier, mostly GPU/Linux-oriented, and not needed just to run build_dataset.py.
+#
+# Install alongside requirements.txt:
+#   pip install -r requirements.txt -r requirements-models.txt
+#
+# Kronos (models/kronos_finetune) additionally needs `git` on PATH (vendors
+# github.com/shiyu-coder/Kronos via `git clone` at train.py runtime — not pip-installable).
+
+-r requirements.txt
+
+# Shared
+numpy>=1.26
+scikit-learn>=1.4
+pyyaml>=6.0
+
+# models/gbm_family, models/sentiment_branch
+lightgbm>=4.3
+xgboost>=2.0
+
+# validation/feature_pruning.py (SHAP importance on the GBM direction classifier;
+# permutation importance uses scikit-learn only, so this is soft-optional — the
+# script logs a warning and skips SHAP if it's missing rather than failing)
+shap>=0.45
+
+# models/hmm_regime
+hmmlearn>=0.3
+
+# models/ssm_challenger, models/kronos_finetune (torch backbone)
+# Install a CUDA build from https://pytorch.org/get-started/locally/ for real
+# training runs (e.g. Kaggle) — the plain `torch` wheel below is CPU-only and
+# falls back to models/ssm_challenger/model.py's GRU block instead of mamba-ssm.
+torch>=2.2
+
+# models/ssm_challenger — real Mamba block; Linux/CUDA only (falls back to GRU
+# in model.py when unavailable, e.g. on this Windows/CPU dev box)
+mamba-ssm>=2.2; sys_platform == "linux"
+causal-conv1d>=1.2.0; sys_platform == "linux"
+
+# models/tft, models/patchtst, models/itransformer, models/nhits
+neuralforecast>=1.7
+# polars -> pandas conversion (neuralforecast harness, kronos eval); preinstalled on Kaggle
+pyarrow>=14
+
+# models/kronos_finetune — HF checkpoint download (huggingface_hub already in
+# requirements.txt) plus the vendored repo's own train_sequential.py deps
+einops>=0.7
+
+# inference/sentiment_scorer.py — quantized FinBERT-class classifier (§9.2).
+# Soft-optional: the scorer falls back to a small lexicon-based polarity
+# heuristic and logs a clear warning if transformers/torch aren't available
+# or the model can't be downloaded, rather than crashing (see its docstring).
+transformers>=4.40
+
+# news_pipeline/ — full-text extraction (trafilatura; the scraper falls back
+# to a stdlib paragraph extractor without it), chat-template LLM scoring
+# (Qwen2.5 needs transformers>=4.40 + accelerate for device_map), and
+# optional 4-bit loading of a 7B scorer on a T4 (NEWS_LLM_LOAD_IN_4BIT=1).
+trafilatura>=1.12
+accelerate>=0.30
+bitsandbytes>=0.43; platform_system == "Linux"

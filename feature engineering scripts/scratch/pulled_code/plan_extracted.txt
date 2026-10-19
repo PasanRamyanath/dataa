@@ -1,0 +1,1587 @@
+--- PAGE 1 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 1
+Binance Futures Prediction Ensemble
+Master Technical Plan & Implementation Roadmap
+An all-Kaggle, multi-architecture prediction ensemble with free-tier news fusion,
+maximum resource utilization, near-continuous inference, and live signal streaming via
+Cloudflare Tunnel + webhooks.
+Prepared for: Pasan  |  Qriomatrix
+Date: September 12, 2026
+Locked-in scope: futures-only signal generation; signals + paper-trading simulation, no live order execution; full
+multi-architecture ensemble ambition; free-tier-only news/sentiment sources; every stage — data acquisition, training,
+and inference — runs inside Kaggle notebooks, with no external always-on server.
+How this plan was produced. Your existing Project-IMPJR folder (15 prior plan documents, ~20
+scripts/notebooks) was read in full and reconciled. Every sample data file across F:\Downloads\Binance data
+was then actually unzipped/decompressed and statistically audited (not just header-sampled). Current (2026)
+research was gathered across five areas: forecasting architectures and ensembling, news/sentiment fusion,
+Kaggle's real infrastructure limits, online learning/idle-compute utilization, and Cloudflare Tunnel/webhook
+streaming. Section 2 summarizes the reconciliation, including a security issue you should act on immediately.
+
+--- PAGE 2 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 2
+1. Executive Summary
+This plan specifies an ensemble machine-learning system that forecasts short-horizon Binance USDT-margined
+futures (BTCUSDT primary; extensible to other pairs) price movement, fuses in a free-tier real-time news/social
+sentiment signal, and evaluates itself through a realistic paper-trading simulation — with every stage, from raw
+data acquisition through live inference and signal streaming, running inside Kaggle notebooks on dual NVIDIA
+T4 GPUs. It is the direct successor to the ~15 draft plans already in Project-IMPJR, reconciling their
+contradictions into one coherent, buildable specification, and it is sized against the exact Kaggle resource figures
+you measured (~30GB RAM, ~30GB VRAM, ~57GB temp storage, 20GB persistent output storage).
+What this system does
+
+Acquires and feature-engineers Binance futures + spot microstructure data (klines, trades, order book,
+funding, open interest, premium index) entirely inside a Kaggle CPU-only notebook, publishing unified
+Parquet to a Hugging Face dataset that training/inference notebooks stream from.
+
+Trains a heterogeneous 9-member ensemble (a fine-tuned domain foundation model, four
+transformer/SSM sequence architectures, a gradient-boosted-tree family, a regime classifier, and a
+sentiment-fusion branch) that each specialize in a different horizon, feature subset, or signal type.
+
+Combines all members through a regime-gated stacking meta-learner and a meta-labeling filter that
+decides not just direction but whether a signal is confident enough to act on at all.
+
+Runs per-second-cadence inference across both T4s whenever a Kaggle session is active, relaunching
+the next session within minutes via an automated, ToS-compliant relay — minimizing every avoidable gap
+— and fills spare GPU/CPU capacity every tick with productive work rather than letting it idle (§13).
+
+Streams every signal out live via a stable Cloudflare Tunnel hostname and outbound webhooks, sourced
+entirely from the Kaggle session (§14), while keeping a hard boundary: paper-trading only, no live order
+ever reaches Binance.
+
+Retrains and is re-validated on a recurring schedule against multiple independent market regimes, with
+mandatory naive-baseline comparison, because that is the single biggest reason comparable public
+projects fail (§10).
+The platform fact that no amount of engineering removes
+Kaggle's account-wide GPU quota (~30 hours/week) and 12-hour session cap are hard, independently
+reconfirmed platform ceilings — the 12h limit has been standing since a January 2022 update, not something
+newly available, and 30 hours is ~18% of a week. There is no compliant way to exceed this within one
+account: creating multiple Kaggle accounts to multiply personal quota is against Kaggle's rules and is not part
+of this plan. What this plan does instead, per your instruction to minimize gaps and maximize utilization: (1) an
+automated, official-API-based relaunch loop that restarts a new session within minutes rather than hours
+(§11.2); (2) an optional path that moves training onto Kaggle's separate TPU quota pool, freeing nearly the
+entire T4/GPU quota for inference (§11.4); and (3) a resource-maximization layer that uses every second of
+an active session's spare compute productively — online adaptation, multi-asset expansion, free uncertainty
+quantification — rather than running a mostly-idle forward pass (§13). The honest result is the closest a single
+Kaggle account can get to continuous, with every remaining gap logged and reported, never hidden (§12.4).
+
+--- PAGE 3 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 3
+2. What Changed From Your Existing Plans, and Why
+Project-IMPJR contains real, substantial prior work: a genuine 475-feature specification, a working Polars-based
+feature-extraction pipeline, a real TFT training script using pytorch-forecasting with DDP across both T4s, and a
+full Binance-Vision-mirroring data downloader already uploading to a Hugging Face dataset. None of that is
+thrown away. But across ~15 documents spanning three months, the project repeatedly re-decided its own
+fundamentals without ever reconciling the change in writing. This section is the reconciliation.
+Act on this immediately (security)
+Two files in your folder — tcn_ultramicro_train.ipynb and Current Futures Plan/antigravity/TFT feature
+extraction prompt claude.txt — contain a live-looking Hugging Face write token in plaintext. Rotate that token
+now (Hugging Face account settings → Access Tokens → revoke and reissue), remove it from both files, and
+going forward keep credentials only in Kaggle Secrets. Also delete files.zip at the root of
+F:\Downloads\Binance data — it's a confirmed byte-for-byte duplicate of the two root downloader scripts, with
+nothing unique inside.
+Decisions this plan locks in (superseding earlier drafts)
+Question
+Earlier drafts said
+This plan uses
+Why
+Spot or futures
+execution target?
+Oscillated: 5+ early drafts mandated
+spot-only execution with futures as
+a leading indicator only; the Dec-31
+flagship plan and all code written
+after it target futures directly.
+Futures-only, per your request.
+Resolves the contradiction
+outright.
+How many
+models in the
+ensemble?
+5-8 exotic architectures proposed
+across four drafts; exactly one (a
+vanilla TFT) was ever actually
+coded.
+9 members, explicitly scoped
+and budgeted against Kaggle's
+real quota (§7-8, §11).
+You chose the full ambitious
+ensemble; the GPU-hour
+budget is what makes this
+different from prior attempts that
+stalled at one model.
+How much history
+to train on?
+One flagship doc says 3 years /
+“since 2020”; a revision 25 minutes
+later says 6-24 months; a third
+warns against using the full 8-year
+archive.
+~24 months primary training
+window + a 2021-2023
+regime-diversity holdout.
+Resolves the contradiction
+using current
+regime-non-stationarity
+research (§10).
+What does the
+system output?
+Raw price/quantile forecast vs.
+categorical
+LONG/NEUTRAL/AVOID signal vs.
+a Sharpe-maximizing meta-output
+— three incompatible target
+definitions never unified.
+Signals + full paper-trading
+simulation, no live execution.
+Your choice this round; resolves
+the loss-function/target
+ambiguity (§6).
+Where does
+everything run?
+Three different targets appear with
+no reconciliation: Kaggle, a
+dedicated VM, and a specific laptop
+mentioned in the Grok/Plan-Claude
+lineage.
+Kaggle only, for data
+acquisition, training, AND
+inference.
+Your choice this round —
+simplifies the architecture;
+§11-14 detail how to make this
+work despite Kaggle's
+session/quota limits.
+News/sentiment
+sources?
+Not addressed in this level of detail
+by any prior document.
+Free-tier only: RSS headlines,
+GDELT, on-chain
+whale-alert-style feeds. No paid
+APIs, no X/Twitter scraping.
+Your choice this round; also
+avoids the real ToS/legal
+exposure of unauthorized X
+scraping (§9).
+
+--- PAGE 4 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 4
+What is carried forward as-is
+
+The 475-feature candidate spec (435 past + 40 known-future) from your “TFT Feature Extraction Plan”
+— used as the starting candidate pool in §5, pruned by importance rather than assumed complete.
+
+The Polars feature-extraction pipeline pattern — kept as the base for the unified pipeline in §4, now run
+inside a Kaggle CPU notebook.
+
+The existing Hugging Face dataset upload pipeline and the train_tft_kaggle.py TFT training script —
+the TFT member of the ensemble (§7) reuses this directly.
+
+LOOKBACK_PERIODS=720 / FORECAST_PERIODS=90 at 10-second bars (2h lookback → 15min
+horizon) as the default sequence-model window — extended with additional horizons per §6.
+What is set aside (out of scope for this plan)
+
+The full Firebase + React dashboard from the flagship plan — you asked for signals + paper-trading, not a
+production web app. Results are logged to Parquet (§12) and streamed live via §14 instead.
+
+The Bybit downloader and its sample data tree, kept out of the default build (never referenced by any prior
+plan document, and this request is Binance-futures-focused) — though the content audit in §4 found it to
+be the cleanest data of anything sampled, worth reconsidering for cross-exchange validation later.
+
+Live order execution — kept conceptually (the paper-trading engine in §12 reuses prior
+sizing/circuit-breaker logic) but nothing ever reaches a live order, even with a live network-facing
+streaming layer (§14.3).
+
+--- PAGE 5 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 5
+3. System Architecture Overview
+Every stage runs inside Kaggle, split across three notebook “roles,” each with its own accelerator (or none) so
+they draw from separate resource pools where possible:
+Role
+Accelerator
+Quota drawn from
+What runs here
+Data & feature engineering
+None (CPU-only notebook)
+Neither GPU nor TPU quota
+— CPU notebook hours are
+not part of the ~30h/week
+accelerator pool
+Binance Vision / Bybit downloading, unzip &
+validation, Polars feature pipeline, HF dataset publish
+(write token via Kaggle Secrets)
+Training
+Dual T4 (baseline) or TPU v3-8
+(optional advanced path, §11.4)
+GPU quota (baseline) or TPU
+quota (advanced)
+9-member ensemble training, checkpointed to a
+Kaggle Dataset
+Inference & streaming
+Dual T4
+GPU quota
+~1Hz ensemble inference, paper-trading engine,
+resource-maximization loop (§13), Cloudflare Tunnel
++ webhook streaming (§14)
+Component diagram (textual)
+[Kaggle CPU notebook: downloader + validators + Polars feature engine] (Sec 4)
+| monthly parquet shards, unified schema
+v
+[HF Dataset] <--(rotated, read-only token via Kaggle Secrets)--
+| |
+v |
+[Kaggle Training notebook(s): dual T4 baseline, or TPU v3-8 advanced] --checkpoints--> [Kaggle
+Dataset]
+|
++----------------------------------------------------------------------------------------+
+v
+[Kaggle Inference notebook, dual T4, ~12h session, auto-relaunched within minutes] (Sec 11-12)
+GPU0: Kronos / TFT(half) / iTransformer / SSM GPU1: PatchTST / N-HiTS / GBM / sentiment
++ spare-cycle loop (Sec 13): online adaptation, multi-asset expansion, MC-dropout uncertainty
+|
+v
+[Regime gate -> stacking meta-learner -> meta-labeling filter -> calibrated signal] (Sec 8)
+|
+v
+[Paper-trading engine] --and--> [Named Cloudflare Tunnel + outbound webhooks] (Sec 14)
+|
+v
+[Prediction + trade log -> Parquet -> Kaggle Dataset, versioned per session]
+
+--- PAGE 6 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 6
+4. Data Architecture & Acquisition
+This section reflects an actual byte-level audit of every sample data file in F:\Downloads\Binance data — every
+archive was unzipped/decompressed and statistically checked (timestamp continuity, null counts, sanity bounds,
+row counts vs. expected), not just header-sampled.
+4.1 Sources
+Source
+Datatypes
+Confirmed granularity/unit
+Cost note
+Binance Vision — Spot
+1s/1m klines, aggTrades, trades
+Microsecond epoch, no
+header row
+Moderate volume; clean in
+every file checked
+Binance Vision — USDT-M
+Futures (um)
+klines, aggTrades, trades, bookDepth,
+bookTicker, metrics (open interest),
+fundingRate,
+markPrice/indexPrice/premiumIndex
+klines
+Millisecond epoch, header
+row present
+bookTicker alone reaches
+~1.23GB per symbol-month —
+10-50x any other datatype
+Binance Vision — COIN-M
+Futures (cm)
+same set + liquidationSnapshot
+Millisecond epoch, header
+row present
+liquidationSnapshot sample was
+50% duplicate rows — treat
+cautiously
+Binance Vision — Options
+BVOLIndex, EOHSummary
+Millisecond epoch / date-hour
+strings
+EOHSummary's best_buy_iv
+was 100% null in the sample —
+verify before relying on it
+Bybit — trading/,
+premium_index/, spot_index/
+(out of default scope, §2)
+raw tick trades (perpetual + dated
+futures, no options despite some
+filenames suggesting otherwise), 1-min
+premium index, 1-min spot index
+Unix seconds (float, sub-ms) /
+Unix seconds (int)
+Every file sampled was clean
+with zero defects — the highest
+data quality found anywhere in
+the audit
+4.2 What the content audit found
+
+Your existing downloader scripts are “latest-available” crawlers, not historical backfills. That's why
+the sample data folders each hold only one or two dated samples per series. Each datatype/symbol was
+crawled independently for its own “latest,” so staleness is inconsistent even within the same tree on the
+same audit date: the futures bookTicker sample is from 2024-03-30 (nearly two years stale) while every
+other futures datatype sampled was current (2026-09-06), and the options EOHSummary sample is from
+2023-10-23. A scaled-up downloader must pull explicit date ranges per datatype, not assume “latest” is
+representative of the whole tree.
+
+files.zip at the root of the folder is a byte-for-byte duplicate of the two root .py downloader scripts —
+delete it.
+4.3 Concrete data-quality defects to fix before scaling up
+#
+Defect found
+Fix
+1
+Timestamp units are not constant: spot data is microsecond-epoch with no
+header row; futures (um/cm) and derived-price klines are millisecond-epoch
+with a header row — on the same audit date. Your own Project-IMPJR spot-1s
+files independently confirm this: the 2017 file's epoch values are exactly 1000x
+smaller than the 2025 files' (ms vs. µs).
+Detect unit per file by magnitude (10/13/16-digit test),
+never hardcode a divisor per source
+2
+dataset making.txt's planned full 2017→2025 spot-1s backfill (~3,033 daily
+requests) has no unit normalization, no zero-byte/checksum validation, and
+runs single-threaded.
+Reuse the parallelized pattern already in the two root
+.py downloaders; add per-file unit detection and
+integrity checks before merging into one series
+
+--- PAGE 7 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 7
+#
+Defect found
+Fix
+3
+Zero-byte “successful” downloads already exist in the current samples (≥9
+confirmed instances across futures aggTrades/bookTicker).
+Verify non-zero size and, where available, match
+Binance's published CHECKSUM files before accepting
+any downloaded file
+4
+bookTicker costs 10-50x any other datatype (up to 1.23GB/symbol-month, um)
+and its “latest” sample is also the most likely to be stale.
+Default to bookDepth (far cheaper, ~30s cadence, 12
+price levels) for the order-flow-imbalance features §5
+identifies as the strongest predictor family; treat full
+bookTicker history as optional/lower priority, not a
+default download target
+5
+File naming isn't always the documented convention — one futures monthly
+aggTrades file uses a Spark-style part-00000-<uuid>-c000.zip name.
+Build download URLs from the exchange's own
+listing/index, never from an assumed filename pattern
+6
+liquidationSnapshot sample was 50% exact-duplicate rows.
+De-duplicate on ingestion
+7
+EOHSummary.best_buy_iv was 100% null in the sample.
+Verify population elsewhere before use, or drop the
+column
+8
+Bybit's public trade-dump schema drifts over time — an RPI field was added
+sometime after Dec 2023 (10 cols before, 11 after).
+Infer schema per file/date when backfilling Bybit history;
+never hardcode a column count
+9
+Not a defect, but a false-positive risk: the 2017-08-17 spot-1s file has 71,972 of
+an expected 86,400 rows purely because that's approximately BTCUSDT's
+actual Binance listing day — the data is perfectly contiguous within that window.
+Check for listing/delisting boundaries before flagging a
+short daily file as corrupted
+Outside of the 9 items above, quality was genuinely good: zero timestamp gaps, zero duplicate timestamps,
+and zero OHLCV sanity violations (high≥low, high≥max(open,close), volume≥0) were found across every
+klines-type file checked, Binance and Bybit alike.
+4.4 Acquisition plan & sizing
+
+Current on-disk samples total at least ~11.2GB (a documented floor — the futures mirror is large enough
+that a full recursive listing hit an enumeration cap during the audit, so the true figure is likely higher).
+bookTicker alone is responsible for multiple GB per symbol-month, confirming item 4 above as the
+dominant cost driver to control before bulk downloading.
+
+Primary training window: ~24 months (Sept 2024–Sept 2026), covering the post-spot-ETF derivatives
+regime current market-microstructure research treats as most representative of present-day behavior.
+
+Regime-diversity holdout: 2021-01 through 2023-12 (2021 bull/leverage-unwind, 2022 bear/collapse
+events, 2023 recovery) — downloaded but held out entirely from training, used only in §10's multi-regime
+validation to test whether the ensemble generalizes or has memorized one regime.
+
+The entire acquisition + feature-engineering stage runs inside a Kaggle CPU-only notebook (§3),
+not on your local machine — this satisfies “everything happens in the Kaggle VM” and costs nothing from
+the GPU/TPU quota, since CPU notebook hours are a separate, much less constrained resource. Your
+local machine becomes optional (a convenience mirror/backup), not a required part of the pipeline.
+
+Exclude full bookTicker and liquidationSnapshot history from the default bulk download given items 4 and
+6 above; revisit only if bookDepth-derived order-flow features prove insufficient during feature-importance
+testing (§5.4).
+4.5 Streaming into Kaggle
+
+Publish monthly-partitioned Parquet (year=2026/month=08/part-*.parquet convention) to the HF dataset;
+consume via the datasets library's streaming mode or targeted hf_hub_download calls for the specific
+shards a run needs — never materialize the full multi-hundred-GB corpus into a session at once.
+
+--- PAGE 8 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 8
+
+Kaggle's ~57GB temp storage (typically /kaggle/temp; unofficial figure, matches your measurement —
+confirm with df -h at each session start since Kaggle doesn't document it precisely) is the working budget
+for any shard downloaded/decompressed mid-session.
+
+The 20GB persistent output storage (/kaggle/working, officially confirmed, matches your measurement
+exactly) is what actually survives a commit — checkpoint artifacts across all 9 ensemble members plus
+logs must fit within that 20GB, so checkpoint format/size (quantized weights, pruned optimizer state
+before final commit) matters.
+
+Live (inference-time) data uses Binance's public REST/WebSocket endpoints directly from the Kaggle
+notebook rather than round-tripping through Hugging Face.
+
+--- PAGE 9 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 9
+5. Feature Engineering
+Start from your existing 475-feature candidate pool (435 past-observed + 40 known-future-at-inference-time)
+rather than redesigning from zero — but treat it as a candidate pool to prune, not a finished spec, since current
+microstructure research shows a handful of feature families do most of the work and the rest add
+noise/overfitting risk without evidence.
+5.1 Feature families, ranked by current evidence
+Family
+Examples
+Evidence strength
+Order-flow imbalance
+bid/ask volume imbalance at multiple depth levels, imbalance
+decay rate
+Strong — 2026 SHAP-based microstructure
+study found this the top predictor across 5
+assets, consistently, with diminishing but
+monotone returns
+Spread / adverse-selection
+proxies
+bid-ask spread, spread-to-volatility ratio
+Strong — second-ranked in the same study
+VWAP deviation
+price minus rolling VWAP, normalized by volatility
+Moderate-strong — third-ranked, described as
+a short-lived pressure/mean-reversion signal
+Funding rate & open
+interest
+funding rate level + rate-of-change, OI level + rate-of-change,
+funding×OI interaction (crowding/squeeze proxy)
+Moderate — widely used industry-side as a
+crowding/sentiment signal; treat as a
+regime/risk feature, not a primary directional
+one
+Basis / premium index
+futures-spot spread, term structure vs. quarterly contracts
+Moderate — increasingly relevant post-2024
+ETF-driven basis-trading flows
+Spot-futures lead-lag
+spot return over the last 100-500ms as a leading feature for
+futures short-horizon return
+Moderate — carried over from your own prior
+research finding; verify empirically on your own
+data before trusting it
+Taker buy/sell ratio &
+cumulative volume delta
+aggressor-side volume ratios
+Weaker/unverified — test with permutation
+importance, don't assume
+Liquidation heuristics
+estimated liquidation levels from OI/leverage proxies
+Weakest — your own “revised” feature plan
+already dropped liquidationSnapshot for this
+reason, and this revision's data audit
+separately found the sample 50% duplicate
+rows (§4.3)
+Sentiment features
+polarity, magnitude, confidence, mention-velocity, aggregated
+over multiple windows
+See §9 — treated as a slow-moving drift signal,
+not an instant trigger
+5.2 Multi-resolution bars
+Compute the same feature set at 1s, 10s, 1min and 5min bar resolutions (reuse the existing bar_seconds
+parameter in the Polars pipeline). Sequence models consume the resolution matching their horizon (§6); the
+GBM family consumes a flattened cross-resolution snapshot.
+5.3 Anti-leakage rules (non-negotiable)
+
+All rolling normalization (z-scores, min-max, rolling means) uses only data available up to and including
+the current bar — never a centered or future-inclusive window.
+
+No feature is computed using information that would not have been available in real time at inference.
+
+--- PAGE 10 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 10
+
+Sequence windows and label windows are checked for overlap; overlapping windows across
+train/validation splits are purged with an embargo gap (§10), not just chronologically split.
+5.4 Feature pruning process
+After the pipeline computes the full candidate pool, run permutation importance and SHAP analysis (reuse the
+GBM family from §7 for this) against the primary training window, and drop any feature family that doesn't show a
+stable, monotone importance signal across at least three non-overlapping time slices. Document the final pruned
+feature list per model member, since different members may use different subsets.
+
+--- PAGE 11 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 11
+6. Labeling, Targets & Loss Design
+This is the area where your prior drafts diverged most (§2) — raw price forecast vs. categorical signal vs.
+Sharpe-maximizing meta-output. This plan unifies it around a two-stage labeling scheme that is current
+best-practice for exactly this kind of high-frequency, noisy financial target.
+6.1 Primary label: triple-barrier
+For each entry point in the training set, define three barriers on the forward price path: an upper (profit-take)
+barrier, a lower (stop-loss) barrier, and a time barrier (max holding period). The label is which barrier is touched
+first. Barrier widths are set as a multiple of a rolling realized-volatility estimate (not a fixed price distance), so
+labels stay meaningful across both quiet and volatile regimes.
+6.2 Multi-horizon targets
+Horizon
+Bar resolution
+Primary use
+~10 seconds – 2 minutes
+1s bars
+Ultra-short-term directional signal, highest noise, mainly a stress-test of inference
+latency budget
+~10 minutes
+10s bars
+Primary tactical horizon — matches your original lookback/horizon convention
+(720→90 at 10s bars)
+~1 hour
+1min bars
+Secondary horizon, lower noise, used by the regime/GBM members
+~24 hours
+5min bars
+Directional bias / regime-context horizon, informs the meta-learner's gating rather
+than being traded directly
+6.3 Secondary label: meta-labeling
+On top of the primary triple-barrier label, train a secondary binary model (part of the meta-learner stage, §8)
+whose target is "was the primary ensemble's directional call correct," conditioned on the primary call itself. This is
+the standard mechanism for converting a noisy directional signal into a precision-focused act/AVOID decision,
+consistent with an expected 40-60% AVOID rate on the primary signal.
+6.4 Loss functions
+
+Sequence models: a blended loss of directional cross-entropy + quantile loss (for TFT's native quantile
+heads) + a magnitude-aware term (GMADL-style: reward sign-correctness scaled by move magnitude)
+rather than plain MSE.
+
+GBM family: standard binary/multiclass objective on the triple-barrier label, with sample weighting inverse
+to label overlap.
+
+Meta-learner: binary cross-entropy on the meta-label, calibrated afterward with conformal prediction so
+the emitted confidence has an actual empirical coverage property.
+
+--- PAGE 12 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 12
+7. Model Ensemble Architecture (Full Ambitious Scope)
+Per your decision to pursue the full ambitious ensemble, this is 9 members plus a meta-learner. Each entry
+states its role, its basis, and — critically, since this is exactly where prior attempts stalled — an explicit Kaggle T4
+training-time budget, detailed in §11.5.
+#
+Member
+Role / horizon
+Basis
+1
+Kronos fine-tune
+(small/base)
+General price-sequence foundation model,
+fine-tuned on your OHLCV+microstructure data.
+Primary "prior" the rest of the ensemble corrects.
+2025/26 domain foundation model pretrained on
+12B+ candles across 45 exchanges; small
+(24.7M) and base (102M) variants are
+T4-feasible for fine-tuning. Still current SOTA as
+of this plan — no successor release found on
+re-check.
+2
+Temporal Fusion
+Transformer (TFT)
+Multi-horizon quantile forecaster with interpretable
+variable-selection — your existing 10-min primary
+horizon.
+Reuses your existing train_tft_kaggle.py almost
+as-is.
+3
+PatchTST
+Fast general sequence transformer,
+patch-tokenized — secondary directional member
+across all horizons.
+Strong, cheap-to-train 2025/26 benchmark
+performer.
+4
+iTransformer
+Cross-variate attention across the microstructure
+feature set (funding, OI, basis, order-flow together).
+2025/26 benchmark-competitive, lightweight.
+5
+N-HiTS
+Multi-rate hierarchical pooling — natively suited to
+the 1s→10s→5min multi-horizon target structure.
+Small, fast, interpretable basis-expansion
+architecture.
+6
+SSM "challenger"
+(Mamba-style)
+Cheap linear-time sequence model, included as a
+challenger slot — must beat the naive-persistence
+baseline in validation (§10) to remain active in the
+live ensemble; excluded (logged, not deleted) if it
+doesn't.
+Published SSM claims for BTC prediction
+(CryptoMamba) have been credibly critiqued for
+weak baselines/short evaluation windows —
+treated as unproven until it passes your own
+test.
+7
+GBM family (LightGBM +
+XGBoost + CatBoost)
+Tabular learner on the full pruned feature set (§5)
+— GBMs are consistently competitive with or
+superior to deep nets on engineered financial
+features in recent large-scale benchmarks, and are
+the cheapest members to train.
+Also doubles as the feature-importance/SHAP
+tool used in §5.4.
+8
+HMM regime classifier
+(4-state)
+Not a price predictor — outputs a probability
+distribution over market regime, used to gate the
+meta-learner's blend weights.
+Carried forward from the Grok4/Plan-Claude
+lineage's 4-state design.
+9
+Sentiment-fusion branch
+Quantized FinBERT-class classifier + engineered
+sentiment feature vector (polarity, magnitude,
+confidence, mention-velocity), see §9.
+Fed both as engineered features into members
+3/4/7 and as its own branch output into the
+meta-learner.
+7.1 Parameter budgets (fit inside a single T4's ~15GB usable)
+Every sequence-model member is sized to fit comfortably on one T4 with room for activation memory at the
+batch sizes in §11 — no member requires model-parallel splitting across both GPUs, which matters because
+DDP/model-parallelism inside a Kaggle interactive kernel is fragile in practice (§11.1). Instead, GPU allocation is
+per-member: each training/inference run pins one member to one GPU.
+
+Kronos-small/base: 24.7M / 102M params — fine-tune only, not trained from scratch.
+
+TFT: ~45M params (6 layers, 512 hidden, 8 heads).
+
+PatchTST / iTransformer / N-HiTS: all comfortably under 20M params after §5.4's pruning.
+
+--- PAGE 13 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 13
+
+SSM challenger: kept small by design — target under 15M params.
+
+GBM family: CPU/GPU-hybrid, LightGBM's GPU mode used where it helps.
+
+Sentiment classifier: a distilled/quantized FinBERT-class model, well under 500MB at int8/fp16.
+
+--- PAGE 14 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 14
+8. Ensemble Fusion, Regime Gating & Meta-Labeling
+8.1 Two-stage fusion
+Stage A — Stacking: each of the 9 members' outputs (direction probability + confidence, or quantile forecast
+collapsed to a direction+confidence) become input features to a meta-learner (a shallow LightGBM or
+ridge/logistic model — kept simple deliberately, since a complex meta-learner on top of an already-complex
+ensemble is a classic overfitting trap). Stage B — Regime gating: the HMM's regime-probability vector (member
+#8) multiplies each base member's contribution weight before stacking, so e.g. the SSM challenger's weight can
+be automatically suppressed in regimes where it's shown to underperform, without hand-tuning.
+8.2 Meta-labeling filter
+The stacked output feeds a second, separate binary model (§6.3) that decides act/AVOID, producing the final
+LONG-leaning / SHORT-leaning / AVOID signal with a calibrated confidence score.
+8.3 Calibration
+Apply conformal prediction on top of the final confidence score, calibrated on a held-out slice never used in any
+training or meta-learner fitting step, so the reported confidence has an actual empirical coverage guarantee
+rather than being an arbitrary model-internal number — in Revision 2 this is further sharpened using the free
+uncertainty signals from §13.3.
+
+--- PAGE 15 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 15
+9. News & Sentiment Pipeline (Free-Tier Only)
+Being direct about the premise: current research does not support the idea that scraping headlines every 10
+seconds gives Bitcoin-specific alpha on its own. Liquid BTC markets have been shown to react to major news
+within seconds — a 10-second-lag pipeline is very plausibly reacting to a move the market has already made.
+Where a lag-tolerant text signal can plausibly help is (a) sustained sentiment drift/aggregated social-volume
+trend over minutes-to-hours rather than single-headline reaction, and (b) less-covered, less-arbitraged news.
+This pipeline is designed around that finding.
+9.1 Sources (free tier)
+
+RSS headline feeds from CoinDesk, CoinTelegraph, The Block, and Decrypt — headlines/summaries are
+explicitly intended for redistribution via RSS, avoiding the ToS risk of scraping full article bodies. Poll
+every 10 seconds with conditional GET (ETag/If-Modified-Since) so repeated polls finding nothing new
+cost almost nothing.
+
+GDELT's global news event/tone stream (free, 15-minute update cadence) as a slower macro-sentiment
+drift feature.
+
+A free-tier on-chain "whale alert"-style large-transfer feed — public blockchain data, not scraped text, so it
+carries essentially no ToS/legal exposure and is genuinely near-real-time.
+
+Explicitly excluded: CryptoPanic's API (its free developer tier ended in early 2026), and any X/Twitter
+access (the current paid API is $0.005-0.01/read with hard volume caps, and unauthorized scraping is an
+active area of X litigation).
+9.2 Scoring model
+A quantized (int8) distilled FinBERT-class sentiment classifier runs continuously on whichever GPU has spare
+headroom (well under 500MB at fp16/int8). It scores each new headline for polarity, magnitude, and a
+confidence score; a mention-velocity counter tracks story volume per rolling window. No general-purpose LLM is
+used for per-headline real-time scoring at 1Hz — an unoptimized 7B model on a T4 runs at only ~4
+tokens/second, and that compute is needed by the price-prediction members. Instead, a small quantized LLM
+stays loaded and warm in VRAM continuously and processes batches of recent headlines only when triggered
+by a distinct new story (event-triggered, not per-tick) — §13.4 details how spare capacity makes this allocation
+somewhat more generous than a bare-minimum build without pretending it can run at 1Hz.
+9.3 Fusion into the ensemble
+Sentiment enters two ways, matching current published methodology (SentiStack, 2025): (1) as an engineered
+feature vector concatenated into the iTransformer and GBM members' inputs, and (2) as its own branch whose
+output feeds the stacking meta-learner in §8 directly, so the meta-learner learns how much weight sentiment
+deserves per regime rather than that weight being fixed by hand.
+
+--- PAGE 16 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 16
+10. Validation & Anti-Overfitting Protocol
+This section exists because of a specific, sobering 2026 finding: a review of 23 peer-reviewed BTC
+forecasting papers found that under rigorous purged walk-forward validation with realistic fees, roughly 92% of
+published models lost their apparent edge — none consistently beat a naive persistence baseline at 1-6
+month horizons. The failure modes were consistent: non-stationarity across market eras, backtest overfitting,
+subtle look-ahead leakage, and mistaking autocorrelation-driven low error on price levels for genuine
+predictive skill on price changes. Every safeguard below targets one of these specific failure modes.
+10.1 Mandatory validation structure
+
+Purged, embargoed walk-forward cross-validation — never a plain shuffled split.
+
+Multi-regime out-of-sample testing — the 2021-2023 regime-diversity holdout (§4.4) is evaluated as a
+genuinely separate test, reported separately from the 2024-2026 in-regime results.
+
+Naive baselines on every report, no exceptions — persistence, a random walk with drift, and
+buy-and-hold, computed alongside every model/ensemble result. Any reported edge under ~1% relative
+to the naive baseline is treated as noise.
+
+Fees and slippage included in every backtest and paper-trade evaluation, applied identically to the
+model and the naive baselines.
+10.2 Reporting metrics
+Metric
+Purpose
+Directional accuracy vs. naive baseline (delta, not absolute)
+The real test of skill
+MAPE vs. naive persistence MAPE (delta)
+Catches the level-vs-change confound directly
+Paper-trading Sharpe ratio, max drawdown, win rate, profit
+factor
+Risk-adjusted realism
+Meta-label precision/recall (act vs. AVOID decisions)
+Is the AVOID band filtering bad calls
+Calibration (Brier score / expected calibration error)
+Is the confidence score trustworthy
+Per-regime breakdown of all of the above
+Prevents one good regime from masking failure elsewhere
+10.3 Kill criteria
+A model member that does not beat the naive baseline by the reporting threshold above, across at least two of
+three non-overlapping validation slices, is excluded from the live ensemble for that retraining cycle (logged,
+re-evaluated next cycle). This applies identically to the SSM challenger (§7, member 6) and to the multi-asset
+expansion and online-adaptation variants introduced in §13.
+
+--- PAGE 17 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 17
+11. Kaggle Training Plan, GPU Budget & Maximizing Legitimate
+Uptime
+11.1 Confirmed platform facts
+Fact
+Confirmed value
+Note
+Max continuous session length
+12 hours
+Standing limit since a January 2022 platform update —
+not a recent change, a durable ceiling
+Weekly GPU quota (P100/T4 pool, shared)
+~30 hours/week
+Account-wide; training and inference draw from the same
+bucket unless training is moved to TPU (§11.4)
+Weekly TPU quota (v3-8 pool)
+~20-30 hours/week
+A SEPARATE bucket from the GPU quota — genuinely
+additive total weekly compute if usable
+RAM
+~29-30GB on GPU notebooks
+Matches your measured ~30GB figure
+VRAM
+32GB nominal (2×16GB T4)
+Your measured ~30GB is a reasonable conservative
+usable figure — budget at 30GB
+Persistent output storage
+20GB (/kaggle/working)
+Officially confirmed, matches your figure exactly
+Temp/scratch storage
+~55-60GB (commonly /kaggle/temp)
+Not officially documented with full precision — matches
+your measured ~57GB; verify with df -h at session start
+Commit (“Save & Run All”) runs
+Same 12h cap, same weekly quota
+Can run detached in the background — useful for not
+babysitting the tab, doesn't add extra time
+Multiple accounts to raise personal quota
+Against Kaggle's rules; actively
+enforced
+Not used anywhere in this plan
+Official kaggle CLI/API for scheduled
+kernel pushes
+Sanctioned, standard usage
+Kaggle's own native notebook scheduler and community
+guides for API-based cron-scheduling confirm this is
+normal, accepted automation
+T4 precision
+FP16 Tensor Cores yes, BF16
+Tensor Core acceleration no
+Use torch.cuda.amp FP16 + GradScaler, not BF16
+Multi-GPU pattern
+DDP inside an interactive kernel is
+fragile; simple per-process GPU
+placement is robust
+Default to one-member-per-GPU (§7.1), except the TFT
+member which already has a working DDP script
+Internet access
+Per-notebook toggle, on by default
+outside scored competition
+submissions
+Live data/news pulls work fine in normal sessions
+11.2 Zero-avoidable-gap relaunch mechanics
+The only gaps this plan cannot remove are the platform ceiling itself (quota exhaustion until weekly reset) and
+the brief detection-and-restart window. Both are minimized:
+
+An external free scheduler (GitHub Actions cron, polling every 5-10 minutes) checks session/quota state
+via the official Kaggle API and immediately calls kaggle kernels push the moment a slot is available,
+rather than waiting for a human or a coarse daily/weekly native-scheduler tick.
+
+Each session checkpoints proactively at the 11.5-hour mark (30-minute buffer before the hard 12h cutoff)
+so a relaunch is never lost work, only a pause.
+
+This uses only Kaggle's own public, documented API — sanctioned automation, not a workaround.
+
+--- PAGE 18 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 18
+
+Practical ceiling: the gap around each restart is on the order of the polling interval (minutes); the only
+remaining large gap is whatever portion of the week the ~30-hour quota has already been exhausted —
+logged and reported honestly (§12.4), never hidden.
+11.3 Weekly quota allocation
+Phase
+GPU/T4 quota
+TPU quota (if using §11.4)
+Notes
+Build-out (baseline, no TPU)
+~22h/week training, ~8h/week
+inference
+unused
+Simplest path; start here
+Build-out (advanced, with TPU
+offload)
+~4-6h/week (GPU-specific validation
+only)
+~20-26h/week training
+Frees most of the T4 quota
+for inference even during
+build-out
+Steady-state (baseline, no TPU)
+~8-10h/week retraining,
+~20-22h/week inference
+unused
+~12-13% wall-clock
+inference uptime
+Steady-state (advanced, with TPU
+offload)
+~26-28h/week inference, ~2-4h/week
+GPU spot-checks
+~4-8h/week periodic retraining
+~15-17% wall-clock
+inference uptime — the
+single biggest lever for
+minimizing gaps within one
+account
+Honest uptime math: baseline gives ~20-22 hours/week of inference (~12-13% wall-clock); the advanced
+TPU-offload path can push this to ~26-28 hours/week (~15-17%). Both run in 12-hour blocks, relaunched
+within minutes of each other by §11.2. Neither is 24/7 — that figure is a hard platform ceiling for a single
+account, not an engineering shortfall this plan failed to solve.
+11.4 Advanced (optional): TPU-parallel training
+Kaggle's TPU v3-8 quota is a separate bucket from the GPU/T4 quota. Moving the deep-learning ensemble
+members' training onto TPU — while inference stays on T4, since TPU inference for small models offers no real
+advantage and exported weights need to run on T4 anyway — frees nearly the entire GPU quota for inference.
+This is a genuine way to increase total usable weekly compute, but it is real added engineering cost, so treat it as
+an optional Phase 10 enhancement (§16) rather than a Phase 0 requirement:
+
+Requires reimplementing the TPU-eligible members (TFT, PatchTST, iTransformer, N-HiTS, SSM
+challenger — all torch-based today) in a JAX/Flax or TensorFlow training path. The GBM family, HMM
+classifier, and sentiment classifier fine-tuning stay on CPU/GPU — they don't meaningfully benefit from
+TPU.
+
+Export trained weights via ONNX (or a manual parameter port) back to the PyTorch definitions used for
+T4 inference; validate numerically (compare output on a fixed batch) after every export.
+
+Recommendation: build the baseline (GPU-only training) first per §11.5, confirm the ensemble works
+end-to-end, and only then invest in the TPU path — porting a moving target repeatedly to a second
+framework is wasted effort.
+11.5 Training schedule & GPU-hour budget (baseline path)
+Member
+Est. GPU-hours
+GPU assignment
+Kronos fine-tune
+8-12h
+GPU 0
+TFT
+25-30h (existing DDP script, can span both GPUs)
+GPU 0+1 (DDP)
+PatchTST
+15-20h
+GPU 1
+
+--- PAGE 19 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 19
+Member
+Est. GPU-hours
+GPU assignment
+iTransformer
+15-20h
+GPU 0
+N-HiTS
+12-18h
+GPU 1
+SSM challenger
+10-15h
+GPU 0
+GBM family (3 models + search)
+6-10h (mostly CPU)
+GPU 1 (light) / CPU
+HMM regime classifier
+<1h
+CPU
+Sentiment classifier fine-tune/quantization
+3-5h
+Either GPU,
+opportunistic
+Meta-learner + calibration
+2-4h
+CPU/GPU either
+Total: roughly 95-135 GPU-hours to train every member once. At ~22 hours/week dedicated to training (baseline
+allocation), that's a 4.5-6 week initial build-out schedule — stated up front, deliberately, because prior attempts
+never had this budget made explicit and repeatedly under-scoped what "the full ensemble" would actually cost.
+With the TPU-parallel path active, more total weekly compute is available across both pools combined,
+potentially compressing this.
+11.6 Checkpoint-and-resume automation
+
+Every training run checkpoints model + optimizer state at a fixed interval and immediately before the
+11.5-hour mark.
+
+At session end, the checkpoint is versioned and pushed as a Kaggle Dataset (kaggle datasets version).
+
+The relaunch loop from §11.2 starts the next session, which auto-loads the latest checkpoint dataset as
+input and resumes — the standard, widely-used community workaround for Kaggle's session limits on
+long jobs.
+
+--- PAGE 20 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 20
+12. Inference Loop & Paper-Trading Engine
+12.1 Per-session inference loop design
+
+t+0.0s — pull latest market data increment (REST/WebSocket) and any new news items since last poll
+(§9); update rolling feature windows incrementally rather than recomputing from scratch.
+
+t+0.1-0.6s — all 9 ensemble members' forward pass in parallel: GPU 0's members and GPU 1's members
+execute concurrently in separate processes (per-member GPU assignment, §7.1/§11.5) — raw T4
+throughput is not the bottleneck at this ensemble size within the confirmed 30GB VRAM budget; data I/O
+and Python-side orchestration typically are.
+
+t+0.6-0.8s — regime gate, stacking meta-learner, meta-labeling filter, calibration — cheap (shallow
+models), run on CPU while GPUs are freed for the next tick's data prep.
+
+t+0.8-1.0s — write prediction record + (if the meta-labeling filter says "act") a simulated paper-trade
+update; push to the streaming layer (§14).
+
+Remaining spare cycles each tick — filled productively, not idled: see §13.
+
+Loop latency is logged continuously; if it can't sustain 1Hz, it degrades to the fastest cadence it can
+sustain and reports that honestly rather than silently dropping ticks.
+12.2 Paper-trading engine
+Reuses the position-sizing and risk-control logic from the Grok4/Plan-Claude lineage, with no path to a live order
+anywhere in the code (no exchange API key with trade permission is ever loaded in the inference notebook):
+
+Position sizing: confidence-scaled sizing (base size × confidence² × a regime multiplier from the HMM
+gate), simulated against a fixed paper-trading capital base.
+
+Circuit breakers: simulated daily-loss and weekly-loss thresholds that halt/reduce simulated sizing.
+
+Every simulated trade logs entry/exit price, size, realized P&L, triggering signal, and
+confidence/calibration score.
+12.3 Storage discipline within confirmed limits
+Prediction/trade logs are flushed to Parquet every few seconds (not every tick) and rotated off /kaggle/working to
+the versioned Kaggle Dataset before approaching the 20GB output limit; any mid-session scratch (re-fetched
+shards, temporary buffers) stays within the ~57GB temp budget and is not expected to survive past session end.
+12.4 Honest gap reporting
+Because inference only runs during active Kaggle sessions, the prediction/trade log explicitly records session
+start/end timestamps. Any analysis of paper-trading performance reports coverage ("active X% of the evaluation
+period" — ~12-13% baseline or ~15-17% with TPU-offload, §11.3) alongside the performance numbers, so a
+good-looking Sharpe ratio is never presented without the uptime context needed to interpret it honestly.
+
+--- PAGE 21 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 21
+13. Resource Maximization: Using Every Idle Cycle Productively
+A modest 9-member ensemble at 1Hz does not saturate two T4s. Rather than let that headroom sit idle, this
+section specifies three concrete, research-backed uses for it, per your instruction to consume available
+resources every second rather than run a mostly-idle loop. Each carries an honesty note about how proven it
+actually is — none of this is required for the core system to work.
+13.1 Drift-gated online adaptation
+Between full retraining cycles (§11), lightweight continual updates keep members adapted to very recent data
+using otherwise-idle cycles:
+
+GBM family: LightGBM's refit (cheap leaf-value updates on new data, structure fixed) for fast, low-risk
+adaptation; continued boosting (init_model=...) only when a drift detector fires, since continued boosting
+alone can drift-chase.
+
+Deep sequence members: a small adapter/“fast-weights” layer fine-tuned on the last few minutes of
+data, following the “Proactive Model Adaptation” (Proceed, KDD 2025) pattern: estimate drift magnitude
+between the recent training distribution and the current data first, and only adapt when that estimate
+crosses a threshold — adapting on every tick regardless of actual drift is the drift-chasing failure mode
+documented in 2024/25 incremental-learning benchmarks (a Numerai-style incremental framework still
+showed large drawdowns through genuine regime breaks even with continuous adaptation).
+
+Anti-forgetting safeguard: keep a small replay buffer of older, diverse examples alongside recent-data
+updates, and treat the last full retrain as a periodic “anchor” online adaptation is never allowed to drift
+arbitrarily far from.
+Honesty check: production-proven track records for this exact recipe in crypto/finance are thin — nearly all
+supporting evidence is backtest research, not disclosed live-trading deployments. Validate rigorously in your
+own pipeline (§10) before trusting it over a simpler periodic-retrain-only baseline.
+13.2 Multi-asset joint modeling
+Running the ensemble's shared feature-extraction layers jointly across BTC plus a small set of correlated major
+USDT-margined pairs (e.g. ETHUSDT, SOLUSDT, BNBUSDT) — rather than fully independent per-asset
+models — is supported by a converging set of 2025/26 papers on cross-asset attention and cross-sectional
+crypto return prediction, and is a productive use of the spare VRAM budget (§11.1). This evidence base is
+academic (backtests, not disclosed production systems) — validate the cross-asset variant against the
+single-asset baseline using the same kill criteria (§10.3) before trusting it over a simpler independent model.
+13.3 Free calibrated uncertainty from spare passes
+
+Multi-level Monte Carlo dropout (a 2026 refinement allocating most stochastic passes to cheap
+low-fidelity dropout configurations and only a few to expensive high-fidelity ones) — practical recipe:
+~10-30 passes per differentiable member, weighted toward the cheap configurations.
+
+Deep-ensemble spread — already partly free: the 9 heterogeneous members' disagreement is itself an
+uncertainty signal, now sharpened by the MC-dropout passes above.
+
+Light test-time augmentation — small input jitter on the recent OHLCV window, forward-passed
+alongside the unperturbed input.
+
+Feed the combined distribution's spread into the conformal calibration step (§8.3) so the final confidence
+score reflects genuinely more information, not just a relabeled softmax output.
+
+--- PAGE 22 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 22
+13.4 A bounded, slightly more generous LLM sentiment allocation
+§9.2's event-triggered LLM scoring stays event-triggered — an unoptimized 7B model on a T4 still runs at only
+~4 tokens/second, and that fact doesn't change with more spare capacity. What does change: a small quantized
+LLM can stay loaded and warm in VRAM continuously (rather than loaded/unloaded per event) and process a
+wider batch of recent headlines whenever it does trigger, using more of the freed capacity per activation without
+pretending it can run at 1Hz.
+13.5 What fills each second, summary
+Slot
+Primary work
+Fills spare capacity with
+GPU 0
+Kronos, TFT (or half of DDP), iTransformer, SSM
+challenger forward passes
+MC-dropout passes for those members; multi-asset
+forward passes if §13.2 is enabled
+GPU 1
+PatchTST, N-HiTS, GBM (light), sentiment classifier
+forward passes
+MC-dropout passes; warm-loaded LLM for
+event-triggered scoring (§13.4)
+CPU
+HMM, meta-learner, meta-labeling, calibration,
+paper-trading engine
+Drift-detector computation for §13.1; log/streaming I/O
+(§14)
+
+--- PAGE 23 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 23
+14. Live Signal Streaming: Cloudflare Tunnel & Webhooks
+All of this is sourced from inside the Kaggle inference session — no external always-on server is introduced,
+consistent with “everything happens in the Kaggle VM.”
+14.1 Cloudflare Tunnel: named, not quick
+Quick Tunnel
+Named (authenticated) Tunnel
+Setup
+None — instant, no account
+One-time: Cloudflare account + a domain onboarded to
+Cloudflare + a tunnel token
+URL stability
+Random subdomain every run — breaks any consumer
+expecting a fixed URL
+Stable hostname persists across every session restart; a
+fresh cloudflared process just reconnects as a new
+connector to the same tunnel
+Cloudflare's
+own guidance
+“Intended for testing and development only,” no SLA, 200
+concurrent request cap, no Server-Sent Events support
+Designed for exactly this persistent-service use case
+Verdict
+Not suitable here
+Use this — the ~12-hour session-restart cycle (§11)
+makes a stable URL a hard requirement
+
+Store the tunnel token in Kaggle Secrets and read it via kaggle_secrets.UserSecretsClient at runtime —
+same discipline as the HF token (§15).
+
+cloudflared makes an outbound-only connection to Cloudflare's edge — no inbound firewall rule, no static
+IP, no port-forwarding needed inside Kaggle's sandboxed container. Install the official
+Cloudflare-published amd64 binary (Kaggle containers are Debian-based x86_64) at the start of each
+session, run cloudflared tunnel run --token <TOKEN> as a background process.
+
+A small FastAPI app inside the notebook serves /latest, /health, and an SSE or long-poll /stream endpoint
+at the stable hostname while the session is active. Add a shared-secret header check on every
+endpoint — the tunnel exposes an HTTP endpoint to the public internet, so unauthenticated access
+should not be able to read your predictions even though there is no execution/control surface to protect
+(§12.2).
+14.2 Outbound webhooks
+Target
+Confirmed limit
+Design implication
+Discord
+5 requests / 2 seconds per individual webhook (50 req/s
+platform-wide)
+A 1/sec cadence to one webhook is safely
+under this, but batch several predictions
+per message anyway
+Slack
+~1 request/second sustained is the commonly-cited safe ceiling
+for incoming webhooks
+Batch every few seconds rather than firing
+every tick
+Generic/self-hosted
+receiver
+Whatever you set
+Same batching discipline recommended
+regardless, plus your own auth check
+
+Batch, don't stream one HTTP call per tick — send every few seconds with an array of points.
+
+Exponential backoff + jitter on 429, respecting Retry-After/retry_after exactly; queue undelivered
+messages locally during backoff instead of dropping them.
+
+Idempotency/ordering across session restarts — attach a monotonically increasing sequence number
+and session ID to every payload; persist the counter to a small state file in /kaggle/working so a fresh
+session resumes numbering rather than resetting to zero and confusing the receiver about gaps vs.
+duplicates.
+
+--- PAGE 24 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 24
+14.3 Scope boundary, restated
+This streaming layer is strictly outbound signal distribution. There is no inbound command channel and no
+path from a received webhook/HTTP request back into the paper-trading engine, let alone a real exchange —
+exposing a live endpoint does not change the “signals + paper-trading only, no live execution” boundary.
+
+--- PAGE 25 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 25
+15. Security & Operational Hygiene
+
+Rotate the exposed Hugging Face write token now — the single most urgent action item in this
+document.
+
+All credentials (HF token, Cloudflare tunnel token, any future news-API keys) live in Kaggle Secrets,
+never hardcoded or committed.
+
+Use a read-only, fine-grained HF token for every training/inference notebook; the write token stays
+exclusively in the CPU-only data-publishing notebook (§4.4), never in a notebook that might be
+forked/shared publicly.
+
+The Cloudflare Tunnel's exposed endpoints require the shared-secret header check from §14.1 — public
+reachability is not the same as public access.
+
+No exchange API key with trade permission is ever loaded anywhere in this system, by design (§12.2) —
+there is no execution path to accidentally place a real order.
+
+Audit any notebook before making it public/forkable for embedded secrets — exactly the mistake already
+present in your existing tcn_ultramicro_train.ipynb.
+
+--- PAGE 26 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 26
+16. Realistic Performance Expectations & Risks
+16.1 What "good" looks like, calibrated to current evidence
+Recent adaptive-TFT work on crypto 10-minute-horizon prediction reports directional accuracy around 51-52%
+even with architectural improvements over baseline — a reminder that gains over a coin-flip are typically small,
+and gains over naive persistence are what actually matter (§10). Treat any of the following as a genuinely good
+outcome:
+
+Directional accuracy meaningfully above naive persistence on the 10-minute and 1-hour horizons, holding
+across at least two non-overlapping regimes.
+
+A paper-trading Sharpe ratio above 1.0 after fees/slippage, over a multi-month evaluation window.
+
+A meta-labeling AVOID rate in roughly the 40-60% range that measurably improves precision on the
+trades it does allow through.
+16.2 Key risks
+Risk
+Mitigation already built into this plan
+Overfitting to a single market regime
+Regime-diversity holdout, per-regime reporting, kill criteria (§10)
+Scope collapse (this project's own history)
+Explicit GPU-hour budget and 4.5-6 week schedule (§11.5) instead of an open-ended
+model list
+News/sentiment adding noise instead of signal
+Weight learned by the meta-learner, not hand-assigned; tested with/without in ablation
+(§9.3)
+Kaggle quota exhaustion mid-week halting
+inference
+Honest gap logging (§12.4); TPU-offload path to raise the ceiling (§11.3-11.4)
+Drift-chasing from online adaptation
+Drift-magnitude gating, replay buffer, periodic full-retrain anchor (§13.1)
+Multi-asset expansion adding noise instead of
+signal
+Validated against the single-asset baseline with the same kill criteria (§13.2)
+Unauthenticated access to the exposed tunnel
+endpoint
+Shared-secret header check (§14.1)
+Credential leakage
+Rotation + Kaggle Secrets + read-only tokens (§15)
+Data-quality defects propagating into training
+The 9-item fix list (§4.3) applied before any bulk download
+Free-tier news source degrading (rate limits, feed
+changes)
+Multiple independent free sources (§9.1) rather than one
+
+--- PAGE 27 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 27
+17. Phased Roadmap
+Phase
+Deliverable
+Approx. duration
+0 — Data & hygiene
+Rotate HF token; delete files.zip; move acquisition into a Kaggle CPU notebook;
+apply the 9-item fix list (§4.3); publish unified monthly Parquet
+1-2 weeks, CPU-only, no
+accelerator quota
+consumed
+1 — Feature pipeline &
+pruning
+Run the 475-feature candidate pool through the pipeline; SHAP/permutation pruning;
+default to bookDepth over bookTicker
+1 week
+2 — Baseline members
+GBM family + naive baselines first (cheapest, fastest feedback on whether the
+feature set carries signal at all)
+~1 week of training quota
+3 — Full ensemble
+build-out
+Remaining 6 sequence/foundation-model members, baseline GPU path
+4.5-6 weeks of training
+quota
+4 — Fusion &
+calibration
+Stacking meta-learner, regime gating, meta-labeling, conformal calibration
+1-2 weeks
+5 — News/sentiment
+integration
+Sentiment classifier deployment, fusion, ablation test
+1 week, parallel with
+Phase 4
+6 — Validation
+Full multi-regime purged walk-forward evaluation against kill criteria
+1-2 weeks
+7 — Orchestration
+Checkpoint-resume automation, sub-10-minute relaunch loop, paper-trading engine
+live
+1 week
+8 — Streaming
+Named Cloudflare Tunnel + webhook delivery, sequence-numbered logging
+3-5 days, parallel with
+Phase 7
+9 — Resource
+maximization (optional)
+Drift-gated online adaptation, multi-asset expansion, MC-dropout uncertainty — each
+validated against baseline before trusting
+2-3 weeks, can trail the
+initial launch
+10 — TPU-parallel
+training
+(optional/advanced)
+Port TPU-eligible members to JAX/Flax or TensorFlow, export weights back for T4
+inference
+2-4 weeks, only after
+Phase 3's baseline is
+confirmed stable
+Ongoing
+Periodic retraining within the steady-state allocation; re-validation against fresh
+regime data
+Continuous
+
+--- PAGE 28 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 28
+18. Appendix A: Repository Structure
+project-impjr/
+data_pipeline/ # runs in a Kaggle CPU-only notebook (Sec 4.4)
+downloaders/ # extended binance_btc_usd_downloader.py (full date-range, checksummed)
+validators/ # zero-byte/checksum checks, timestamp-unit detection, dedup (Sec 4.3)
+feature_engine/ # Polars pipeline
+publish_to_hf.py # WRITE token, Kaggle Secrets only
+models/
+kronos_finetune/ tft/ patchtst/ itransformer/ nhits/ ssm_challenger/
+gbm_family/ hmm_regime/ sentiment_branch/
+tpu_variants/ # optional advanced path (Sec 11.4), JAX/Flax or TF
+fusion/
+stacking_meta_learner.py meta_labeling.py calibration.py
+inference/
+live_loop.py # ~1s cadence, Sec 12
+paper_trading_engine.py
+resource_maximization/ # Sec 13
+drift_gate.py online_adapters.py multi_asset_head.py mc_dropout_uncertainty.py
+streaming/ # Sec 14
+cloudflared_manager.py webhook_dispatcher.py sse_server.py
+orchestration/
+checkpoint_manager.py kaggle_relay/ # sub-10-min relaunch loop, Sec 11.2
+validation/
+purged_walkforward_cv.py regime_holdout_eval.py naive_baselines.py
+configs/
+constants.py # LOOKBACK_PERIODS=720, FORECAST_PERIODS=90, etc.
+
+--- PAGE 29 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 29
+19. Appendix B: Confirmed Resource Figures & Config
+Constants
+Constant / Resource
+Value
+Source
+Kaggle session cap
+12 hours
+Re-verified; standing since Jan
+2022
+Kaggle GPU quota
+~30 hours/week
+Re-verified
+Kaggle TPU quota
+~20-30 hours/week (separate pool)
+Re-verified
+RAM
+~30GB
+User-measured, matches Kaggle's
+~29GB documentation
+VRAM
+~30GB usable (32GB nominal, 2×16GB T4)
+User-measured
+Persistent output storage
+20GB
+User-measured, officially confirmed
+Temp/scratch storage
+~57GB
+User-measured, unofficial but
+consistent with community reports
+LOOKBACK_PERIODS / FORECAST_PERIODS
+720 / 90
+Existing code
+Feature candidate pool
+475 (435 past + 40 known-future)
+Existing plans
+TFT: encoder_len / pred_len / batch / hidden /
+heads / lr / epochs / dropout / seed
+720 / 90 / 64 / 128 / 8 / 1e-3 / 30 / 0.1 / 42
+train_tft_kaggle.py
+HF dataset repo
+p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+antigravity pipeline
+On-disk sample data (content audit)
+≥~11.2GB (documented floor)
+This plan's content audit
+bookTicker cost
+up to ~1.23GB / symbol-month (um)
+This plan's content audit
+20. Appendix C: Sources Consulted
+Forecasting architectures & ensembling
+
+Adaptive Temporal Fusion Transformers for Cryptocurrency Price Prediction — arxiv.org/pdf/2509.10542
+
+CryptoMamba: Leveraging State Space Models for Bitcoin Price Prediction — arxiv.org/abs/2501.01010,
+and its critique at aligrithm.com
+
+Kronos: A Domain-Specific Foundation Model for Financial Markets — arxiv.org/abs/2508.02739;
+tsfm.ai/blog/kronos-financial-foundation-model
+
+Deep Learning for Financial Time Series: Large-Scale Risk-Adjusted Benchmark — kieranjwood.github.io
+
+Explainable Patterns in Cryptocurrency Microstructure — arxiv.org/html/2602.00776v1
+
+Algorithmic crypto trading using information-driven bars, triple barrier labeling and deep learning —
+Financial Innovation (Springer)
+
+The smartest Bitcoin price models keep losing to the dumbest forecast — cryptoslate.com
+
+Machine Learning Models for Bitcoin Price Prediction: Mostly Overfit (2026 Study) — geekmetaverse.com
+News/sentiment fusion
+
+Fusion of Sentiment and Market Signals for Bitcoin Forecasting (SentiStack) —
+mdpi.com/2504-2289/9/6/161
+
+--- PAGE 30 ---
+Binance Futures Prediction Ensemble — Master Technical Plan
+Page 30
+
+CryptoPanic API documentation (free tier discontinued 2026) — cryptopanic.com/developers/api/about
+
+X (Twitter) API Pricing 2026 — xpoz.ai; X Gets Aggressive About Scraping — zwillgen.com
+
+Towards Efficient FinBERT via Quantization and Coreset — ACL FinNLP 2025
+
+Whale Alert API documentation — developer.whale-alert.io
+Kaggle platform & Cloudflare Tunnel
+
+[Product Update] Increased session runtimes for notebooks —
+kaggle.com/discussions/product-feedback/302908
+
+Kaggle's original 9h→12h announcement (Jan 2022) — x.com/kaggle
+
+Kaggle Weekly GPU Quotas — kaggle.com/datasets/headsortails/kaggle-weekly-gpu-quotas
+
+Tensor Processing Units (TPUs) Documentation — kaggle.com/docs/tpu
+
+Kaggle's New 29GB RAM GPUs — medium.com/@fareedkhandev
+
+[Feature request] Disk Space for running kernels — github.com/Kaggle/docker-python/issues/1506
+
+[Guide] Cron-Schedule Kaggle Notebooks That Need Secrets —
+kaggle.com/discussions/product-feedback/666571
+
+Multiple accounts identified! (enforcement thread) — kaggle.com/product-feedback/176283
+
+Cloudflare Docs — TryCloudflare (Quick Tunnels) and Create a remotely-managed (named) tunnel —
+developers.cloudflare.com
+
+Discord Developer Docs — Rate Limits; Slack Developer Docs — Rate limits
+Online learning, multi-asset modeling, uncertainty quantification
+
+Proactive Model Adaptation Against Concept Drift for Online Time Series Forecasting —
+arxiv.org/abs/2412.08435
+
+Deep incremental learning for financial temporal tabular datasets with distribution shifts —
+ar5iv.labs.arxiv.org/html/2303.07925
+
+Dynamic Neuroplastic Networks for Financial Decision Making — Computational Economics, 2025
+
+Learning from Neighbors: Multi-relational Attention for Cryptocurrency Return Prediction —
+ScienceDirect/ESWA, 2026
+
+Temporal Fusion Transformer-Based Trading Strategy for Multi-Crypto Assets — MDPI, 2025
+
+Multi-level Monte Carlo Dropout for Efficient Uncertainty Quantification — arxiv.org/html/2601.13272v1
+Prepared by Claude · This plan reconciles and supersedes the prior drafts in Project-IMPJR · September 2026
+
+--- PAGE 31 ---
+Addendum: Feature Engineering Implementation
+ Findings
+This addendum documents corrections, gaps, and engineering findings discovered while implementing the
+feature-engineering scripts against the real sample data under data/, premium_index/, spot_index/, and
+trading/, plus the prior plans/code in Project-IMPJR. The implementation lives in feature engineering
+scripts/ as a from-scratch Polars pipeline (config → schemas → utils → parsers → resample →
+feature_engine/* → labeling → anti_leakage → publish_to_hf → paths → build_dataset.py). Every item
+below was verified empirically against the actual sample files, not assumed from documentation.
+1. Corrections to prior assumptions
+1.1 Bybit trading/ schema branches by contract type, not by date
+The original plan assumed Bybit's tick-trade schema drift (the trailing rpi column) was a function of
+calendar date. Verified against samples: the branch is actually by contract type — perpetual symbols
+(BTCUSDT, BTCUSD, BTCPERP) always have 11 columns including a trailing rpi field; dated/quarterly
+contracts (e.g. BTC-01DEC23, BTCUSDH22, BTCUSDT-01AUG25) always have 10 columns, regardless
+of when the file was published. Parsers must branch on column count (or contract-symbol pattern), never
+on the file's date. Implemented in parsers/bybit_parser.py:read_bybit_trading().
+1.2 Bybit on-disk path convention
+Confirmed directory layout (not stated precisely in the original plan):
+trading/<symbol>/<symbol><date>.csv.gz,
+premium_index/<symbol>/<symbol><date>_premium_index.csv.gz,
+spot_index/<symbol>/<symbol><date>_index_price.csv.gz — one file per UTC day per contract
+folder, with the premium/spot index filenames carrying an explicit suffix (not just the raw symbol+date).
+1.3 Hugging Face publishing layout is flat, not Hive-partitioned
+The safest verified pattern in the existing project code (colab_tft_feature_extraction.py /
+tft_feature_extraction_2_(2).py) uses a flat data/ prefix with one parquet file per calendar day —
+data/features_{symbol}_{date}.parquet — via
+huggingface_hub.HfApi().upload_file(repo_type="dataset"), never push_to_hub/upload_folder and never
+Hive-style year=/month=/day= partitioning. Reimplemented identically in publish_to_hf.py, with the HF
+write token read exclusively from the HF_TOKEN environment variable (several files elsewhere in the
+project were found to hardcode a literal token in source — that pattern is not reproduced here or anywhere
+in the new scripts).
+1.4 The "475 features" figure is a soft target, not a fixed manifest
+No file in the prior project enumerates exactly 475 named features; the figure is an emergent count from
+the feature-family pool design. The new pipeline does not target an exact count — it implements every
+feature family the plan calls for at production quality and deliberately drops placeholder features that had
+no real detection logic (several chart-pattern-recognition columns in the old pool were literal always-zero
+
+--- PAGE 32 ---
+stubs). The reference build for one sample day (2026-09-06, 10s bars) produces 188 columns including
+OHLCV, all engineered features, and labels.
+1.5 bookTicker is confirmed stale in both um and cm samples
+Only one bookTicker file exists per symbol directory: BTCUSDT (um) is dated 2024-03-30,
+BTCUSD_PERP (cm) is dated 2024-10-14. Production code must treat bookTicker as unavailable for any
+other day and use bookDepth as the primary source for spread and order-flow imbalance features
+(feature_engine/orderbook_microstructure.py falls back to a high-low range proxy spread when
+bookTicker is absent).
+1.6 fundingRate is monthly-only and lags by about one month
+Confirmed: no daily fundingRate path exists anywhere in the vendor layout, only monthly. Critically,
+Binance Vision publishes each month's fundingRate dump only after that month ends — the samples'
+latest BTCUSDT fundingRate file is 2026-08 while market data (aggTrades etc.) runs into 2026-09, i.e. the
+current month's own file is routinely absent for any live/recent day.
+parsers/binance_parser.py:read_funding_rate_for_day() walks backward month-by-month (default up
+to 6 months) until it finds a published file, so recent days still get the last known funding rate forward-filled
+instead of the whole day going null.
+1.7 liquidationSnapshot duplicate rows
+Confirmed 50% exact-duplicate rows in the cm liquidationSnapshot sample (BTCUSD_PERP, 2024-10-14:
+100 raw rows, 50 unique). read_liquidation_snapshot() always deduplicates via .unique(keep="first")
+before use.
+2. Engineering pitfalls found and fixed during
+validation
+The following were caught by empirically testing the pipeline against real sample data (a full day of
+BTCUSDT um aggTrades, 8640 bars at 10s resolution) rather than by static code review, and are recorded
+here since they are exactly the class of subtle correctness bug this plan needs to guard against in any
+future implementation of the same feature families:
+
+Polars' dt.dt.hour()/dt.dt.minute() return Int8. Computing hour*60+minute directly overflows Int8's 127
+max for any hour ≥ 3 and silently wraps to negative values with no null and no error — it corrupted
+every downstream funding-boundary calculation (minutes_to_funding / pre_funding_1h were 53% null
+as a symptom). Fix: cast both operands to a wide integer type before combining them.
+
+A single shared safe_div() with a fixed 1e-12 absolute epsilon is appropriate for price-scale ratios but
+silently nulls out correlation-style ratios computed from squared returns, whose std-product
+denominators sit around 1e-15 by construction (this made vol_clustering_90/360 100% null).
+Scale-dependent ratios need a scale-appropriate zero guard (e.g. denom > 0) rather than reusing a
+fixed business-scale epsilon everywhere.
+
+An as-of backward join is only correct for sources that represent continuously-updating state (price,
+funding rate, open interest, order-book snapshots) where carrying the last known value forward is the
+
+--- PAGE 33 ---
+intended semantic. It is the wrong join for discrete sparse events (liquidations): joining a per-bin event
+aggregate onto the bar grid with asof-backward causes one liquidation's notional to be carried forward
+and re-counted in every subsequent bar and every subsequent rolling window, indefinitely, instead of
+only the bin it happened in. The fix is an exact-match join on the (shared, epoch-aligned) bin
+timestamp with fill_null(0) for bins with no event.
+
+A feature-family function's early-return branch (used when its source data is absent for the day) must
+produce exactly the same column set/dtypes as its populated-data branch, or days with and without
+that source will fail to concatenate into a multi-day dataset.
+3. Anti-leakage validation performed
+anti_leakage.py implements purged + embargoed expanding walk-forward folds (no such implementation
+existed anywhere in prior project code) and an empirical leakage self-test that recomputes a feature at
+randomly sampled cut points using only truncated data and compares against the full-dataframe value at
+the same row. Run against the real built dataset across every leakage-relevant mechanism in the pipeline
+— trailing rolling windows (realized_vol_90), manual rolling-covariance ratios (vol_clustering_90), pure
+calendar features (minutes_to_funding), as-of-join + forward-fill state features (funding_rate_ma_24h), and
+shifted higher-timeframe joins (htf_1m_close) — all passed with zero mismatches.
+4. Scope note
+This addendum reflects the state of the sample data and implementation as of this pass. It does not
+replace the main plan document; read it alongside the original sections it corrects (data source schemas,
+HF publishing flow, and the feature count target).

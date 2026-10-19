@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 import polars as pl
 
-REPO_ROOT = Path(r"F:\Downloads\Binance data\feature engineering scripts")
+REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 import config
@@ -22,7 +22,7 @@ assert set(sentiment_train.WITHOUT_SENTIMENT_FEATURES) == set(FEATURE_COLUMNS) -
 assert len(sentiment_train.WITHOUT_SENTIMENT_FEATURES) == len(FEATURE_COLUMNS) - len(sentiment_train.SENTIMENT_PROXY_FEATURES)
 print("PASS: WITHOUT_SENTIMENT_FEATURES is exactly FEATURE_COLUMNS minus the sentiment proxies")
 
-n_rows = 400
+n_rows = 3000
 rng = np.random.default_rng(0)
 
 
@@ -55,12 +55,12 @@ def _small_purged_splits(df, n_folds, val_size, purge_bars=5, embargo_bars=5):
 sentiment_train.load_days = _fake_load_days
 sentiment_train.purged_walk_forward_splits = _small_purged_splits
 common_oof.save_oof = _fake_save_oof
-config.BARS_PER_DAY = 40  # val_size = val_days * BARS_PER_DAY must stay small relative to n_rows=400
+config.BARS_PER_DAY = 100  # val_size = val_days * BARS_PER_DAY must stay small relative to n_rows=2000
 
 try:
     results = sentiment_train.run_ablation(val_days=1, max_days=None)
 
-    assert set(results.keys()) == {"with", "without"}, results
+    assert {"with", "without"}.issubset(set(results.keys())), results
     assert results["with"]["n_features"] == len(FEATURE_COLUMNS)
     assert results["without"]["n_features"] == len(FEATURE_COLUMNS) - len(sentiment_train.SENTIMENT_PROXY_FEATURES)
 

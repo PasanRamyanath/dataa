@@ -1,0 +1,13 @@
+{
+  "fit_rows": 7985,
+  "eval_rows": 3576,
+  "calibrator_type": "dirichlet_odir",
+  "brier_before": 0.5725576569658084,
+  "brier_after": 0.56624148213315,
+  "ece_before": 0.20609897195587834,
+  "ece_after": 0.20017997525302914,
+  "dirichlet_ece": 0.20017997525302914,
+  "dirichlet_brier": 0.56624148213315,
+  "isotonic_ece": 0.20889201742578306,
+  "isotonic_brier": 0.621393360718432
+}

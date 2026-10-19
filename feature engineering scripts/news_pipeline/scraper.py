@@ -256,7 +256,8 @@ class PoliteFetcher:
                 continue
             if resp.status_code == 429 or resp.status_code >= 500:
                 retry_after = resp.headers.get("Retry-After", "")
-                resp.close()  # stream=True: hand the unread connection back to the pool
+                if hasattr(resp, "close"):
+                    resp.close()  # stream=True: hand the unread connection back to the pool
                 self._sleep(float(retry_after) if retry_after.isdigit() else 5.0 * (2 ** attempt))
                 continue
             content = resp.raw.read(config.SCRAPER_MAX_BYTES + 1, decode_content=True) if getattr(resp, "raw", None) is not None and hasattr(resp.raw, "read") else resp.content

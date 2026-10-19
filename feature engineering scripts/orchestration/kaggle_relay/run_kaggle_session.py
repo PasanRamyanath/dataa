@@ -92,7 +92,7 @@ def main() -> None:
               config.KAGGLE_SESSION_TIME_BUDGET_HOURS, budget.safety_margin_seconds, with_news, train_all._cuda_count())
     skip = [s for s in os.environ.get("TRAIN_SKIP", "").split(",") if s]
     resume = os.environ.get("TRAIN_RESUME", "1").lower() not in ("0", "false", "no")
-    force_retrain_env = os.environ.get("FORCE_RETRAIN", "gbm-family,nhits,stacking-meta-learner,meta-labeling-filter,calibration")
+    force_retrain_env = os.environ.get("FORCE_RETRAIN", "")
     force_retrain = [s.strip() for s in force_retrain_env.split(",") if s.strip()]
     log.info("Session training flags: resume=%s, skip=%s, force_retrain=%s", resume, skip, force_retrain)
     results = train_all.run(
@@ -100,11 +100,20 @@ def main() -> None:
         members_only=False, gpus=None, resume=resume, budget=budget, with_news=with_news,
         force_retrain=force_retrain,
     )
-    log.info("Session finished after %.2fh: %s", budget.elapsed_seconds() / 3600, results)
+    log.info("Session training verification finished after %.2fh: %s", budget.elapsed_seconds() / 3600, results)
     failed = [k for k, v in results.items() if v in {"failed", "timeout"}]
     if failed:
-        log.error("Failed stages this session (retried next session): %s", failed)
-        sys.exit(1)
+        log.error("Failed stages this session: %s", failed)
+    
+    # Launch Live Streaming Prediction Engine with Dual T4 GPUs on Kaggle
+    log.info("=" * 70)
+    log.info("STARTING LIVE PREDICTION & STREAMING ENGINE ON KAGGLE DUAL-T4 VM")
+    log.info("=" * 70)
+    try:
+        from streaming import live_stream_glue
+        live_stream_glue.main()
+    except Exception:
+        log.exception("Live streaming loop exited")
 
 
 if __name__ == "__main__":

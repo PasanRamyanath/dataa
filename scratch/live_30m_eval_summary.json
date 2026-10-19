@@ -1,0 +1,75 @@
+{
+  "elapsed_minutes": 31.93,
+  "total_bars_recorded": 193,
+  "target_bars": 180,
+  "last_price": 81263.2,
+  "directional_accuracy_pct": {
+    "1_bar_ahead_10s": 48.15,
+    "3_bars_ahead_30s": 61.11,
+    "6_bars_ahead_60s": 55.56
+  },
+  "ultra_sniper_precision": {
+    "signals_authorized": 24,
+    "chop_vetoed_bars": 169,
+    "chop_veto_rate_pct": 87.6,
+    "closed_trades": 5,
+    "active_positions": 1,
+    "win_count": 0,
+    "loss_count": 5,
+    "win_rate_pct": 0.0,
+    "total_net_pnl_bps": -52.91,
+    "average_net_bps_per_trade": -10.58,
+    "profit_factor": 0.46
+  },
+  "member_model_performance": {
+    "gbm-family": {
+      "predictions": 34,
+      "acc_1bar_pct": 55.9,
+      "acc_3bar_pct": 55.9,
+      "acc_6bar_pct": 52.9
+    },
+    "sentiment-branch": {
+      "predictions": 63,
+      "acc_1bar_pct": 49.2,
+      "acc_3bar_pct": 57.1,
+      "acc_6bar_pct": 52.4
+    },
+    "kronos-finetune": {
+      "predictions": 70,
+      "acc_1bar_pct": 47.1,
+      "acc_3bar_pct": 61.4,
+      "acc_6bar_pct": 57.1
+    },
+    "ssm-challenger": {
+      "predictions": 35,
+      "acc_1bar_pct": 54.3,
+      "acc_3bar_pct": 65.7,
+      "acc_6bar_pct": 54.3
+    },
+    "tft": {
+      "predictions": 60,
+      "acc_1bar_pct": 41.7,
+      "acc_3bar_pct": 53.3,
+      "acc_6bar_pct": 48.3
+    },
+    "patchtst": {
+      "predictions": 52,
+      "acc_1bar_pct": 46.2,
+      "acc_3bar_pct": 61.5,
+      "acc_6bar_pct": 53.8
+    },
+    "itransformer": {
+      "predictions": 54,
+      "acc_1bar_pct": 50.0,
+      "acc_3bar_pct": 64.8,
+      "acc_6bar_pct": 59.3
+    },
+    "nhits": {
+      "predictions": 48,
+      "acc_1bar_pct": 45.8,
+      "acc_3bar_pct": 62.5,
+      "acc_6bar_pct": 54.2
+    }
+  },
+  "updated_at": "2026-10-17T17:43:11.451853+00:00"
+}

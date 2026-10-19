@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy as np
 import polars as pl
 
-ROOT = Path(r"F:\Downloads\Binance data\feature engineering scripts")
+ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 import config  # noqa: E402
@@ -52,7 +52,7 @@ class FakeSession:
 
 def article_html(title, published, body_sentences=12, meta=True):
     meta_tag = f'<meta property="article:published_time" content="{published}">' if meta else ""
-    paras = "".join(f"<p>{title} paragraph {i}: Bitcoin ETF inflows and market structure discussed at length here.</p>"
+    paras = "".join(f"<p>{title} paragraph {i}: market structure discussed at length here.</p>"
                     for i in range(body_sentences))
     return (f"<html><head><title>{title}</title>{meta_tag}<meta property='og:title' content='{title}'>"
             f"<script>var x = '<p>not text</p>';</script></head><body><nav><p>Menu menu menu menu menu menu menu</p></nav>"

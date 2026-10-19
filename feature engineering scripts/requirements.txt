@@ -5,6 +5,7 @@ requests>=2.31
 # inference/news_feed.py (RSS parsing)
 feedparser>=6.0
 
-# streaming/sse_server.py (§14.1 SSE + shared-secret endpoints)
+# streaming/sse_server.py (§14.1 SSE + shared-secret endpoints) & streaming/live_ingestion/binance_ws.py
 fastapi>=0.110
 uvicorn>=0.29
+websockets>=12.0

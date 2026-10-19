@@ -1,0 +1,10 @@
+{
+  "status": "COMPLETED",
+  "start_utc": "2026-10-17 17:54:40",
+  "end_utc": "2026-10-17 18:42:41",
+  "total_bars": 270,
+  "total_elapsed_sec": 2880.46,
+  "closed_trades_count": 4,
+  "ledger_file": "D:\\backup\\Binance data\\scratch\\live_45m_eval_ledger.jsonl",
+  "result_file": "D:\\backup\\Binance data\\result.md"
+}

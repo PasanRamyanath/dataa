@@ -23,16 +23,9 @@ import polars as pl
 
 OOF_DIR = Path(__file__).resolve().parent.parent / "fusion" / "oof"
 
-# 8 directional members (hmm-regime gates rather than votes)
-DIRECTION_MEMBERS = [
-    "gbm-family",
-    "sentiment-branch",
-    "ssm-challenger",
-    "tft",
-    "patchtst",
-    "itransformer",
-    "nhits",
-    "kronos-finetune",
+DIRECTION_MEMBERS: list[str] = [
+    "gbm-family", "sentiment-branch", "ssm-challenger", "tft",
+    "patchtst", "itransformer", "nhits", "kronos-finetune",
 ]
 
 

@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+feature engineering scripts/scratch/staging_gpu/
+feature engineering scripts/scratch/kaggle_auth_*/
+scratch/live_1h_eval_ledger.jsonl
+scratch/live_2h_eval_ledger.jsonl
+scratch/challenge_live_latency_ledger.jsonl
+
+feature engineering scripts/models/kronos_finetune/checkpoints/model.safetensors
+*.safetensors

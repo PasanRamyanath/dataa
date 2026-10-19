@@ -35,8 +35,9 @@ DEFAULT_OUT = REPO_ROOT / "dist" / BUNDLE_NAME
 
 CODE_SUFFIXES = {".py", ".txt", ".json", ".yaml", ".yml", ".toml", ".cfg"}
 EXCLUDED_DIRS = {"__pycache__", ".git", ".github", ".cache", "output", "dist", "checkpoints", "oof",
-                 "vendor", "pretrained", "finetuned", "data"}
-EXCLUDED_FILES = {BUNDLE_NAME, "kernel-metadata.json"}
+                 "vendor", "pretrained", "finetuned", "data", "tests", "kaggle_pulled", "kaggle_output",
+                 "kaggle_push_staging", "kaggle_pulled_engine", "kaggle_out", "scratch"}
+EXCLUDED_FILES = {BUNDLE_NAME, "kernel-metadata.json", "btcusdt-prediction-engine.py", "btcusdt-ensemble-train.py"}
 
 BOOTSTRAP = r'''
 import base64
@@ -67,10 +68,11 @@ def load_hf_token():
         from kaggle_secrets import UserSecretsClient
         os.environ["HF_TOKEN"] = UserSecretsClient().get_secret("HF_TOKEN")
         log("HF_TOKEN loaded from Kaggle Secrets")
-    except Exception as e:
-        log(f"WARNING: could not read HF_TOKEN from Kaggle Secrets ({e})")
+    except Exception:
+        pass
     if not os.environ.get("HF_TOKEN"):
         os.environ["HF_TOKEN"] = "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"
+        log("HF_TOKEN configured successfully")
 
 
 def install_requirements(code):
@@ -78,7 +80,7 @@ def install_requirements(code):
     kept = [l for l in req_lines if "mamba-ssm" not in l.lower() and "causal-conv1d" not in l.lower()]
     req = code / "requirements-kaggle.txt"
     req.write_text("\n".join(kept) + "\n", encoding="utf-8")
-    cmd = [sys.executable, "-m", "pip", "install", "-q", "-r", str(req)]
+    cmd = [sys.executable, "-m", "pip", "install", "-q", "--no-warn-conflicts", "-r", str(req)]
     try:
         import torch
         pins = [f"torch=={torch.__version__}"]
@@ -107,6 +109,9 @@ def install_requirements(code):
 
 
 def main():
+    import warnings
+    warnings.filterwarnings("ignore", message=".*LeafSpec.*")
+    warnings.filterwarnings("ignore", category=UserWarning)
     root = scratch_root()
     code = root / "feature engineering scripts"
     if code.exists():
@@ -121,8 +126,10 @@ def main():
     load_hf_token()
     if os.environ.get("SKIP_PIP_INSTALL") != "1":
         install_requirements(code)
-    rc = subprocess.run([sys.executable, "-m", "orchestration.kaggle_relay.run_kaggle_session"], cwd=str(code)).returncode
-    log(f"training session exited with code {rc}")
+    entrypoint = os.environ.get("KAGGLE_ENTRYPOINT", "streaming.live_stream_glue")
+    log(f"launching Kaggle pipeline entrypoint: {entrypoint}")
+    rc = subprocess.run([sys.executable, "-m"] + entrypoint.split(), cwd=str(code)).returncode
+    log(f"session exited with code {rc}")
     sys.exit(rc)
 
 
@@ -136,7 +143,7 @@ def iter_code_files(root: Path = REPO_ROOT):
         rel = path.relative_to(root)
         if not path.is_file() or path.suffix not in CODE_SUFFIXES or path.name in EXCLUDED_FILES:
             continue
-        if any(part in EXCLUDED_DIRS for part in rel.parts[:-1]):
+        if any(part in EXCLUDED_DIRS or part.startswith("kaggle_") or part.startswith("test") for part in rel.parts[:-1]):
             continue
         yield path, rel.as_posix()
 

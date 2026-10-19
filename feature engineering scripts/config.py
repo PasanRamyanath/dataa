@@ -321,9 +321,7 @@ PAPER_MAX_POSITION_FRACTION = 0.5       # cap: at most 50% of equity notional in
 PAPER_TAKER_FEE_BPS = 5.0               # Binance USDT-M taker fee approx, applied to every simulated fill
 PAPER_SLIPPAGE_BPS = 2.0                # simple fixed slippage assumption, applied against the trade direction
 PAPER_MIN_REBALANCE_FRACTION = 0.01     # skip re-sizing smaller than this (1% of equity): confidence moves every tick, and fee-paying micro-trades each 10s would bleed equity
-PAPER_META_LABEL_THRESHOLD = float(os.environ.get("PAPER_META_LABEL_THRESHOLD", "0.60"))  # veto trades below 60% act probability (elevates precision from 44.8% to 79.2%)
-NHITS_SCALER_TYPE = os.environ.get("NHITS_SCALER_TYPE", "standard")  # standard scaler avoids near-zero IQR blowup on sparse exogenous features
-
+META_LABEL_ACTION_THRESHOLD = 0.70       # Ultra Sniper meta-label filter threshold: below 0.70 conviction, veto entry / flatten position
 
 # Circuit breakers (§12.2): halt new position entries (never force-close an
 # existing one) once tripped; both reset at the next UTC day/week boundary.
@@ -378,7 +376,7 @@ for _kp in _kaggle_json_paths:
             pass
 if not _loaded_kaggle:
     _raw_kaggle_user = os.environ.get("KAGGLE_USERNAME", "")
-    KAGGLE_USERNAME = "rimramyanath" if (not _raw_kaggle_user or _raw_kaggle_user in ("pjramyanath", "rramyanath")) else _raw_kaggle_user
+    KAGGLE_USERNAME = "malaysiatrip" if (not _raw_kaggle_user or _raw_kaggle_user in ("pjramyanath", "rramyanath", "rimramyanath")) else _raw_kaggle_user
     os.environ["KAGGLE_USERNAME"] = KAGGLE_USERNAME
 KAGGLE_KERNEL_SLUG = os.environ.get("KAGGLE_KERNEL_SLUG", "btcusdt-ensemble-train")
 KAGGLE_SESSION_TIME_BUDGET_HOURS = float(os.environ.get("KAGGLE_SESSION_TIME_BUDGET_HOURS", "11.5"))

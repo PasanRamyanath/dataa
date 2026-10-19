@@ -132,6 +132,19 @@ class StackingMetaLearner:
         only emit columns for classes seen in training, which would
         otherwise silently misalign column meaning downstream (e.g. in
         log_loss or any consumer assuming column i == class i)."""
+        # Impute missing member columns with neutral prior [0.33, 0.34, 0.33] if some members are absent
+        cols_to_add = {}
+        for c in self.feature_cols:
+            if c not in meta_df.columns:
+                if c.endswith("__prob_down") or c.endswith("__prob_up"):
+                    cols_to_add[c] = pl.lit(0.33, dtype=pl.Float64)
+                elif c.endswith("__prob_flat"):
+                    cols_to_add[c] = pl.lit(0.34, dtype=pl.Float64)
+                else:
+                    cols_to_add[c] = pl.lit(0, dtype=pl.Int8)
+        if cols_to_add:
+            meta_df = meta_df.with_columns(**cols_to_add)
+
         X = meta_df.select(self.feature_cols).to_numpy().astype(np.float64)
         raw = self.model.predict_proba(X)
         classes = getattr(self.model, "classes_", np.arange(raw.shape[1]))

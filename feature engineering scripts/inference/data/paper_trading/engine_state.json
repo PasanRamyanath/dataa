@@ -1,0 +1,14 @@
+{
+  "equity": 99857.75218039205,
+  "position_fraction": 0.0,
+  "last_price": 82342.3,
+  "day_key": "2026-10-16",
+  "day_start_equity": 99962.30852143206,
+  "daily_breaker_tripped": false,
+  "week_key": "2026-W42",
+  "week_start_equity": 99876.45404110462,
+  "weekly_breaker_tripped": false,
+  "n_ticks": 6511,
+  "n_trades": 85,
+  "updated_at": "2026-10-16T00:14:49.259159+00:00"
+}

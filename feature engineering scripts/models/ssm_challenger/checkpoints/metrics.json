@@ -1,0 +1,10 @@
+{
+  "best_early_stop_loss": 1.3235245779721452,
+  "accuracy": 0.4963406520292748,
+  "balanced_accuracy": 0.3318428715359662,
+  "f1_macro": 0.3254092010524257,
+  "n_train_windows": 592286,
+  "n_early_stop_windows": 65810,
+  "n_val_windows": 6012,
+  "mamba_ssm_available": false
+}

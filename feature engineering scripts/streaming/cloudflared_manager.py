@@ -69,11 +69,19 @@ def download_binary(dest_path: Path | None = None, url: str | None = None) -> Pa
     codebase's own tests, which monkeypatch this function entirely."""
     dest = Path(dest_path) if dest_path is not None else config.CLOUDFLARED_BINARY_PATH
     src_url = url if url is not None else config.CLOUDFLARED_DOWNLOAD_URL
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    log.info("Downloading cloudflared from %s to %s", src_url, dest)
-    urllib.request.urlretrieve(src_url, dest)
-    dest.chmod(dest.stat().st_mode | stat.S_IEXEC | stat.S_IXGRP | stat.S_IXOTH)
-    return dest
+    try:
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        log.info("Downloading cloudflared from %s to %s", src_url, dest)
+        urllib.request.urlretrieve(src_url, dest)
+        dest.chmod(dest.stat().st_mode | stat.S_IEXEC | stat.S_IXGRP | stat.S_IXOTH)
+        return dest
+    except (PermissionError, OSError):
+        dest = Path("/tmp/cloudflared")
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        log.info("Falling back to downloading cloudflared to writable %s", dest)
+        urllib.request.urlretrieve(src_url, dest)
+        dest.chmod(dest.stat().st_mode | stat.S_IEXEC | stat.S_IXGRP | stat.S_IXOTH)
+        return dest
 
 
 class CloudflaredManager:
@@ -89,27 +97,37 @@ class CloudflaredManager:
         self._popen_fn = popen_fn
         self._token_fn = token_fn
         self._proc: subprocess.Popen | None = None
+        self.tunnel_url: str | None = None
 
     def ensure_binary(self) -> Path:
         if self.binary_path.exists() or shutil.which(str(self.binary_path)):
             log.info("cloudflared binary already present at %s", self.binary_path)
             return self.binary_path
-        return self._download_fn(self.binary_path)
+        tmp = Path("/tmp/cloudflared")
+        if tmp.exists():
+            log.info("cloudflared binary already present at %s", tmp)
+            self.binary_path = tmp
+            return tmp
+        p = self._download_fn(self.binary_path)
+        self.binary_path = p
+        return p
 
     def is_running(self) -> bool:
         return self._proc is not None and self._proc.poll() is None
 
-    def start(self) -> bool:
-        """Starts `cloudflared tunnel run --token <TOKEN>` as a background
-        process. Returns False (and logs, never raises) if no token is
-        available or the binary is missing and can't be fetched — the
-        caller (inference glue) must run fine without a tunnel."""
+    def start(self, quick_tunnel_fallback: bool | None = None) -> bool:
+        """Starts `cloudflared tunnel run --token <TOKEN>` (named tunnel) or
+        `cloudflared tunnel --url ...` (quick tunnel) as a background process.
+        Returns False if neither a token nor quick tunnel is permitted."""
         if self.is_running():
             log.info("cloudflared already running (pid=%s)", self._proc.pid)
             return True
 
         token = self._token_fn()
-        if not token:
+        allow_quick = quick_tunnel_fallback if quick_tunnel_fallback is not None else (
+            os.environ.get("CLOUDFLARE_QUICK_TUNNEL", "0") == "1"
+        )
+        if not token and not allow_quick:
             log.warning("No Cloudflare tunnel token available — skipping tunnel start")
             return False
 
@@ -119,9 +137,15 @@ class CloudflaredManager:
             log.exception("Failed to obtain cloudflared binary — skipping tunnel start")
             return False
 
+        if token:
+            cmd = [str(self.binary_path), "tunnel", "run", "--token", token]
+        else:
+            log.info("No CLOUDFLARE_TUNNEL_TOKEN — starting Cloudflare Quick Tunnel on port %d", config.STREAM_PORT)
+            cmd = [str(self.binary_path), "tunnel", "--url", f"http://127.0.0.1:{config.STREAM_PORT}"]
+
         try:
             self._proc = self._popen_fn(
-                [str(self.binary_path), "tunnel", "run", "--token", token],
+                cmd,
                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
             )
         except Exception:
@@ -129,7 +153,36 @@ class CloudflaredManager:
             self._proc = None
             return False
 
-        log.info("cloudflared tunnel started (pid=%s)", self._proc.pid)
+        if self._proc and hasattr(self._proc, "stdout") and self._proc.stdout:
+            import re
+            import threading
+
+            def _drain():
+                url_pattern = re.compile(r"https://[a-zA-Z0-9-]+\.trycloudflare\.com")
+                for line in iter(self._proc.stdout.readline, b""):
+                    if not line:
+                        break
+                    decoded = line.decode("utf-8", errors="replace").strip() if isinstance(line, bytes) else str(line).strip()
+                    m = url_pattern.search(decoded)
+                    if m:
+                        self.tunnel_url = m.group(0)
+                        log.info(">>> CLOUDFLARE TUNNEL URL: %s", self.tunnel_url)
+                        print(f"\n{'='*70}\n>>> KAGGLE LIVE TUNNEL READY: {self.tunnel_url}\n>>> Connect to Next.js dashboard at: http://localhost:3000\n{'='*70}\n", flush=True)
+                        try:
+                            from huggingface_hub import HfApi
+                            api = HfApi(token=config.get_hf_token())
+                            api.upload_file(
+                                path_or_fileobj=self.tunnel_url.encode("utf-8"),
+                                path_in_repo="active_tunnel_url.txt",
+                                repo_id=f"{config.HF_MODEL_ORG}/{config.HF_MODEL_REPO_PREFIX}-fusion-calibration",
+                                repo_type="model",
+                            )
+                        except Exception:
+                            pass
+
+            threading.Thread(target=_drain, name="cloudflared-drain", daemon=True).start()
+
+        log.info("cloudflared tunnel started (pid=%s)", getattr(self._proc, "pid", "unknown"))
         return True
 
     def stop(self) -> None:

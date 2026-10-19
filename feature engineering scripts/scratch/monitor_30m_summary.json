@@ -1,0 +1,18 @@
+{
+  "elapsed_minutes": 29.93,
+  "total_bars": 181,
+  "target_bars": 180,
+  "chop_vetoed_bars": 165,
+  "chop_veto_pct": 91.2,
+  "fees_saved_bps": 2310.0,
+  "authorized_trades_closed": 16,
+  "authorized_open_positions": 0,
+  "wins": 0,
+  "losses": 16,
+  "precision_win_rate_pct": 0.0,
+  "total_net_bps": -256.58,
+  "average_net_bps_per_trade": -16.04,
+  "profit_factor": 0.39,
+  "latest_price": 82199.9,
+  "updated_at": "2026-10-16T06:47:13.058671"
+}
