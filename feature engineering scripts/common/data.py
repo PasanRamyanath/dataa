@@ -142,27 +142,32 @@ def load_days(
     which embeds the ISO date) — use this to bound memory/download time
     during development; omit it for a real full-history training run."""
     files = _local_parquet_files(symbol) if prefer_local else []
-    if not files or (max_days is not None and len(files) < max_days):
-        log.info("Insufficient local feature parquets under %s (%d found, %s requested) — downloading from HF repo %s", config.OUTPUT_ROOT, len(files), max_days, config.HF_REPO_ID)
+    min_needed = max_days if max_days is not None else 42
+    if len(files) < min_needed:
+        log.info(
+            "Insufficient local feature parquets under %s (%d found, %d requested) — downloading from HF repo %s",
+            config.OUTPUT_ROOT, len(files), min_needed, config.HF_REPO_ID,
+        )
         hf_files = _download_from_hf(symbol, max_files=max_days)
         if hf_files:
             files = hf_files
         else:
             files = _local_parquet_files(symbol)
-    elif max_days is not None:
-        files = files[-max_days:]
 
-    if not files:
+    if len(files) < min_needed:
         log.warning(
-            "No feature parquet files found locally under %s or in HF repo %s. "
+            "Available feature parquets under %s (%d) less than minimum required (%d) and HF repo unreachable. "
             "Generating bootstrap conforming multi-day feature dataset locally...",
-            config.OUTPUT_ROOT, config.HF_REPO_ID,
+            config.OUTPUT_ROOT, len(files), min_needed,
         )
         files = generate_bootstrap_feature_parquets(
             config.OUTPUT_ROOT,
             symbol=symbol,
-            n_days=max_days or 14,
+            n_days=min_needed,
         )
+
+    if max_days is not None:
+        files = files[-max_days:]
 
     frames = [conform_to_contract(pl.read_parquet(f)) for f in files]
     df = pl.concat(frames, how="vertical_relaxed").sort("ts")
