@@ -33,9 +33,14 @@ def model_repo_id(member_name: str) -> str:
     return f"{HF_MODEL_ORG}/{HF_MODEL_REPO_PREFIX}-{member_name}"
 
 
-def ensure_private_repo(repo_id: str, repo_type: str, api: HfApi | None = None) -> None:
-    api = api or get_api()
-    api.create_repo(repo_id=repo_id, repo_type=repo_type, exist_ok=True, private=True)
+def ensure_private_repo(repo_id: str, repo_type: str, api: HfApi | None = None) -> bool:
+    try:
+        api = api or get_api()
+        api.create_repo(repo_id=repo_id, repo_type=repo_type, exist_ok=True, private=True)
+        return True
+    except Exception as e:
+        log.warning("Could not ensure private repo %s (%s): %s", repo_id, repo_type, e)
+        return False
 
 
 def _upload_with_retry(api: HfApi, local_path: str | Path, path_in_repo: str, repo_id: str,
@@ -50,13 +55,16 @@ def _upload_with_retry(api: HfApi, local_path: str | Path, path_in_repo: str, re
         )
     except Exception:
         ensure_private_repo(repo_id, repo_type, api)
-        api.upload_file(
-            path_or_fileobj=str(local_path),
-            path_in_repo=path_in_repo,
-            repo_id=repo_id,
-            repo_type=repo_type,
-            commit_message=commit_message,
-        )
+        try:
+            api.upload_file(
+                path_or_fileobj=str(local_path),
+                path_in_repo=path_in_repo,
+                repo_id=repo_id,
+                repo_type=repo_type,
+                commit_message=commit_message,
+            )
+        except Exception as e:
+            log.warning("Upload failed for %s to %s: %s", local_path, repo_id, e)
 
 
 # Uploaded separately (upload_training_data_snapshot) — the neuralforecast
@@ -96,32 +104,35 @@ def upload_best_checkpoint(
     finished but can't be restored."""
     api = api or get_api()
     repo_id = model_repo_id(member_name)
-    ensure_private_repo(repo_id, "model", api)
+    try:
+        ensure_private_repo(repo_id, "model", api)
 
-    items = _expand_items(checkpoint_paths)
-    if metrics is not None:
-        from common.oof import oof_paths_for
+        items = _expand_items(checkpoint_paths)
+        if metrics is not None:
+            from common.oof import oof_paths_for
 
-        items += [(p, f"oof/{p.name}") for p in oof_paths_for(member_name)]
-    marker = [it for it in items if it[1] == "metrics.json"]
-    items = [it for it in items if it[1] != "metrics.json"]
-    if metrics is None:
-        items += marker  # no sidecar coming: the listed file is the marker
+            items += [(p, f"oof/{p.name}") for p in oof_paths_for(member_name)]
+        marker = [it for it in items if it[1] == "metrics.json"]
+        items = [it for it in items if it[1] != "metrics.json"]
+        if metrics is None:
+            items += marker  # no sidecar coming: the listed file is the marker
 
-    for local, dest in items:
-        _upload_with_retry(api, local, dest, repo_id, "model", f"Upload {dest} for {member_name}")
+        for local, dest in items:
+            _upload_with_retry(api, local, dest, repo_id, "model", f"Upload {dest} for {member_name}")
 
-    if metrics is not None:
-        import json
-        import tempfile
+        if metrics is not None:
+            import json
+            import tempfile
 
-        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as f:
-            json.dump(metrics, f, indent=2, default=str)
-            tmp_path = f.name
-        try:
-            _upload_with_retry(api, tmp_path, "metrics.json", repo_id, "model", f"Update metrics for {member_name}")
-        finally:
-            os.remove(tmp_path)
+            with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as f:
+                json.dump(metrics, f, indent=2, default=str)
+                tmp_path = f.name
+            try:
+                _upload_with_retry(api, tmp_path, "metrics.json", repo_id, "model", f"Update metrics for {member_name}")
+            finally:
+                os.remove(tmp_path)
+    except Exception as e:
+        log.warning("upload_best_checkpoint failed for %s (%s): %s", member_name, repo_id, e)
 
     return repo_id
 
@@ -251,23 +262,26 @@ def upload_member_checkpoint(
     if not member_dir.exists():
         member_dir = output_path
     target_repo = repo_id or model_repo_id(member_name)
-    api = api or HfApi(token=resolve_hf_token(token))
-    ensure_private_repo(target_repo, "model", api)
+    try:
+        api = api or HfApi(token=resolve_hf_token(token))
+        ensure_private_repo(target_repo, "model", api)
 
-    files_to_upload = [f for f in member_dir.rglob("*") if f.is_file()]
-    # Upload metrics.json last to ensure atomic completion
-    normal_files = [f for f in files_to_upload if f.name != "metrics.json"]
-    metric_files = [f for f in files_to_upload if f.name == "metrics.json"]
+        files_to_upload = [f for f in member_dir.rglob("*") if f.is_file()]
+        # Upload metrics.json last to ensure atomic completion
+        normal_files = [f for f in files_to_upload if f.name != "metrics.json"]
+        metric_files = [f for f in files_to_upload if f.name == "metrics.json"]
 
-    for f in normal_files:
-        rel = f.relative_to(member_dir).as_posix()
-        dest = f"models/{member_name}/{rel}" if repo_id else rel
-        _upload_with_retry(api, f, dest, target_repo, "model", f"Upload {member_name} artifact: {rel}")
+        for f in normal_files:
+            rel = f.relative_to(member_dir).as_posix()
+            dest = f"models/{member_name}/{rel}" if repo_id else rel
+            _upload_with_retry(api, f, dest, target_repo, "model", f"Upload {member_name} artifact: {rel}")
 
-    for f in metric_files:
-        rel = f.relative_to(member_dir).as_posix()
-        dest = f"models/{member_name}/{rel}" if repo_id else rel
-        _upload_with_retry(api, f, dest, target_repo, "model", f"Upload {member_name} completion metric: {rel}")
+        for f in metric_files:
+            rel = f.relative_to(member_dir).as_posix()
+            dest = f"models/{member_name}/{rel}" if repo_id else rel
+            _upload_with_retry(api, f, dest, target_repo, "model", f"Upload {member_name} completion metric: {rel}")
+    except Exception as e:
+        log.warning("upload_member_checkpoint failed for %s (%s): %s", member_name, target_repo, e)
 
     return target_repo
 

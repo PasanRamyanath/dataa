@@ -78,6 +78,9 @@ class SessionBudget:
     def should_stop(self) -> bool:
         return self.remaining_seconds() <= self.safety_margin_seconds
 
+    def check_can_start(self, stage_name: str = "", estimated_duration_seconds: float = 0.0) -> bool:
+        return self.remaining_seconds() >= (estimated_duration_seconds + self.safety_margin_seconds)
+
 
 def _member_has_metrics(api, member_name: str) -> bool:
     from common.hf_model_upload import model_repo_id
