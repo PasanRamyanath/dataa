@@ -95,6 +95,19 @@ def main() -> None:
     force_retrain_env = os.environ.get("FORCE_RETRAIN", "")
     force_retrain = [s.strip() for s in force_retrain_env.split(",") if s.strip()]
     log.info("Session training flags: resume=%s, skip=%s, force_retrain=%s", resume, skip, force_retrain)
+    # Ensure contracts and interfaces are registered in sys.modules
+    try:
+        import contracts_interface  # registers tests.contracts alias
+    except Exception as e:
+        log.warning("Could not register contracts_interface: %s", e)
+
+    # Ensure training data is safely downloaded or bootstrapped once before spawning parallel lanes
+    try:
+        from common.data import ensure_training_data_ready
+        ensure_training_data_ready(symbol=config.SYMBOL_UM, min_days=42)
+    except Exception as e:
+        log.warning("Data pre-initialization warning: %s", e)
+
     # Launch Project-IMPJR v4.0 Multi-Horizon Hierarchical Training Wave
     try:
         from models_v3 import train_all_multi_horizon

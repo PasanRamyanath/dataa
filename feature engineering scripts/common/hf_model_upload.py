@@ -16,6 +16,7 @@ this module doesn't pick "best", it only uploads what the caller hands it.
 """
 from __future__ import annotations
 
+import logging
 import os
 import shutil
 from pathlib import Path
@@ -23,6 +24,8 @@ from pathlib import Path
 from huggingface_hub import HfApi
 
 from config import HF_MODEL_ORG, HF_MODEL_REPO_PREFIX, HF_TRAINING_DATA_REPO_ID, get_hf_token
+
+log = logging.getLogger("common.hf_model_upload")
 
 
 def get_api() -> HfApi:

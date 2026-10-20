@@ -62,11 +62,12 @@ def _download_from_hf(symbol: str = config.SYMBOL_UM, max_files: int | None = No
 def generate_bootstrap_feature_parquets(
     output_dir: Path | str,
     symbol: str = config.SYMBOL_UM,
-    n_days: int = 14,
+    n_days: int = 42,
     start_date: str = "2026-09-01",
 ) -> list[Path]:
     """Generates synthetic conforming feature parquets when remote HF is unreachable."""
     from datetime import datetime, timedelta, timezone
+    import os
     out_path = Path(output_dir)
     out_path.mkdir(parents=True, exist_ok=True)
     rng = np.random.default_rng(42)
@@ -79,8 +80,12 @@ def generate_bootstrap_feature_parquets(
         day = start_day + timedelta(days=d)
         target_file = out_path / f"features_{symbol}_{day.strftime('%Y-%m-%d')}.parquet"
         if target_file.exists():
-            generated_paths.append(target_file)
-            continue
+            try:
+                pl.read_parquet_schema(target_file)
+                generated_paths.append(target_file)
+                continue
+            except Exception:
+                target_file.unlink(missing_ok=True)
 
         cols = {}
         for name, dt in COLUMN_DTYPES.items():
@@ -124,11 +129,52 @@ def generate_bootstrap_feature_parquets(
         cols["notional_volume"] = np.abs(rng.standard_normal(n) * 500000 + 1000000).astype(np.float32)
 
         df = pl.DataFrame(cols)
-        df.write_parquet(target_file, compression="snappy")
+        tmp_file = out_path / f".tmp_{os.getpid()}_{d}_{target_file.name}"
+        df.write_parquet(tmp_file, compression="snappy")
+        try:
+            os.replace(tmp_file, target_file)
+        except Exception:
+            if not target_file.exists():
+                tmp_file.replace(target_file)
+            else:
+                tmp_file.unlink(missing_ok=True)
         log.info("Generated bootstrap feature parquet: %s %s", target_file.name, df.shape)
         generated_paths.append(target_file)
 
     return generated_paths
+
+
+def ensure_training_data_ready(
+    symbol: str = config.SYMBOL_UM,
+    min_days: int = 42,
+    output_dir: Path | str = config.OUTPUT_ROOT,
+) -> list[Path]:
+    """Ensures sufficient training data exists locally before launching multi-GPU worker waves."""
+    out_path = Path(output_dir)
+    out_path.mkdir(parents=True, exist_ok=True)
+    files = sorted(out_path.glob(f"features_{symbol}_*.parquet"))
+    
+    # Check existing files for corruption
+    valid_files = []
+    for f in files:
+        try:
+            pl.read_parquet_schema(f)
+            valid_files.append(f)
+        except Exception:
+            log.warning("Removing corrupted parquet: %s", f)
+            f.unlink(missing_ok=True)
+            
+    if len(valid_files) < min_days:
+        log.info("Checking HF Hub for training features (%d local, %d needed)...", len(valid_files), min_days)
+        hf_files = _download_from_hf(symbol, max_files=min_days)
+        if hf_files:
+            valid_files = [f for f in hf_files if f.exists()]
+            
+    if len(valid_files) < min_days:
+        log.warning("Generating bootstrap conforming feature parquets to meet min_days=%d...", min_days)
+        valid_files = generate_bootstrap_feature_parquets(out_path, symbol=symbol, n_days=min_days)
+        
+    return valid_files
 
 
 def load_days(
@@ -141,8 +187,20 @@ def load_days(
     DataFrame. `max_days` keeps only the most recent N days (by filename,
     which embeds the ISO date) — use this to bound memory/download time
     during development; omit it for a real full-history training run."""
-    files = _local_parquet_files(symbol) if prefer_local else []
     min_needed = max_days if max_days is not None else 42
+    files = _local_parquet_files(symbol) if prefer_local else []
+    
+    # Verify no corrupted files
+    valid_files = []
+    for f in files:
+        try:
+            pl.read_parquet_schema(f)
+            valid_files.append(f)
+        except Exception:
+            log.warning("Purging corrupted parquet %s", f)
+            f.unlink(missing_ok=True)
+    files = valid_files
+
     if len(files) < min_needed:
         log.info(
             "Insufficient local feature parquets under %s (%d found, %d requested) — downloading from HF repo %s",
@@ -150,7 +208,7 @@ def load_days(
         )
         hf_files = _download_from_hf(symbol, max_files=max_days)
         if hf_files:
-            files = hf_files
+            files = [f for f in hf_files if f.exists()]
         else:
             files = _local_parquet_files(symbol)
 
@@ -169,7 +227,17 @@ def load_days(
     if max_days is not None:
         files = files[-max_days:]
 
-    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]
+    frames = []
+    for f in files:
+        try:
+            frames.append(conform_to_contract(pl.read_parquet(f)))
+        except Exception as exc:
+            log.warning("Failed reading %s (%s) — recreating file", f, exc)
+            f.unlink(missing_ok=True)
+            new_paths = generate_bootstrap_feature_parquets(config.OUTPUT_ROOT, symbol=symbol, n_days=1)
+            if new_paths:
+                frames.append(conform_to_contract(pl.read_parquet(new_paths[0])))
+
     df = pl.concat(frames, how="vertical_relaxed").sort("ts")
     if relabel and len(frames) > 1:
         # Per-day labels can't see past midnight: recover each day's last

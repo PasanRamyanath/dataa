@@ -24,7 +24,10 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from tests.contracts import MetaLabelerOutput
+try:
+    from contracts_interface import MetaLabelerOutput
+except ImportError:
+    from tests.contracts import MetaLabelerOutput
 
 log = logging.getLogger("continuous_meta_labeler")
 
