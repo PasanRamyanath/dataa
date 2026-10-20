@@ -126,7 +126,7 @@ def main():
     load_hf_token()
     if os.environ.get("SKIP_PIP_INSTALL") != "1":
         install_requirements(code)
-    entrypoint = os.environ.get("KAGGLE_ENTRYPOINT", "streaming.live_stream_glue")
+    entrypoint = os.environ.get("KAGGLE_ENTRYPOINT", "orchestration.kaggle_relay.run_kaggle_session")
     log(f"launching Kaggle pipeline entrypoint: {entrypoint}")
     rc = subprocess.run([sys.executable, "-m"] + entrypoint.split(), cwd=str(code)).returncode
     log(f"session exited with code {rc}")
@@ -143,7 +143,7 @@ def iter_code_files(root: Path = REPO_ROOT):
         rel = path.relative_to(root)
         if not path.is_file() or path.suffix not in CODE_SUFFIXES or path.name in EXCLUDED_FILES:
             continue
-        if any(part in EXCLUDED_DIRS or part.startswith("kaggle_") or part.startswith("test") for part in rel.parts[:-1]):
+        if any(part in EXCLUDED_DIRS or (part.startswith("kaggle_") and part != "kaggle_relay") or part.startswith("test") for part in rel.parts[:-1]):
             continue
         yield path, rel.as_posix()
 

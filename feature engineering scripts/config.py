@@ -103,7 +103,7 @@ HF_DATA_PREFIX = os.environ.get("HF_DATA_PREFIX", "data_v2")
 # push checkpoints + their exact training data snapshot to PRIVATE repos only.
 # --------------------------------------------------------------------------
 HF_MODEL_ORG = os.environ.get("HF_MODEL_ORG", "p-j-r-1-2-3")
-HF_MODEL_REPO_PREFIX = os.environ.get("HF_MODEL_REPO_PREFIX", "Project-IMPJR-Models")  # -> {org}/{prefix}-{member}
+HF_MODEL_REPO_PREFIX = os.environ.get("HF_MODEL_REPO_PREFIX", "Project-IMPJR-v4-Models")  # -> {org}/{prefix}-{member}
 HF_TRAINING_DATA_REPO_ID = os.environ.get(
     "HF_TRAINING_DATA_REPO_ID", f"{HF_MODEL_ORG}/Project-IMPJR-TrainingData"
 )
@@ -378,7 +378,7 @@ if not _loaded_kaggle:
     _raw_kaggle_user = os.environ.get("KAGGLE_USERNAME", "")
     KAGGLE_USERNAME = "malaysiatrip" if (not _raw_kaggle_user or _raw_kaggle_user in ("pjramyanath", "rramyanath", "rimramyanath")) else _raw_kaggle_user
     os.environ["KAGGLE_USERNAME"] = KAGGLE_USERNAME
-KAGGLE_KERNEL_SLUG = os.environ.get("KAGGLE_KERNEL_SLUG", "btcusdt-ensemble-train")
+KAGGLE_KERNEL_SLUG = os.environ.get("KAGGLE_KERNEL_SLUG", "btcusdt-v4-ensemble-train")
 KAGGLE_SESSION_TIME_BUDGET_HOURS = float(os.environ.get("KAGGLE_SESSION_TIME_BUDGET_HOURS", "11.5"))
 # Accelerator for relay pushes: "NvidiaTeslaT4" = Kaggle's 2x T4 VM (plain
 # enable_gpu defaults to a single P100). Set to "" to omit the key.

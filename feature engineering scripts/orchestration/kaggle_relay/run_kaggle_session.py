@@ -95,6 +95,15 @@ def main() -> None:
     force_retrain_env = os.environ.get("FORCE_RETRAIN", "")
     force_retrain = [s.strip() for s in force_retrain_env.split(",") if s.strip()]
     log.info("Session training flags: resume=%s, skip=%s, force_retrain=%s", resume, skip, force_retrain)
+    # Launch Project-IMPJR v4.0 Multi-Horizon Hierarchical Training Wave
+    try:
+        from models_v3 import train_all_multi_horizon
+        log.info("Launching Project-IMPJR v4.0 Multi-Horizon Training Wave across all 4 tiers...")
+        v4_results = train_all_multi_horizon.run(budget=budget, force_retrain=force_retrain)
+        log.info("v4.0 Multi-Horizon Training Wave status: %s", v4_results)
+    except Exception as e:
+        log.exception("v4.0 Multi-Horizon Training encountered error: %s", e)
+
     results = train_all.run(
         val_days=config.VAL_DAYS, max_days=None, upload=True, skip=skip,
         members_only=False, gpus=None, resume=resume, budget=budget, with_news=with_news,
