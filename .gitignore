@@ -11,6 +11,7 @@ feature engineering scripts/scratch/staging_gpu/
 feature engineering scripts/scratch/kaggle_auth_*/
 scratch/live_*.jsonl
 scratch/*.jsonl
+scratch/*.json
 
 # Model weights, checkpoints, and artifacts
 *.safetensors

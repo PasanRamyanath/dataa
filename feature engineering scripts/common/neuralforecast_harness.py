@@ -114,7 +114,24 @@ def supported_exog(model_cls) -> tuple[list[str], list[str]]:
 def build_model(model_cls, h: int, input_size: int, extra_kwargs: dict[str, Any] | None = None):
     import inspect
     hist, futr = supported_exog(model_cls)
-    kwargs = dict(h=h, input_size=input_size, scaler_type="robust")
+    cls_name = getattr(model_cls, "__name__", "")
+    # v4.0 Fix: NHITS has no VSN; feeding 184 sparse exog columns under RobustScaler
+    # causes near-zero IQR division ($54,212 MAE explosion). Use standard scaling and
+    # prune NHITS historical exog to top non-sparse continuous features.
+    scaler_kind = "standard" if cls_name == "NHITS" else "robust"
+    if cls_name == "NHITS" and len(hist) > 15:
+        core_nhits_exog = [
+            c for c in (
+                "log_return_1", "log_return_3", "log_return_6", "realized_vol_15",
+                "realized_vol_90", "vwap_deviation", "order_flow_imbalance_near",
+                "ofi_level_0.2", "ofi_imbalance_decay_slope", "taker_buy_sell_imbalance",
+                "basis_pct", "funding_rate", "open_interest_change_pct",
+                "toptrader_sum_ls_ratio", "taker_ls_vol_ratio",
+            )
+            if c in hist
+        ]
+        hist = core_nhits_exog if core_nhits_exog else hist[:15]
+    kwargs = dict(h=h, input_size=input_size, scaler_type=scaler_kind)
     try:
         sig = inspect.signature(model_cls.__init__)
         if "inference_windows_batch_size" in sig.parameters:

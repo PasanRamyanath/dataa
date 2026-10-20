@@ -211,3 +211,97 @@ def upload_training_data_snapshot(
         )
 
     return HF_TRAINING_DATA_REPO_ID
+
+
+def resolve_hf_token(token: str | None = None) -> str:
+    """Resolves Hugging Face token from explicit arg, env var, or config."""
+    return token or get_hf_token() or os.environ.get("HF_TOKEN", "")
+
+
+def is_member_completed_on_hf(
+    member_name: str,
+    repo_id: str | None = None,
+    token: str | None = None,
+    api: HfApi | None = None,
+) -> bool:
+    """Checks if a member has a completed metrics.json uploaded to HF."""
+    target_repo = repo_id or model_repo_id(member_name)
+    api = api or HfApi(token=resolve_hf_token(token))
+    try:
+        files = api.list_repo_files(repo_id=target_repo, repo_type="model")
+        return (
+            "metrics.json" in files
+            or f"models/{member_name}/metrics.json" in files
+            or f"{member_name}/metrics.json" in files
+        )
+    except Exception:
+        return False
+
+
+def upload_member_checkpoint(
+    member_name: str,
+    output_root: str | Path,
+    repo_id: str | None = None,
+    token: str | None = None,
+    api: HfApi | None = None,
+) -> str:
+    """Uploads checkpoint directory and artifacts for member_name to HF Hub."""
+    output_path = Path(output_root)
+    member_dir = output_path / member_name
+    if not member_dir.exists():
+        member_dir = output_path
+    target_repo = repo_id or model_repo_id(member_name)
+    api = api or HfApi(token=resolve_hf_token(token))
+    ensure_private_repo(target_repo, "model", api)
+
+    files_to_upload = [f for f in member_dir.rglob("*") if f.is_file()]
+    # Upload metrics.json last to ensure atomic completion
+    normal_files = [f for f in files_to_upload if f.name != "metrics.json"]
+    metric_files = [f for f in files_to_upload if f.name == "metrics.json"]
+
+    for f in normal_files:
+        rel = f.relative_to(member_dir).as_posix()
+        dest = f"models/{member_name}/{rel}" if repo_id else rel
+        _upload_with_retry(api, f, dest, target_repo, "model", f"Upload {member_name} artifact: {rel}")
+
+    for f in metric_files:
+        rel = f.relative_to(member_dir).as_posix()
+        dest = f"models/{member_name}/{rel}" if repo_id else rel
+        _upload_with_retry(api, f, dest, target_repo, "model", f"Upload {member_name} completion metric: {rel}")
+
+    return target_repo
+
+
+def upload_fusion_artifacts(
+    fusion_name: str,
+    output_root: str | Path,
+    repo_id: str | None = None,
+    token: str | None = None,
+    api: HfApi | None = None,
+) -> str:
+    """Uploads hierarchical fusion artifacts to HF Hub."""
+    return upload_member_checkpoint(fusion_name, output_root, repo_id=repo_id, token=token, api=api)
+
+
+def download_all_completed_members(
+    target_dir: str | Path,
+    repo_id: str | None = None,
+    token: str | None = None,
+    api: HfApi | None = None,
+) -> list[str]:
+    """Downloads all completed members into target_dir."""
+    target_path = Path(target_dir)
+    target_path.mkdir(parents=True, exist_ok=True)
+    api = api or HfApi(token=resolve_hf_token(token))
+    completed = []
+    if repo_id:
+        try:
+            files = api.list_repo_files(repo_id=repo_id, repo_type="model")
+            for f in files:
+                if f.endswith("metrics.json"):
+                    parts = f.split("/")
+                    member = parts[1] if len(parts) >= 2 and parts[0] == "models" else parts[0]
+                    completed.append(member)
+        except Exception:
+            pass
+    return completed

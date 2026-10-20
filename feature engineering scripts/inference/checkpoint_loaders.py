@@ -307,6 +307,11 @@ class _SsmChallengerPredictor:
         self._logit_history: list[np.ndarray] = []
         self._ret_history: list[float] = []
 
+    def to(self, device: str) -> "_SsmChallengerPredictor":
+        self.device = str(device)
+        self.model.to(self.device)
+        return self
+
     def window(self, recent_df: pl.DataFrame) -> np.ndarray | None:
         """(1, lookback, n_features) input exactly as training built it:
         the checkpoint's own column list and train-window standardization."""
@@ -408,7 +413,27 @@ class _NeuralForecastPredictor:
     def __init__(self, name: str, nf):
         self.name = name
         self.nf = nf
+        self.device = "cuda:0"
         self._traj_history: list[float] = []
+
+    def to(self, device: str) -> "_NeuralForecastPredictor":
+        self.device = str(device)
+        if hasattr(self.nf, "models"):
+            for m in self.nf.models:
+                if hasattr(m, "to"):
+                    try:
+                        m.to(self.device)
+                    except Exception:
+                        pass
+                if hasattr(m, "trainer_kwargs") and isinstance(m.trainer_kwargs, dict):
+                    if str(device).startswith("cuda"):
+                        idx = int(str(device).split(":")[1]) if ":" in str(device) else 0
+                        m.trainer_kwargs["accelerator"] = "gpu"
+                        m.trainer_kwargs["devices"] = [idx]
+                    else:
+                        m.trainer_kwargs["accelerator"] = "cpu"
+                        m.trainer_kwargs["devices"] = 1
+        return self
 
     @staticmethod
     def future_frame(recent_df: pl.DataFrame, h: int, futr_cols: list[str]):
@@ -537,7 +562,17 @@ class _KronosPredictor:
 
     def __init__(self, predictor):
         self.predictor = predictor
+        self.device = getattr(predictor, "device", "cuda:1")
         self._traj_history: list[float] = []
+
+    def to(self, device: str) -> "_KronosPredictor":
+        self.device = str(device)
+        if hasattr(self.predictor, "model") and hasattr(self.predictor.model, "to"):
+            self.predictor.model.to(self.device)
+        if hasattr(self.predictor, "tokenizer") and hasattr(self.predictor.tokenizer, "to"):
+            self.predictor.tokenizer.to(self.device)
+        self.predictor.device = self.device
+        return self
 
     def predict(self, recent_df: pl.DataFrame) -> np.ndarray | None:
         if recent_df.height < 1:
