@@ -132,6 +132,7 @@ def train_stage5_fusion(output_root: Path, model_repo_id: str, hf_token: str | N
         
         calibrator = SymmetricODIRDirichletCalibrator()
         stacker = SupervisedMultiHorizonOOFStacker()
+        stacker.save(fusion_dir)
         
         metrics_path = fusion_dir / "metrics.json"
         metrics_path.write_text(json.dumps({
@@ -195,6 +196,7 @@ def run(
             output_root=output_root,
             model_repo_id=target_repo,
             hf_token=hf_token,
+            force_retrain=force_retrain,
         )
         results[tier] = "completed" if ok else "yielded"
         if not ok or budget.should_stop():

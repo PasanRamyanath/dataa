@@ -110,19 +110,17 @@ HF_TRAINING_DATA_REPO_ID = os.environ.get(
 
 
 def get_hf_token() -> str:
-    token = os.environ.get("HF_TOKEN", "")
-    if not token:
-        import platform
-        if platform.system() == "Windows":
-            import winreg
-            try:
-                with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Environment") as key:
-                    token, _ = winreg.QueryValueEx(key, "HF_TOKEN")
-            except OSError:
-                pass
-    if not token:
-        token = os.environ.get("HF_TOKEN", "")
-    return token
+    import platform
+    if platform.system() == "Windows":
+        import winreg
+        try:
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Environment") as key:
+                token, _ = winreg.QueryValueEx(key, "HF_TOKEN")
+                if token:
+                    return token
+        except OSError:
+            pass
+    return os.environ.get("HF_TOKEN", "")
 
 
 # --------------------------------------------------------------------------

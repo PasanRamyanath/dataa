@@ -19,6 +19,7 @@ missing day upstream would otherwise silently look like a normal 10s step.
 from __future__ import annotations
 
 import logging
+import os
 from pathlib import Path
 
 import numpy as np

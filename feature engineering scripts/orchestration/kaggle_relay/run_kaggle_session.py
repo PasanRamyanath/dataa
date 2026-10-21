@@ -92,7 +92,7 @@ def main() -> None:
               config.KAGGLE_SESSION_TIME_BUDGET_HOURS, budget.safety_margin_seconds, with_news, train_all._cuda_count())
     skip = [s for s in os.environ.get("TRAIN_SKIP", "").split(",") if s]
     resume = os.environ.get("TRAIN_RESUME", "1").lower() not in ("0", "false", "no")
-    force_retrain_env = os.environ.get("FORCE_RETRAIN", "")
+    force_retrain_env = os.environ.get("FORCE_RETRAIN", "all")
     force_retrain = [s.strip() for s in force_retrain_env.split(",") if s.strip()]
     log.info("Session training flags: resume=%s, skip=%s, force_retrain=%s", resume, skip, force_retrain)
     # Ensure contracts and interfaces are registered in sys.modules
@@ -127,15 +127,18 @@ def main() -> None:
     if failed:
         log.error("Failed stages this session: %s", failed)
     
-    # Launch Live Streaming Prediction Engine with Dual T4 GPUs on Kaggle
-    log.info("=" * 70)
-    log.info("STARTING LIVE PREDICTION & STREAMING ENGINE ON KAGGLE DUAL-T4 VM")
-    log.info("=" * 70)
-    try:
-        from streaming import live_stream_glue
-        live_stream_glue.main()
-    except Exception:
-        log.exception("Live streaming loop exited")
+    # Launch Live Streaming Prediction Engine if requested
+    if os.environ.get("RUN_STREAMING", "0") == "1":
+        log.info("=" * 70)
+        log.info("STARTING LIVE PREDICTION & STREAMING ENGINE ON KAGGLE DUAL-T4 VM")
+        log.info("=" * 70)
+        try:
+            from streaming import live_stream_glue
+            live_stream_glue.main()
+        except Exception:
+            log.exception("Live streaming loop exited")
+    else:
+        log.info("All training waves successfully completed. Finalizing session cleanly.")
 
 
 if __name__ == "__main__":

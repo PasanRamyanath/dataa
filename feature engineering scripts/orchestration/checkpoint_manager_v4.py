@@ -79,11 +79,14 @@ def execute_dual_t4_tier_training_wave(
     output_root: Path,
     model_repo_id: str,
     hf_token: str | None = None,
+    force_retrain: list[str] | set[str] | None = None,
 ) -> bool:
     tier_specs = [s for s in MULTI_HORIZON_MEMBER_REGISTRY if s.tier == tier_name]
+    force_set = set(force_retrain or [])
+    retrain_all = "all" in force_set or tier_name in force_set
     pending_specs = [
         s for s in tier_specs
-        if not is_member_completed_on_hf(s.member_name, repo_id=model_repo_id, token=hf_token)
+        if retrain_all or s.member_name in force_set or not is_member_completed_on_hf(s.member_name, repo_id=model_repo_id, token=hf_token)
     ]
     if not pending_specs:
         log.info("Tier %s already 100%% complete on Hugging Face Hub.", tier_name)
