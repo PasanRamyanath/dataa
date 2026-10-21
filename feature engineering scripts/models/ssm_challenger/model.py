@@ -51,10 +51,10 @@ class _ParallelS6Block(nn.Module):
         return self.norm(x + self.s6(x))
 
 
-def _make_ssm_block(d_model: int, legacy_gru: bool = True) -> nn.Module:
+def _make_ssm_block(d_model: int, legacy_gru: bool = False) -> nn.Module:
     if HAVE_MAMBA_SSM and not legacy_gru:
         return _MambaBlock(d_model=d_model, d_state=16, d_conv=4, expand=2)
-    if legacy_gru or not HAVE_MAMBA_SSM:
+    if legacy_gru:
         return _GRUFallbackBlock(d_model)
     return _ParallelS6Block(d_model)
 
@@ -67,7 +67,7 @@ class SSMChallenger(nn.Module):
         n_layers: int = 4,
         n_classes: int = 3,
         dropout: float = 0.1,
-        legacy_gru: bool = True,
+        legacy_gru: bool = False,
     ):
         super().__init__()
         self.n_features = n_features

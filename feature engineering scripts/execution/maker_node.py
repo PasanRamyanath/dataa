@@ -16,14 +16,40 @@ from pathlib import Path
 import sys
 from typing import Literal
 import numpy as np
-import polars as pl
+try:
+    import polars as pl
+except ImportError:
+    pl = None
 
 # Ensure contracts are importable
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from tests.contracts import MakerOrderIntent, ExecutionSimulationEvent
+try:
+    from tests.contracts import MakerOrderIntent, ExecutionSimulationEvent
+except Exception:
+    from dataclasses import dataclass as _dc
+    from typing import Literal as _Lit
+
+    @_dc
+    class MakerOrderIntent:
+        timestamp_ms: int
+        symbol: str
+        side: _Lit["BUY", "SELL"]
+        price: float
+        quantity: float
+        time_in_force: _Lit["GTX"] = "GTX"
+        post_only: bool = True
+
+    @_dc
+    class ExecutionSimulationEvent:
+        order_id: str
+        status: _Lit["POSTED", "REPRICED", "FILLED_MAKER", "REJECTED_WOULD_CROSS", "CANCELLED_TIMEOUT", "ABORTED_TOXICITY"]
+        fill_price: float | None
+        maker_rebate_bps: float
+        taker_fee_bps: float = 0.0
+        queue_wait_ms: int = 0
 
 log = logging.getLogger("maker_node")
 
