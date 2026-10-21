@@ -205,6 +205,28 @@ class HierarchicalSniperExecutionEngine:
         if qty <= 0:
             qty = 0.001
 
+        if decision.execution_mode == "URGENT_HYBRID":
+            ep = bbo_ask if side == "BUY" else bbo_bid
+            tp_bps = decision.take_profit_bps
+            sl_bps = decision.stop_loss_bps
+            tp_p = ep * (1.0 + tp_bps * 1e-4) if side == "BUY" else ep * (1.0 - tp_bps * 1e-4)
+            sl_p = ep * (1.0 - sl_bps * 1e-4) if side == "BUY" else ep * (1.0 + sl_bps * 1e-4)
+            self.active_position = ActiveSwingPosition(
+                symbol=self.symbol,
+                side=side,
+                entry_price=ep,
+                quantity=qty,
+                entry_ts_ms=now_ms,
+                target_holding_seconds=decision.target_holding_seconds,
+                take_profit_bps=tp_bps,
+                stop_loss_bps=sl_bps,
+                tp_price=tp_p,
+                sl_price=sl_p,
+                maker_entry_fee_bps=self.taker_fee_leg,
+            )
+            self.state = "FILLED_SWING_HOLDING"
+            return
+
         self.resting_entry_side = side
         self.resting_entry_price = limit_price
         self.resting_entry_qty = qty
@@ -292,6 +314,33 @@ class HierarchicalSniperExecutionEngine:
                 )
                 self.state = "FILLED_SWING_HOLDING"
                 return self.state
+
+            # If resting limit order was placed, but market price ran away upward (for BUY) or downward (for SELL)
+            # and expected edge is extremely large (>= 25 bps), upgrade to URGENT_HYBRID to fill immediately!
+            if (ts_ms - self.resting_entry_ts_ms) >= 15000:
+                if self.stalking_decision and self.stalking_decision.expected_net_edge_bps >= 25.0:
+                    exec_p = bbo_ask if self.resting_entry_side == "BUY" else bbo_bid
+                    tp_bps = self.stalking_decision.take_profit_bps
+                    sl_bps = self.stalking_decision.stop_loss_bps
+                    tp_p = exec_p * (1.0 + tp_bps * 1e-4) if self.resting_entry_side == "BUY" else exec_p * (1.0 - tp_bps * 1e-4)
+                    sl_p = exec_p * (1.0 - sl_bps * 1e-4) if self.resting_entry_side == "BUY" else exec_p * (1.0 + sl_bps * 1e-4)
+                    self.active_position = ActiveSwingPosition(
+                        symbol=self.symbol,
+                        side=self.resting_entry_side,
+                        entry_price=exec_p,
+                        quantity=self.resting_entry_qty,
+                        entry_ts_ms=ts_ms,
+                        target_holding_seconds=self.stalking_decision.target_holding_seconds,
+                        take_profit_bps=tp_bps,
+                        stop_loss_bps=sl_bps,
+                        tp_price=tp_p,
+                        sl_price=sl_p,
+                        maker_entry_fee_bps=self.taker_fee_leg,
+                    )
+                    self.queue_tracker = None
+                    self.adverse_guard = None
+                    self.state = "FILLED_SWING_HOLDING"
+                    return self.state
 
             # Re-peg / timeout if resting in queue > max_queue_resting_ms without filling
             if (ts_ms - self.resting_entry_ts_ms) > self.max_queue_resting_ms:

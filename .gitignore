@@ -31,3 +31,7 @@ feature engineering scripts/fusion/checkpoints/
 feature engineering scripts/models/**/checkpoints/
 feature engineering scripts/models/**/pretrained/
 feature engineering scripts/fusion/oof/
+
+# Local scratch & testing
+scratch/
+models_v4_test/

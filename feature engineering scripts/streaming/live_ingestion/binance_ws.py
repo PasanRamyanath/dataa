@@ -25,12 +25,7 @@ BINANCE_FUTURES_UNIFIED_WS_URL = (
     "btcusdt@bookTicker/btcusdt@depth20@100ms/"
     "ethusdt@aggTrade/ethusdt@bookTicker"
 )
-BINANCE_FUTURES_FALLBACK_WS_URL = (
-    "wss://fstream-auth.binance.com/stream?streams="
-    "btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/"
-    "btcusdt@bookTicker/btcusdt@depth20@100ms/"
-    "ethusdt@aggTrade/ethusdt@bookTicker"
-)
+BINANCE_FUTURES_FALLBACK_WS_URL = BINANCE_FUTURES_UNIFIED_WS_URL
 # Retain aliases for backward compatibility
 BINANCE_FUTURES_WS_URL = BINANCE_FUTURES_UNIFIED_WS_URL
 BINANCE_FUTURES_PUBLIC_WS_URL = BINANCE_FUTURES_UNIFIED_WS_URL
@@ -441,6 +436,8 @@ class BinanceLiveIngestor:
                 asks = data.get("a") or data.get("asks", [])
                 bids_depth = sum(float(b[1]) for b in bids)
                 asks_depth = sum(float(a[1]) for a in asks)
+                if bids: self.latest_bbo_bid_qty = float(bids[0][1])
+                if asks: self.latest_bbo_ask_qty = float(asks[0][1])
 
                 # Always maintain latest state for execution and recovery
                 self.latest_bids = bids
@@ -505,6 +502,10 @@ class BinanceLiveIngestor:
                     self.last_bbo_update_ts = event_ts
                     self.latest_best_bid = b
                     self.latest_best_ask = a
+                    b_qty = float(data.get("B", 0.0) or 0.0)
+                    a_qty = float(data.get("A", 0.0) or 0.0)
+                    if b_qty > 0: self.latest_bbo_bid_qty = b_qty
+                    if a_qty > 0: self.latest_bbo_ask_qty = a_qty
                     self.bar_data["best_bid"] = b
                     self.bar_data["best_ask"] = a
                     if not is_in_freeze:
@@ -630,6 +631,8 @@ class BinanceLiveIngestor:
             "asks_depth": float(self.bar_data["asks_depth"]),
             "best_bid": best_bid_cutoff,
             "best_ask": best_ask_cutoff,
+            "bbo_bid_qty": float(getattr(self, "latest_bbo_bid_qty", 1.0)),
+            "bbo_ask_qty": float(getattr(self, "latest_bbo_ask_qty", 1.0)),
             "latest_best_bid": float(self.latest_best_bid or prices[-1]),
             "latest_best_ask": float(self.latest_best_ask or prices[-1]),
             # ETH cross-asset

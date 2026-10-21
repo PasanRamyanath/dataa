@@ -312,8 +312,18 @@ def ensure_pretrained_checkpoints() -> tuple[Path, Path]:
     from huggingface_hub import snapshot_download
 
     PRETRAINED_DIR.mkdir(parents=True, exist_ok=True)
-    tokenizer_path = Path(snapshot_download(repo_id=TOKENIZER_REPO_ID, local_dir=str(PRETRAINED_DIR / "Kronos-Tokenizer-base")))
-    predictor_path = Path(snapshot_download(repo_id=PREDICTOR_REPO_ID, local_dir=str(PRETRAINED_DIR / "Kronos-base")))
+    token = config.get_hf_token() or None
+    try:
+        tokenizer_path = Path(snapshot_download(repo_id=TOKENIZER_REPO_ID, local_dir=str(PRETRAINED_DIR / "Kronos-Tokenizer-base"), token=token))
+    except Exception as e:
+        log.warning("snapshot_download with token failed for %s, falling back to anonymous: %s", TOKENIZER_REPO_ID, e)
+        tokenizer_path = Path(snapshot_download(repo_id=TOKENIZER_REPO_ID, local_dir=str(PRETRAINED_DIR / "Kronos-Tokenizer-base"), token=False))
+
+    try:
+        predictor_path = Path(snapshot_download(repo_id=PREDICTOR_REPO_ID, local_dir=str(PRETRAINED_DIR / "Kronos-base"), token=token))
+    except Exception as e:
+        log.warning("snapshot_download with token failed for %s, falling back to anonymous: %s", PREDICTOR_REPO_ID, e)
+        predictor_path = Path(snapshot_download(repo_id=PREDICTOR_REPO_ID, local_dir=str(PRETRAINED_DIR / "Kronos-base"), token=False))
     return tokenizer_path, predictor_path
 
 

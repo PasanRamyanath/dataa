@@ -284,11 +284,20 @@ def run(val_days: int, max_days: int | None, lookback: int, stride: int, epochs:
     save_oof(MEMBER_NAME, ts_val, val_proba)
 
     if upload:
-        from common.hf_model_upload import upload_best_checkpoint, upload_training_data_snapshot
+        from common.hf_model_upload import upload_best_checkpoint, upload_training_data_snapshot, _upload_with_retry, get_api
 
         repo_id = upload_best_checkpoint(MEMBER_NAME, [model_path, CHECKPOINT_DIR / "metrics.json"], metrics=metrics)
         data_repo_id = upload_training_data_snapshot(MEMBER_NAME, [training_data_path])
         log.info("Uploaded checkpoint to %s and training data to %s", repo_id, data_repo_id)
+
+        try:
+            api = get_api()
+            tier2_repo = f"{config.HF_MODEL_ORG}/{config.HF_MODEL_REPO_PREFIX}-tier2_tactical"
+            _upload_with_retry(api, model_path, "models/tier2-mamba-s6/ssm_challenger.pt", tier2_repo, "model", "Update retrained SSM Challenger checkpoint")
+            _upload_with_retry(api, CHECKPOINT_DIR / "metrics.json", "models/tier2-mamba-s6/metrics.json", tier2_repo, "model", "Update retrained SSM Challenger metrics")
+            log.info("Successfully uploaded dual checkpoint to %s", tier2_repo)
+        except Exception:
+            log.exception("Dual upload to tier2_tactical failed")
 
     return metrics
 

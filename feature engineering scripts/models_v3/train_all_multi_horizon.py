@@ -68,11 +68,16 @@ def get_member_runner(spec: MultiHorizonMemberSpec, output_root: Path):
         }
         
         entry = mod_map.get(spec.member_name)
+        success = False
         if entry:
             mod_name, is_gpu = entry
-            cmd = [sys.executable, "-m", mod_name, "--upload"]
+            # 6 months (180 days) for micro, tactical, and meso models as verified
+            max_days_arg = str(os.environ.get("MEMBER_MAX_DAYS", "180"))
+            cmd = [sys.executable, "-m", mod_name, "--upload", "--max-days", max_days_arg]
             if is_gpu and device_str.startswith("cuda"):
                 cmd += ["--gpus", "1"]
+            if "kronos" in spec.member_name:
+                cmd += ["--max-samples", "32000", "--basemodel-epochs", "1"]
             env = dict(os.environ)
             if device_str.startswith("cuda:"):
                 cuda_idx = device_str.split(":")[1]
@@ -80,16 +85,25 @@ def get_member_runner(spec: MultiHorizonMemberSpec, output_root: Path):
             
             p = subprocess.run(cmd, cwd=str(REPO_ROOT), env=env)
             if p.returncode != 0:
-                log.warning("Subprocess %s returned non-zero code %d. Ensuring fallback metrics.", mod_name, p.returncode)
+                log.warning("Subprocess %s returned non-zero code %d.", mod_name, p.returncode)
+            else:
+                success = True
+                # Copy real checkpoint artifacts into member_dir
+                import shutil
+                mod_pkg = mod_name.rsplit(".", 1)[0]
+                chk_dir = REPO_ROOT / mod_pkg.replace(".", "/") / "checkpoints"
+                if chk_dir.exists():
+                    for f in chk_dir.glob("*"):
+                        if f.is_file():
+                            shutil.copy2(f, member_dir / f.name)
         
-        # Ensure minimum completion artifacts exist so the session can resume
         metrics_file = member_dir / "metrics.json"
         if not metrics_file.exists():
             metrics_file.write_text(json.dumps({
                 "member_name": spec.member_name,
                 "tier": spec.tier,
                 "completed_at": time.time(),
-                "status": "completed",
+                "status": "completed" if success else "failed",
             }), encoding="utf-8")
         
         oof_file = oof_dir / f"{spec.member_name}_oof.parquet"
@@ -129,7 +143,7 @@ def train_stage5_fusion(output_root: Path, model_repo_id: str, hf_token: str | N
         }), encoding="utf-8")
         
         upload_fusion_artifacts(
-            fusion_stage_name="fusion-v4-hierarchical",
+            fusion_name="fusion-v4-hierarchical",
             output_root=output_root,
             repo_id=model_repo_id,
             token=hf_token,

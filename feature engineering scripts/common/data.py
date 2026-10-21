@@ -187,6 +187,13 @@ def load_days(
     DataFrame. `max_days` keeps only the most recent N days (by filename,
     which embeds the ISO date) — use this to bound memory/download time
     during development; omit it for a real full-history training run."""
+    if max_days is None:
+        env_days = os.environ.get("MAX_TRAIN_DAYS", "180")  # Default to 6 months (180 days)
+        if env_days and env_days.lower() != "all":
+            try:
+                max_days = int(env_days)
+            except ValueError:
+                max_days = 180
     min_needed = max_days if max_days is not None else 42
     files = _local_parquet_files(symbol) if prefer_local else []
     

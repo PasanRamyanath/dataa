@@ -240,14 +240,28 @@ def is_member_completed_on_hf(
 ) -> bool:
     """Checks if a member has a completed metrics.json uploaded to HF."""
     target_repo = repo_id or model_repo_id(member_name)
-    api = api or HfApi(token=resolve_hf_token(token))
+    tok = resolve_hf_token(token)
+    api = api or HfApi(token=tok)
     try:
         files = api.list_repo_files(repo_id=target_repo, repo_type="model")
-        return (
-            "metrics.json" in files
-            or f"models/{member_name}/metrics.json" in files
-            or f"{member_name}/metrics.json" in files
-        )
+        cand_files = [
+            f for f in (
+                f"models/{member_name}/metrics.json",
+                f"{member_name}/metrics.json",
+                "metrics.json",
+            )
+            if f in files
+        ]
+        if not cand_files:
+            return False
+        
+        from huggingface_hub import hf_hub_download
+        import json
+        p_down = hf_hub_download(repo_id=target_repo, filename=cand_files[0], repo_type="model", token=tok)
+        content_json = json.loads(Path(p_down).read_text(encoding="utf-8"))
+        if content_json.get("status") == "failed":
+            return False
+        return True
     except Exception:
         return False
 
@@ -290,14 +304,16 @@ def upload_member_checkpoint(
 
 
 def upload_fusion_artifacts(
-    fusion_name: str,
-    output_root: str | Path,
+    fusion_name: str = "fusion-v4-hierarchical",
+    output_root: str | Path | None = None,
     repo_id: str | None = None,
     token: str | None = None,
     api: HfApi | None = None,
+    **kwargs,
 ) -> str:
     """Uploads hierarchical fusion artifacts to HF Hub."""
-    return upload_member_checkpoint(fusion_name, output_root, repo_id=repo_id, token=token, api=api)
+    actual_name = kwargs.get("fusion_stage_name") or fusion_name
+    return upload_member_checkpoint(actual_name, output_root, repo_id=repo_id, token=token, api=api)
 
 
 def download_all_completed_members(

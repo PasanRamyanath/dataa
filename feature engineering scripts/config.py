@@ -121,7 +121,7 @@ def get_hf_token() -> str:
             except OSError:
                 pass
     if not token:
-        token = "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"
+        token = os.environ.get("HF_TOKEN", "")
     return token
 
 
