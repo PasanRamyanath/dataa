@@ -35,3 +35,8 @@ feature engineering scripts/fusion/oof/
 # Local scratch & testing
 scratch/
 models_v4_test/
+
+# Bundles and staging
+feature engineering scripts/dist/
+feature engineering scripts/kaggle_push_staging_v4/btcusdt-v4-ensemble-train.py
+scratch/pulled_*
