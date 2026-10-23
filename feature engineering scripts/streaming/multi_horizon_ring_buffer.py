@@ -16,6 +16,7 @@ import urllib.request
 import numpy as np
 import polars as pl
 
+from inference.live_v4_model_registry import LiveMultiHorizonV4ModelRegistry
 from labeling_multi_horizon import apply_fractional_differentiation
 
 log = logging.getLogger("streaming.multi_horizon_ring_buffer")
@@ -48,6 +49,7 @@ class MultiHorizonLiveRingBuffer:
     Maintains causally synchronized ring buffers across all 14 resolutions
     (1s, 10s, 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d) for
     BTCUSDT, ETHUSDT, SOLUSDT, BNBUSDT, plus 5m Open Interest & Positioning metrics.
+    Delegates Tier 4, Tier 3, Tier 2, and Tier 1 predictions to LiveMultiHorizonV4ModelRegistry.
     """
 
     def __init__(self, symbol: str = "BTCUSDT", max_bars_per_tf: int = 600) -> None:
@@ -61,6 +63,9 @@ class MultiHorizonLiveRingBuffer:
         }
         self.metrics_5m: deque[dict[str, float]] = deque(maxlen=max_bars_per_tf)
         self.funding_8h: deque[dict[str, float]] = deque(maxlen=max_bars_per_tf)
+
+        # Load the 16-model trained v4 ensemble registry
+        self.model_registry = LiveMultiHorizonV4ModelRegistry()
 
         # Cached tier probability vectors [p_down, p_flat, p_up] updated on native bar closes
         self.cached_macro_probs = np.array([0.25, 0.50, 0.25], dtype=np.float64)
@@ -136,7 +141,7 @@ class MultiHorizonLiveRingBuffer:
                 loaded += 1
             counts[tf] = loaded
 
-        # Refresh Macro, Meso, and Tactical cached probabilities immediately
+        # Refresh Macro, Meso, and Tactical cached probabilities immediately via trained models
         self.recompute_tier4_macro_state()
         self.recompute_tier3_meso_state()
         self.recompute_tier2_tactical_state()
@@ -168,6 +173,19 @@ class MultiHorizonLiveRingBuffer:
             "taker_buy_volume": buy_v,
             "taker_sell_volume": sell_v,
             "taker_imb": tb_imb,
+            "best_bid": float(bar.get("best_bid", c_p)),
+            "best_ask": float(bar.get("best_ask", c_p)),
+            "bids_depth": float(bar.get("bids_depth", bar.get("bbo_bid_qty", 1.0))),
+            "asks_depth": float(bar.get("asks_depth", bar.get("bbo_ask_qty", 1.0))),
+            "depth_metrics": bar.get("depth_metrics", {}) if isinstance(bar.get("depth_metrics"), dict) else {},
+            "funding_rate": float(bar.get("funding_rate", 0.0001)),
+            "open_interest": float(bar.get("open_interest", 0.0)),
+            "basis_pct": float(bar.get("basis_pct", 0.0)),
+            "toptrader_sum_ls_ratio": float(bar.get("toptrader_sum_ls_ratio", 1.0)),
+            "toptrader_count_ls_ratio": float(bar.get("toptrader_count_ls_ratio", 1.0)),
+            "all_account_ls_ratio": float(bar.get("all_account_ls_ratio", 1.0)),
+            "taker_ls_vol_ratio": float(bar.get("taker_ls_vol_ratio", 1.0)),
+            "eth_imbalance": float(bar.get("eth_imbalance", 0.0)),
         }
         self.klines_um["10s"].append(bar_10s)
         self.last_closed_ts_ms["10s"] = now_ms
@@ -201,8 +219,9 @@ class MultiHorizonLiveRingBuffer:
                 events["1m"] = True
                 self._pending_10s_for_1m.clear()
 
-                # Recompute tactical on 1m close
+                # Recompute tactical and meso state on 1m close so V-reversals update immediately
                 self.recompute_tier2_tactical_state()
+                self.recompute_tier3_meso_state()
 
                 # Check 3m boundary
                 bucket_3m = (now_ms // 180000) * 180000
@@ -290,6 +309,9 @@ class MultiHorizonLiveRingBuffer:
             self._current_1m_bucket = bucket_1m
 
         self._pending_10s_for_1m.append(bar_10s)
+        self.recompute_tier2_tactical_state()
+        self.recompute_tier3_meso_state()
+        self.recompute_tier4_macro_state()
         return events
 
     def sync_recent_klines_rest(
@@ -354,82 +376,27 @@ class MultiHorizonLiveRingBuffer:
 
     def recompute_tier4_macro_state(self) -> np.ndarray:
         """
-        Computes Tier 4 Macro probability simplex [p_down, p_flat, p_up] across
-        4h, 6h, 8h, 12h, and 1d closed bars using FFD (d=0.28) trend + Taker CVD slope.
+        Computes Tier 4 Macro probability simplex [p_down, p_flat, p_up] using
+        trained Tier 4 models (HMM Regime, PatchTST-FFD, TFT-Funding, Kronos-Macro)
+        blended with multi-timeframe FFD (d=0.28) across 4h, 6h, 8h, 12h, and 1d.
         """
-        scores = []
-        weights = {"4h": 0.30, "6h": 0.15, "8h": 0.25, "12h": 0.15, "1d": 0.15}
-        for tf, w in weights.items():
-            buf = self.klines_um.get(tf)
-            if not buf or len(buf) < 25:
-                continue
-            closes = np.array([b["close"] for b in buf], dtype=np.float64)
-            imbs = np.array([b["taker_imb"] for b in buf], dtype=np.float64)
-            log_c = np.log(np.maximum(closes, 1e-8))
-            ffd = apply_fractional_differentiation(log_c, d=0.28, threshold=1e-3)
-            ffd_z = (ffd[-1] - np.mean(ffd[-20:])) / (np.std(ffd[-20:]) + 1e-8)
-            ret_5 = (log_c[-1] - log_c[-6]) / (np.std(np.diff(log_c[-21:])) * math.sqrt(5.0) + 1e-8)
-            cvd_z = np.mean(imbs[-5:])
-            tf_score = np.tanh(0.45 * ffd_z + 0.35 * ret_5 + 0.20 * (cvd_z * 3.0))
-            scores.append(w * tf_score)
-
-        net_macro = float(np.sum(scores)) if scores else 0.0
-        p_flat = float(np.clip(0.45 * (1.0 - abs(net_macro)), 0.10, 0.55))
-        rem = 1.0 - p_flat
-        p_up_cond = 1.0 / (1.0 + math.exp(-3.2 * net_macro))
-        self.cached_macro_probs = np.array([rem * (1.0 - p_up_cond), p_flat, rem * p_up_cond], dtype=np.float64)
+        self.cached_macro_probs = self.model_registry.predict_tier4_macro(self.klines_um)
         return self.cached_macro_probs
 
     def recompute_tier3_meso_state(self) -> np.ndarray:
         """
-        Computes Tier 3 Meso Swing probability simplex [p_down, p_flat, p_up] across
-        15m, 30m, 1h, and 2h closed bars using FFD (d=0.35) + OI/Taker flow impulse.
+        Computes Tier 3 Meso Swing probability simplex [p_down, p_flat, p_up] using
+        trained Tier 3 models (iTransformer-32, N-HiTS, Kronos-Meso, LGBM-Positioning)
+        across 15m, 30m, 1h, and 2h + 1m/5m flow impulse.
         """
-        scores = []
-        weights = {"15m": 0.35, "30m": 0.25, "1h": 0.25, "2h": 0.15}
-        for tf, w in weights.items():
-            buf = self.klines_um.get(tf)
-            if not buf or len(buf) < 25:
-                continue
-            closes = np.array([b["close"] for b in buf], dtype=np.float64)
-            imbs = np.array([b["taker_imb"] for b in buf], dtype=np.float64)
-            log_c = np.log(np.maximum(closes, 1e-8))
-            ffd = apply_fractional_differentiation(log_c, d=0.35, threshold=1e-3)
-            ffd_z = (ffd[-1] - np.mean(ffd[-20:])) / (np.std(ffd[-20:]) + 1e-8)
-            ret_4 = (log_c[-1] - log_c[-5]) / (np.std(np.diff(log_c[-21:])) * 2.0 + 1e-8)
-            flow_z = np.mean(imbs[-4:]) * 3.5
-            tf_score = np.tanh(0.40 * ffd_z + 0.35 * ret_4 + 0.25 * flow_z)
-            scores.append(w * tf_score)
-
-        net_meso = float(np.sum(scores)) if scores else 0.0
-        p_flat = float(np.clip(0.42 * (1.0 - abs(net_meso)), 0.08, 0.52))
-        rem = 1.0 - p_flat
-        p_up_cond = 1.0 / (1.0 + math.exp(-3.5 * net_meso))
-        self.cached_meso_probs = np.array([rem * (1.0 - p_up_cond), p_flat, rem * p_up_cond], dtype=np.float64)
+        self.cached_meso_probs = self.model_registry.predict_tier3_meso(self.klines_um)
         return self.cached_meso_probs
 
     def recompute_tier2_tactical_state(self) -> np.ndarray:
         """
-        Computes Tier 2 Tactical probability simplex [p_down, p_flat, p_up] across
-        1m, 3m, and 5m closed bars (momentum + pullback completion detection).
+        Computes Tier 2 Tactical probability simplex [p_down, p_flat, p_up] using
+        trained Tier 2 models (Mamba-S6, LGBM-Bookdepth, CrossAsset-GAT, CryptoBERT-News)
+        across 1m, 3m, and 5m bars.
         """
-        scores = []
-        weights = {"1m": 0.35, "3m": 0.35, "5m": 0.30}
-        for tf, w in weights.items():
-            buf = self.klines_um.get(tf)
-            if not buf or len(buf) < 20:
-                continue
-            closes = np.array([b["close"] for b in buf], dtype=np.float64)
-            imbs = np.array([b["taker_imb"] for b in buf], dtype=np.float64)
-            log_c = np.log(np.maximum(closes, 1e-8))
-            ret_3 = (log_c[-1] - log_c[-4]) / (np.std(np.diff(log_c[-20:])) * math.sqrt(3.0) + 1e-8)
-            flow_3 = np.mean(imbs[-3:]) * 3.0
-            tf_score = np.tanh(0.55 * ret_3 + 0.45 * flow_3)
-            scores.append(w * tf_score)
-
-        net_tact = float(np.sum(scores)) if scores else 0.0
-        p_flat = float(np.clip(0.40 * (1.0 - abs(net_tact)), 0.08, 0.50))
-        rem = 1.0 - p_flat
-        p_up_cond = 1.0 / (1.0 + math.exp(-3.5 * net_tact))
-        self.cached_tactical_probs = np.array([rem * (1.0 - p_up_cond), p_flat, rem * p_up_cond], dtype=np.float64)
+        self.cached_tactical_probs = self.model_registry.predict_tier2_tactical(self.klines_um)
         return self.cached_tactical_probs

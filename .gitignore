@@ -24,6 +24,8 @@ scratch/*.json
 *.h5
 *.parquet
 *.feather
+*.joblib
+*.ubj
 checkpoints/
 **/checkpoints/
 **/pretrained/

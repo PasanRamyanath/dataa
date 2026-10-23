@@ -64,7 +64,7 @@ def triple_barrier_labels(
     )
     sigma = np.nan_to_num(sigma, nan=np.nanmedian(sigma[~np.isnan(sigma)]) if np.any(~np.isnan(sigma)) else 0.0)
 
-    barrier_width = np.sqrt(max_hold) * sigma
+    barrier_width = np.maximum(0.00045, np.sqrt(max_hold) * sigma)
     pt_level = close * (1 + pt_mult * barrier_width)
     sl_level = close * (1 - sl_mult * barrier_width)
 
@@ -102,12 +102,14 @@ def triple_barrier_labels(
         )
         barrier_type[:usable] = np.where(pt_first, "profit_take", np.where(sl_first, "stop_loss", "time"))
 
-        # Time-barrier outcomes get their direction from the sign of the
-        # realized return at the max_hold mark instead of a flat 0.
+        # Time-barrier outcomes stay 0 (FLAT) unless the realized return at max_hold
+        # clears the fee-floored deadband (new_plan.md §6.1).
         time_close = close[max_hold : max_hold + usable]
-        time_ret = time_close - close[:usable]
-        # A same-bar tie that closed exactly at entry stays a flat 0.
-        label[:usable] = np.where(neither & ~tie, np.sign(time_ret).astype(np.int8), label[:usable])
+        time_ret = (time_close - close[:usable]) / np.maximum(close[:usable], 1e-8)
+        time_dir = np.where(
+            time_ret > barrier_width[:usable], 1, np.where(time_ret < -barrier_width[:usable], -1, 0)
+        ).astype(np.int8)
+        label[:usable] = np.where(neither & ~tie, time_dir, label[:usable])
 
     label[usable:] = 0
     barrier_type[usable:] = "insufficient_forward_data"

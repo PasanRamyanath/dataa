@@ -283,7 +283,7 @@ def upload_member_checkpoint(
         api = api or HfApi(token=resolve_hf_token(token))
         ensure_private_repo(target_repo, "model", api)
 
-        files_to_upload = [f for f in member_dir.rglob("*") if f.is_file()]
+        files_to_upload = [f for f in member_dir.rglob("*") if f.is_file() and f.name != "training_data_snapshot.parquet"]
         # Upload metrics.json last to ensure atomic completion
         normal_files = [f for f in files_to_upload if f.name != "metrics.json"]
         metric_files = [f for f in files_to_upload if f.name == "metrics.json"]

@@ -125,7 +125,10 @@ def main():
     os.environ["PROJECT_ROOT"] = str(root)
     os.environ["PYTHONPATH"] = str(code) + os.pathsep + os.environ.get("PYTHONPATH", "")
     os.environ["PYTHONUNBUFFERED"] = "1"
-    os.environ["FORCE_RETRAIN"] = os.environ.get("FORCE_RETRAIN", "all")
+    os.environ["FORCE_RETRAIN"] = os.environ.get(
+        "FORCE_RETRAIN",
+        "tier3-lgbm-positioning,tier2-lgbm-bookdepth,tier1-lgbm-micro-1s10s,tier1-spot1s-leadlag,tier1-queue-hazard,fusion-v4-hierarchical",
+    )
     load_hf_token()
     if os.environ.get("SKIP_PIP_INSTALL") != "1":
         install_requirements(code)

@@ -92,7 +92,10 @@ def main() -> None:
               config.KAGGLE_SESSION_TIME_BUDGET_HOURS, budget.safety_margin_seconds, with_news, train_all._cuda_count())
     skip = [s for s in os.environ.get("TRAIN_SKIP", "").split(",") if s]
     resume = os.environ.get("TRAIN_RESUME", "1").lower() not in ("0", "false", "no")
-    force_retrain_env = os.environ.get("FORCE_RETRAIN", "all")
+    force_retrain_env = os.environ.get(
+        "FORCE_RETRAIN",
+        "tier3-lgbm-positioning,tier2-lgbm-bookdepth,tier1-lgbm-micro-1s10s,tier1-spot1s-leadlag,tier1-queue-hazard,fusion-v4-hierarchical",
+    )
     force_retrain = [s.strip() for s in force_retrain_env.split(",") if s.strip()]
     log.info("Session training flags: resume=%s, skip=%s, force_retrain=%s", resume, skip, force_retrain)
     # Ensure contracts and interfaces are registered in sys.modules
@@ -109,6 +112,7 @@ def main() -> None:
         log.warning("Data pre-initialization warning: %s", e)
 
     # Launch Project-IMPJR v4.0 Multi-Horizon Hierarchical Training Wave
+    v4_results = {}
     try:
         from models_v3 import train_all_multi_horizon
         log.info("Launching Project-IMPJR v4.0 Multi-Horizon Training Wave across all 4 tiers...")
@@ -117,15 +121,16 @@ def main() -> None:
     except Exception as e:
         log.exception("v4.0 Multi-Horizon Training encountered error: %s", e)
 
-    results = train_all.run(
-        val_days=config.VAL_DAYS, max_days=None, upload=True, skip=skip,
-        members_only=False, gpus=None, resume=resume, budget=budget, with_news=with_news,
-        force_retrain=force_retrain,
-    )
-    log.info("Session training verification finished after %.2fh: %s", budget.elapsed_seconds() / 3600, results)
-    failed = [k for k, v in results.items() if v in {"failed", "timeout"}]
-    if failed:
-        log.error("Failed stages this session: %s", failed)
+    if os.environ.get("RUN_LEGACY_V1", "0") == "1" or v4_results.get("fusion-v4") != "completed":
+        results = train_all.run(
+            val_days=config.VAL_DAYS, max_days=None, upload=True, skip=skip,
+            members_only=False, gpus=None, resume=resume, budget=budget, with_news=with_news,
+            force_retrain=force_retrain if "all" in force_retrain else [],
+        )
+        log.info("Session training verification finished after %.2fh: %s", budget.elapsed_seconds() / 3600, results)
+        failed = [k for k, v in results.items() if v in {"failed", "timeout"}]
+        if failed:
+            log.error("Failed stages this session: %s", failed)
     
     # Launch Live Streaming Prediction Engine if requested
     if os.environ.get("RUN_STREAMING", "0") == "1":

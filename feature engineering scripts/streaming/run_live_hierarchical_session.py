@@ -29,6 +29,7 @@ from fusion.hierarchical_fusion_v3 import HierarchicalMultiHorizonFusionEngine
 from execution.hierarchical_sniper_engine import HierarchicalSniperExecutionEngine
 from inference.adaptive_hardware_coordinator import detect_optimal_hardware_topology
 from streaming.live_ingestion.binance_ws import BinanceLiveIngestor
+from streaming.live_ingestion.rest_companion import BinanceRestCompanionPoller
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger("live_session")
@@ -56,7 +57,7 @@ class ForwardAccuracyEvaluator:
     def __init__(self, max_history: int = 1500) -> None:
         self.pending_ticks: deque[dict[str, Any]] = deque(maxlen=max_history)
         self.stats: dict[str, dict[str, int]] = {
-            tf: {"total": 0, "correct_dir": 0, "active_total": 0, "active_correct": 0}
+            tf: {"total": 0, "correct_dir": 0, "active_total": 0, "active_correct": 0, "sign_total": 0, "sign_correct": 0}
             for tf in self.HORIZONS
         }
         self.tier_stats: dict[str, dict[str, int]] = {
@@ -117,6 +118,11 @@ class ForwardAccuracyEvaluator:
                         st["active_total"] += 1
                         if tick["primary_dir"] == actual_dir:
                             st["active_correct"] += 1
+                        if ret_bps != 0.0:
+                            actual_sign = 2 if ret_bps > 0 else 0
+                            st["sign_total"] += 1
+                            if tick["primary_dir"] == actual_sign:
+                                st["sign_correct"] += 1
 
                     # Tier specific evaluations
                     if tf == "15m":
@@ -151,11 +157,15 @@ class ForwardAccuracyEvaluator:
             acc = (st["correct_dir"] / tot * 100.0) if tot > 0 else 0.0
             act_tot = st["active_total"]
             act_prec = (st["active_correct"] / act_tot * 100.0) if act_tot > 0 else 0.0
+            sign_tot = st.get("sign_total", 0)
+            sign_acc = (st.get("sign_correct", 0) / sign_tot * 100.0) if sign_tot > 0 else 0.0
             res[tf] = {
                 "evaluated_samples": tot,
                 "overall_accuracy_pct": round(acc, 2),
                 "active_signals_count": act_tot,
                 "active_precision_pct": round(act_prec, 2),
+                "sign_accuracy_pct": round(sign_acc, 2),
+                "sign_samples": sign_tot,
             }
         tier_res: dict[str, Any] = {}
         for tier, st in self.tier_stats.items():
@@ -169,8 +179,8 @@ class ForwardAccuracyEvaluator:
 class LiveHierarchicalTradingSession:
     """
     Orchestrates the entire live streaming, evaluation, and execution loop:
-    - MultiHorizonLiveRingBuffer (14 resolutions)
-    - HierarchicalMultiHorizonFusionEngine (Multi-gate dynamic barriers)
+    - MultiHorizonLiveRingBuffer (14 resolutions + LiveMultiHorizonV4ModelRegistry)
+    - HierarchicalMultiHorizonFusionEngine (Multi-gate dynamic barriers + Stage-5 Stacker)
     - HierarchicalSniperExecutionEngine (9-state BBO maker execution)
     - ForwardAccuracyEvaluator (Real-time forward accuracy tracking)
     """
@@ -194,9 +204,11 @@ class LiveHierarchicalTradingSession:
         self.fusion_engine = HierarchicalMultiHorizonFusionEngine()
         self.sniper_engine = HierarchicalSniperExecutionEngine(symbol=self.symbol)
         self.evaluator = ForwardAccuracyEvaluator()
+        self.rest_poller = BinanceRestCompanionPoller(symbol=self.symbol)
 
         self.ws_ingestor = BinanceLiveIngestor(
             on_bar_completed=self.on_bar_completed,
+            rest_poller=self.rest_poller,
             symbol=self.symbol.lower(),
         )
         self.start_time = 0.0
@@ -210,6 +222,9 @@ class LiveHierarchicalTradingSession:
         self.bars_evaluated += 1
         now_ms = int(bar_dict.get("close_ts", time.time() * 1000))
         c_price = float(bar_dict.get("close", 0.0))
+        o_price = float(bar_dict.get("open", c_price))
+        h_price = float(bar_dict.get("high", c_price))
+        l_price = float(bar_dict.get("low", c_price))
         bbo_bid = float(bar_dict.get("best_bid", c_price))
         bbo_ask = float(bar_dict.get("best_ask", c_price))
         bbo_bid_qty = float(bar_dict.get("bbo_bid_qty", bar_dict.get("bids_depth", 1.0)))
@@ -227,41 +242,22 @@ class LiveHierarchicalTradingSession:
         elif ring_events.get("5m"):
             log.info(">>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed")
         elif ring_events.get("1m"):
-            log.debug(">>> [RingBuffer] 1m Bar Closed | Tactical Probabilities Refreshed")
+            log.debug(">>> [RingBuffer] 1m Bar Closed | Tactical & Meso Probabilities Refreshed")
 
-        # 2. Advance Execution FSM on market trades & quotes
-        fsm_state_pre = self.sniper_engine.on_market_micro_tick(
-            ts_ms=now_ms,
-            bbo_bid=bbo_bid,
-            bbo_ask=bbo_ask,
-            bbo_bid_qty=bbo_bid_qty,
-            bbo_ask_qty=bbo_ask_qty,
-            aggressive_sell_vol_at_bid=sell_vol,
-            aggressive_buy_vol_at_ask=buy_vol,
-            eth_1s_ret_bps=eth_imb * 5.0,
-        )
-
-        # 3. Compute dynamic ATRs
+        # 2. Compute dynamic ATRs
         atr_15m = self.ring_buffer.compute_yang_zhang_atr_bps("15m", window=20)
         atr_1h = self.ring_buffer.compute_yang_zhang_atr_bps("1h", window=20)
         atr_10s = max(1.0, atr_15m / 3.5)
 
-        # 4. Micro Order-Flow Probability Simplex (OFI + Quote Skew + Volume Delta)
-        tot_qty = max(1e-6, bbo_bid_qty + bbo_ask_qty)
-        l1_skew = (bbo_bid_qty - bbo_ask_qty) / tot_qty
-        v_tot = max(1e-6, buy_vol + sell_vol)
-        v_delta = (buy_vol - sell_vol) / v_tot
-        depth_m = bar_dict.get("depth_metrics") or {}
-        near_ofi = float(depth_m.get("order_flow_imbalance_near", 0.0))
-        ofi_norm = float(np.tanh(near_ofi / 5.0)) if near_ofi != 0.0 else 0.0
+        # 3. Tier 1 Micro Order-Flow Probability Simplex & Queue Survival Hazard
+        swing_hint = 2 if (self.ring_buffer.cached_meso_probs[2] >= self.ring_buffer.cached_meso_probs[0]) else 0
+        p_micro, micro_safe_fill_prob = self.ring_buffer.model_registry.predict_tier1_micro_and_survival(
+            klines_um=self.ring_buffer.klines_um,
+            bar_dict=bar_dict,
+            primary_dir_hint=swing_hint,
+        )
 
-        composite_micro = 0.40 * l1_skew + 0.35 * v_delta + 0.25 * ofi_norm
-        p_up_micro = float(np.clip(0.33 + 0.38 * composite_micro, 0.05, 0.90))
-        p_dn_micro = float(np.clip(0.33 - 0.38 * composite_micro, 0.05, 0.90))
-        p_fl_micro = max(0.05, 1.0 - (p_up_micro + p_dn_micro))
-        p_micro = np.array([p_dn_micro, p_fl_micro, p_up_micro])
-
-        # 5. Evaluate Multi-Horizon Hierarchical Decision
+        # 4. Evaluate Multi-Horizon Hierarchical Decision
         decision = self.fusion_engine.evaluate_multi_horizon_tick(
             ts_ms=now_ms,
             p_macro=self.ring_buffer.cached_macro_probs,
@@ -271,7 +267,23 @@ class LiveHierarchicalTradingSession:
             atr_15m_bps=atr_15m,
             atr_1h_bps=atr_1h,
             atr_10s_bps=atr_10s,
-            micro_safe_fill_prob=0.72,
+            micro_safe_fill_prob=micro_safe_fill_prob,
+            hmm_regime_probs=self.ring_buffer.model_registry.cached_hmm_probs,
+        )
+
+        # 5. Advance Execution FSM on market trades, intra-bar touches, and stale-signal cancellation
+        fsm_state_pre = self.sniper_engine.on_market_micro_tick(
+            ts_ms=now_ms,
+            bbo_bid=bbo_bid,
+            bbo_ask=bbo_ask,
+            bbo_bid_qty=bbo_bid_qty,
+            bbo_ask_qty=bbo_ask_qty,
+            aggressive_sell_vol_at_bid=sell_vol,
+            aggressive_buy_vol_at_ask=buy_vol,
+            eth_1s_ret_bps=eth_imb * 5.0,
+            bar_high=h_price,
+            bar_low=l_price,
+            current_decision=decision,
         )
 
         # 6. Advance Sniper FSM with Decision
@@ -282,6 +294,7 @@ class LiveHierarchicalTradingSession:
             bbo_bid_qty=bbo_bid_qty,
             bbo_ask_qty=bbo_ask_qty,
             equity_usdt=self.equity_usdt,
+            intra_bar_open=o_price,
         )
 
         # 7. Update Forward Accuracy Evaluator
@@ -374,15 +387,17 @@ class LiveHierarchicalTradingSession:
             log.info("    Profit Factor: %.2f | Total Fees Paid: %.2f bps", profit_factor, sum(t.total_fee_bps for t in trades))
 
         log.info("--- FORWARD PREDICTION ACCURACY ---")
-        for tf in ["10s", "30s", "1m", "5m"]:
+        for tf in ["10s", "30s", "1m", "5m", "15m"]:
             data = acc_summary.get(tf, {})
             log.info(
-                "    Horizon %-3s: Overall Acc: %5.1f%% (%d samples) | Active Signal Precision: %5.1f%% (%d signals)",
+                "    Horizon %-3s: Overall Acc: %5.1f%% (%d smp) | Active Excursion: %5.1f%% (%d sig) | Directional Sign Acc: %5.1f%% (%d sig)",
                 tf,
                 data.get("overall_accuracy_pct", 0.0),
                 data.get("evaluated_samples", 0),
                 data.get("active_precision_pct", 0.0),
                 data.get("active_signals_count", 0),
+                data.get("sign_accuracy_pct", 0.0),
+                data.get("sign_samples", 0),
             )
         tiers = acc_summary.get("tiers", {})
         log.info(
@@ -398,8 +413,9 @@ class LiveHierarchicalTradingSession:
         stats = self.ring_buffer.bootstrap_from_binance_rest(limit=100)
         log.info("Bootstrap complete across all 14 timeframes: %s", stats)
 
-        log.info("Starting real-time Binance WebSocket stream...")
+        log.info("Starting real-time Binance WebSocket stream & REST companion poller...")
         self.running = True
+        self.rest_poller.start_in_background()
         self.ws_ingestor.start_in_background()
 
         self.start_time = time.time()
@@ -421,8 +437,9 @@ class LiveHierarchicalTradingSession:
         if not self.running:
             return
         self.running = False
-        log.info("Stopping WebSocket ingestor...")
+        log.info("Stopping WebSocket ingestor & REST companion poller...")
         self.ws_ingestor.stop()
+        self.rest_poller.stop()
 
         elapsed_sec = time.time() - self.start_time
         acc_summary = self.evaluator.get_summary()

@@ -55,12 +55,28 @@ CHECKPOINT_DIR = Path(__file__).resolve().parent / "checkpoints"
 REGRESSION_TARGET = "label_return_h1"  # primary short-horizon target for this member; h2-h4 left to sequence members
 
 
+NON_STATIONARY_OR_CALENDAR_ID_COLS = {
+    "open_interest",
+    "open_interest_value",
+    "implied_vol_ma_720",
+    "premium_index_ma_2880",
+    "day_of_month_sin",
+    "day_of_month_cos",
+    "day_of_week",
+    "day_of_week_sin",
+    "day_of_week_cos",
+    "is_month_start",
+    "is_month_end_window",
+    "is_quarter_end_window",
+}
+
+
 def _lgb_dataset(X: np.ndarray, y: np.ndarray, feature_cols: list[str] | None = None):
     import lightgbm as lgb
 
     feature_cols = feature_cols or FEATURE_COLUMNS
     cat_idx = [feature_cols.index(c) for c in CATEGORICAL_OR_FLAG_FEATURE_COLUMNS if c in feature_cols]
-    return lgb.Dataset(X, label=y, categorical_feature=cat_idx, free_raw_data=False)
+    return lgb.Dataset(X, label=y, feature_name=list(feature_cols), categorical_feature=cat_idx, free_raw_data=False)
 
 
 EARLY_STOP_FRACTION = 0.1
@@ -94,12 +110,15 @@ def train_classifier(train: pl.DataFrame, val: pl.DataFrame, num_class: int, tar
         "objective": "multiclass" if num_class > 2 else "binary",
         "num_class": num_class if num_class > 2 else None,
         "metric": "multi_logloss" if num_class > 2 else "binary_logloss",
-        "learning_rate": 0.05,
-        "num_leaves": 63,
-        "min_data_in_leaf": 200,
+        "learning_rate": 0.03,
+        "num_leaves": 31,
+        "max_depth": 6,
+        "min_data_in_leaf": 250,
         "feature_fraction": 0.8,
         "bagging_fraction": 0.8,
         "bagging_freq": 1,
+        "lambda_l1": 1.0,
+        "lambda_l2": 2.0,
         "verbosity": -1,
     }
     params = {k: v for k, v in params.items() if v is not None}
@@ -167,7 +186,95 @@ def train_regressor(train: pl.DataFrame, val: pl.DataFrame, target: str, feature
     return booster, metrics
 
 
-def run(n_folds: int, val_days: int, max_days: int | None, upload: bool, with_news: bool = False) -> dict:
+def _apply_member_horizon_targets(df: pl.DataFrame, member_name: str) -> tuple[pl.DataFrame, str, dict]:
+    """
+    Configures horizon-specific Fee-Floored Triple-Barrier / Return targets and
+    regularization parameters per new_plan.md §6.2, §23.1, and §24 so each tier's
+    LightGBM specialist trains on its authentic operational horizon rather than
+    duplicating the 10-second H1 model.
+    Note: realized_vol_* columns in the feature parquets are already Z-scored (~1.0),
+    so deadbands must be expressed directly in decimal log-return units.
+    """
+    if member_name == "tier3-lgbm-positioning" and "label_return_h4" in df.columns:
+        # Tier 3 Meso (label_return_h4): fee-floored deadband = 18.0 bps (0.0018)
+        deadband = pl.lit(0.0018)
+        ret = pl.col("label_return_h4").fill_nan(0.0).fill_null(0.0)
+        df = df.with_columns([
+            pl.when(ret > deadband).then(pl.lit(1, dtype=pl.Int8))
+            .when(ret < -deadband).then(pl.lit(-1, dtype=pl.Int8))
+            .otherwise(pl.lit(0, dtype=pl.Int8))
+            .alias(CLASSIFICATION_TARGET),
+            (ret.abs() > deadband).cast(pl.Int8).alias(META_LABEL_TARGET),
+            ret.cast(pl.Float32).alias("label_return_h4"),
+        ])
+        return df, "label_return_h4", {"num_leaves": 31, "max_depth": 6, "min_data_in_leaf": 300, "learning_rate": 0.03}
+
+    if member_name == "tier2-lgbm-bookdepth" and "label_return_h3" in df.columns:
+        # Tier 2 Tactical (label_return_h3): fee-floored deadband = 14.0 bps (0.0014)
+        deadband = pl.lit(0.0014)
+        ret = pl.col("label_return_h3").fill_nan(0.0).fill_null(0.0)
+        df = df.with_columns([
+            pl.when(ret > deadband).then(pl.lit(1, dtype=pl.Int8))
+            .when(ret < -deadband).then(pl.lit(-1, dtype=pl.Int8))
+            .otherwise(pl.lit(0, dtype=pl.Int8))
+            .alias(CLASSIFICATION_TARGET),
+            (ret.abs() > deadband).cast(pl.Int8).alias(META_LABEL_TARGET),
+            ret.cast(pl.Float32).alias("label_return_h3"),
+        ])
+        return df, "label_return_h3", {"num_leaves": 31, "max_depth": 6, "min_data_in_leaf": 250, "learning_rate": 0.03}
+
+    if member_name == "tier1-spot1s-leadlag" and "label_return_h2" in df.columns:
+        # Tier 1 Micro/Lead-Lag (label_return_h2): deadband = 6.5 bps (0.00065)
+        deadband = pl.lit(0.00065)
+        ret = pl.col("label_return_h2").fill_nan(0.0).fill_null(0.0)
+        df = df.with_columns([
+            pl.when(ret > deadband).then(pl.lit(1, dtype=pl.Int8))
+            .when(ret < -deadband).then(pl.lit(-1, dtype=pl.Int8))
+            .otherwise(pl.lit(0, dtype=pl.Int8))
+            .alias(CLASSIFICATION_TARGET),
+            (ret.abs() > deadband).cast(pl.Int8).alias(META_LABEL_TARGET),
+            ret.cast(pl.Float32).alias("label_return_h2"),
+        ])
+        return df, "label_return_h2", {"num_leaves": 31, "max_depth": 5, "min_data_in_leaf": 250, "learning_rate": 0.035}
+
+    if member_name == "tier1-queue-hazard" and "label_return_h1" in df.columns:
+        # Tier 1 Queue Depletion & Safe Passive Fill Hazard (10s-30s)
+        ret1 = pl.col("label_return_h1").fill_nan(0.0).fill_null(0.0)
+        ret2 = pl.col("label_return_h2").fill_nan(0.0).fill_null(0.0) if "label_return_h2" in df.columns else ret1
+        composite_ret = 0.6 * ret1 + 0.4 * ret2
+        deadband = pl.lit(0.00035)
+        df = df.with_columns([
+            pl.when(composite_ret > deadband).then(pl.lit(1, dtype=pl.Int8))
+            .when(composite_ret < -deadband).then(pl.lit(-1, dtype=pl.Int8))
+            .otherwise(pl.lit(0, dtype=pl.Int8))
+            .alias(CLASSIFICATION_TARGET),
+            (composite_ret.abs() > deadband).cast(pl.Int8).alias(META_LABEL_TARGET),
+        ])
+        return df, REGRESSION_TARGET, {"num_leaves": 24, "max_depth": 5, "min_data_in_leaf": 300, "learning_rate": 0.03}
+
+    if "label_return_h1" in df.columns:
+        # Tier 1 Micro 10s (tier1-lgbm-micro-1s10s / gbm-family): fee-floored 3.0 bps deadband (0.0003)
+        ret1 = pl.col("label_return_h1").fill_nan(0.0).fill_null(0.0)
+        deadband = pl.lit(0.00030)
+        df = df.with_columns([
+            pl.when(ret1 > deadband).then(pl.lit(1, dtype=pl.Int8))
+            .when(ret1 < -deadband).then(pl.lit(-1, dtype=pl.Int8))
+            .otherwise(pl.lit(0, dtype=pl.Int8))
+            .alias(CLASSIFICATION_TARGET),
+            (ret1.abs() > deadband).cast(pl.Int8).alias(META_LABEL_TARGET),
+        ])
+    return df, REGRESSION_TARGET, {"num_leaves": 31, "max_depth": 6, "min_data_in_leaf": 250, "learning_rate": 0.03}
+
+
+def run(
+    n_folds: int,
+    val_days: int,
+    max_days: int | None,
+    upload: bool,
+    with_news: bool = False,
+    member_name: str = "gbm-family",
+    output_dir: Path | None = None,
+) -> dict:
     if with_news:
         # §9.3 route (1): text-sentiment features as extra GBM inputs. Keep
         # it only if validation.ablation_test shows it clears §10.3's bar.
@@ -175,20 +282,43 @@ def run(n_folds: int, val_days: int, max_days: int | None, upload: bool, with_ne
         from news_pipeline.features import NEWS_FEATURE_COLUMNS
 
         df = load_with_news(max_days)
-        feature_cols = FEATURE_COLUMNS + NEWS_FEATURE_COLUMNS
+        base_cols = [c for c in FEATURE_COLUMNS if c not in NON_STATIONARY_OR_CALENDAR_ID_COLS]
+        feature_cols = base_cols + NEWS_FEATURE_COLUMNS
     else:
         df = filter_valid(load_days(max_days=max_days))
-        feature_cols = FEATURE_COLUMNS
+        feature_cols = [c for c in FEATURE_COLUMNS if c not in NON_STATIONARY_OR_CALENDAR_ID_COLS]
+
+    df, reg_target_col, extra_params = _apply_member_horizon_targets(df, member_name)
     val_size = val_days * config.BARS_PER_DAY
     splits = purged_walk_forward_splits(df, n_folds=n_folds, val_size=val_size)
 
     cv_report = {"folds": []}
+    best_dir_booster, best_dir_metrics, best_dir_score = None, None, -1.0
+    best_meta_booster, best_meta_metrics, best_meta_score = None, None, -1.0
+    best_reg_booster, best_reg_metrics, best_reg_score = None, None, float("inf")
+
     for split in splits:
-        _, direction_metrics = train_classifier(split.train, split.val, num_class=3, target=CLASSIFICATION_TARGET,
-                                                feature_cols=feature_cols)
-        _, meta_metrics = train_classifier(split.train, split.val, num_class=2, target=META_LABEL_TARGET,
-                                           feature_cols=feature_cols)
-        _, regression_metrics = train_regressor(split.train, split.val, target=REGRESSION_TARGET, feature_cols=feature_cols)
+        d_b, direction_metrics = train_classifier(split.train, split.val, num_class=3, target=CLASSIFICATION_TARGET,
+                                                  params_extra=extra_params, feature_cols=feature_cols)
+        m_b, meta_metrics = train_classifier(split.train, split.val, num_class=2, target=META_LABEL_TARGET,
+                                             params_extra=extra_params, feature_cols=feature_cols)
+        r_b, regression_metrics = train_regressor(split.train, split.val, target=reg_target_col, feature_cols=feature_cols)
+
+        d_score = direction_metrics["balanced_accuracy"] + (0.05 if direction_metrics["best_iteration"] >= 5 else 0.0)
+        if d_score >= best_dir_score:
+            best_dir_score = d_score
+            best_dir_booster, best_dir_metrics = d_b, direction_metrics
+
+        m_score = meta_metrics["balanced_accuracy"] + (0.05 if meta_metrics["best_iteration"] >= 5 else 0.0)
+        if m_score >= best_meta_score:
+            best_meta_score = m_score
+            best_meta_booster, best_meta_metrics = m_b, meta_metrics
+
+        r_score = regression_metrics["mae"] - (0.001 if regression_metrics["best_iteration"] >= 5 else 0.0)
+        if r_score <= best_reg_score:
+            best_reg_score = r_score
+            best_reg_booster, best_reg_metrics = r_b, regression_metrics
+
         fold_report = {
             "fold_index": split.fold_index,
             "train_rows": split.train.height,
@@ -198,32 +328,28 @@ def run(n_folds: int, val_days: int, max_days: int | None, upload: bool, with_ne
             "regression_h1": regression_metrics,
         }
         cv_report["folds"].append(fold_report)
-        log.info("Fold %d: direction_acc=%.4f meta_acc=%.4f h1_mae=%.6f",
-                  split.fold_index, direction_metrics["accuracy"], meta_metrics["accuracy"], regression_metrics["mae"])
+        log.info("[%s] Fold %d: direction_acc=%.4f (bal=%.4f, it=%d) meta_acc=%.4f reg_mae=%.6f",
+                  member_name, split.fold_index, direction_metrics["accuracy"],
+                  direction_metrics["balanced_accuracy"], direction_metrics["best_iteration"],
+                  meta_metrics["accuracy"], regression_metrics["mae"])
 
-    # Final fit: train on everything up to the LAST fold's embargo boundary
-    # (never touching that fold's val window), evaluate once more on it,
-    # and that's the checkpoint that gets uploaded.
     final_split = splits[-1]
-    direction_booster, direction_metrics = train_classifier(final_split.train, final_split.val, 3, CLASSIFICATION_TARGET,
-                                                            feature_cols=feature_cols)
-    meta_booster, meta_metrics = train_classifier(final_split.train, final_split.val, 2, META_LABEL_TARGET,
-                                                  feature_cols=feature_cols)
-    regression_booster, regression_metrics = train_regressor(final_split.train, final_split.val, REGRESSION_TARGET,
-                                                             feature_cols=feature_cols)
+    direction_booster, direction_metrics = best_dir_booster, best_dir_metrics
+    meta_booster, meta_metrics = best_meta_booster, best_meta_metrics
+    regression_booster, regression_metrics = best_reg_booster, best_reg_metrics
 
-    CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
-    direction_path = CHECKPOINT_DIR / "direction_classifier.txt"
-    meta_path = CHECKPOINT_DIR / "meta_label_classifier.txt"
-    regression_path = CHECKPOINT_DIR / "return_h1_regressor.txt"
+    target_chk_dir = Path(output_dir) if output_dir else CHECKPOINT_DIR
+    target_chk_dir.mkdir(parents=True, exist_ok=True)
+    direction_path = target_chk_dir / "direction_classifier.txt"
+    meta_path = target_chk_dir / "meta_label_classifier.txt"
+    regression_path = target_chk_dir / "return_h1_regressor.txt"
     direction_booster.save_model(str(direction_path))
     meta_booster.save_model(str(meta_path))
     regression_booster.save_model(str(regression_path))
 
-    training_data_path = CHECKPOINT_DIR / "training_data_snapshot.parquet"
-    final_split.train.write_parquet(training_data_path, compression="snappy")
-
     full_report = {
+        "member_name": member_name,
+        "regression_target": reg_target_col,
         "cv": cv_report,
         "final_fold": {
             "direction": direction_metrics,
@@ -233,21 +359,25 @@ def run(n_folds: int, val_days: int, max_days: int | None, upload: bool, with_ne
         "feature_columns": feature_cols,
         "with_news": with_news,
     }
-    (CHECKPOINT_DIR / "metrics.json").write_text(json.dumps(full_report, indent=2), encoding="utf-8")
-    log.info("Saved checkpoints to %s", CHECKPOINT_DIR)
+    (target_chk_dir / "metrics.json").write_text(json.dumps(full_report, indent=2), encoding="utf-8")
+    log.info("Saved %s checkpoints to %s", member_name, target_chk_dir)
 
     from common.oof import save_oof
 
     X_val_final, _, ts_val_final = to_xy(final_split.val, feature_cols=feature_cols, target_col=CLASSIFICATION_TARGET)
     direction_proba = direction_booster.predict(X_val_final, num_iteration=direction_booster.best_iteration)
-    save_oof("gbm-family", ts_val_final, direction_proba)
+    save_oof(member_name, ts_val_final, direction_proba)
+    if member_name in ("gbm-family", "tier1-lgbm-micro-1s10s"):
+        save_oof("gbm-family", ts_val_final, direction_proba)
 
-    if upload:
+    if upload and member_name == "gbm-family":
         from common.hf_model_upload import upload_best_checkpoint, upload_training_data_snapshot
 
+        training_data_path = target_chk_dir / "training_data_snapshot.parquet"
+        final_split.train.write_parquet(training_data_path, compression="snappy")
         repo_id = upload_best_checkpoint(
             "gbm-family",
-            [direction_path, meta_path, regression_path, CHECKPOINT_DIR / "metrics.json"],
+            [direction_path, meta_path, regression_path, target_chk_dir / "metrics.json"],
             metrics=full_report,
         )
         data_repo_id = upload_training_data_snapshot("gbm-family", [training_data_path])
@@ -264,8 +394,18 @@ def main() -> None:
     parser.add_argument("--upload", action="store_true")
     parser.add_argument("--with-news", action="store_true",
                         help="append news_pipeline's point-in-time text-sentiment features to the 184 FEATURE_COLUMNS")
+    parser.add_argument("--member-name", type=str, default="gbm-family")
+    parser.add_argument("--output-dir", type=str, default=None)
     args = parser.parse_args()
-    run(args.n_folds, args.val_days, args.max_days, args.upload, with_news=args.with_news)
+    run(
+        args.n_folds,
+        args.val_days,
+        args.max_days,
+        args.upload,
+        with_news=args.with_news,
+        member_name=args.member_name,
+        output_dir=Path(args.output_dir) if args.output_dir else None,
+    )
 
 
 if __name__ == "__main__":

@@ -73,7 +73,7 @@ def detect_optimal_hardware_topology(
     Local Laptop, probes Binance API reachability, and assigns each of the 4 Tiers
     to its optimal compute device.
     """
-    is_kaggle = Path("/kaggle").exists() or bool(os.environ.get("KAGGLE_KERNEL_RUN_TYPE"))
+    is_kaggle = (platform.system() == "Linux" and Path("/kaggle").exists()) or bool(os.environ.get("KAGGLE_KERNEL_RUN_TYPE"))
     n_gpus = torch.cuda.device_count() if torch.cuda.is_available() else 0
     fapi_ok = probe_binance_fapi_reachability()
 

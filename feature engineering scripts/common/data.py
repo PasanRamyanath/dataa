@@ -247,7 +247,7 @@ def load_days(
                 frames.append(conform_to_contract(pl.read_parquet(new_paths[0])))
 
     df = pl.concat(frames, how="vertical_relaxed").sort("ts")
-    if relabel and len(frames) > 1:
+    if relabel and len(frames) >= 1:
         # Per-day labels can't see past midnight: recover each day's last
         # hour of labels and make label_return_h4 computable (labeling.py).
         from labeling import relabel_contiguous
@@ -300,9 +300,9 @@ def to_xy(
         raise KeyError(f"to_xy: requested feature columns not in df: {missing}")
 
     X_df = df.select(feature_cols).with_columns([
-        pl.col(c).cast(pl.Float32).fill_null(0.0) for c in feature_cols
+        pl.col(c).cast(pl.Float32).fill_nan(0.0).fill_null(0.0) for c in feature_cols
     ])
-    X = X_df.to_numpy().astype(np.float32)
+    X = np.nan_to_num(X_df.to_numpy().astype(np.float32), nan=0.0, posinf=0.0, neginf=0.0)
 
     y_raw = df[target_col].to_numpy()
     if target_col == "label_triple_barrier":
@@ -310,7 +310,7 @@ def to_xy(
     elif target_col in ("label_meta_act",):
         y = y_raw.astype(np.int64)
     else:
-        y = y_raw.astype(np.float32)
+        y = np.nan_to_num(y_raw.astype(np.float32), nan=0.0, posinf=0.0, neginf=0.0)
 
     ts = df["ts"].to_numpy()
     return X, y, ts

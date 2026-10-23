@@ -111,6 +111,10 @@ class SupervisedMultiHorizonOOFStacker:
         if n < 200:
             raise ValueError(f"Insufficient OOF rows ({n}) to fit SupervisedMultiHorizonOOFStacker")
 
+        X_meta = np.nan_to_num(np.asarray(X_meta, dtype=np.float32), nan=0.0, posinf=0.0, neginf=0.0)
+        net_ret_long_bps = np.nan_to_num(np.asarray(net_ret_long_bps, dtype=np.float32), nan=0.0, posinf=0.0, neginf=0.0)
+        net_ret_short_bps = np.nan_to_num(np.asarray(net_ret_short_bps, dtype=np.float32), nan=0.0, posinf=0.0, neginf=0.0)
+
         split_1 = int(n * 0.55)
         split_2 = min(n - 50, split_1 + purge_bars)
 
@@ -195,10 +199,99 @@ class SupervisedMultiHorizonOOFStacker:
             "oof_holdout_avg_net_bps": round(mean_net, 2),
         }
 
-    def save(self, dest_dir: Path) -> None:
+    def predict_live(
+        self,
+        p_macro: np.ndarray | None = None,
+        p_meso: np.ndarray | None = None,
+        p_tactical: np.ndarray | None = None,
+        p_micro: np.ndarray | None = None,
+        atr_15m_bps: float = 20.0,
+        atr_1h_bps: float = 40.0,
+        hmm_regime_probs: np.ndarray | None = None,
+        all_member_probs_flat: np.ndarray | None = None,
+        **kwargs: Any,
+    ) -> dict[str, Any]:
+        """
+        Executes single-tick live inference through the fitted Stage 1 Cross-Horizon
+        Direction Stacker, Symmetric ODIR Dirichlet Calibrator, and Stage 2 LightGBM
+        Expected-Net-PnL Meta-Labeler (new_plan.md §23.3).
+        """
+        if not self.is_fitted_:
+            raise RuntimeError("SupervisedMultiHorizonOOFStacker is not fitted.")
+
+        if p_macro is None:
+            p_macro = kwargs.get("tier4_macro_probs", [0.25, 0.50, 0.25])
+        if p_meso is None:
+            p_meso = kwargs.get("tier3_meso_probs", [0.25, 0.50, 0.25])
+        if p_tactical is None:
+            p_tactical = kwargs.get("tier2_tactical_probs", [0.25, 0.50, 0.25])
+        if p_micro is None:
+            p_micro = kwargs.get("tier1_micro_probs", [0.25, 0.50, 0.25])
+
+        t4 = np.asarray(p_macro, dtype=np.float32).reshape(1, 3)
+        t3 = np.asarray(p_meso, dtype=np.float32).reshape(1, 3)
+        t2 = np.asarray(p_tactical, dtype=np.float32).reshape(1, 3)
+        t1 = np.asarray(p_micro, dtype=np.float32).reshape(1, 3)
+
+        if all_member_probs_flat is None:
+            all_flat = np.hstack([t4, t3, t2, t1])
+        else:
+            all_flat = np.asarray(all_member_probs_flat, dtype=np.float32).reshape(1, -1)
+
+        if hmm_regime_probs is None:
+            hmm_p = np.array([[0.25, 0.25, 0.25, 0.25]], dtype=np.float32)
+        else:
+            hmm_arr = np.asarray(hmm_regime_probs, dtype=np.float32).ravel()
+            if len(hmm_arr) < 4:
+                hmm_arr = np.pad(hmm_arr, (0, 4 - len(hmm_arr)), constant_values=0.0)
+            hmm_p = hmm_arr[:4].reshape(1, 4)
+
+        X_meta = self.build_meta_feature_matrix(
+            tier4_macro_probs=t4,
+            tier3_meso_probs=t3,
+            tier2_tactical_probs=t2,
+            tier1_micro_probs=t1,
+            all_member_probs_flat=all_flat,
+            hmm_regime_probs=hmm_p,
+            atr_15m_bps=np.array([atr_15m_bps], dtype=np.float32),
+            atr_1h_bps=np.array([atr_1h_bps], dtype=np.float32),
+        )
+
+        # Match feature dimension if stacker was fitted with extra member columns
+        expected_dim = int(getattr(self.direction_stacker, "n_features_in_", X_meta.shape[1]))
+        if X_meta.shape[1] < expected_dim:
+            pad_cols = np.full((1, expected_dim - X_meta.shape[1]), 1.0 / 3.0, dtype=np.float32)
+            X_meta = np.hstack([pad_cols, X_meta])
+        elif X_meta.shape[1] > expected_dim:
+            X_meta = X_meta[:, -expected_dim:]
+
+        raw_probs = self.direction_stacker.predict_proba(X_meta)
+        cal_probs = self.dirichlet_calibrator.predict_proba(raw_probs)
+        conf_mask = self.dirichlet_calibrator.prediction_set_mask(raw_probs)[0]
+
+        margin = np.abs(cal_probs[:, 2] - cal_probs[:, 0])[:, None]
+        X_meta_stage2 = np.hstack([X_meta, cal_probs, margin])
+
+        raw_meta_p = self.meta_win_clf.predict_proba(X_meta_stage2)[:, 1]
+        cal_meta_p = float(self.meta_isotonic.transform(raw_meta_p)[0])
+        pred_net_bps = float(self.meta_net_bps_reg.predict(X_meta_stage2)[0])
+
+        return {
+            "calibrated_probs": cal_probs[0],
+            "conformal_set_mask": conf_mask,
+            "meta_win_prob": cal_meta_p,
+            "p_long_profitable": cal_meta_p,
+            "p_short_profitable": cal_meta_p,
+            "predicted_net_bps": pred_net_bps,
+        }
+
+    def save(self, dest_dir: Path) -> Path:
         dest_dir.mkdir(parents=True, exist_ok=True)
-        joblib.dump(self, dest_dir / "supervised_multi_horizon_stacker.joblib")
+        out_path = dest_dir / "supervised_multi_horizon_stacker.joblib"
+        joblib.dump(self, out_path)
+        return out_path
 
     @classmethod
     def load(cls, dest_dir: Path) -> "SupervisedMultiHorizonOOFStacker":
-        return joblib.load(dest_dir / "supervised_multi_horizon_stacker.joblib")
+        p = dest_dir / "supervised_multi_horizon_stacker.joblib" if dest_dir.is_dir() else dest_dir
+        return joblib.load(p)
