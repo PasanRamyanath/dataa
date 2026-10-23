@@ -1,0 +1,10 @@
+{
+  "id": "pasanramyanathr/btcusdt-live-gpu-v1",
+  "title": "btcusdt-live-gpu-v1",
+  "code_file": "test.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true
+}

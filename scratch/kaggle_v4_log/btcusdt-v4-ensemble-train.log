@@ -1,0 +1,1003 @@
+[{"stream_name":"stdout","time":0.595095809,"data":"[bundle] code unpacked to /tmp/impjr/feature engineering scripts\n"}
+,{"stream_name":"stdout","time":0.962799026,"data":"[bundle] HF_TOKEN configured successfully\n"}
+,{"stream_name":"stdout","time":12.72852467,"data":"[bundle] pinning preinstalled torch==2.11.0+cu128, torchvision==0.26.0+cu128, torchaudio==2.11.0+cu128 (CUDA available: True, GPUs: 2)\n"}
+,{"stream_name":"stdout","time":12.72855889,"data":"[bundle] pip install -r requirements-models.txt ...\n"}
+,{"stream_name":"stdout","time":16.924468791,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 46.4/46.4 kB 647.5 kB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":19.407205962,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 80.7/80.7 kB 2.2 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":19.52480429,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 166.0/166.0 kB 2.6 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":19.617501765,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 331.3/331.3 kB 7.7 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":19.692629901,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 158.7/158.7 kB 6.5 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":20.231754567,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.1/43.1 MB 51.0 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":20.300045203,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 254.7/254.7 kB 14.0 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":20.369971728,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 348.7/348.7 kB 18.4 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":20.640528815,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 837.9/837.9 kB 31.8 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":20.741442912,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.2/5.2 MB 107.4 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":20.809276056,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.4/50.4 kB 2.5 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":20.879868984,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 322.4/322.4 kB 17.8 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":20.946160051,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.5/87.5 kB 4.8 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":21.013696865,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 296.7/296.7 kB 16.5 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":37.191043919,"data":"[bundle] launching Kaggle pipeline entrypoint: orchestration.kaggle_relay.run_kaggle_session\n"}
+,{"stream_name":"stderr","time":38.462784105,"data":"2026-10-20 10:21:59,572 INFO HTTP Request: GET https://huggingface.co/api/agent-harnesses \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":38.659502153,"data":"2026-10-20 10:21:59,768 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-News/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":38.660026822,"data":"2026-10-20 10:21:59,769 INFO No news store on HF (p-j-r-1-2-3/Project-IMPJR-News): 401 Client Error. (Request ID: Root=1-6ad740c7-13ca104621231b07424189c3;54ee0c69-359d-4a38-a921-a15c97f3fbea)\n"}
+,{"stream_name":"stderr","time":38.660037276,"data":"\n"}
+,{"stream_name":"stderr","time":38.66004221,"data":"Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-News/tree/main?recursive=true\u0026expand=false.\n"}
+,{"stream_name":"stderr","time":38.660046823,"data":"Please make sure you specified the correct `repo_id` and `repo_type`.\n"}
+,{"stream_name":"stderr","time":38.660051017,"data":"If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.\n"}
+,{"stream_name":"stderr","time":38.660056016,"data":"For more details, see https://huggingface.co/docs/huggingface_hub/authentication\n"}
+,{"stream_name":"stderr","time":38.660060644,"data":"User Access Token \"qwen 3.6 tpu\" is expired\n"}
+,{"stream_name":"stderr","time":40.226718054,"data":"2026-10-20 10:22:01,336 INFO Kaggle session starting: 11.5h budget (safety margin 900s), with_news=False, 2 GPU(s)\n"}
+,{"stream_name":"stderr","time":40.226747904,"data":"2026-10-20 10:22:01,336 INFO Session training flags: resume=True, skip=[], force_retrain=[]\n"}
+,{"stream_name":"stderr","time":40.232129056,"data":"2026-10-20 10:22:01,341 INFO Launching Project-IMPJR v4.0 Multi-Horizon Training Wave across all 4 tiers...\n"}
+,{"stream_name":"stderr","time":40.232229287,"data":"2026-10-20 10:22:01,341 INFO ======================================================================\n"}
+,{"stream_name":"stderr","time":40.232271392,"data":"2026-10-20 10:22:01,341 INFO PROJECT-IMPJR v4.0: MULTI-HORIZON HIERARCHICAL ENSEMBLE TRAINING\n"}
+,{"stream_name":"stderr","time":40.232378786,"data":"2026-10-20 10:22:01,341 INFO   Kaggle Budget: 11.5 hours (Safety: 900s)\n"}
+,{"stream_name":"stderr","time":40.232419166,"data":"2026-10-20 10:22:01,341 INFO   HF Org/Prefix: p-j-r-1-2-3/Project-IMPJR-v4-Models\n"}
+,{"stream_name":"stderr","time":40.232657577,"data":"2026-10-20 10:22:01,342 INFO   Force Retrain: None\n"}
+,{"stream_name":"stderr","time":40.232677708,"data":"2026-10-20 10:22:01,342 INFO ======================================================================\n"}
+,{"stream_name":"stderr","time":40.232800019,"data":"2026-10-20 10:22:01,342 INFO --- Initiating TIER4_MACRO wave ---\n"}
+,{"stream_name":"stderr","time":40.429245228,"data":"2026-10-20 10:22:01,538 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":40.622630621,"data":"2026-10-20 10:22:01,732 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":40.814788562,"data":"2026-10-20 10:22:01,924 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":41.004887091,"data":"2026-10-20 10:22:02,114 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":41.005783622,"data":"2026-10-20 10:22:02,115 INFO Starting tier4-patchtst-ffd on device cuda:0...\n"}
+,{"stream_name":"stderr","time":41.006117869,"data":"2026-10-20 10:22:02,115 INFO Executing training for member tier4-patchtst-ffd on cuda:0...\n"}
+,{"stream_name":"stderr","time":41.006691401,"data":"2026-10-20 10:22:02,115 INFO Starting tier4-kronos-macro on device cuda:1...\n"}
+,{"stream_name":"stderr","time":41.006834999,"data":"2026-10-20 10:22:02,116 INFO Starting tier4-hmm-regime on device cpu...\n"}
+,{"stream_name":"stderr","time":41.006897224,"data":"2026-10-20 10:22:02,116 INFO Executing training for member tier4-hmm-regime on cpu...\n"}
+,{"stream_name":"stderr","time":41.007551953,"data":"2026-10-20 10:22:02,116 INFO Executing training for member tier4-kronos-macro on cuda:1...\n"}
+,{"stream_name":"stderr","time":41.83620264,"data":"2026-10-20 10:22:02,945 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, 42 requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset\n"}
+,{"stream_name":"stderr","time":42.618558988,"data":"2026-10-20 10:22:03,727 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":42.619127076,"data":"2026-10-20 10:22:03,728 WARNING Could not list files in HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset: 401 Client Error. (Request ID: Root=1-6ad740cb-1cac76987b5383a03dd1a9ff;59b09347-2918-4bd4-8868-fdbd138be4e2)\n"}
+,{"stream_name":"stderr","time":42.619142662,"data":"\n"}
+,{"stream_name":"stderr","time":42.619146731,"data":"Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true\u0026expand=false.\n"}
+,{"stream_name":"stderr","time":42.619151133,"data":"Please make sure you specified the correct `repo_id` and `repo_type`.\n"}
+,{"stream_name":"stderr","time":42.619155319,"data":"If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.\n"}
+,{"stream_name":"stderr","time":42.619159427,"data":"For more details, see https://huggingface.co/docs/huggingface_hub/authentication\n"}
+,{"stream_name":"stderr","time":42.619163069,"data":"User Access Token \"qwen 3.6 tpu\" is expired\n"}
+,{"stream_name":"stderr","time":42.619412036,"data":"2026-10-20 10:22:03,728 WARNING Available feature parquets under /tmp/impjr/feature engineering scripts/output (0) less than minimum required (42) and HF repo unreachable. Generating bootstrap conforming multi-day feature dataset locally...\n"}
+,{"stream_name":"stderr","time":42.87778135,"data":"2026-10-20 10:22:03,986 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-01.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":43.0114009,"data":"2026-10-20 10:22:04,120 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-02.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":43.132217601,"data":"2026-10-20 10:22:04,241 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-03.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":43.246056962,"data":"2026-10-20 10:22:04,355 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-04.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":43.356350275,"data":"2026-10-20 10:22:04,465 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-05.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":43.468994118,"data":"2026-10-20 10:22:04,575 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-06.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":43.573742824,"data":"2026-10-20 10:22:04,683 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-07.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":43.691683038,"data":"2026-10-20 10:22:04,799 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-08.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":43.748406322,"data":"2026-10-20 10:22:04,857 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (8 found, 42 requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset\n"}
+,{"stream_name":"stderr","time":43.794147315000004,"data":"2026-10-20 10:22:04,903 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-09.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":43.906183855,"data":"2026-10-20 10:22:05,015 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-10.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.024449653,"data":"2026-10-20 10:22:05,133 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-11.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.315748426,"data":"2026-10-20 10:22:05,425 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-12.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.324141999,"data":"2026-10-20 10:22:05,433 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":44.324671589,"data":"2026-10-20 10:22:05,434 WARNING Could not list files in HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset: 401 Client Error. (Request ID: Root=1-6ad740cd-29cd38d91870c66a2ef51476;73cb60cf-0fb1-4455-9d11-f7b78d7f4816)\n"}
+,{"stream_name":"stderr","time":44.324688848,"data":"\n"}
+,{"stream_name":"stderr","time":44.324693267,"data":"Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true\u0026expand=false.\n"}
+,{"stream_name":"stderr","time":44.324697672,"data":"Please make sure you specified the correct `repo_id` and `repo_type`.\n"}
+,{"stream_name":"stderr","time":44.324701882,"data":"If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.\n"}
+,{"stream_name":"stderr","time":44.324706118,"data":"For more details, see https://huggingface.co/docs/huggingface_hub/authentication\n"}
+,{"stream_name":"stderr","time":44.32471,"data":"User Access Token \"qwen 3.6 tpu\" is expired\n"}
+,{"stream_name":"stderr","time":44.3250852,"data":"2026-10-20 10:22:05,434 WARNING Available feature parquets under /tmp/impjr/feature engineering scripts/output (12) less than minimum required (42) and HF repo unreachable. Generating bootstrap conforming multi-day feature dataset locally...\n"}
+,{"stream_name":"stderr","time":44.434937946,"data":"2026-10-20 10:22:05,542 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-13.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.457585717,"data":"2026-10-20 10:22:05,566 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-13.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.548150897,"data":"2026-10-20 10:22:05,657 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-14.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.574402473,"data":"2026-10-20 10:22:05,680 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-14.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.703360594,"data":"2026-10-20 10:22:05,812 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-15.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.717852425,"data":"2026-10-20 10:22:05,827 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-15.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.77721501,"data":"2026-10-20 10:22:05,884 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-16.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.810215378,"data":"2026-10-20 10:22:05,919 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-16.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.850761069,"data":"2026-10-20 10:22:05,960 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-17.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.907286279,"data":"2026-10-20 10:22:06,015 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-17.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.93715927,"data":"2026-10-20 10:22:06,046 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-18.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":44.988649573000004,"data":"2026-10-20 10:22:06,098 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-18.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":45.032874255,"data":"2026-10-20 10:22:06,142 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-19.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":45.086866576,"data":"2026-10-20 10:22:06,196 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-19.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":45.131293296,"data":"2026-10-20 10:22:06,240 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-20.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":45.162925294,"data":"2026-10-20 10:22:06,272 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-20.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":45.22154797,"data":"2026-10-20 10:22:06,330 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-21.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":45.242436026,"data":"2026-10-20 10:22:06,348 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-21.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":45.315436625,"data":"2026-10-20 10:22:06,422 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-22.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":45.787448075,"data":"2026-10-20 10:22:06,894 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-23.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":45.804474396,"data":"2026-10-20 10:22:06,913 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-22.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":45.882232073,"data":"2026-10-20 10:22:06,991 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-24.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":45.904358705,"data":"2026-10-20 10:22:07,013 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-24.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":45.972993658,"data":"2026-10-20 10:22:07,082 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-25.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.008414929,"data":"2026-10-20 10:22:07,117 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-25.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.048009062,"data":"2026-10-20 10:22:07,157 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-26.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.117873527,"data":"2026-10-20 10:22:07,225 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-26.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.139594787,"data":"2026-10-20 10:22:07,248 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-27.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.215263788,"data":"2026-10-20 10:22:07,324 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-28.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.226293341,"data":"2026-10-20 10:22:07,335 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-27.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.302694716,"data":"2026-10-20 10:22:07,411 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-29.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.336462532,"data":"2026-10-20 10:22:07,445 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-29.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.38568115,"data":"2026-10-20 10:22:07,495 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-30.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.446099468,"data":"2026-10-20 10:22:07,555 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-09-30.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.469422321,"data":"2026-10-20 10:22:07,574 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-01.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.539252052,"data":"2026-10-20 10:22:07,648 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-02.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.557347436,"data":"2026-10-20 10:22:07,666 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-01.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.617830882,"data":"2026-10-20 10:22:07,727 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-03.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.65970529,"data":"2026-10-20 10:22:07,769 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-03.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.702455538,"data":"2026-10-20 10:22:07,808 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-04.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.767676962,"data":"2026-10-20 10:22:07,875 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-04.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":46.775857732,"data":"2026-10-20 10:22:07,885 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-05.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.419662042,"data":"2026-10-20 10:22:08,528 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-06.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.425204749,"data":"2026-10-20 10:22:08,534 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-06.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.510434044,"data":"2026-10-20 10:22:08,617 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-07.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.528282279,"data":"2026-10-20 10:22:08,637 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-07.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.624935213,"data":"2026-10-20 10:22:08,734 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-08.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.651448805,"data":"2026-10-20 10:22:08,759 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-08.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.727793162,"data":"2026-10-20 10:22:08,837 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-09.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.731742372,"data":"2026-10-20 10:22:08,841 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-09.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.79980912,"data":"2026-10-20 10:22:08,909 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-10.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.835248439,"data":"2026-10-20 10:22:08,944 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-10.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.875691655,"data":"2026-10-20 10:22:08,985 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-11.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.937441639,"data":"2026-10-20 10:22:09,044 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-11.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":47.96267632,"data":"2026-10-20 10:22:09,072 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-12.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":48.028402736,"data":"2026-10-20 10:22:09,137 INFO Generated bootstrap feature parquet: features_BTCUSDT_2026-10-12.parquet (8640, 226)\n"}
+,{"stream_name":"stderr","time":50.126760064,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":50.128347999,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":50.128366872,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":50.128371497,"data":"  File \"/tmp/impjr/feature engineering scripts/models/kronos_finetune/train.py\", line 773, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":50.128375302,"data":"    main()\n"}
+,{"stream_name":"stderr","time":50.128378981,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":50.128382049,"data":"  File \"/tmp/impjr/feature engineering scripts/models/kronos_finetune/train.py\", line 765, in main\n"}
+,{"stream_name":"stderr","time":50.128385687,"data":"    run(args.val_days, args.max_days, args.lookback_window, args.predict_window,\n"}
+,{"stream_name":"stderr","time":50.128389256,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":50.128392827,"data":"        args.tokenizer_epochs, args.basemodel_epochs, args.batch_size, args.skip_finetune, args.upload,\n"}
+,{"stream_name":"stderr","time":50.128396491,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":50.128417202,"data":"        args.gpus, args.resume, sample_count=args.sample_count, temperature=args.temperature,\n"}
+,{"stream_name":"stderr","time":50.128420936,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":50.128424624,"data":"        max_samples=args.max_samples, predictor_lr=args.predictor_lr,\n"}
+,{"stream_name":"stderr","time":50.128428355,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":50.128432379,"data":"        accumulation_steps=args.accumulation_steps)\n"}
+,{"stream_name":"stderr","time":50.128435836,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":50.12843936,"data":"  File \"/tmp/impjr/feature engineering scripts/models/kronos_finetune/train.py\", line 541, in run\n"}
+,{"stream_name":"stderr","time":50.128442986,"data":"    df = load_days(max_days=max_days)\n"}
+,{"stream_name":"stderr","time":50.128446556,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":50.128450267,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":50.128469476,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":50.128473479,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":50.12847723,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":50.128480769,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":50.128484551,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":50.128488246,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":50.128491983,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":50.128495264,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":50.128498578,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":50.128502376,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":50.128507052,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":50.128510896,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":50.128514064,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":50.12851764,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":50.128521421,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":50.128706243,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":50.128715973,"data":"\n"}
+,{"stream_name":"stderr","time":50.128719457,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":50.128723173,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":50.128726768,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":50.128730501,"data":"\n"}
+,{"stream_name":"stderr","time":51.01008473,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":51.011452786,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":51.011474418,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":51.011479236,"data":"  File \"/tmp/impjr/feature engineering scripts/models/hmm_regime/train.py\", line 136, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":51.011483151,"data":"    main()\n"}
+,{"stream_name":"stderr","time":51.011486695,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":51.011489808,"data":"  File \"/tmp/impjr/feature engineering scripts/models/hmm_regime/train.py\", line 132, in main\n"}
+,{"stream_name":"stderr","time":51.011493001,"data":"    run(args.n_states, args.n_folds, args.val_days, args.max_days, args.upload)\n"}
+,{"stream_name":"stderr","time":51.011496538,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":51.01149977,"data":"  File \"/tmp/impjr/feature engineering scripts/models/hmm_regime/train.py\", line 78, in run\n"}
+,{"stream_name":"stderr","time":51.011503418,"data":"    df = filter_valid(load_days(max_days=max_days))\n"}
+,{"stream_name":"stderr","time":51.011525207,"data":"                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":51.011528704,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":51.011532247,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":51.011535596,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":51.011538711,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":51.011542361,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":51.011545272,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":51.011548709,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":51.011558234,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":51.011561627,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":51.011564756,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":51.01156795,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":51.011571191,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":51.011574323,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":51.011577866,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":51.011581195,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":51.011584452,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":51.011588049,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":51.011591498,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":51.01159494,"data":"\n"}
+,{"stream_name":"stderr","time":51.011597999,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":51.011601327,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":51.011604747,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":51.011607968,"data":"\n"}
+,{"stream_name":"stderr","time":51.151551724,"data":"2026-10-20 10:22:12,260 WARNING Subprocess models.hmm_regime.train returned non-zero code 1. Ensuring fallback metrics.\n"}
+,{"stream_name":"stderr","time":51.26444539,"data":"2026-10-20 10:22:12,373 INFO Finished tier4-hmm-regime in 0.17 min. Uploading atomically to HF (p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro)...\n"}
+,{"stream_name":"stderr","time":51.473253878,"data":"2026-10-20 10:22:12,582 INFO HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":51.668625777,"data":"2026-10-20 10:22:12,778 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":52.310187305,"data":"2026-10-20 10:22:13,419 WARNING Subprocess models.kronos_finetune.train returned non-zero code 1. Ensuring fallback metrics.\n"}
+,{"stream_name":"stderr","time":52.311954797,"data":"2026-10-20 10:22:13,421 INFO Finished tier4-kronos-macro in 0.19 min. Uploading atomically to HF (p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro)...\n"}
+,{"stream_name":"stderr","time":52.504143662,"data":"2026-10-20 10:22:13,613 INFO HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":52.697008023,"data":"2026-10-20 10:22:13,806 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":56.898101675,"data":"2026-10-20 10:22:18,007 INFO NumExpr defaulting to 4 threads.\n"}
+,{"stream_name":"stderr","time":69.130121318,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":69.131299172,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":69.131334546,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":69.131340366,"data":"  File \"/tmp/impjr/feature engineering scripts/models/patchtst/train.py\", line 70, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":69.131344966,"data":"    main()\n"}
+,{"stream_name":"stderr","time":69.131349214,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":69.131353116,"data":"  File \"/tmp/impjr/feature engineering scripts/models/patchtst/train.py\", line 66, in main\n"}
+,{"stream_name":"stderr","time":69.131357386,"data":"    run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)\n"}
+,{"stream_name":"stderr","time":69.131362129,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":69.131366519,"data":"  File \"/tmp/impjr/feature engineering scripts/models/patchtst/train.py\", line 32, in run\n"}
+,{"stream_name":"stderr","time":69.131370729,"data":"    df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py\n"}
+,{"stream_name":"stderr","time":69.131374936,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":69.131379142,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":69.13138368,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":69.131387844,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":69.131392164,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":69.131396517,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":69.131401682,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":69.131406401,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":69.131410592,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":69.131414941,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":69.13141922,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":69.131423735,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":69.131427824,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":69.131432189,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":69.131447861,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":69.13145179200001,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":69.131454853,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":69.13145844,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":69.131461872,"data":"\n"}
+,{"stream_name":"stderr","time":69.131465159,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":69.131469018,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":69.131472496,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":69.131475947,"data":"\n"}
+,{"stream_name":"stderr","time":71.065663311,"data":"2026-10-20 10:22:32,175 WARNING Subprocess models.patchtst.train returned non-zero code 1. Ensuring fallback metrics.\n"}
+,{"stream_name":"stderr","time":71.06727687,"data":"2026-10-20 10:22:32,176 INFO Finished tier4-patchtst-ffd in 0.50 min. Uploading atomically to HF (p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro)...\n"}
+,{"stream_name":"stderr","time":71.29190228,"data":"2026-10-20 10:22:32,401 INFO HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":71.488496249,"data":"2026-10-20 10:22:32,597 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":71.499719385,"data":"2026-10-20 10:22:32,598 ERROR v4.0 Multi-Horizon Training encountered error: name 'log' is not defined\n"}
+,{"stream_name":"stderr","time":71.499737787,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":71.499740807,"data":"  File \"/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py\", line 798, in hf_raise_for_status\n"}
+,{"stream_name":"stderr","time":71.499756947,"data":"    response.raise_for_status()\n"}
+,{"stream_name":"stderr","time":71.499760988,"data":"    ~~~~~~~~~~~~~~~~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":71.499764905,"data":"  File \"/usr/local/lib/python3.13/dist-packages/httpx/_models.py\", line 829, in raise_for_status\n"}
+,{"stream_name":"stderr","time":71.499768726,"data":"    raise HTTPStatusError(message, request=request, response=self)\n"}
+,{"stream_name":"stderr","time":71.499772969,"data":"httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/repos/create'\n"}
+,{"stream_name":"stderr","time":71.499777208,"data":"For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401\n"}
+,{"stream_name":"stderr","time":71.499786554,"data":"\n"}
+,{"stream_name":"stderr","time":71.499789702,"data":"The above exception was the direct cause of the following exception:\n"}
+,{"stream_name":"stderr","time":71.499793089,"data":"\n"}
+,{"stream_name":"stderr","time":71.499796226,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":71.499799573,"data":"  File \"/tmp/impjr/feature engineering scripts/common/hf_model_upload.py\", line 39, in ensure_private_repo\n"}
+,{"stream_name":"stderr","time":71.499803072,"data":"    api.create_repo(repo_id=repo_id, repo_type=repo_type, exist_ok=True, private=True)\n"}
+,{"stream_name":"stderr","time":71.499806497,"data":"    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":71.499809937,"data":"  File \"/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_deprecation.py\", line 101, in inner_f\n"}
+,{"stream_name":"stderr","time":71.499822547,"data":"    return f(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":71.499825952,"data":"  File \"/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py\", line 88, in _inner_fn\n"}
+,{"stream_name":"stderr","time":71.499829568,"data":"    return fn(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":71.499834526,"data":"  File \"/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py\", line 4851, in create_repo\n"}
+,{"stream_name":"stderr","time":71.499841688,"data":"    raise err\n"}
+,{"stream_name":"stderr","time":71.499856008,"data":"  File \"/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py\", line 4835, in create_repo\n"}
+,{"stream_name":"stderr","time":71.499860597,"data":"    hf_raise_for_status(r)\n"}
+,{"stream_name":"stderr","time":71.49986442,"data":"    ~~~~~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":71.499868212,"data":"  File \"/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py\", line 928, in hf_raise_for_status\n"}
+,{"stream_name":"stderr","time":71.499872772,"data":"    raise _format(HfHubHTTPError, str(e), response) from e\n"}
+,{"stream_name":"stderr","time":71.49987634,"data":"huggingface_hub.errors.HfHubHTTPError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/repos/create' (Request ID: Root=1-6ad740d4-1824bed17211a66e191dad69;b9f83b0c-5896-493f-9a41-66479c93f659)\n"}
+,{"stream_name":"stderr","time":71.499881268,"data":"For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401\n"}
+,{"stream_name":"stderr","time":71.499884824,"data":"\n"}
+,{"stream_name":"stderr","time":71.499887899,"data":"User Access Token \"qwen 3.6 tpu\" is expired\n"}
+,{"stream_name":"stderr","time":71.499891297,"data":"\n"}
+,{"stream_name":"stderr","time":71.499894477,"data":"During handling of the above exception, another exception occurred:\n"}
+,{"stream_name":"stderr","time":71.499897895,"data":"\n"}
+,{"stream_name":"stderr","time":71.499901008,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":71.49990422,"data":"  File \"/tmp/impjr/feature engineering scripts/common/hf_model_upload.py\", line 267, in upload_member_checkpoint\n"}
+,{"stream_name":"stderr","time":71.499907827,"data":"    ensure_private_repo(target_repo, \"model\", api)\n"}
+,{"stream_name":"stderr","time":71.499911264,"data":"    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":71.49991452,"data":"  File \"/tmp/impjr/feature engineering scripts/common/hf_model_upload.py\", line 42, in ensure_private_repo\n"}
+,{"stream_name":"stderr","time":71.499918097,"data":"    log.warning(\"Could not ensure private repo %s (%s): %s\", repo_id, repo_type, e)\n"}
+,{"stream_name":"stderr","time":71.499921664,"data":"    ^^^\n"}
+,{"stream_name":"stderr","time":71.499924863,"data":"NameError: name 'log' is not defined\n"}
+,{"stream_name":"stderr","time":71.499929783,"data":"\n"}
+,{"stream_name":"stderr","time":71.499936,"data":"During handling of the above exception, another exception occurred:\n"}
+,{"stream_name":"stderr","time":71.499938406,"data":"\n"}
+,{"stream_name":"stderr","time":71.499951395,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":71.499955368,"data":"  File \"/tmp/impjr/feature engineering scripts/orchestration/kaggle_relay/run_kaggle_session.py\", line 102, in main\n"}
+,{"stream_name":"stderr","time":71.499959648,"data":"    v4_results = train_all_multi_horizon.run(budget=budget, force_retrain=force_retrain)\n"}
+,{"stream_name":"stderr","time":71.499968173,"data":"  File \"/tmp/impjr/feature engineering scripts/models_v3/train_all_multi_horizon.py\", line 177, in run\n"}
+,{"stream_name":"stderr","time":71.499971982,"data":"    ok = execute_dual_t4_tier_training_wave(\n"}
+,{"stream_name":"stderr","time":71.499975293,"data":"        tier_name=tier,\n"}
+,{"stream_name":"stderr","time":71.499978539,"data":"    ...\u003c4 lines\u003e...\n"}
+,{"stream_name":"stderr","time":71.499982087,"data":"        hf_token=hf_token,\n"}
+,{"stream_name":"stderr","time":71.49998542,"data":"    )\n"}
+,{"stream_name":"stderr","time":71.499988698,"data":"  File \"/tmp/impjr/feature engineering scripts/orchestration/checkpoint_manager_v4.py\", line 162, in execute_dual_t4_tier_training_wave\n"}
+,{"stream_name":"stderr","time":71.499992645,"data":"    if not fut.result():\n"}
+,{"stream_name":"stderr","time":71.499995838,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":71.499999024,"data":"  File \"/usr/lib/python3.13/concurrent/futures/_base.py\", line 453, in result\n"}
+,{"stream_name":"stderr","time":71.500002468,"data":"    return self.__get_result()\n"}
+,{"stream_name":"stderr","time":71.500005696,"data":"           ~~~~~~~~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":71.500008965,"data":"  File \"/usr/lib/python3.13/concurrent/futures/_base.py\", line 402, in __get_result\n"}
+,{"stream_name":"stderr","time":71.500012403,"data":"    raise self._exception\n"}
+,{"stream_name":"stderr","time":71.500015606,"data":"  File \"/usr/lib/python3.13/concurrent/futures/thread.py\", line 59, in run\n"}
+,{"stream_name":"stderr","time":71.500019088,"data":"    result = self.fn(*self.args, **self.kwargs)\n"}
+,{"stream_name":"stderr","time":71.500024122,"data":"  File \"/tmp/impjr/feature engineering scripts/orchestration/checkpoint_manager_v4.py\", line 145, in _run_device_lane\n"}
+,{"stream_name":"stderr","time":71.500031115,"data":"    upload_member_checkpoint(\n"}
+,{"stream_name":"stderr","time":71.500033906,"data":"    ~~~~~~~~~~~~~~~~~~~~~~~~^\n"}
+,{"stream_name":"stderr","time":71.500047217,"data":"        member_name=spec.member_name,\n"}
+,{"stream_name":"stderr","time":71.500051377,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":71.500055243,"data":"    ...\u003c2 lines\u003e...\n"}
+,{"stream_name":"stderr","time":71.50005943,"data":"        token=hf_token,\n"}
+,{"stream_name":"stderr","time":71.500063678,"data":"        ^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":71.500067,"data":"    )\n"}
+,{"stream_name":"stderr","time":71.500070166,"data":"    ^\n"}
+,{"stream_name":"stderr","time":71.500073342,"data":"  File \"/tmp/impjr/feature engineering scripts/common/hf_model_upload.py\", line 284, in upload_member_checkpoint\n"}
+,{"stream_name":"stderr","time":71.50007697,"data":"    log.warning(\"upload_member_checkpoint failed for %s (%s): %s\", member_name, target_repo, e)\n"}
+,{"stream_name":"stderr","time":71.500080602,"data":"    ^^^\n"}
+,{"stream_name":"stderr","time":71.500083822,"data":"NameError: name 'log' is not defined\n"}
+,{"stream_name":"stderr","time":71.691620856,"data":"2026-10-20 10:22:32,801 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":71.887383286,"data":"2026-10-20 10:22:32,996 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-gbm-family/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":71.887734912,"data":"2026-10-20 10:22:32,997 INFO Running: /usr/bin/python3 -m models.gbm_family.train --val-days 7 --upload (timeout 11.24h)\n"}
+,{"stream_name":"stderr","time":73.895857896,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":73.896986883,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":73.89701995,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":73.897025007,"data":"  File \"/tmp/impjr/feature engineering scripts/models/gbm_family/train.py\", line 272, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":73.89702925,"data":"    main()\n"}
+,{"stream_name":"stderr","time":73.897033681,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":73.897037174,"data":"  File \"/tmp/impjr/feature engineering scripts/models/gbm_family/train.py\", line 268, in main\n"}
+,{"stream_name":"stderr","time":73.897041287,"data":"    run(args.n_folds, args.val_days, args.max_days, args.upload, with_news=args.with_news)\n"}
+,{"stream_name":"stderr","time":73.897045337,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":73.897049287,"data":"  File \"/tmp/impjr/feature engineering scripts/models/gbm_family/train.py\", line 180, in run\n"}
+,{"stream_name":"stderr","time":73.897053536,"data":"    df = filter_valid(load_days(max_days=max_days))\n"}
+,{"stream_name":"stderr","time":73.897057487,"data":"                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":73.897061631,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":73.897065778,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":73.897069287,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":73.897072606,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":73.897076137,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":73.897079428,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":73.897087959,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":73.897090757,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":73.8970931,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":73.897095264,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":73.897097469,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":73.897099824,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":73.897102002,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":73.897104452,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":73.897106697,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":73.897109044,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":73.8971114,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":73.897128513,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":73.897131699,"data":"\n"}
+,{"stream_name":"stderr","time":73.897149955,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":73.897154253,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":73.897158214,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":73.897162274,"data":"\n"}
+,{"stream_name":"stderr","time":74.154313805,"data":"2026-10-20 10:22:35,263 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":74.350360803,"data":"2026-10-20 10:22:35,459 INFO HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":74.546595902,"data":"2026-10-20 10:22:35,655 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":74.546996565,"data":"2026-10-20 10:22:35,656 WARNING Could not record failure of gbm-family on HF: name 'log' is not defined\n"}
+,{"stream_name":"stderr","time":74.547451513,"data":"2026-10-20 10:22:35,656 ERROR gbm-family: failed (attempt 1/3)\n"}
+,{"stream_name":"stderr","time":74.547470269,"data":"2026-10-20 10:22:35,656 ERROR gbm-family FAILED — continuing with remaining members\n"}
+,{"stream_name":"stderr","time":74.767550126,"data":"2026-10-20 10:22:35,876 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-hmm-regime/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":74.767859044,"data":"2026-10-20 10:22:35,877 INFO Running: /usr/bin/python3 -m models.hmm_regime.train --val-days 7 --upload (timeout 11.24h)\n"}
+,{"stream_name":"stderr","time":76.804329163,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":76.8055616,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":76.805581273,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":76.805586346,"data":"  File \"/tmp/impjr/feature engineering scripts/models/hmm_regime/train.py\", line 136, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":76.805591159,"data":"    main()\n"}
+,{"stream_name":"stderr","time":76.805595162,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":76.805599063,"data":"  File \"/tmp/impjr/feature engineering scripts/models/hmm_regime/train.py\", line 132, in main\n"}
+,{"stream_name":"stderr","time":76.805603475,"data":"    run(args.n_states, args.n_folds, args.val_days, args.max_days, args.upload)\n"}
+,{"stream_name":"stderr","time":76.80560744,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":76.805611618,"data":"  File \"/tmp/impjr/feature engineering scripts/models/hmm_regime/train.py\", line 78, in run\n"}
+,{"stream_name":"stderr","time":76.805615885,"data":"    df = filter_valid(load_days(max_days=max_days))\n"}
+,{"stream_name":"stderr","time":76.80561999,"data":"                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":76.80562386,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":76.805627997,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":76.805645467,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":76.805649864,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":76.805654399,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":76.805658427,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":76.805662486,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":76.805666574,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":76.805671323,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":76.805675417,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":76.805679283,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":76.805683584,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":76.805687556,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":76.805691872,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":76.805696161,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":76.805701161,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":76.805705184,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":76.805709396,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":76.805714157,"data":"\n"}
+,{"stream_name":"stderr","time":76.80571845,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":76.805722804,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":76.805726898,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":76.805730998,"data":"\n"}
+,{"stream_name":"stderr","time":77.086592416,"data":"2026-10-20 10:22:38,195 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":77.283911914,"data":"2026-10-20 10:22:38,393 INFO HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":77.477868324,"data":"2026-10-20 10:22:38,587 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":77.478189521,"data":"2026-10-20 10:22:38,587 WARNING Could not record failure of hmm-regime on HF: name 'log' is not defined\n"}
+,{"stream_name":"stderr","time":77.47820259,"data":"2026-10-20 10:22:38,587 ERROR hmm-regime: failed (attempt 1/3)\n"}
+,{"stream_name":"stderr","time":77.478279667,"data":"2026-10-20 10:22:38,587 ERROR hmm-regime FAILED — continuing with remaining members\n"}
+,{"stream_name":"stderr","time":77.665125189,"data":"2026-10-20 10:22:38,774 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-sentiment-branch/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":77.665347541,"data":"2026-10-20 10:22:38,774 INFO Running: /usr/bin/python3 -m models.sentiment_branch.train --val-days 7 --upload (timeout 11.24h)\n"}
+,{"stream_name":"stderr","time":79.724834826,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":79.726168127,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":79.726207094,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":79.726213187,"data":"  File \"/tmp/impjr/feature engineering scripts/models/sentiment_branch/train.py\", line 256, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":79.72621803,"data":"    main()\n"}
+,{"stream_name":"stderr","time":79.726221909,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":79.726225951,"data":"  File \"/tmp/impjr/feature engineering scripts/models/sentiment_branch/train.py\", line 252, in main\n"}
+,{"stream_name":"stderr","time":79.726230019,"data":"    run(args.val_days, args.max_days, args.upload, with_news=args.with_news)\n"}
+,{"stream_name":"stderr","time":79.726234307,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":79.726237811,"data":"  File \"/tmp/impjr/feature engineering scripts/models/sentiment_branch/train.py\", line 145, in run\n"}
+,{"stream_name":"stderr","time":79.726250856,"data":"    df = filter_valid(load_days(max_days=max_days))\n"}
+,{"stream_name":"stderr","time":79.726254362,"data":"                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":79.726257817,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":79.726267059,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":79.726269724,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":79.726271949,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":79.726274289,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":79.726276444,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":79.726278922,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":79.726281059,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":79.726283367,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":79.726285495,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":79.726287694,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":79.726289987,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":79.726292669,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":79.726307608,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":79.726311528,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":79.726330069,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":79.726333765,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":79.726337137,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":79.72635078,"data":"\n"}
+,{"stream_name":"stderr","time":79.72635408,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":79.726357397,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":79.726360725,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":79.726364505,"data":"\n"}
+,{"stream_name":"stderr","time":79.980054165,"data":"2026-10-20 10:22:41,089 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":80.17295432,"data":"2026-10-20 10:22:41,282 INFO HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":80.362823222,"data":"2026-10-20 10:22:41,472 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":80.363222543,"data":"2026-10-20 10:22:41,472 WARNING Could not record failure of sentiment-branch on HF: name 'log' is not defined\n"}
+,{"stream_name":"stderr","time":80.363281135,"data":"2026-10-20 10:22:41,472 ERROR sentiment-branch: failed (attempt 1/3)\n"}
+,{"stream_name":"stderr","time":80.36420488,"data":"2026-10-20 10:22:41,472 ERROR sentiment-branch FAILED — continuing with remaining members\n"}
+,{"stream_name":"stderr","time":80.554579739,"data":"2026-10-20 10:22:41,663 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":80.554881281,"data":"2026-10-20 10:22:41,664 INFO Running: /usr/bin/python3 -m models.ssm_challenger.train --val-days 7 --upload --commit-to-hf (timeout 11.24h)\n"}
+,{"stream_name":"stderr","time":84.117832221,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":84.119166991,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":84.119182178,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":84.11918732,"data":"  File \"/tmp/impjr/feature engineering scripts/models/ssm_challenger/train.py\", line 323, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":84.119192043,"data":"    main()\n"}
+,{"stream_name":"stderr","time":84.119195429,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":84.11919973,"data":"  File \"/tmp/impjr/feature engineering scripts/models/ssm_challenger/train.py\", line 318, in main\n"}
+,{"stream_name":"stderr","time":84.119204163,"data":"    run(args.val_days, args.max_days, args.lookback, args.stride, args.epochs, args.batch_size, args.lr, args.upload,\n"}
+,{"stream_name":"stderr","time":84.119208772,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":84.119212921,"data":"        args.gpus, args.resume, args.save_every, args.commit_to_hf)\n"}
+,{"stream_name":"stderr","time":84.119217324,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":84.11922161,"data":"  File \"/tmp/impjr/feature engineering scripts/models/ssm_challenger/train.py\", line 243, in run\n"}
+,{"stream_name":"stderr","time":84.119225968,"data":"    df = load_days(max_days=max_days)  # NOT filter_valid — see module docstring\n"}
+,{"stream_name":"stderr","time":84.11923074,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":84.119252403,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":84.119255348,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":84.119257707,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":84.119260182,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":84.11926252,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":84.119265077,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":84.119267761,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":84.11927028,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":84.119272545,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":84.119274909,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":84.11927741,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":84.119279747,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":84.119282237,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":84.119284613,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":84.119287076,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":84.119289474,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":84.119312971,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":84.119333759,"data":"\n"}
+,{"stream_name":"stderr","time":84.119337757,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":84.119341384,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":84.119344931,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":84.119348432,"data":"\n"}
+,{"stream_name":"stderr","time":84.581082728,"data":"2026-10-20 10:22:45,690 WARNING ssm-challenger failed on 2 GPUs — retrying once with --gpus 1\n"}
+,{"stream_name":"stderr","time":84.581115899,"data":"2026-10-20 10:22:45,690 INFO Running: /usr/bin/python3 -m models.ssm_challenger.train --val-days 7 --upload --gpus 1 --commit-to-hf (timeout 11.24h)\n"}
+,{"stream_name":"stderr","time":88.151491692,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":88.152716491,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":88.152744333,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":88.152749101,"data":"  File \"/tmp/impjr/feature engineering scripts/models/ssm_challenger/train.py\", line 323, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":88.152752971,"data":"    main()\n"}
+,{"stream_name":"stderr","time":88.152756299,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":88.152759799,"data":"  File \"/tmp/impjr/feature engineering scripts/models/ssm_challenger/train.py\", line 318, in main\n"}
+,{"stream_name":"stderr","time":88.152776359,"data":"    run(args.val_days, args.max_days, args.lookback, args.stride, args.epochs, args.batch_size, args.lr, args.upload,\n"}
+,{"stream_name":"stderr","time":88.152780022,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":88.152783341,"data":"        args.gpus, args.resume, args.save_every, args.commit_to_hf)\n"}
+,{"stream_name":"stderr","time":88.152786465,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":88.152789869,"data":"  File \"/tmp/impjr/feature engineering scripts/models/ssm_challenger/train.py\", line 243, in run\n"}
+,{"stream_name":"stderr","time":88.152793325,"data":"    df = load_days(max_days=max_days)  # NOT filter_valid — see module docstring\n"}
+,{"stream_name":"stderr","time":88.152797236,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":88.152800709,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":88.152803762,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":88.152806932,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":88.15281023,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":88.152813533,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":88.152816904,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":88.152820243,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":88.152823625,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":88.152826826,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":88.15282994,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":88.152833613,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":88.152836939,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":88.152840704,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":88.152843939,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":88.152847568,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":88.152850953,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":88.152855404,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":88.152859174,"data":"\n"}
+,{"stream_name":"stderr","time":88.152862596,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":88.152865853,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":88.152869047,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":88.152872117,"data":"\n"}
+,{"stream_name":"stderr","time":88.79903695,"data":"2026-10-20 10:22:49,908 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":88.995875197,"data":"2026-10-20 10:22:50,105 INFO HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":89.192230216,"data":"2026-10-20 10:22:50,301 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":89.192570555,"data":"2026-10-20 10:22:50,302 WARNING Could not record failure of ssm-challenger on HF: name 'log' is not defined\n"}
+,{"stream_name":"stderr","time":89.19263424,"data":"2026-10-20 10:22:50,302 ERROR ssm-challenger: failed (attempt 1/3)\n"}
+,{"stream_name":"stderr","time":89.192690739,"data":"2026-10-20 10:22:50,302 ERROR ssm-challenger FAILED — continuing with remaining members\n"}
+,{"stream_name":"stderr","time":89.391771193,"data":"2026-10-20 10:22:50,501 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tft/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":89.392107462,"data":"2026-10-20 10:22:50,501 INFO Running: /usr/bin/python3 -m models.tft.train --val-days 7 --upload (timeout 11.24h)\n"}
+,{"stream_name":"stderr","time":96.88899583,"data":"2026-10-20 10:22:57,998 INFO NumExpr defaulting to 4 threads.\n"}
+,{"stream_name":"stderr","time":102.574351488,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":102.575488873,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":102.575502947,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":102.575508606,"data":"  File \"/tmp/impjr/feature engineering scripts/models/tft/train.py\", line 77, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":102.575519959,"data":"    main()\n"}
+,{"stream_name":"stderr","time":102.575535814,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":102.575540598,"data":"  File \"/tmp/impjr/feature engineering scripts/models/tft/train.py\", line 73, in main\n"}
+,{"stream_name":"stderr","time":102.575546064,"data":"    run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)\n"}
+,{"stream_name":"stderr","time":102.575551108,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":102.57555588,"data":"  File \"/tmp/impjr/feature engineering scripts/models/tft/train.py\", line 39, in run\n"}
+,{"stream_name":"stderr","time":102.575560994,"data":"    df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py\n"}
+,{"stream_name":"stderr","time":102.575565465,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":102.575570194,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":102.575574426,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":102.575578475,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":102.575601501,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":102.575609511,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":102.575612681,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":102.575615553,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":102.575629733,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":102.575632231,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":102.575634594,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":102.575637045,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":102.575639412,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":102.575642031,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":102.575644287,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":102.575647173,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":102.575649562,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":102.575651881,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":102.575654317,"data":"\n"}
+,{"stream_name":"stderr","time":102.575656541,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":102.575658903,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":102.575661254,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":102.575663522,"data":"\n"}
+,{"stream_name":"stderr","time":104.301636735,"data":"2026-10-20 10:23:05,410 WARNING tft failed on 2 GPUs — retrying once with --gpus 1\n"}
+,{"stream_name":"stderr","time":104.301671799,"data":"2026-10-20 10:23:05,411 INFO Running: /usr/bin/python3 -m models.tft.train --val-days 7 --upload --gpus 1 (timeout 11.23h)\n"}
+,{"stream_name":"stderr","time":111.868281194,"data":"2026-10-20 10:23:12,977 INFO NumExpr defaulting to 4 threads.\n"}
+,{"stream_name":"stderr","time":117.602168497,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":117.603304237,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":117.603332589,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":117.603337128,"data":"  File \"/tmp/impjr/feature engineering scripts/models/tft/train.py\", line 77, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":117.603341753,"data":"    main()\n"}
+,{"stream_name":"stderr","time":117.603345773,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":117.603349178,"data":"  File \"/tmp/impjr/feature engineering scripts/models/tft/train.py\", line 73, in main\n"}
+,{"stream_name":"stderr","time":117.603353371,"data":"    run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)\n"}
+,{"stream_name":"stderr","time":117.603357284,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":117.603360678,"data":"  File \"/tmp/impjr/feature engineering scripts/models/tft/train.py\", line 39, in run\n"}
+,{"stream_name":"stderr","time":117.603364275,"data":"    df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py\n"}
+,{"stream_name":"stderr","time":117.603368584,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":117.603372866,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":117.603389606,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":117.603393344,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":117.603397383,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":117.603402303,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":117.603409902,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":117.603412129,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":117.603414474,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":117.603416599,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":117.60341877,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":117.603421169,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":117.603423327,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":117.603425642,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":117.603427804,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":117.603430178,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":117.603432341,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":117.603435864,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":117.60343823,"data":"\n"}
+,{"stream_name":"stderr","time":117.603440567,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":117.603442755,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":117.603444982,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":117.603447186,"data":"\n"}
+,{"stream_name":"stderr","time":119.531926561,"data":"2026-10-20 10:23:20,641 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":119.729624437,"data":"2026-10-20 10:23:20,839 INFO HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":119.923549853,"data":"2026-10-20 10:23:21,032 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":119.923804413,"data":"2026-10-20 10:23:21,033 WARNING Could not record failure of tft on HF: name 'log' is not defined\n"}
+,{"stream_name":"stderr","time":119.923846287,"data":"2026-10-20 10:23:21,033 ERROR tft: failed (attempt 1/3)\n"}
+,{"stream_name":"stderr","time":119.923915953,"data":"2026-10-20 10:23:21,033 ERROR tft FAILED — continuing with remaining members\n"}
+,{"stream_name":"stderr","time":120.12167447,"data":"2026-10-20 10:23:21,231 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-patchtst/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":120.122020143,"data":"2026-10-20 10:23:21,231 INFO Running: /usr/bin/python3 -m models.patchtst.train --val-days 7 --upload (timeout 11.23h)\n"}
+,{"stream_name":"stderr","time":127.727861113,"data":"2026-10-20 10:23:28,837 INFO NumExpr defaulting to 4 threads.\n"}
+,{"stream_name":"stderr","time":133.30591101,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":133.307162303,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":133.30718321,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":133.307188418,"data":"  File \"/tmp/impjr/feature engineering scripts/models/patchtst/train.py\", line 70, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":133.307192749,"data":"    main()\n"}
+,{"stream_name":"stderr","time":133.307208874,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":133.307213384,"data":"  File \"/tmp/impjr/feature engineering scripts/models/patchtst/train.py\", line 66, in main\n"}
+,{"stream_name":"stderr","time":133.307217846,"data":"    run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)\n"}
+,{"stream_name":"stderr","time":133.307221436,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":133.307224995,"data":"  File \"/tmp/impjr/feature engineering scripts/models/patchtst/train.py\", line 32, in run\n"}
+,{"stream_name":"stderr","time":133.307229014,"data":"    df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py\n"}
+,{"stream_name":"stderr","time":133.307232651,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":133.307236452,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":133.307240928,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":133.307244744,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":133.307248476,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":133.307252651,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":133.307256719,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":133.307260198,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":133.30726382,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":133.30726747,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":133.307271004,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":133.307274716,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":133.307278199,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":133.307282064,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":133.307285302,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":133.307288987,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":133.307292441,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":133.307295868,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":133.307328992,"data":"\n"}
+,{"stream_name":"stderr","time":133.307336258,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":133.307340436,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":133.307344122,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":133.307347652,"data":"\n"}
+,{"stream_name":"stderr","time":134.984415124,"data":"2026-10-20 10:23:36,093 WARNING patchtst failed on 2 GPUs — retrying once with --gpus 1\n"}
+,{"stream_name":"stderr","time":134.984459401,"data":"2026-10-20 10:23:36,093 INFO Running: /usr/bin/python3 -m models.patchtst.train --val-days 7 --upload --gpus 1 (timeout 11.22h)\n"}
+,{"stream_name":"stderr","time":142.468418218,"data":"2026-10-20 10:23:43,577 INFO NumExpr defaulting to 4 threads.\n"}
+,{"stream_name":"stderr","time":148.126490078,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":148.127728597,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":148.127751083,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":148.127756523,"data":"  File \"/tmp/impjr/feature engineering scripts/models/patchtst/train.py\", line 70, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":148.127761503,"data":"    main()\n"}
+,{"stream_name":"stderr","time":148.127779523,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":148.127783998,"data":"  File \"/tmp/impjr/feature engineering scripts/models/patchtst/train.py\", line 66, in main\n"}
+,{"stream_name":"stderr","time":148.127789011,"data":"    run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)\n"}
+,{"stream_name":"stderr","time":148.12780069,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":148.127805376,"data":"  File \"/tmp/impjr/feature engineering scripts/models/patchtst/train.py\", line 32, in run\n"}
+,{"stream_name":"stderr","time":148.127809868,"data":"    df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py\n"}
+,{"stream_name":"stderr","time":148.127814259,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":148.12781953,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":148.127824081,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":148.127828456,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":148.127833419,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":148.127838215,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":148.127842621,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":148.127846986,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":148.12785168,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":148.127856099,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":148.127860341,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":148.127877061,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":148.127881169,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":148.127884609,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":148.127888025,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":148.127892005,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":148.127895664,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":148.127899311,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":148.127903183,"data":"\n"}
+,{"stream_name":"stderr","time":148.127906247,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":148.127909862,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":148.127913251,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":148.127916715,"data":"\n"}
+,{"stream_name":"stderr","time":150.014860784,"data":"2026-10-20 10:23:51,124 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":150.209616618,"data":"2026-10-20 10:23:51,319 INFO HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":150.399202751,"data":"2026-10-20 10:23:51,508 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":150.399591194,"data":"2026-10-20 10:23:51,509 WARNING Could not record failure of patchtst on HF: name 'log' is not defined\n"}
+,{"stream_name":"stderr","time":150.399607084,"data":"2026-10-20 10:23:51,509 ERROR patchtst: failed (attempt 1/3)\n"}
+,{"stream_name":"stderr","time":150.399611667,"data":"2026-10-20 10:23:51,509 ERROR patchtst FAILED — continuing with remaining members\n"}
+,{"stream_name":"stderr","time":150.595985693,"data":"2026-10-20 10:23:51,705 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-itransformer/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":150.596355616,"data":"2026-10-20 10:23:51,705 INFO Running: /usr/bin/python3 -m models.itransformer.train --val-days 7 --upload (timeout 11.22h)\n"}
+,{"stream_name":"stderr","time":158.025325826,"data":"2026-10-20 10:23:59,134 INFO NumExpr defaulting to 4 threads.\n"}
+,{"stream_name":"stderr","time":163.603615587,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":163.604897883,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":163.604914807,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":163.604920166,"data":"  File \"/tmp/impjr/feature engineering scripts/models/itransformer/train.py\", line 76, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":163.604925844,"data":"    main()\n"}
+,{"stream_name":"stderr","time":163.604930453,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":163.604934984,"data":"  File \"/tmp/impjr/feature engineering scripts/models/itransformer/train.py\", line 72, in main\n"}
+,{"stream_name":"stderr","time":163.604940373,"data":"    run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)\n"}
+,{"stream_name":"stderr","time":163.604957655,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":163.604962847,"data":"  File \"/tmp/impjr/feature engineering scripts/models/itransformer/train.py\", line 38, in run\n"}
+,{"stream_name":"stderr","time":163.604967654,"data":"    df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py\n"}
+,{"stream_name":"stderr","time":163.604972389,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":163.60497706,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":163.604981147,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":163.604985101,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":163.604992164,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":163.605000791,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":163.605003585,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":163.605006087,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":163.605008844,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":163.605011377,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":163.605013956,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":163.605016752,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":163.605019289,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":163.605022067,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":163.605024647,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":163.605027342,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":163.605031049,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":163.605052069,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":163.605057063,"data":"\n"}
+,{"stream_name":"stderr","time":163.605061135,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":163.605065827,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":163.60507038,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":163.605074259,"data":"\n"}
+,{"stream_name":"stderr","time":165.300451807,"data":"2026-10-20 10:24:06,409 WARNING itransformer failed on 2 GPUs — retrying once with --gpus 1\n"}
+,{"stream_name":"stderr","time":165.300504837,"data":"2026-10-20 10:24:06,409 INFO Running: /usr/bin/python3 -m models.itransformer.train --val-days 7 --upload --gpus 1 (timeout 11.21h)\n"}
+,{"stream_name":"stderr","time":172.760090628,"data":"2026-10-20 10:24:13,869 INFO NumExpr defaulting to 4 threads.\n"}
+,{"stream_name":"stderr","time":178.496225036,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":178.497361569,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":178.497392881,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":178.497398594,"data":"  File \"/tmp/impjr/feature engineering scripts/models/itransformer/train.py\", line 76, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":178.497402991,"data":"    main()\n"}
+,{"stream_name":"stderr","time":178.49740635,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":178.497409623,"data":"  File \"/tmp/impjr/feature engineering scripts/models/itransformer/train.py\", line 72, in main\n"}
+,{"stream_name":"stderr","time":178.497413285,"data":"    run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)\n"}
+,{"stream_name":"stderr","time":178.497416833,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":178.497420266,"data":"  File \"/tmp/impjr/feature engineering scripts/models/itransformer/train.py\", line 38, in run\n"}
+,{"stream_name":"stderr","time":178.497423864,"data":"    df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py\n"}
+,{"stream_name":"stderr","time":178.497427539,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":178.497432266,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":178.497436399,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":178.497440386,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":178.497444303,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":178.4974485,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":178.497452538,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":178.497456201,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":178.497460294,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":178.497463935,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":178.497467403,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":178.497471259,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":178.497475165,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":178.497478438,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":178.497482446,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":178.497486616,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":178.497490142,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":178.497495731,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":178.497499546,"data":"\n"}
+,{"stream_name":"stderr","time":178.497502769,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":178.497506688,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":178.497515458,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":178.497519145,"data":"\n"}
+,{"stream_name":"stderr","time":180.423693244,"data":"2026-10-20 10:24:21,533 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":180.617140652,"data":"2026-10-20 10:24:21,726 INFO HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":180.81270953,"data":"2026-10-20 10:24:21,922 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":180.813031781,"data":"2026-10-20 10:24:21,922 WARNING Could not record failure of itransformer on HF: name 'log' is not defined\n"}
+,{"stream_name":"stderr","time":180.813043294,"data":"2026-10-20 10:24:21,922 ERROR itransformer: failed (attempt 1/3)\n"}
+,{"stream_name":"stderr","time":180.813394099,"data":"2026-10-20 10:24:21,922 ERROR itransformer FAILED — continuing with remaining members\n"}
+,{"stream_name":"stderr","time":181.008040736,"data":"2026-10-20 10:24:22,117 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-nhits/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":181.008357053,"data":"2026-10-20 10:24:22,117 INFO Running: /usr/bin/python3 -m models.nhits.train --val-days 7 --upload (timeout 11.21h)\n"}
+,{"stream_name":"stderr","time":188.462444616,"data":"2026-10-20 10:24:29,571 INFO NumExpr defaulting to 4 threads.\n"}
+,{"stream_name":"stderr","time":194.201675478,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":194.202924807,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":194.202944787,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":194.202949165,"data":"  File \"/tmp/impjr/feature engineering scripts/models/nhits/train.py\", line 96, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":194.202952958,"data":"    main()\n"}
+,{"stream_name":"stderr","time":194.2029563,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":194.202959667,"data":"  File \"/tmp/impjr/feature engineering scripts/models/nhits/train.py\", line 92, in main\n"}
+,{"stream_name":"stderr","time":194.202963263,"data":"    run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)\n"}
+,{"stream_name":"stderr","time":194.202966715,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":194.202970215,"data":"  File \"/tmp/impjr/feature engineering scripts/models/nhits/train.py\", line 48, in run\n"}
+,{"stream_name":"stderr","time":194.20297376,"data":"    df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py\n"}
+,{"stream_name":"stderr","time":194.202977435,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":194.202981161,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":194.202984742,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":194.202988098,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":194.202991877,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":194.202995411,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":194.20300953,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":194.203012912,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":194.203016622,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":194.203019764,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":194.20302332,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":194.203027105,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":194.203030418,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":194.203033924,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":194.203037299,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":194.203040985,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":194.203044417,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":194.2030476,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":194.203051151,"data":"\n"}
+,{"stream_name":"stderr","time":194.203054475,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":194.203057782,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":194.203060857,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":194.203063955,"data":"\n"}
+,{"stream_name":"stderr","time":196.021973477,"data":"2026-10-20 10:24:37,131 WARNING nhits failed on 2 GPUs — retrying once with --gpus 1\n"}
+,{"stream_name":"stderr","time":196.022006971,"data":"2026-10-20 10:24:37,131 INFO Running: /usr/bin/python3 -m models.nhits.train --val-days 7 --upload --gpus 1 (timeout 11.21h)\n"}
+,{"stream_name":"stderr","time":203.51377025,"data":"2026-10-20 10:24:44,623 INFO NumExpr defaulting to 4 threads.\n"}
+,{"stream_name":"stderr","time":209.244442656,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":209.245703339,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":209.245728792,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":209.245734417,"data":"  File \"/tmp/impjr/feature engineering scripts/models/nhits/train.py\", line 96, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":209.245739995,"data":"    main()\n"}
+,{"stream_name":"stderr","time":209.24574499,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":209.245749718,"data":"  File \"/tmp/impjr/feature engineering scripts/models/nhits/train.py\", line 92, in main\n"}
+,{"stream_name":"stderr","time":209.245754326,"data":"    run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)\n"}
+,{"stream_name":"stderr","time":209.24575918,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":209.245763848,"data":"  File \"/tmp/impjr/feature engineering scripts/models/nhits/train.py\", line 48, in run\n"}
+,{"stream_name":"stderr","time":209.245768694,"data":"    df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py\n"}
+,{"stream_name":"stderr","time":209.245787454,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":209.245792126,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":209.245796287,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":209.245799937,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":209.245803548,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":209.245806895,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":209.245810402,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":209.245815303,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":209.245818995,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":209.245826215,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":209.245842988,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":209.245847198,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":209.24585102,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":209.245855358,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":209.245858797,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":209.245863132,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":209.245866983,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":209.245874313,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":209.24587785,"data":"\n"}
+,{"stream_name":"stderr","time":209.245881015,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":209.245884379,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":209.245887656,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":209.245892682,"data":"\n"}
+,{"stream_name":"stderr","time":211.19650768,"data":"2026-10-20 10:24:52,305 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":211.390060231,"data":"2026-10-20 10:24:52,499 INFO HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":211.586733901,"data":"2026-10-20 10:24:52,696 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":211.587146968,"data":"2026-10-20 10:24:52,696 WARNING Could not record failure of nhits on HF: name 'log' is not defined\n"}
+,{"stream_name":"stderr","time":211.587227606,"data":"2026-10-20 10:24:52,696 ERROR nhits: failed (attempt 1/3)\n"}
+,{"stream_name":"stderr","time":211.587301214,"data":"2026-10-20 10:24:52,696 ERROR nhits FAILED — continuing with remaining members\n"}
+,{"stream_name":"stderr","time":211.783186712,"data":"2026-10-20 10:24:52,892 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-kronos-finetune/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":211.783575267,"data":"2026-10-20 10:24:52,893 INFO Running: /usr/bin/python3 -m models.kronos_finetune.train --val-days 7 --upload (timeout 11.20h)\n"}
+,{"stream_name":"stderr","time":215.458272929,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":215.459579226,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":215.459594841,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":215.459599759,"data":"  File \"/tmp/impjr/feature engineering scripts/models/kronos_finetune/train.py\", line 773, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":215.459604555,"data":"    main()\n"}
+,{"stream_name":"stderr","time":215.459608173,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":215.459612228,"data":"  File \"/tmp/impjr/feature engineering scripts/models/kronos_finetune/train.py\", line 765, in main\n"}
+,{"stream_name":"stderr","time":215.45961631,"data":"    run(args.val_days, args.max_days, args.lookback_window, args.predict_window,\n"}
+,{"stream_name":"stderr","time":215.45962047,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":215.459624009,"data":"        args.tokenizer_epochs, args.basemodel_epochs, args.batch_size, args.skip_finetune, args.upload,\n"}
+,{"stream_name":"stderr","time":215.459628051,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":215.459631565,"data":"        args.gpus, args.resume, sample_count=args.sample_count, temperature=args.temperature,\n"}
+,{"stream_name":"stderr","time":215.459634986,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":215.459638358,"data":"        max_samples=args.max_samples, predictor_lr=args.predictor_lr,\n"}
+,{"stream_name":"stderr","time":215.459641816,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":215.459645161,"data":"        accumulation_steps=args.accumulation_steps)\n"}
+,{"stream_name":"stderr","time":215.459648549,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":215.459651863,"data":"  File \"/tmp/impjr/feature engineering scripts/models/kronos_finetune/train.py\", line 541, in run\n"}
+,{"stream_name":"stderr","time":215.459655676,"data":"    df = load_days(max_days=max_days)\n"}
+,{"stream_name":"stderr","time":215.45965898,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":215.459662632,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":215.459667628,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":215.459674861,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":215.459677192,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":215.459679495,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":215.459681761,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":215.459695526,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":215.459698095,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":215.459700311,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":215.45970244,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":215.459704825,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":215.459707743,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":215.459710105,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":215.459712238,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":215.459714633,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":215.459716822,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":215.459719016,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":215.459721305,"data":"\n"}
+,{"stream_name":"stderr","time":215.45972347,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":215.459725699,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":215.45972792,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":215.459730134,"data":"\n"}
+,{"stream_name":"stderr","time":215.859582905,"data":"2026-10-20 10:24:56,968 WARNING kronos-finetune failed on 2 GPUs — retrying once with --gpus 1\n"}
+,{"stream_name":"stderr","time":215.859625249,"data":"2026-10-20 10:24:56,969 INFO Running: /usr/bin/python3 -m models.kronos_finetune.train --val-days 7 --upload --gpus 1 (timeout 11.20h)\n"}
+,{"stream_name":"stderr","time":219.392377047,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":219.393711623,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":219.393725961,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":219.39373144,"data":"  File \"/tmp/impjr/feature engineering scripts/models/kronos_finetune/train.py\", line 773, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":219.393736098,"data":"    main()\n"}
+,{"stream_name":"stderr","time":219.393739926,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":219.393743792,"data":"  File \"/tmp/impjr/feature engineering scripts/models/kronos_finetune/train.py\", line 765, in main\n"}
+,{"stream_name":"stderr","time":219.393748007,"data":"    run(args.val_days, args.max_days, args.lookback_window, args.predict_window,\n"}
+,{"stream_name":"stderr","time":219.393752156,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":219.393756078,"data":"        args.tokenizer_epochs, args.basemodel_epochs, args.batch_size, args.skip_finetune, args.upload,\n"}
+,{"stream_name":"stderr","time":219.393760221,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":219.39376394,"data":"        args.gpus, args.resume, sample_count=args.sample_count, temperature=args.temperature,\n"}
+,{"stream_name":"stderr","time":219.393767574,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":219.393789236,"data":"        max_samples=args.max_samples, predictor_lr=args.predictor_lr,\n"}
+,{"stream_name":"stderr","time":219.393791938,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":219.393794259,"data":"        accumulation_steps=args.accumulation_steps)\n"}
+,{"stream_name":"stderr","time":219.393796473,"data":"        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":219.393798728,"data":"  File \"/tmp/impjr/feature engineering scripts/models/kronos_finetune/train.py\", line 541, in run\n"}
+,{"stream_name":"stderr","time":219.393801064,"data":"    df = load_days(max_days=max_days)\n"}
+,{"stream_name":"stderr","time":219.393803315,"data":"  File \"/tmp/impjr/feature engineering scripts/common/data.py\", line 172, in load_days\n"}
+,{"stream_name":"stderr","time":219.393805733,"data":"    frames = [conform_to_contract(pl.read_parquet(f)) for f in files]\n"}
+,{"stream_name":"stderr","time":219.393808029,"data":"                                  ~~~~~~~~~~~~~~~^^^\n"}
+,{"stream_name":"stderr","time":219.393810235,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":219.393812842,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":219.393815041,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 128, in wrapper\n"}
+,{"stream_name":"stderr","time":219.393817353,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":219.393823328,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/io/parquet/functions.py\", line 289, in read_parquet\n"}
+,{"stream_name":"stderr","time":219.393825747,"data":"    return lf.collect()\n"}
+,{"stream_name":"stderr","time":219.393828149,"data":"           ~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":219.393830303,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/_utils/deprecation.py\", line 97, in wrapper\n"}
+,{"stream_name":"stderr","time":219.393832659,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":219.393835494,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/opt_flags.py\", line 328, in wrapper\n"}
+,{"stream_name":"stderr","time":219.393837853,"data":"    return function(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":219.393840071,"data":"  File \"/usr/local/lib/python3.13/dist-packages/polars/lazyframe/frame.py\", line 2422, in collect\n"}
+,{"stream_name":"stderr","time":219.393842404,"data":"    return wrap_df(ldf.collect(engine, callback))\n"}
+,{"stream_name":"stderr","time":219.393844678,"data":"                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":219.393846874,"data":"polars.exceptions.ComputeError: parquet: File out of specification: Invalid thrift: bad data\n"}
+,{"stream_name":"stderr","time":219.393849183,"data":"\n"}
+,{"stream_name":"stderr","time":219.39385167,"data":"This error occurred with the following context stack:\n"}
+,{"stream_name":"stderr","time":219.393853923,"data":"\t[1] 'parquet scan'\n"}
+,{"stream_name":"stderr","time":219.393856139,"data":"\t[2] 'sink'\n"}
+,{"stream_name":"stderr","time":219.393858284,"data":"\n"}
+,{"stream_name":"stderr","time":219.997410484,"data":"2026-10-20 10:25:01,106 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":220.195986933,"data":"2026-10-20 10:25:01,305 INFO HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":220.392860251,"data":"2026-10-20 10:25:01,502 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData \"HTTP/1.1 401 Unauthorized\"\n"}
+,{"stream_name":"stderr","time":220.393232077,"data":"2026-10-20 10:25:01,502 WARNING Could not record failure of kronos-finetune on HF: name 'log' is not defined\n"}
+,{"stream_name":"stderr","time":220.393277336,"data":"2026-10-20 10:25:01,502 ERROR kronos-finetune: failed (attempt 1/3)\n"}
+,{"stream_name":"stderr","time":220.393362038,"data":"2026-10-20 10:25:01,502 ERROR kronos-finetune FAILED — continuing with remaining members\n"}
+,{"stream_name":"stderr","time":220.393561598,"data":"2026-10-20 10:25:01,502 WARNING Not every member finished — deferring the fusion stages (they need every member's OOF predictions); the next session retries the pending members first\n"}
+,{"stream_name":"stderr","time":220.39357029,"data":"2026-10-20 10:25:01,503 INFO train_all summary: {'gbm-family': 'failed', 'hmm-regime': 'failed', 'sentiment-branch': 'failed', 'ssm-challenger': 'failed', 'tft': 'failed', 'patchtst': 'failed', 'itransformer': 'failed', 'nhits': 'failed', 'kronos-finetune': 'failed'}\n"}
+,{"stream_name":"stderr","time":220.393588011,"data":"2026-10-20 10:25:01,503 ERROR Failed stages: ['gbm-family', 'hmm-regime', 'sentiment-branch', 'ssm-challenger', 'tft', 'patchtst', 'itransformer', 'nhits', 'kronos-finetune']\n"}
+,{"stream_name":"stderr","time":220.393633213,"data":"2026-10-20 10:25:01,503 INFO Session training verification finished after 0.05h: {'gbm-family': 'failed', 'hmm-regime': 'failed', 'sentiment-branch': 'failed', 'ssm-challenger': 'failed', 'tft': 'failed', 'patchtst': 'failed', 'itransformer': 'failed', 'nhits': 'failed', 'kronos-finetune': 'failed'}\n"}
+,{"stream_name":"stderr","time":220.393672036,"data":"2026-10-20 10:25:01,503 ERROR Failed stages this session: ['gbm-family', 'hmm-regime', 'sentiment-branch', 'ssm-challenger', 'tft', 'patchtst', 'itransformer', 'nhits', 'kronos-finetune']\n"}
+,{"stream_name":"stderr","time":220.393724393,"data":"2026-10-20 10:25:01,503 INFO ======================================================================\n"}
+,{"stream_name":"stderr","time":220.393791783,"data":"2026-10-20 10:25:01,503 INFO STARTING LIVE PREDICTION \u0026 STREAMING ENGINE ON KAGGLE DUAL-T4 VM\n"}
+,{"stream_name":"stderr","time":220.393809351,"data":"2026-10-20 10:25:01,503 INFO ======================================================================\n"}
+,{"stream_name":"stderr","time":220.553730624,"data":"2026-10-20 10:25:01,662 INFO NumExpr defaulting to 4 threads.\n"}
+,{"stream_name":"stderr","time":221.821473288,"data":"2026-10-20 10:25:02,930 INFO No webhook targets configured — dispatcher will queue records but deliver nothing\n"}
+,{"stream_name":"stderr","time":221.822240373,"data":"2026-10-20 10:25:02,931 INFO Webhook dispatcher starting: 0 target(s), batch every 5.0s\n"}
+,{"stream_name":"stderr","time":221.822764079,"data":"2026-10-20 10:25:02,932 INFO SSE server initialized: http://0.0.0.0:8787/latest and /stream\n"}
+,{"stream_name":"stderr","time":222.115530389,"data":"2026-10-20 10:25:03,224 INFO Downloading cloudflared from https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 to /usr/local/bin/cloudflared\n"}
+,{"stream_name":"stderr","time":223.074349098,"data":"2026-10-20 10:25:04,183 INFO No CLOUDFLARE_TUNNEL_TOKEN — starting Cloudflare Quick Tunnel on port 8787\n"}
+,{"stream_name":"stderr","time":223.07533436,"data":"2026-10-20 10:25:04,184 INFO cloudflared tunnel started (pid=561)\n"}
+,{"stream_name":"stderr","time":224.200192282,"data":"2026-10-20 10:25:05,307 ERROR Live streaming loop exited\n"}
+,{"stream_name":"stderr","time":224.200226815,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":224.20023224,"data":"  File \"/tmp/impjr/feature engineering scripts/orchestration/kaggle_relay/run_kaggle_session.py\", line 123, in main\n"}
+,{"stream_name":"stderr","time":224.200236595,"data":"    live_stream_glue.main()\n"}
+,{"stream_name":"stderr","time":224.200240594,"data":"    ~~~~~~~~~~~~~~~~~~~~~^^\n"}
+,{"stream_name":"stderr","time":224.200243989,"data":"  File \"/tmp/impjr/feature engineering scripts/streaming/live_stream_glue.py\", line 157, in main\n"}
+,{"stream_name":"stderr","time":224.200247582,"data":"    from streaming.live_loop_v2 import run_live_loop_v2\n"}
+,{"stream_name":"stderr","time":224.200250988,"data":"  File \"/tmp/impjr/feature engineering scripts/streaming/live_loop_v2.py\", line 54, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":224.200254891,"data":"    from meta.continuous_meta_labeler import ContinuousMetaLabeler\n"}
+,{"stream_name":"stderr","time":224.200258292,"data":"  File \"/tmp/impjr/feature engineering scripts/meta/__init__.py\", line 4, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":224.200273127,"data":"    from .continuous_meta_labeler import (\n"}
+,{"stream_name":"stderr","time":224.200275877,"data":"    ...\u003c4 lines\u003e...\n"}
+,{"stream_name":"stderr","time":224.200278122,"data":"    )\n"}
+,{"stream_name":"stderr","time":224.200280254,"data":"  File \"/tmp/impjr/feature engineering scripts/meta/continuous_meta_labeler.py\", line 27, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":224.200282747,"data":"    from tests.contracts import MetaLabelerOutput\n"}
+,{"stream_name":"stderr","time":224.200284964,"data":"ModuleNotFoundError: No module named 'tests.contracts'\n"}
+,{"stream_name":"stdout","time":224.902052908,"data":"[bundle] session exited with code 0\n"}
+,{"stream_name":"stderr","time":227.369514835,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":227.369563934,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":227.562405386,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":227.562446296,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":228.31659006,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":229.404894607,"data":"[NbConvertApp] Writing 967331 bytes to __results__.html\n"}
+]

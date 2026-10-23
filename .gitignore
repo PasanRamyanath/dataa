@@ -1,3 +1,4 @@
+# Python & Testing Caches
 __pycache__/
 *.pyc
 *.pyo
@@ -6,14 +7,12 @@ __pycache__/
 .coverage
 htmlcov/
 
-# Logs and Ledgers
-feature engineering scripts/scratch/staging_gpu/
-feature engineering scripts/scratch/kaggle_auth_*/
-scratch/live_*.jsonl
-scratch/*.jsonl
-scratch/*.json
+# Credentials & API Keys
+**/kaggle.json
+kaggle.json
+*.env.local
 
-# Model weights, checkpoints, and artifacts
+# Model weights, checkpoints, datasets, and binary model artifacts ONLY
 *.safetensors
 *.pt
 *.pth
@@ -29,16 +28,10 @@ scratch/*.json
 checkpoints/
 **/checkpoints/
 **/pretrained/
-feature engineering scripts/fusion/checkpoints/
-feature engineering scripts/models/**/checkpoints/
-feature engineering scripts/models/**/pretrained/
-feature engineering scripts/fusion/oof/
+**/oof/
 
-# Local scratch & testing
-scratch/
-models_v4_test/
-
-# Bundles and staging
-feature engineering scripts/dist/
-feature engineering scripts/kaggle_push_staging_v4/btcusdt-v4-ensemble-train.py
-scratch/pulled_*
+# Dashboard build artifacts & dependencies
+node_modules/
+**/node_modules/
+.next/
+**/.next/

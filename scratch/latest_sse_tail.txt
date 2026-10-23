@@ -1,0 +1,30 @@
+â 0 â loss                    â MAE                   â      0 â train â     0 â
+â 1 â hist_cat_embeddings     â ModuleList            â      0 â train â     0 â
+â 2 â futr_cat_embeddings     â ModuleList            â      0 â train â     0 â
+â 3 â stat_cat_embeddings     â ModuleList            â      0 â train â     0 â
+â 4 â padder_train            â ConstantPad1d         â      0 â train â     0 â
+â 5 â scaler                  â TemporalNorm          â      0 â train â     0 â
+â 6 â embedding               â TFTEmbedding          â 44.8 K â train â     0 â
+â 7 â temporal_encoder        â TemporalCovariateEncâ¦ â 20.7 M â train â     0 â
+â 8 â temporal_fusion_decoder â TemporalFusionDecoder â  256 K â train â     0 â
+â 9 â output_adapter          â Linear                â    129 â train â     0 â
+âââââ´ââââââââââââââââââââââââââ´ââââââââââââââââââââââââ´âââââââââ´ââââââââ´ââââââââ
+Trainable params: 21.0 M                                                        
+Non-trainable params: 0                                                         
+Total params: 21.0 M                                                            
+Total estimated model params size (MB): 83.951                                  
+Modules in train mode: 1643                                                     
+Modules in eval mode: 0                                                         
+Total FLOPs: 0                                                                  
+/usr/local/lib/python3.13/dist-packages/pytorch_lightning/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+2026-10-20 14:17:31,381 INFO `Trainer.fit` stopped: `max_steps=1000` reached.
+Epoch 999/-2 âââââââââââââââââ 1/1 0:00:03 â¢ 0:00:00 0.00it/s v_num: 2.000      
+                                                              train_loss_step:  
+                                                              1.687             
+                                                              train_loss_epoch: 
+                                                              1.687             
+2026-10-20 14:17:32,326 INFO GPU available: True (cuda), used: True
+2026-10-20 14:17:32,326 INFO TPU available: False, using: 0 TPU cores
+2026-10-20 14:17:32,332 INFO LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Predicting ââââââââââââââââââââââââââââââââââââ 1/1 0:04:12 â¢ 0:00:00 0.00it/s 
+2026-10-20 14:21:45,915 INFO tft: val MAE=118.9426 RMSE=190.4764 dir_acc=0.519 over 543600 points / 6040 windows

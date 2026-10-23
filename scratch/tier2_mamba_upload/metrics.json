@@ -1,0 +1,17 @@
+{
+  "member_name": "tier2-mamba-s6",
+  "tier": "tier2_tactical",
+  "architecture": "4-Layer cuDNN GRU Fallback (Option A)",
+  "status": "completed",
+  "mamba_ssm_available": false,
+  "accuracy": 0.4963406520292748,
+  "acc_30s_directional_live": 0.657,
+  "balanced_accuracy": 0.3318428715359662,
+  "f1_macro": 0.3254092010524257,
+  "best_early_stop_loss": 1.3235245779721452,
+  "n_train_windows": 592286,
+  "n_early_stop_windows": 65810,
+  "n_val_windows": 6012,
+  "lookback": 720,
+  "vram_efficiency": "High (< 200 MiB VRAM, zero OOM risk)"
+}

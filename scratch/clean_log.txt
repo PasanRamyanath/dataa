@@ -1,0 +1,909 @@
+Total log items: 921
+
+[   0.7s | stdout] [bundle] code unpacked to /tmp/impjr/feature engineering scripts
+[   1.1s | stdout] [bundle] HF_TOKEN configured successfully
+[  14.5s | stdout] [bundle] pinning preinstalled torch==2.11.0+cu128, torchvision==0.26.0+cu128, torchaudio==2.11.0+cu128 (CUDA available: True, GPUs: 2)
+[  14.5s | stdout] [bundle] pip install -r requirements-models.txt ...
+[  36.6s | stdout] [bundle] launching Kaggle pipeline entrypoint: orchestration.kaggle_relay.run_kaggle_session
+[  38.0s | stderr] 2026-10-20 09:52:00,141 INFO HTTP Request: GET https://huggingface.co/api/agent-harnesses "HTTP/1.1 200 OK"
+[  38.2s | stderr] 2026-10-20 09:52:00,371 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-News/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  38.2s | stderr] 2026-10-20 09:52:00,372 INFO No news store on HF (p-j-r-1-2-3/Project-IMPJR-News): 401 Client Error. (Request ID: Root=1-6ad739c0-6df976b300c01e3b3c4261b4;0dc31edb-6b9d-4699-8634-d4d3a46e8f88)
+[  38.2s | stderr] 
+[  38.2s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-News/tree/main?recursive=true&expand=false.
+[  38.2s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[  38.2s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[  38.2s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[  38.2s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  39.9s | stderr] 2026-10-20 09:52:01,994 INFO Kaggle session starting: 11.5h budget (safety margin 900s), with_news=False, 2 GPU(s)
+[  39.9s | stderr] 2026-10-20 09:52:01,994 INFO Session training flags: resume=True, skip=[], force_retrain=[]
+[  39.9s | stderr] 2026-10-20 09:52:02,000 INFO Launching Project-IMPJR v4.0 Multi-Horizon Training Wave across all 4 tiers...
+[  39.9s | stderr] 2026-10-20 09:52:02,000 INFO ======================================================================
+[  39.9s | stderr] 2026-10-20 09:52:02,000 INFO PROJECT-IMPJR v4.0: MULTI-HORIZON HIERARCHICAL ENSEMBLE TRAINING
+[  39.9s | stderr] 2026-10-20 09:52:02,000 INFO   Kaggle Budget: 11.5 hours (Safety: 900s)
+[  39.9s | stderr] 2026-10-20 09:52:02,000 INFO   HF Org/Prefix: p-j-r-1-2-3/Project-IMPJR-v4-Models
+[  39.9s | stderr] 2026-10-20 09:52:02,000 INFO   Force Retrain: None
+[  39.9s | stderr] 2026-10-20 09:52:02,000 INFO ======================================================================
+[  39.9s | stderr] 2026-10-20 09:52:02,000 INFO --- Initiating TIER4_MACRO wave ---
+[  40.1s | stderr] 2026-10-20 09:52:02,247 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  40.3s | stderr] 2026-10-20 09:52:02,473 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  40.6s | stderr] 2026-10-20 09:52:02,711 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  40.8s | stderr] 2026-10-20 09:52:02,939 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  40.8s | stderr] 2026-10-20 09:52:02,940 ERROR v4.0 Multi-Horizon Training encountered error: 'SessionBudget' object has no attribute 'check_can_start'
+[  40.8s | stderr] Traceback (most recent call last):
+[  40.8s | stderr]   File "/tmp/impjr/feature engineering scripts/orchestration/kaggle_relay/run_kaggle_session.py", line 102, in main
+[  40.8s | stderr]     v4_results = train_all_multi_horizon.run(budget=budget, force_retrain=force_retrain)
+[  40.8s | stderr]   File "/tmp/impjr/feature engineering scripts/models_v3/train_all_multi_horizon.py", line 177, in run
+[  40.8s | stderr]     ok = execute_dual_t4_tier_training_wave(
+[  40.8s | stderr]         tier_name=tier,
+[  40.8s | stderr]     ...<4 lines>...
+[  40.8s | stderr]         hf_token=hf_token,
+[  40.8s | stderr]     )
+[  40.8s | stderr]   File "/tmp/impjr/feature engineering scripts/orchestration/checkpoint_manager_v4.py", line 162, in execute_dual_t4_tier_training_wave
+[  40.8s | stderr]     if not fut.result():
+[  40.8s | stderr]            ~~~~~~~~~~^^
+[  40.8s | stderr]   File "/usr/lib/python3.13/concurrent/futures/_base.py", line 453, in result
+[  40.8s | stderr]     return self.__get_result()
+[  40.8s | stderr]            ~~~~~~~~~~~~~~~~~^^
+[  40.8s | stderr]   File "/usr/lib/python3.13/concurrent/futures/_base.py", line 402, in __get_result
+[  40.8s | stderr]     raise self._exception
+[  40.8s | stderr]   File "/usr/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+[  40.8s | stderr]     result = self.fn(*self.args, **self.kwargs)
+[  40.8s | stderr]   File "/tmp/impjr/feature engineering scripts/orchestration/checkpoint_manager_v4.py", line 123, in _run_device_lane
+[  40.8s | stderr]     if not budget.check_can_start(
+[  40.8s | stderr]            ^^^^^^^^^^^^^^^^^^^^^^
+[  40.8s | stderr] AttributeError: 'SessionBudget' object has no attribute 'check_can_start'
+[  41.0s | stderr] 2026-10-20 09:52:03,173 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json "HTTP/1.1 401 Unauthorized"
+[  42.0s | stderr] 2026-10-20 09:52:04,138 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-gbm-family/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  42.0s | stderr] 2026-10-20 09:52:04,139 INFO Running: /usr/bin/python3 -m models.gbm_family.train --val-days 7 --upload (timeout 11.25h)
+[  42.3s | stderr] 2026-10-20 09:52:04,414 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[  43.0s | stderr] 2026-10-20 09:52:05,108 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  43.0s | stderr] Traceback (most recent call last):
+[  43.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[  43.0s | stderr]     response.raise_for_status()
+[  43.0s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[  43.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[  43.0s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[  43.0s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[  43.0s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[  43.0s | stderr] 
+[  43.0s | stderr] The above exception was the direct cause of the following exception:
+[  43.0s | stderr] 
+[  43.0s | stderr] Traceback (most recent call last):
+[  43.0s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[  43.0s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[  43.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/gbm_family/train.py", line 272, in <module>
+[  43.0s | stderr]     main()
+[  43.0s | stderr]     ~~~~^^
+[  43.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/gbm_family/train.py", line 268, in main
+[  43.0s | stderr]     run(args.n_folds, args.val_days, args.max_days, args.upload, with_news=args.with_news)
+[  43.0s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  43.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/gbm_family/train.py", line 180, in run
+[  43.0s | stderr]     df = filter_valid(load_days(max_days=max_days))
+[  43.0s | stderr]                       ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+[  43.0s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[  43.0s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[  43.0s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[  43.0s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[  43.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[  43.0s | stderr]     return fn(*args, **kwargs)
+[  43.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[  43.0s | stderr]     for f in self.list_repo_tree(
+[  43.0s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[  43.0s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[  43.0s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  43.0s | stderr]     )
+[  43.0s | stderr]     ^
+[  43.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[  43.0s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[  43.0s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  43.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[  43.0s | stderr]     hf_raise_for_status(r)
+[  43.0s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[  43.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[  43.0s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[  43.0s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad739c4-77097df3189cf23012d95d49;01daf547-6ab9-4aef-9880-f2ce43cf49cb)
+[  43.0s | stderr] 
+[  43.0s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[  43.0s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[  43.0s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[  43.0s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[  43.0s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  43.4s | stderr] 2026-10-20 09:52:05,536 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json "HTTP/1.1 401 Unauthorized"
+[  43.6s | stderr] 2026-10-20 09:52:05,768 INFO HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 401 Unauthorized"
+[  43.9s | stderr] 2026-10-20 09:52:06,004 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData "HTTP/1.1 401 Unauthorized"
+[  43.9s | stderr] 2026-10-20 09:52:06,004 WARNING Could not record failure of gbm-family on HF: Client error '401 Unauthorized' for url 'https://huggingface.co/api/repos/create' (Request ID: Root=1-6ad739c5-016e2af75b92841b15cdeb8f;30b9abff-434a-4373-86c0-508778312913)
+[  43.9s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[  43.9s | stderr] 
+[  43.9s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  43.9s | stderr] 2026-10-20 09:52:06,004 ERROR gbm-family: failed (attempt 1/3)
+[  43.9s | stderr] 2026-10-20 09:52:06,004 ERROR gbm-family FAILED — continuing with remaining members
+[  44.1s | stderr] 2026-10-20 09:52:06,229 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-hmm-regime/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  44.1s | stderr] 2026-10-20 09:52:06,229 INFO Running: /usr/bin/python3 -m models.hmm_regime.train --val-days 7 --upload (timeout 11.25h)
+[  44.4s | stderr] 2026-10-20 09:52:06,496 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[  45.0s | stderr] 2026-10-20 09:52:07,108 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  45.0s | stderr] Traceback (most recent call last):
+[  45.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[  45.0s | stderr]     response.raise_for_status()
+[  45.0s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[  45.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[  45.0s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[  45.0s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[  45.0s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[  45.0s | stderr] 
+[  45.0s | stderr] The above exception was the direct cause of the following exception:
+[  45.0s | stderr] 
+[  45.0s | stderr] Traceback (most recent call last):
+[  45.0s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[  45.0s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[  45.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/hmm_regime/train.py", line 136, in <module>
+[  45.0s | stderr]     main()
+[  45.0s | stderr]     ~~~~^^
+[  45.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/hmm_regime/train.py", line 132, in main
+[  45.0s | stderr]     run(args.n_states, args.n_folds, args.val_days, args.max_days, args.upload)
+[  45.0s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  45.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/hmm_regime/train.py", line 78, in run
+[  45.0s | stderr]     df = filter_valid(load_days(max_days=max_days))
+[  45.0s | stderr]                       ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+[  45.0s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[  45.0s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[  45.0s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[  45.0s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[  45.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[  45.0s | stderr]     return fn(*args, **kwargs)
+[  45.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[  45.0s | stderr]     for f in self.list_repo_tree(
+[  45.0s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[  45.0s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[  45.0s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  45.0s | stderr]     )
+[  45.0s | stderr]     ^
+[  45.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[  45.0s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[  45.0s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  45.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[  45.0s | stderr]     hf_raise_for_status(r)
+[  45.0s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[  45.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[  45.0s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[  45.0s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad739c6-4ab8b2c96c29358d7efe7689;74b82840-8889-47d4-b2bb-cd113e8d28f4)
+[  45.0s | stderr] 
+[  45.0s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[  45.0s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[  45.0s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[  45.0s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[  45.0s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  45.4s | stderr] 2026-10-20 09:52:07,475 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json "HTTP/1.1 401 Unauthorized"
+[  45.6s | stderr] 2026-10-20 09:52:07,705 INFO HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 401 Unauthorized"
+[  45.8s | stderr] 2026-10-20 09:52:07,934 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData "HTTP/1.1 401 Unauthorized"
+[  45.8s | stderr] 2026-10-20 09:52:07,935 WARNING Could not record failure of hmm-regime on HF: Client error '401 Unauthorized' for url 'https://huggingface.co/api/repos/create' (Request ID: Root=1-6ad739c7-433e4f7a318310dd5cc9b8ba;9ea09e74-cb77-46d6-8c48-4d8e90d885fd)
+[  45.8s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[  45.8s | stderr] 
+[  45.8s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  45.8s | stderr] 2026-10-20 09:52:07,935 ERROR hmm-regime: failed (attempt 1/3)
+[  45.8s | stderr] 2026-10-20 09:52:07,935 ERROR hmm-regime FAILED — continuing with remaining members
+[  46.1s | stderr] 2026-10-20 09:52:08,176 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-sentiment-branch/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  46.1s | stderr] 2026-10-20 09:52:08,177 INFO Running: /usr/bin/python3 -m models.sentiment_branch.train --val-days 7 --upload (timeout 11.25h)
+[  46.3s | stderr] 2026-10-20 09:52:08,448 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[  47.0s | stderr] 2026-10-20 09:52:09,090 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  47.0s | stderr] Traceback (most recent call last):
+[  47.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[  47.0s | stderr]     response.raise_for_status()
+[  47.0s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[  47.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[  47.0s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[  47.0s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[  47.0s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[  47.0s | stderr] 
+[  47.0s | stderr] The above exception was the direct cause of the following exception:
+[  47.0s | stderr] 
+[  47.0s | stderr] Traceback (most recent call last):
+[  47.0s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[  47.0s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[  47.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/sentiment_branch/train.py", line 256, in <module>
+[  47.0s | stderr]     main()
+[  47.0s | stderr]     ~~~~^^
+[  47.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/sentiment_branch/train.py", line 252, in main
+[  47.0s | stderr]     run(args.val_days, args.max_days, args.upload, with_news=args.with_news)
+[  47.0s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  47.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/sentiment_branch/train.py", line 145, in run
+[  47.0s | stderr]     df = filter_valid(load_days(max_days=max_days))
+[  47.0s | stderr]                       ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+[  47.0s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[  47.0s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[  47.0s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[  47.0s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[  47.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[  47.0s | stderr]     return fn(*args, **kwargs)
+[  47.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[  47.0s | stderr]     for f in self.list_repo_tree(
+[  47.0s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[  47.0s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[  47.0s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  47.0s | stderr]     )
+[  47.0s | stderr]     ^
+[  47.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[  47.0s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[  47.0s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  47.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[  47.0s | stderr]     hf_raise_for_status(r)
+[  47.0s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[  47.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[  47.0s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[  47.0s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad739c8-0916a812151628434842a3da;1b4d756b-36d2-4129-aff9-d9c06c9ae0f8)
+[  47.0s | stderr] 
+[  47.0s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[  47.0s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[  47.0s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[  47.0s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[  47.0s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  47.3s | stderr] 2026-10-20 09:52:09,420 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json "HTTP/1.1 401 Unauthorized"
+[  47.5s | stderr] 2026-10-20 09:52:09,651 INFO HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 401 Unauthorized"
+[  47.8s | stderr] 2026-10-20 09:52:09,876 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData "HTTP/1.1 401 Unauthorized"
+[  47.8s | stderr] 2026-10-20 09:52:09,876 WARNING Could not record failure of sentiment-branch on HF: Client error '401 Unauthorized' for url 'https://huggingface.co/api/repos/create' (Request ID: Root=1-6ad739c9-0f6baa1b5965bca3739f5bff;aeddc2a9-fef7-4161-89b7-35c2d1f487df)
+[  47.8s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[  47.8s | stderr] 
+[  47.8s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  47.8s | stderr] 2026-10-20 09:52:09,877 ERROR sentiment-branch: failed (attempt 1/3)
+[  47.8s | stderr] 2026-10-20 09:52:09,877 ERROR sentiment-branch FAILED — continuing with remaining members
+[  48.0s | stderr] 2026-10-20 09:52:10,105 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  48.0s | stderr] 2026-10-20 09:52:10,105 INFO Running: /usr/bin/python3 -m models.ssm_challenger.train --val-days 7 --upload --commit-to-hf (timeout 11.25h)
+[  49.8s | stderr] 2026-10-20 09:52:11,955 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[  50.4s | stderr] 2026-10-20 09:52:12,530 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  50.4s | stderr] Traceback (most recent call last):
+[  50.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[  50.4s | stderr]     response.raise_for_status()
+[  50.4s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[  50.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[  50.4s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[  50.4s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[  50.4s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[  50.4s | stderr] 
+[  50.4s | stderr] The above exception was the direct cause of the following exception:
+[  50.4s | stderr] 
+[  50.4s | stderr] Traceback (most recent call last):
+[  50.4s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[  50.4s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[  50.4s | stderr]   File "/tmp/impjr/feature engineering scripts/models/ssm_challenger/train.py", line 323, in <module>
+[  50.4s | stderr]     main()
+[  50.4s | stderr]     ~~~~^^
+[  50.4s | stderr]   File "/tmp/impjr/feature engineering scripts/models/ssm_challenger/train.py", line 318, in main
+[  50.4s | stderr]     run(args.val_days, args.max_days, args.lookback, args.stride, args.epochs, args.batch_size, args.lr, args.upload,
+[  50.4s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  50.4s | stderr]         args.gpus, args.resume, args.save_every, args.commit_to_hf)
+[  50.4s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  50.4s | stderr]   File "/tmp/impjr/feature engineering scripts/models/ssm_challenger/train.py", line 243, in run
+[  50.4s | stderr]     df = load_days(max_days=max_days)  # NOT filter_valid — see module docstring
+[  50.4s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[  50.4s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[  50.4s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[  50.4s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[  50.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[  50.4s | stderr]     return fn(*args, **kwargs)
+[  50.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[  50.4s | stderr]     for f in self.list_repo_tree(
+[  50.4s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[  50.4s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[  50.4s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  50.4s | stderr]     )
+[  50.4s | stderr]     ^
+[  50.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[  50.4s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[  50.4s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  50.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[  50.4s | stderr]     hf_raise_for_status(r)
+[  50.4s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[  50.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[  50.4s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[  50.4s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad739cc-753aceb80fce55c557704ef0;83781403-9556-4578-874b-52093b2617d9)
+[  50.4s | stderr] 
+[  50.4s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[  50.4s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[  50.4s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[  50.4s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[  50.4s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  53.0s | stderr] 2026-10-20 09:52:15,082 WARNING ssm-challenger failed on 2 GPUs — retrying once with --gpus 1
+[  53.0s | stderr] 2026-10-20 09:52:15,082 INFO Running: /usr/bin/python3 -m models.ssm_challenger.train --val-days 7 --upload --gpus 1 --commit-to-hf (timeout 11.25h)
+[  54.8s | stderr] 2026-10-20 09:52:16,882 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[  55.3s | stderr] 2026-10-20 09:52:17,446 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  55.3s | stderr] Traceback (most recent call last):
+[  55.3s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[  55.3s | stderr]     response.raise_for_status()
+[  55.3s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[  55.3s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[  55.3s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[  55.3s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[  55.3s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[  55.3s | stderr] 
+[  55.3s | stderr] The above exception was the direct cause of the following exception:
+[  55.3s | stderr] 
+[  55.3s | stderr] Traceback (most recent call last):
+[  55.3s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[  55.3s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[  55.3s | stderr]   File "/tmp/impjr/feature engineering scripts/models/ssm_challenger/train.py", line 323, in <module>
+[  55.3s | stderr]     main()
+[  55.3s | stderr]     ~~~~^^
+[  55.3s | stderr]   File "/tmp/impjr/feature engineering scripts/models/ssm_challenger/train.py", line 318, in main
+[  55.3s | stderr]     run(args.val_days, args.max_days, args.lookback, args.stride, args.epochs, args.batch_size, args.lr, args.upload,
+[  55.3s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  55.3s | stderr]         args.gpus, args.resume, args.save_every, args.commit_to_hf)
+[  55.3s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  55.3s | stderr]   File "/tmp/impjr/feature engineering scripts/models/ssm_challenger/train.py", line 243, in run
+[  55.3s | stderr]     df = load_days(max_days=max_days)  # NOT filter_valid — see module docstring
+[  55.3s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[  55.3s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[  55.3s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[  55.3s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[  55.3s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[  55.3s | stderr]     return fn(*args, **kwargs)
+[  55.3s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[  55.3s | stderr]     for f in self.list_repo_tree(
+[  55.3s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[  55.3s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[  55.3s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  55.3s | stderr]     )
+[  55.3s | stderr]     ^
+[  55.3s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[  55.3s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[  55.3s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  55.3s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[  55.3s | stderr]     hf_raise_for_status(r)
+[  55.3s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[  55.3s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[  55.3s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[  55.3s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad739d1-377ba2c46d0b2256480a8228;62e1fea9-3f90-4357-8e13-622f2b443cc8)
+[  55.3s | stderr] 
+[  55.3s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[  55.3s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[  55.3s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[  55.3s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[  55.3s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  56.0s | stderr] 2026-10-20 09:52:18,162 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json "HTTP/1.1 401 Unauthorized"
+[  56.3s | stderr] 2026-10-20 09:52:18,400 INFO HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 401 Unauthorized"
+[  56.5s | stderr] 2026-10-20 09:52:18,654 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData "HTTP/1.1 401 Unauthorized"
+[  56.5s | stderr] 2026-10-20 09:52:18,655 WARNING Could not record failure of ssm-challenger on HF: Client error '401 Unauthorized' for url 'https://huggingface.co/api/repos/create' (Request ID: Root=1-6ad739d2-4d72be132e90ab8b7ec7ecff;102a52f1-5331-48cf-8968-572a45bcceda)
+[  56.5s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[  56.5s | stderr] 
+[  56.5s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  56.5s | stderr] 2026-10-20 09:52:18,655 ERROR ssm-challenger: failed (attempt 1/3)
+[  56.5s | stderr] 2026-10-20 09:52:18,655 ERROR ssm-challenger FAILED — continuing with remaining members
+[  56.8s | stderr] 2026-10-20 09:52:18,885 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tft/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  56.8s | stderr] 2026-10-20 09:52:18,885 INFO Running: /usr/bin/python3 -m models.tft.train --val-days 7 --upload (timeout 11.24h)
+[  69.1s | stderr] 2026-10-20 09:52:31,255 INFO NumExpr defaulting to 4 threads.
+[  79.7s | stderr] 2026-10-20 09:52:41,778 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[  79.9s | stderr] 2026-10-20 09:52:42,058 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  79.9s | stderr] Traceback (most recent call last):
+[  79.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[  79.9s | stderr]     response.raise_for_status()
+[  79.9s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[  79.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[  79.9s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[  79.9s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[  79.9s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[  79.9s | stderr] 
+[  79.9s | stderr] The above exception was the direct cause of the following exception:
+[  79.9s | stderr] 
+[  79.9s | stderr] Traceback (most recent call last):
+[  79.9s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[  79.9s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[  79.9s | stderr]   File "/tmp/impjr/feature engineering scripts/models/tft/train.py", line 77, in <module>
+[  79.9s | stderr]     main()
+[  79.9s | stderr]     ~~~~^^
+[  79.9s | stderr]   File "/tmp/impjr/feature engineering scripts/models/tft/train.py", line 73, in main
+[  79.9s | stderr]     run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)
+[  79.9s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  79.9s | stderr]   File "/tmp/impjr/feature engineering scripts/models/tft/train.py", line 39, in run
+[  79.9s | stderr]     df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py
+[  79.9s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[  79.9s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[  79.9s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[  79.9s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[  79.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[  79.9s | stderr]     return fn(*args, **kwargs)
+[  79.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[  79.9s | stderr]     for f in self.list_repo_tree(
+[  79.9s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[  79.9s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[  79.9s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  79.9s | stderr]     )
+[  79.9s | stderr]     ^
+[  79.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[  79.9s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[  79.9s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  79.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[  79.9s | stderr]     hf_raise_for_status(r)
+[  79.9s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[  79.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[  79.9s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[  79.9s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad739e9-557660f56a502ef174df484c;0296cfdc-3730-4ab3-a1b8-da72bd5c04f5)
+[  79.9s | stderr] 
+[  79.9s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[  79.9s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[  79.9s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[  79.9s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[  79.9s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  81.9s | stderr] 2026-10-20 09:52:44,013 WARNING tft failed on 2 GPUs — retrying once with --gpus 1
+[  81.9s | stderr] 2026-10-20 09:52:44,013 INFO Running: /usr/bin/python3 -m models.tft.train --val-days 7 --upload --gpus 1 (timeout 11.24h)
+[  89.3s | stderr] 2026-10-20 09:52:51,397 INFO NumExpr defaulting to 4 threads.
+[  93.1s | stderr] 2026-10-20 09:52:55,215 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[  93.4s | stderr] 2026-10-20 09:52:55,484 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  93.4s | stderr] Traceback (most recent call last):
+[  93.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[  93.4s | stderr]     response.raise_for_status()
+[  93.4s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[  93.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[  93.4s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[  93.4s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[  93.4s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[  93.4s | stderr] 
+[  93.4s | stderr] The above exception was the direct cause of the following exception:
+[  93.4s | stderr] 
+[  93.4s | stderr] Traceback (most recent call last):
+[  93.4s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[  93.4s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[  93.4s | stderr]   File "/tmp/impjr/feature engineering scripts/models/tft/train.py", line 77, in <module>
+[  93.4s | stderr]     main()
+[  93.4s | stderr]     ~~~~^^
+[  93.4s | stderr]   File "/tmp/impjr/feature engineering scripts/models/tft/train.py", line 73, in main
+[  93.4s | stderr]     run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)
+[  93.4s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  93.4s | stderr]   File "/tmp/impjr/feature engineering scripts/models/tft/train.py", line 39, in run
+[  93.4s | stderr]     df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py
+[  93.4s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[  93.4s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[  93.4s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[  93.4s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[  93.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[  93.4s | stderr]     return fn(*args, **kwargs)
+[  93.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[  93.4s | stderr]     for f in self.list_repo_tree(
+[  93.4s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[  93.4s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[  93.4s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  93.4s | stderr]     )
+[  93.4s | stderr]     ^
+[  93.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[  93.4s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[  93.4s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[  93.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[  93.4s | stderr]     hf_raise_for_status(r)
+[  93.4s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[  93.4s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[  93.4s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[  93.4s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad739f7-1292c9664c4dcbf354505bd5;ba85a56f-5cf2-4c65-a105-5e0131ba8360)
+[  93.4s | stderr] 
+[  93.4s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[  93.4s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[  93.4s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[  93.4s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[  93.4s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  95.2s | stderr] 2026-10-20 09:52:57,357 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json "HTTP/1.1 401 Unauthorized"
+[  95.5s | stderr] 2026-10-20 09:52:57,588 INFO HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 401 Unauthorized"
+[  95.7s | stderr] 2026-10-20 09:52:57,823 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData "HTTP/1.1 401 Unauthorized"
+[  95.7s | stderr] 2026-10-20 09:52:57,823 WARNING Could not record failure of tft on HF: Client error '401 Unauthorized' for url 'https://huggingface.co/api/repos/create' (Request ID: Root=1-6ad739f9-2e2d33531999249c3687c7f5;9fb74bb0-06a5-464b-8bef-8044cd09869e)
+[  95.7s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[  95.7s | stderr] 
+[  95.7s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[  95.7s | stderr] 2026-10-20 09:52:57,823 ERROR tft: failed (attempt 1/3)
+[  95.7s | stderr] 2026-10-20 09:52:57,823 ERROR tft FAILED — continuing with remaining members
+[  95.9s | stderr] 2026-10-20 09:52:58,056 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-patchtst/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[  95.9s | stderr] 2026-10-20 09:52:58,056 INFO Running: /usr/bin/python3 -m models.patchtst.train --val-days 7 --upload (timeout 11.23h)
+[ 103.3s | stderr] 2026-10-20 09:53:05,426 INFO NumExpr defaulting to 4 threads.
+[ 107.2s | stderr] 2026-10-20 09:53:09,346 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[ 107.5s | stderr] 2026-10-20 09:53:09,620 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[ 107.5s | stderr] Traceback (most recent call last):
+[ 107.5s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[ 107.5s | stderr]     response.raise_for_status()
+[ 107.5s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[ 107.5s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[ 107.5s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[ 107.5s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[ 107.5s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[ 107.5s | stderr] 
+[ 107.5s | stderr] The above exception was the direct cause of the following exception:
+[ 107.5s | stderr] 
+[ 107.5s | stderr] Traceback (most recent call last):
+[ 107.5s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[ 107.5s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[ 107.5s | stderr]   File "/tmp/impjr/feature engineering scripts/models/patchtst/train.py", line 70, in <module>
+[ 107.5s | stderr]     main()
+[ 107.5s | stderr]     ~~~~^^
+[ 107.5s | stderr]   File "/tmp/impjr/feature engineering scripts/models/patchtst/train.py", line 66, in main
+[ 107.5s | stderr]     run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)
+[ 107.5s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 107.5s | stderr]   File "/tmp/impjr/feature engineering scripts/models/patchtst/train.py", line 32, in run
+[ 107.5s | stderr]     df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py
+[ 107.5s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[ 107.5s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[ 107.5s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[ 107.5s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[ 107.5s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[ 107.5s | stderr]     return fn(*args, **kwargs)
+[ 107.5s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[ 107.5s | stderr]     for f in self.list_repo_tree(
+[ 107.5s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[ 107.5s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[ 107.5s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 107.5s | stderr]     )
+[ 107.5s | stderr]     ^
+[ 107.5s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[ 107.5s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[ 107.5s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 107.5s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[ 107.5s | stderr]     hf_raise_for_status(r)
+[ 107.5s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[ 107.5s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[ 107.5s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[ 107.5s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad73a05-6afcfad539b76d154aa158b3;3d7224b5-1076-4691-96f8-58ee558ac827)
+[ 107.5s | stderr] 
+[ 107.5s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[ 107.5s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[ 107.5s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[ 107.5s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[ 107.5s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[ 109.2s | stderr] 2026-10-20 09:53:11,305 WARNING patchtst failed on 2 GPUs — retrying once with --gpus 1
+[ 109.2s | stderr] 2026-10-20 09:53:11,305 INFO Running: /usr/bin/python3 -m models.patchtst.train --val-days 7 --upload --gpus 1 (timeout 11.23h)
+[ 116.6s | stderr] 2026-10-20 09:53:18,736 INFO NumExpr defaulting to 4 threads.
+[ 120.5s | stderr] 2026-10-20 09:53:22,575 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[ 120.8s | stderr] 2026-10-20 09:53:22,928 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[ 120.8s | stderr] Traceback (most recent call last):
+[ 120.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[ 120.8s | stderr]     response.raise_for_status()
+[ 120.8s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[ 120.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[ 120.8s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[ 120.8s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[ 120.8s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[ 120.8s | stderr] 
+[ 120.8s | stderr] The above exception was the direct cause of the following exception:
+[ 120.8s | stderr] 
+[ 120.8s | stderr] Traceback (most recent call last):
+[ 120.8s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[ 120.8s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[ 120.8s | stderr]   File "/tmp/impjr/feature engineering scripts/models/patchtst/train.py", line 70, in <module>
+[ 120.8s | stderr]     main()
+[ 120.8s | stderr]     ~~~~^^
+[ 120.8s | stderr]   File "/tmp/impjr/feature engineering scripts/models/patchtst/train.py", line 66, in main
+[ 120.8s | stderr]     run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)
+[ 120.8s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 120.8s | stderr]   File "/tmp/impjr/feature engineering scripts/models/patchtst/train.py", line 32, in run
+[ 120.8s | stderr]     df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py
+[ 120.8s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[ 120.8s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[ 120.8s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[ 120.8s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[ 120.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[ 120.8s | stderr]     return fn(*args, **kwargs)
+[ 120.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[ 120.8s | stderr]     for f in self.list_repo_tree(
+[ 120.8s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[ 120.8s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[ 120.8s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 120.8s | stderr]     )
+[ 120.8s | stderr]     ^
+[ 120.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[ 120.8s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[ 120.8s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 120.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[ 120.8s | stderr]     hf_raise_for_status(r)
+[ 120.8s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[ 120.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[ 120.8s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[ 120.8s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad73a12-179340c4793e2d0f36ae263d;bef5d1c3-3f66-404b-82de-8a62e8741e54)
+[ 120.8s | stderr] 
+[ 120.8s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[ 120.8s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[ 120.8s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[ 120.8s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[ 120.8s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[ 122.7s | stderr] 2026-10-20 09:53:24,808 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json "HTTP/1.1 401 Unauthorized"
+[ 122.9s | stderr] 2026-10-20 09:53:25,038 INFO HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 401 Unauthorized"
+[ 123.2s | stderr] 2026-10-20 09:53:25,277 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData "HTTP/1.1 401 Unauthorized"
+[ 123.2s | stderr] 2026-10-20 09:53:25,277 WARNING Could not record failure of patchtst on HF: Client error '401 Unauthorized' for url 'https://huggingface.co/api/repos/create' (Request ID: Root=1-6ad73a14-76c57e4b63b0424d168bfd53;54e6f7d7-ca88-4270-b569-2e6278b8399a)
+[ 123.2s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[ 123.2s | stderr] 
+[ 123.2s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[ 123.2s | stderr] 2026-10-20 09:53:25,277 ERROR patchtst: failed (attempt 1/3)
+[ 123.2s | stderr] 2026-10-20 09:53:25,277 ERROR patchtst FAILED — continuing with remaining members
+[ 123.4s | stderr] 2026-10-20 09:53:25,512 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-itransformer/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[ 123.4s | stderr] 2026-10-20 09:53:25,513 INFO Running: /usr/bin/python3 -m models.itransformer.train --val-days 7 --upload (timeout 11.23h)
+[ 130.7s | stderr] 2026-10-20 09:53:32,827 INFO NumExpr defaulting to 4 threads.
+[ 134.5s | stderr] 2026-10-20 09:53:36,632 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[ 134.8s | stderr] 2026-10-20 09:53:36,907 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[ 134.8s | stderr] Traceback (most recent call last):
+[ 134.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[ 134.8s | stderr]     response.raise_for_status()
+[ 134.8s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[ 134.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[ 134.8s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[ 134.8s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[ 134.8s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[ 134.8s | stderr] 
+[ 134.8s | stderr] The above exception was the direct cause of the following exception:
+[ 134.8s | stderr] 
+[ 134.8s | stderr] Traceback (most recent call last):
+[ 134.8s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[ 134.8s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[ 134.8s | stderr]   File "/tmp/impjr/feature engineering scripts/models/itransformer/train.py", line 76, in <module>
+[ 134.8s | stderr]     main()
+[ 134.8s | stderr]     ~~~~^^
+[ 134.8s | stderr]   File "/tmp/impjr/feature engineering scripts/models/itransformer/train.py", line 72, in main
+[ 134.8s | stderr]     run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)
+[ 134.8s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 134.8s | stderr]   File "/tmp/impjr/feature engineering scripts/models/itransformer/train.py", line 38, in run
+[ 134.8s | stderr]     df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py
+[ 134.8s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[ 134.8s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[ 134.8s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[ 134.8s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[ 134.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[ 134.8s | stderr]     return fn(*args, **kwargs)
+[ 134.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[ 134.8s | stderr]     for f in self.list_repo_tree(
+[ 134.8s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[ 134.8s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[ 134.8s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 134.8s | stderr]     )
+[ 134.8s | stderr]     ^
+[ 134.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[ 134.8s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[ 134.8s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 134.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[ 134.8s | stderr]     hf_raise_for_status(r)
+[ 134.8s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[ 134.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[ 134.8s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[ 134.8s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad73a20-0f68490c30f27cd83b66a43f;f72301f4-5afe-49a4-9595-6262b64a9f67)
+[ 134.8s | stderr] 
+[ 134.8s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[ 134.8s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[ 134.8s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[ 134.8s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[ 134.8s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[ 136.4s | stderr] 2026-10-20 09:53:38,561 WARNING itransformer failed on 2 GPUs — retrying once with --gpus 1
+[ 136.4s | stderr] 2026-10-20 09:53:38,561 INFO Running: /usr/bin/python3 -m models.itransformer.train --val-days 7 --upload --gpus 1 (timeout 11.22h)
+[ 143.7s | stderr] 2026-10-20 09:53:45,830 INFO NumExpr defaulting to 4 threads.
+[ 147.6s | stderr] 2026-10-20 09:53:49,688 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[ 147.8s | stderr] 2026-10-20 09:53:49,959 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[ 147.8s | stderr] Traceback (most recent call last):
+[ 147.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[ 147.8s | stderr]     response.raise_for_status()
+[ 147.8s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[ 147.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[ 147.8s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[ 147.8s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[ 147.8s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[ 147.8s | stderr] 
+[ 147.8s | stderr] The above exception was the direct cause of the following exception:
+[ 147.8s | stderr] 
+[ 147.8s | stderr] Traceback (most recent call last):
+[ 147.8s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[ 147.8s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[ 147.8s | stderr]   File "/tmp/impjr/feature engineering scripts/models/itransformer/train.py", line 76, in <module>
+[ 147.8s | stderr]     main()
+[ 147.8s | stderr]     ~~~~^^
+[ 147.8s | stderr]   File "/tmp/impjr/feature engineering scripts/models/itransformer/train.py", line 72, in main
+[ 147.8s | stderr]     run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)
+[ 147.8s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 147.8s | stderr]   File "/tmp/impjr/feature engineering scripts/models/itransformer/train.py", line 38, in run
+[ 147.8s | stderr]     df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py
+[ 147.8s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[ 147.8s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[ 147.8s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[ 147.8s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[ 147.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[ 147.8s | stderr]     return fn(*args, **kwargs)
+[ 147.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[ 147.8s | stderr]     for f in self.list_repo_tree(
+[ 147.8s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[ 147.8s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[ 147.8s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 147.8s | stderr]     )
+[ 147.8s | stderr]     ^
+[ 147.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[ 147.8s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[ 147.8s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 147.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[ 147.8s | stderr]     hf_raise_for_status(r)
+[ 147.8s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[ 147.8s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[ 147.8s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[ 147.8s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad73a2d-1860ec43421fba2520714c86;52ab8924-1c0c-46d0-beef-db5a3aa5e7ef)
+[ 147.8s | stderr] 
+[ 147.8s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[ 147.8s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[ 147.8s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[ 147.8s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[ 147.8s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[ 149.7s | stderr] 2026-10-20 09:53:51,805 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json "HTTP/1.1 401 Unauthorized"
+[ 149.9s | stderr] 2026-10-20 09:53:52,035 INFO HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 401 Unauthorized"
+[ 150.1s | stderr] 2026-10-20 09:53:52,271 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData "HTTP/1.1 401 Unauthorized"
+[ 150.1s | stderr] 2026-10-20 09:53:52,272 WARNING Could not record failure of itransformer on HF: Client error '401 Unauthorized' for url 'https://huggingface.co/api/repos/create' (Request ID: Root=1-6ad73a2f-38e1e23354d2472a1b198a97;076cacf6-fcfe-4ab0-b62d-c3db3fc48304)
+[ 150.1s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[ 150.1s | stderr] 
+[ 150.1s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[ 150.1s | stderr] 2026-10-20 09:53:52,272 ERROR itransformer: failed (attempt 1/3)
+[ 150.1s | stderr] 2026-10-20 09:53:52,272 ERROR itransformer FAILED — continuing with remaining members
+[ 150.4s | stderr] 2026-10-20 09:53:52,507 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-nhits/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[ 150.4s | stderr] 2026-10-20 09:53:52,507 INFO Running: /usr/bin/python3 -m models.nhits.train --val-days 7 --upload (timeout 11.22h)
+[ 157.8s | stderr] 2026-10-20 09:53:59,875 INFO NumExpr defaulting to 4 threads.
+[ 161.5s | stderr] 2026-10-20 09:54:03,658 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[ 161.9s | stderr] 2026-10-20 09:54:04,056 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[ 161.9s | stderr] Traceback (most recent call last):
+[ 161.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[ 161.9s | stderr]     response.raise_for_status()
+[ 161.9s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[ 161.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[ 161.9s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[ 161.9s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[ 161.9s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[ 161.9s | stderr] 
+[ 161.9s | stderr] The above exception was the direct cause of the following exception:
+[ 161.9s | stderr] 
+[ 161.9s | stderr] Traceback (most recent call last):
+[ 161.9s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[ 161.9s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[ 161.9s | stderr]   File "/tmp/impjr/feature engineering scripts/models/nhits/train.py", line 96, in <module>
+[ 161.9s | stderr]     main()
+[ 161.9s | stderr]     ~~~~^^
+[ 161.9s | stderr]   File "/tmp/impjr/feature engineering scripts/models/nhits/train.py", line 92, in main
+[ 161.9s | stderr]     run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)
+[ 161.9s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 161.9s | stderr]   File "/tmp/impjr/feature engineering scripts/models/nhits/train.py", line 48, in run
+[ 161.9s | stderr]     df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py
+[ 161.9s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[ 161.9s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[ 161.9s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[ 161.9s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[ 161.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[ 161.9s | stderr]     return fn(*args, **kwargs)
+[ 161.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[ 161.9s | stderr]     for f in self.list_repo_tree(
+[ 161.9s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[ 161.9s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[ 161.9s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 161.9s | stderr]     )
+[ 161.9s | stderr]     ^
+[ 161.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[ 161.9s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[ 161.9s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 161.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[ 161.9s | stderr]     hf_raise_for_status(r)
+[ 161.9s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[ 161.9s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[ 161.9s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[ 161.9s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad73a3b-1ceb0bf404ae71ce0e63f943;cb8b6bf4-e127-4d4f-a624-bccc4e2d12df)
+[ 161.9s | stderr] 
+[ 161.9s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[ 161.9s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[ 161.9s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[ 161.9s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[ 161.9s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[ 163.5s | stderr] 2026-10-20 09:54:05,655 WARNING nhits failed on 2 GPUs — retrying once with --gpus 1
+[ 163.5s | stderr] 2026-10-20 09:54:05,655 INFO Running: /usr/bin/python3 -m models.nhits.train --val-days 7 --upload --gpus 1 (timeout 11.21h)
+[ 170.9s | stderr] 2026-10-20 09:54:12,990 INFO NumExpr defaulting to 4 threads.
+[ 174.7s | stderr] 2026-10-20 09:54:16,849 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[ 175.0s | stderr] 2026-10-20 09:54:17,118 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[ 175.0s | stderr] Traceback (most recent call last):
+[ 175.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[ 175.0s | stderr]     response.raise_for_status()
+[ 175.0s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[ 175.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[ 175.0s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[ 175.0s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[ 175.0s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[ 175.0s | stderr] 
+[ 175.0s | stderr] The above exception was the direct cause of the following exception:
+[ 175.0s | stderr] 
+[ 175.0s | stderr] Traceback (most recent call last):
+[ 175.0s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[ 175.0s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[ 175.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/nhits/train.py", line 96, in <module>
+[ 175.0s | stderr]     main()
+[ 175.0s | stderr]     ~~~~^^
+[ 175.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/nhits/train.py", line 92, in main
+[ 175.0s | stderr]     run(args.val_days, args.max_days, args.max_steps, args.upload, args.gpus)
+[ 175.0s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 175.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/nhits/train.py", line 48, in run
+[ 175.0s | stderr]     df = load_days(max_days=max_days)  # unfiltered: see common/neuralforecast_harness.py
+[ 175.0s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[ 175.0s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[ 175.0s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[ 175.0s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[ 175.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[ 175.0s | stderr]     return fn(*args, **kwargs)
+[ 175.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[ 175.0s | stderr]     for f in self.list_repo_tree(
+[ 175.0s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[ 175.0s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[ 175.0s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 175.0s | stderr]     )
+[ 175.0s | stderr]     ^
+[ 175.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[ 175.0s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[ 175.0s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 175.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[ 175.0s | stderr]     hf_raise_for_status(r)
+[ 175.0s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[ 175.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[ 175.0s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[ 175.0s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad73a49-32e861e114f40cd75f9a2d59;a2a46e15-86ae-4a8c-9ee7-ee8e26213ab1)
+[ 175.0s | stderr] 
+[ 175.0s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[ 175.0s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[ 175.0s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[ 175.0s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[ 175.0s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[ 176.9s | stderr] 2026-10-20 09:54:19,052 INFO HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/resolve/main/run_state/failures.json "HTTP/1.1 401 Unauthorized"
+[ 177.2s | stderr] 2026-10-20 09:54:19,289 INFO HTTP Request: POST https://huggingface.co/api/repos/create "HTTP/1.1 401 Unauthorized"
+[ 177.4s | stderr] 2026-10-20 09:54:19,519 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData "HTTP/1.1 401 Unauthorized"
+[ 177.4s | stderr] 2026-10-20 09:54:19,520 WARNING Could not record failure of nhits on HF: Client error '401 Unauthorized' for url 'https://huggingface.co/api/repos/create' (Request ID: Root=1-6ad73a4b-2564ad486dadea0059ee1448;9b2f1d35-828b-4f9c-8acc-5bc6180d2ade)
+[ 177.4s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[ 177.4s | stderr] 
+[ 177.4s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[ 177.4s | stderr] 2026-10-20 09:54:19,520 ERROR nhits: failed (attempt 1/3)
+[ 177.4s | stderr] 2026-10-20 09:54:19,520 ERROR nhits FAILED — continuing with remaining members
+[ 177.6s | stderr] 2026-10-20 09:54:19,752 INFO HTTP Request: GET https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-kronos-finetune/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[ 177.6s | stderr] 2026-10-20 09:54:19,753 INFO Running: /usr/bin/python3 -m models.kronos_finetune.train --val-days 7 --upload (timeout 11.21h)
+[ 179.4s | stderr] 2026-10-20 09:54:21,492 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset
+[ 180.0s | stderr] 2026-10-20 09:54:22,088 INFO HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false "HTTP/1.1 401 Unauthorized"
+[ 180.0s | stderr] Traceback (most recent call last):
+[ 180.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 798, in hf_raise_for_status
+[ 180.0s | stderr]     response.raise_for_status()
+[ 180.0s | stderr]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[ 180.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/httpx/_models.py", line 829, in raise_for_status
+[ 180.0s | stderr]     raise HTTPStatusError(message, request=request, response=self)
+[ 180.0s | stderr] httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false'
+[ 180.0s | stderr] For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+[ 180.0s | stderr] 
+[ 180.0s | stderr] The above exception was the direct cause of the following exception:
+[ 180.0s | stderr] 
+[ 180.0s | stderr] Traceback (most recent call last):
+[ 180.0s | stderr]   File "<frozen runpy>", line 203, in _run_module_as_main
+[ 180.0s | stderr]   File "<frozen runpy>", line 88, in _run_code
+[ 180.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/kronos_finetune/train.py", line 773, in <module>
+[ 180.0s | stderr]     main()
+[ 180.0s | stderr]     ~~~~^^
+[ 180.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/kronos_finetune/train.py", line 765, in main
+[ 180.0s | stderr]     run(args.val_days, args.max_days, args.lookback_window, args.predict_window,
+[ 180.0s | stderr]     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 180.0s | stderr]         args.tokenizer_epochs, args.basemodel_epochs, args.batch_size, args.skip_finetune, args.upload,
+[ 180.0s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 180.0s | stderr]         args.gpus, args.resume, sample_count=args.sample_count, temperature=args.temperature,
+[ 180.0s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 180.0s | stderr]         max_samples=args.max_samples, predictor_lr=args.predictor_lr,
+[ 180.0s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 180.0s | stderr]         accumulation_steps=args.accumulation_steps)
+[ 180.0s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 180.0s | stderr]   File "/tmp/impjr/feature engineering scripts/models/kronos_finetune/train.py", line 541, in run
+[ 180.0s | stderr]     df = load_days(max_days=max_days)
+[ 180.0s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 67, in load_days
+[ 180.0s | stderr]     files = _download_from_hf(symbol, max_files=max_days)
+[ 180.0s | stderr]   File "/tmp/impjr/feature engineering scripts/common/data.py", line 42, in _download_from_hf
+[ 180.0s | stderr]     all_files = api.list_repo_files(repo_id=config.HF_REPO_ID, repo_type=config.HF_REPO_TYPE)
+[ 180.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+[ 180.0s | stderr]     return fn(*args, **kwargs)
+[ 180.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+[ 180.0s | stderr]     for f in self.list_repo_tree(
+[ 180.0s | stderr]              ~~~~~~~~~~~~~~~~~~~^
+[ 180.0s | stderr]         repo_id=repo_id, recursive=True, revision=revision, repo_type=repo_type, token=token
+[ 180.0s | stderr]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 180.0s | stderr]     )
+[ 180.0s | stderr]     ^
+[ 180.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py", line 4098, in list_repo_tree
+[ 180.0s | stderr]     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+[ 180.0s | stderr]                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[ 180.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+[ 180.0s | stderr]     hf_raise_for_status(r)
+[ 180.0s | stderr]     ~~~~~~~~~~~~~~~~~~~^^^
+[ 180.0s | stderr]   File "/usr/local/lib/python3.13/dist-packages/huggingface_hub/utils/_http.py", line 885, in hf_raise_for_status
+[ 180.0s | stderr]     raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+[ 180.0s | stderr] huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6ad73a4d-2c2b066535f65ae913ddcf1b;59dd2ff3-ece4-4832-836a-9f1f1911402d)
+[ 180.0s | stderr] 
+[ 180.0s | stderr] Repository Not Found for url: https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true&expand=false.
+[ 180.0s | stderr] Please make sure you specified the correct `repo_id` and `repo_type`.
+[ 180.0s | stderr] If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+[ 180.0s | stderr] For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+[ 180.0s | stderr] User Access Token "qwen 3.6 tpu" is expired
+[ 180.4s | stderr] 2026-10-20 09:54:22,525 WARNING kronos-finetune failed on 2 GPUs — retrying once with --gpus 1
+[ 180.4s | stderr] 2026-10-20 09:54:22,525 INFO Running: /usr/bin/python3 -m models.kronos_finetune.train --val-days 7 --upload --gpus 1 (timeout 11.21h)
+[ 182.2s | stderr] 2026-10-20 09:54:24,278 INFO Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, None requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset

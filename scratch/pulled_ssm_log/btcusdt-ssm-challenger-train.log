@@ -1,0 +1,890 @@
+[{"stream_name":"stdout","time":0.884637539,"data":"[bundle] code unpacked to /tmp/impjr/feature engineering scripts\n"}
+,{"stream_name":"stdout","time":1.24216566,"data":"[bundle] HF_TOKEN configured successfully\n"}
+,{"stream_name":"stdout","time":16.065088297,"data":"[bundle] pinning preinstalled torch==2.11.0+cu128, torchvision==0.26.0+cu128, torchaudio==2.11.0+cu128 (CUDA available: True, GPUs: 2)\n"}
+,{"stream_name":"stdout","time":16.065165755,"data":"[bundle] pip install -r requirements-models.txt ...\n"}
+,{"stream_name":"stdout","time":19.713694063,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 46.4/46.4 kB 1.4 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":21.541842753,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 80.7/80.7 kB 3.3 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":21.585197732,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 166.0/166.0 kB 5.9 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":21.627219901,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 331.3/331.3 kB 12.8 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":21.666221868,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 158.7/158.7 kB 6.7 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":22.041022562,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.1/43.1 MB 50.3 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":22.080878434,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 254.7/254.7 kB 10.3 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":22.117618114,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 374.4/374.4 kB 18.8 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":22.256724638,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 837.9/837.9 kB 19.2 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":22.317846573,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.2/5.2 MB 113.4 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":22.35020156,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.4/50.4 kB 2.5 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":22.382985058,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 322.4/322.4 kB 17.1 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":22.414211786,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.5/87.5 kB 4.8 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":22.447417809,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 296.7/296.7 kB 15.4 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":43.217456727,"data":"[bundle] launching Kaggle pipeline entrypoint: train_ssm_dedicated\n"}
+,{"stream_name":"stderr","time":45.589648866,"data":"2026-10-21 11:07:51,105 [INFO] Ensuring training data is ready...\n"}
+,{"stream_name":"stderr","time":45.590195285,"data":"2026-10-21 11:07:51,105 [INFO] Checking HF Hub for training features (0 local, 42 needed)...\n"}
+,{"stream_name":"stderr","time":46.696514537,"data":"2026-10-21 11:07:52,212 [INFO] HTTP Request: GET https://huggingface.co/api/agent-harnesses \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":46.942741965,"data":"2026-10-21 11:07:52,458 [INFO] HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":47.027311967,"data":"2026-10-21 11:07:52,543 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-31.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":47.13819268,"data":"2026-10-21 11:07:52,653 [INFO] HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/xet-read-token/58200796f6a1190d2aa423962674464b79f05fe5 \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":48.088981653,"data":"2026-10-21 11:07:53,604 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-01.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":48.605886771,"data":"2026-10-21 11:07:54,121 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-02.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":49.220395094,"data":"2026-10-21 11:07:54,736 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-03.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":49.829689539,"data":"2026-10-21 11:07:55,345 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-04.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":50.434803421,"data":"2026-10-21 11:07:55,950 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-05.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":51.030963655,"data":"2026-10-21 11:07:56,546 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-06.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":51.604355644,"data":"2026-10-21 11:07:57,119 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-07.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":52.176414062,"data":"2026-10-21 11:07:57,692 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-08.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":52.76821938,"data":"2026-10-21 11:07:58,283 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-09.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":53.261876194,"data":"2026-10-21 11:07:58,777 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-10.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":53.786067852,"data":"2026-10-21 11:07:59,301 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-11.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":54.267890247,"data":"2026-10-21 11:07:59,783 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-12.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":54.736257031,"data":"2026-10-21 11:08:00,251 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-13.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":55.368996085,"data":"2026-10-21 11:08:00,884 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-14.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":55.928383165,"data":"2026-10-21 11:08:01,444 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-15.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":56.482979648,"data":"2026-10-21 11:08:01,998 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-16.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":57.063431978,"data":"2026-10-21 11:08:02,579 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-17.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":57.738987199,"data":"2026-10-21 11:08:03,254 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-18.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":58.29358225,"data":"2026-10-21 11:08:03,809 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-19.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":58.81433273,"data":"2026-10-21 11:08:04,329 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-20.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":59.384597903,"data":"2026-10-21 11:08:04,900 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-21.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":59.955152772,"data":"2026-10-21 11:08:05,470 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-22.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":60.490898457,"data":"2026-10-21 11:08:06,006 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-23.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":61.018026098,"data":"2026-10-21 11:08:06,533 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-24.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":61.614098204,"data":"2026-10-21 11:08:07,129 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-25.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":62.153672674,"data":"2026-10-21 11:08:07,669 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-26.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":62.926685153,"data":"2026-10-21 11:08:08,442 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-27.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":63.630394968,"data":"2026-10-21 11:08:09,146 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-28.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":64.16905433,"data":"2026-10-21 11:08:09,684 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-29.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":64.729034088,"data":"2026-10-21 11:08:10,244 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-30.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":65.291836977,"data":"2026-10-21 11:08:10,807 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-01.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":65.939206127,"data":"2026-10-21 11:08:11,454 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-02.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":66.761853455,"data":"2026-10-21 11:08:12,277 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-03.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":67.384523041,"data":"2026-10-21 11:08:12,900 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-04.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":67.886739213,"data":"2026-10-21 11:08:13,402 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-05.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":68.471101782,"data":"2026-10-21 11:08:13,986 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-06.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":69.024214128,"data":"2026-10-21 11:08:14,539 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-07.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":69.599163709,"data":"2026-10-21 11:08:15,114 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-08.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":70.092090628,"data":"2026-10-21 11:08:15,607 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-09.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":70.804779884,"data":"2026-10-21 11:08:16,320 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-10.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":71.335587436,"data":"2026-10-21 11:08:16,851 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-11.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":71.92996479,"data":"2026-10-21 11:08:17,445 [INFO] Starting dedicated SSM Challenger training on GPU (Option A: 4-Layer cuDNN GRU)...\n"}
+,{"stream_name":"stderr","time":71.992311127,"data":"2026-10-21 11:08:17,508 [INFO] Insufficient local feature parquets under /tmp/impjr/feature engineering scripts/output (0 found, 180 requested) — downloading from HF repo p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset\n"}
+,{"stream_name":"stderr","time":72.096257968,"data":"2026-10-21 11:08:17,611 [INFO] HTTP Request: GET https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/tree/main?recursive=true\u0026expand=false \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":72.169456051,"data":"2026-10-21 11:08:17,685 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-15.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":72.799947263,"data":"2026-10-21 11:08:18,315 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-16.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":73.322810335,"data":"2026-10-21 11:08:18,838 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-17.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":73.860921329,"data":"2026-10-21 11:08:19,376 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-18.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":74.426444224,"data":"2026-10-21 11:08:19,942 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-19.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":75.01134273,"data":"2026-10-21 11:08:20,527 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-20.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":75.572927015,"data":"2026-10-21 11:08:21,088 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-21.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":76.130876651,"data":"2026-10-21 11:08:21,646 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-22.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":76.718598342,"data":"2026-10-21 11:08:22,234 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-23.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":77.193631369,"data":"2026-10-21 11:08:22,709 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-24.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":78.348420082,"data":"2026-10-21 11:08:23,864 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-25.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":78.853220191,"data":"2026-10-21 11:08:24,368 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-26.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":79.415368986,"data":"2026-10-21 11:08:24,931 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-27.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":80.013307308,"data":"2026-10-21 11:08:25,529 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-28.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":80.489460615,"data":"2026-10-21 11:08:26,005 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-29.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":81.211396026,"data":"2026-10-21 11:08:26,727 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-04-30.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":81.726951545,"data":"2026-10-21 11:08:27,242 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-01.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":82.27798739,"data":"2026-10-21 11:08:27,793 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-02.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":82.816126361,"data":"2026-10-21 11:08:28,331 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-03.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":83.363336,"data":"2026-10-21 11:08:28,878 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-04.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":83.965412961,"data":"2026-10-21 11:08:29,481 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-05.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":84.608769456,"data":"2026-10-21 11:08:30,124 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-06.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":85.231241812,"data":"2026-10-21 11:08:30,746 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-07.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":85.784645674,"data":"2026-10-21 11:08:31,300 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-08.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":86.622075032,"data":"2026-10-21 11:08:32,137 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-09.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":87.213562428,"data":"2026-10-21 11:08:32,729 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-10.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":87.730737851,"data":"2026-10-21 11:08:33,246 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-11.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":88.300954214,"data":"2026-10-21 11:08:33,816 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-12.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":88.879249198,"data":"2026-10-21 11:08:34,394 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-13.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":89.371491415,"data":"2026-10-21 11:08:34,887 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-14.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":89.88483900599999,"data":"2026-10-21 11:08:35,400 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-15.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":90.392963267,"data":"2026-10-21 11:08:35,908 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-16.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":90.972254553,"data":"2026-10-21 11:08:36,487 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-17.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":91.57592198,"data":"2026-10-21 11:08:37,091 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-18.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":92.125907161,"data":"2026-10-21 11:08:37,641 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-19.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":92.684137664,"data":"2026-10-21 11:08:38,199 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-20.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":93.57968613,"data":"2026-10-21 11:08:39,095 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-21.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":94.163198259,"data":"2026-10-21 11:08:39,678 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-22.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":94.744726524,"data":"2026-10-21 11:08:40,260 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-23.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":95.247965257,"data":"2026-10-21 11:08:40,763 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-24.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":95.803314468,"data":"2026-10-21 11:08:41,319 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-25.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":99.16157253,"data":"2026-10-21 11:08:44,677 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-26.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":99.788266826,"data":"2026-10-21 11:08:45,303 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-27.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":100.274582761,"data":"2026-10-21 11:08:45,790 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-28.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":100.857212391,"data":"2026-10-21 11:08:46,372 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-29.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":101.466634502,"data":"2026-10-21 11:08:46,982 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-30.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":102.027403237,"data":"2026-10-21 11:08:47,543 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-05-31.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":102.558602328,"data":"2026-10-21 11:08:48,074 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-01.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":103.360805658,"data":"2026-10-21 11:08:48,876 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-02.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":103.920236764,"data":"2026-10-21 11:08:49,435 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-03.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":104.46918449,"data":"2026-10-21 11:08:49,984 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-04.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":105.040485135,"data":"2026-10-21 11:08:50,556 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-05.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":105.544497152,"data":"2026-10-21 11:08:51,060 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-06.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":106.101590918,"data":"2026-10-21 11:08:51,617 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-07.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":106.63952479,"data":"2026-10-21 11:08:52,155 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-08.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":107.23531477,"data":"2026-10-21 11:08:52,751 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-09.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":107.796364489,"data":"2026-10-21 11:08:53,311 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-10.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":108.38821613,"data":"2026-10-21 11:08:53,903 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-11.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":108.989178248,"data":"2026-10-21 11:08:54,504 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-12.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":109.61269199,"data":"2026-10-21 11:08:55,128 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-13.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":110.119264304,"data":"2026-10-21 11:08:55,635 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-14.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":110.628843298,"data":"2026-10-21 11:08:56,144 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-15.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":111.145810724,"data":"2026-10-21 11:08:56,661 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-16.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":111.628680668,"data":"2026-10-21 11:08:57,144 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-17.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":112.30721685,"data":"2026-10-21 11:08:57,822 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-18.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":112.889181161,"data":"2026-10-21 11:08:58,404 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-19.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":113.512989635,"data":"2026-10-21 11:08:59,028 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-20.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":114.028318442,"data":"2026-10-21 11:08:59,543 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-21.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":114.575524296,"data":"2026-10-21 11:09:00,091 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-22.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":115.165313082,"data":"2026-10-21 11:09:00,680 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-23.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":115.67036296,"data":"2026-10-21 11:09:01,186 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-24.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":116.126194574,"data":"2026-10-21 11:09:01,641 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-25.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":116.618981361,"data":"2026-10-21 11:09:02,134 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-26.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":117.139036787,"data":"2026-10-21 11:09:02,654 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-27.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":117.627694389,"data":"2026-10-21 11:09:03,143 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-28.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":118.144199602,"data":"2026-10-21 11:09:03,659 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-29.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":118.662043608,"data":"2026-10-21 11:09:04,177 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-06-30.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":119.231419705,"data":"2026-10-21 11:09:04,747 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-01.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":119.854190293,"data":"2026-10-21 11:09:05,369 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-02.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":120.41075724,"data":"2026-10-21 11:09:05,926 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-03.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":120.926501473,"data":"2026-10-21 11:09:06,442 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-04.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":121.485220835,"data":"2026-10-21 11:09:07,000 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-05.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":122.028179225,"data":"2026-10-21 11:09:07,543 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-06.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":122.575202116,"data":"2026-10-21 11:09:08,090 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-07.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":123.183957187,"data":"2026-10-21 11:09:08,699 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-08.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":123.751844822,"data":"2026-10-21 11:09:09,267 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-09.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":124.252365708,"data":"2026-10-21 11:09:09,768 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-10.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":124.825852977,"data":"2026-10-21 11:09:10,341 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-11.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":125.366229442,"data":"2026-10-21 11:09:10,881 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-12.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":125.864362719,"data":"2026-10-21 11:09:11,380 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-13.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":126.438125481,"data":"2026-10-21 11:09:11,953 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-14.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":126.971507279,"data":"2026-10-21 11:09:12,487 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-15.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":127.487274879,"data":"2026-10-21 11:09:13,002 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-16.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":128.101877185,"data":"2026-10-21 11:09:13,617 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-17.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":128.656343469,"data":"2026-10-21 11:09:14,172 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-18.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":129.150092215,"data":"2026-10-21 11:09:14,665 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-19.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":129.700556461,"data":"2026-10-21 11:09:15,216 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-20.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":130.27331082,"data":"2026-10-21 11:09:15,789 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-21.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":130.829926102,"data":"2026-10-21 11:09:16,345 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-22.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":131.382233608,"data":"2026-10-21 11:09:16,897 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-23.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":131.856985311,"data":"2026-10-21 11:09:17,372 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-24.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":132.492563116,"data":"2026-10-21 11:09:18,008 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-25.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":133.044906929,"data":"2026-10-21 11:09:18,560 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-26.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":133.634712874,"data":"2026-10-21 11:09:19,150 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-27.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":134.100321814,"data":"2026-10-21 11:09:19,616 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-28.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":134.600626051,"data":"2026-10-21 11:09:20,116 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-29.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":135.1935065,"data":"2026-10-21 11:09:20,709 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-30.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":135.810365246,"data":"2026-10-21 11:09:21,325 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-07-31.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":136.300188793,"data":"2026-10-21 11:09:21,815 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-01.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":136.764209112,"data":"2026-10-21 11:09:22,279 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-02.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":137.288740952,"data":"2026-10-21 11:09:22,804 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-03.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":137.995230563,"data":"2026-10-21 11:09:23,510 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-04.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":138.587762258,"data":"2026-10-21 11:09:24,103 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-05.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":139.181547472,"data":"2026-10-21 11:09:24,697 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-06.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":139.672926237,"data":"2026-10-21 11:09:25,188 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-07.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":140.265864787,"data":"2026-10-21 11:09:25,781 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-08.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":140.824663116,"data":"2026-10-21 11:09:26,340 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-09.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":141.400715059,"data":"2026-10-21 11:09:26,916 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-10.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":141.965054925,"data":"2026-10-21 11:09:27,480 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-11.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":142.51369083,"data":"2026-10-21 11:09:28,029 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-12.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":143.079260025,"data":"2026-10-21 11:09:28,594 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-13.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":143.676055082,"data":"2026-10-21 11:09:29,191 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-14.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":144.237732024,"data":"2026-10-21 11:09:29,753 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-15.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":144.702581821,"data":"2026-10-21 11:09:30,218 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-16.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":145.22191069,"data":"2026-10-21 11:09:30,737 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-17.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":145.727510325,"data":"2026-10-21 11:09:31,243 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-18.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":146.375708995,"data":"2026-10-21 11:09:31,891 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-19.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":146.888747422,"data":"2026-10-21 11:09:32,404 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-20.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":147.534453321,"data":"2026-10-21 11:09:33,050 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-21.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":148.083656556,"data":"2026-10-21 11:09:33,599 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-22.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":149.003723455,"data":"2026-10-21 11:09:34,519 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-23.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":149.669943631,"data":"2026-10-21 11:09:35,185 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-24.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":150.182643338,"data":"2026-10-21 11:09:35,698 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-25.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":150.755444002,"data":"2026-10-21 11:09:36,271 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-26.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":151.272874291,"data":"2026-10-21 11:09:36,788 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-27.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":151.851749405,"data":"2026-10-21 11:09:37,367 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-28.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":152.512758251,"data":"2026-10-21 11:09:38,028 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-29.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":153.004947983,"data":"2026-10-21 11:09:38,520 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-30.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":155.696880208,"data":"2026-10-21 11:09:41,212 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-08-31.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":155.765012534,"data":"2026-10-21 11:09:41,280 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-01.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":155.818923435,"data":"2026-10-21 11:09:41,334 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-02.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":155.871671269,"data":"2026-10-21 11:09:41,387 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-03.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":155.931127111,"data":"2026-10-21 11:09:41,446 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-04.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":155.987761587,"data":"2026-10-21 11:09:41,503 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-05.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.039967152,"data":"2026-10-21 11:09:41,555 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-06.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.08969478,"data":"2026-10-21 11:09:41,605 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-07.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.148981784,"data":"2026-10-21 11:09:41,664 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-08.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.203070434,"data":"2026-10-21 11:09:41,718 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-09.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.257630807,"data":"2026-10-21 11:09:41,773 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-10.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.310468532,"data":"2026-10-21 11:09:41,826 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-11.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.363866541,"data":"2026-10-21 11:09:41,879 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-12.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.418969221,"data":"2026-10-21 11:09:41,934 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-13.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.473291664,"data":"2026-10-21 11:09:41,988 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-14.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.530899561,"data":"2026-10-21 11:09:42,046 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-15.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.586766301,"data":"2026-10-21 11:09:42,102 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-16.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.641225827,"data":"2026-10-21 11:09:42,156 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-17.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.698017601,"data":"2026-10-21 11:09:42,213 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-18.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.758068722,"data":"2026-10-21 11:09:42,273 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-19.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.81725961,"data":"2026-10-21 11:09:42,332 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-20.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.871610024,"data":"2026-10-21 11:09:42,387 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-21.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.926072296,"data":"2026-10-21 11:09:42,441 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-22.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":156.980035649,"data":"2026-10-21 11:09:42,495 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-23.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.033530772,"data":"2026-10-21 11:09:42,549 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-24.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.086063833,"data":"2026-10-21 11:09:42,601 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-25.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.138247363,"data":"2026-10-21 11:09:42,653 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-26.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.194618491,"data":"2026-10-21 11:09:42,710 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-27.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.273536806,"data":"2026-10-21 11:09:42,789 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-28.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.330792612,"data":"2026-10-21 11:09:42,846 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-29.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.391569327,"data":"2026-10-21 11:09:42,907 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-09-30.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.445906216,"data":"2026-10-21 11:09:42,961 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-01.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.497557001,"data":"2026-10-21 11:09:43,013 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-02.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.552604667,"data":"2026-10-21 11:09:43,068 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-03.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.607046049,"data":"2026-10-21 11:09:43,122 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-04.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.663630687,"data":"2026-10-21 11:09:43,179 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-05.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.721049884,"data":"2026-10-21 11:09:43,236 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-06.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.775443524,"data":"2026-10-21 11:09:43,291 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-07.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.827896612,"data":"2026-10-21 11:09:43,343 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-08.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.887067159,"data":"2026-10-21 11:09:43,402 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-09.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.941386227,"data":"2026-10-21 11:09:43,457 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-10.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":157.99426142,"data":"2026-10-21 11:09:43,510 [INFO] HTTP Request: HEAD https://huggingface.co/datasets/p-j-r-1-2-3/Project-IMPJR-ModelTFT-dataset/resolve/main/data_v2/features_BTCUSDT_2026-10-11.parquet \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stderr","time":173.486243624,"data":"2026-10-21 11:09:59,001 [INFO] Loaded 180 day-file(s), 1555199 total rows\n"}
+,{"stream_name":"stderr","time":177.481641895,"data":"2026-10-21 11:10:02,997 [INFO] HTTP Request: HEAD https://huggingface.co/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/resolve/main/inprogress.pt \"HTTP/1.1 404 Not Found\"\n"}
+,{"stream_name":"stderr","time":177.482166984,"data":"2026-10-21 11:10:02,997 [INFO] Windows: train=133499 early_stop=14858 val=6012 (mamba_ssm available=False)\n"}
+,{"stream_name":"stderr","time":177.971035481,"data":"2026-10-21 11:10:03,486 [INFO] Wrapping model in nn.DataParallel across 2 GPUs\n"}
+,{"stream_name":"stderr","time":180.307287588,"data":"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/linear.py:134: UserWarning: Attempting to run cuBLAS, but there was no current CUDA context! Attempting to set the primary context... (Triggered internally at /pytorch/aten/src/ATen/cuda/CublasHandlePool.cpp:335.)\n"}
+,{"stream_name":"stderr","time":180.307321157,"data":"  return F.linear(input, self.weight, self.bias)\n"}
+,{"stream_name":"stderr","time":255.652203101,"data":"2026-10-21 11:11:21,167 [INFO] Epoch 0: early_stop_loss=1.5746\n"}
+,{"stream_name":"stderr","time":256.124515396,"data":"2026-10-21 11:11:21,640 [INFO] HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":256.193183534,"data":"2026-10-21 11:11:21,708 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":256.193976377,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":256.521024026,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":256.521046559,"data":"\n"}
+,{"stream_name":"stderr","time":256.521051017,"data":"\r  ...checkpoints/inprogress.pt:   9%|▉         |  635kB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":256.521056438,"data":"\n"}
+,{"stream_name":"stderr","time":256.521370535,"data":"\r  ...checkpoints/inprogress.pt:   9%|▉         |  635kB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :   9%|▉         |  635kB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":256.621913613,"data":"\rNew Data Upload               :   9%|▉         |  554kB / 5.91MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":256.621940559,"data":"\n"}
+,{"stream_name":"stderr","time":256.622219636,"data":"\r  ...checkpoints/inprogress.pt:  19%|█▉        | 1.27MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  19%|█▉        | 1.27MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":256.722670069,"data":"\rNew Data Upload               :  19%|█▉        | 1.11MB / 5.91MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":256.722706435,"data":"\n"}
+,{"stream_name":"stderr","time":256.722930564,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      : 100%|█████████▉| 6.77MB / 6.77MB,  670kB/s  \n"}
+,{"stream_name":"stderr","time":256.82354767100003,"data":"\rNew Data Upload               : 100%|█████████▉| 5.91MB / 5.91MB,  584kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":256.823580803,"data":"\n"}
+,{"stream_name":"stderr","time":256.924069335,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":256.924098847,"data":"\n"}
+,{"stream_name":"stderr","time":256.924396188,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  657kB/s  \n"}
+,{"stream_name":"stderr","time":257.024920059,"data":"\rNew Data Upload               : 100%|██████████| 5.91MB / 5.91MB,  573kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":257.024947131,"data":"\n"}
+,{"stream_name":"stderr","time":257.077594953,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":257.077612876,"data":"\n"}
+,{"stream_name":"stderr","time":257.077991347,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  647kB/s  \n"}
+,{"stream_name":"stderr","time":257.078084649,"data":"\rNew Data Upload               : 100%|██████████| 5.91MB / 5.91MB,  564kB/s  \n"}
+,{"stream_name":"stderr","time":257.078244696,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \n"}
+,{"stream_name":"stderr","time":257.601990549,"data":"2026-10-21 11:11:23,117 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":257.602482113,"data":"2026-10-21 11:11:23,118 [INFO] Committed in-progress checkpoint (epoch 0) to HF\n"}
+,{"stream_name":"stderr","time":334.130452622,"data":"2026-10-21 11:12:39,646 [INFO] Epoch 1: early_stop_loss=1.6795\n"}
+,{"stream_name":"stderr","time":334.245302407,"data":"2026-10-21 11:12:39,761 [INFO] HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 409 Conflict\"\n"}
+,{"stream_name":"stderr","time":334.343545539,"data":"2026-10-21 11:12:39,859 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":334.344217758,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":334.672417568,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":334.672446403,"data":"\n"}
+,{"stream_name":"stderr","time":334.672514915,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.18MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":334.672524081,"data":"\n"}
+,{"stream_name":"stderr","time":334.672846454,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.18MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  32%|███▏      | 2.18MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":334.773322285,"data":"\rNew Data Upload               :  11%|█         |  573kB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":334.773344006,"data":"\n"}
+,{"stream_name":"stderr","time":334.773621854,"data":"\r  ...checkpoints/inprogress.pt:  41%|████      | 2.75MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  41%|████      | 2.75MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":334.874241931,"data":"\rNew Data Upload               :  22%|██▏       | 1.15MB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":334.874281126,"data":"\n"}
+,{"stream_name":"stderr","time":334.874487146,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      : 100%|█████████▉| 6.77MB / 6.77MB,  668kB/s  \n"}
+,{"stream_name":"stderr","time":334.97500992,"data":"\rNew Data Upload               : 100%|█████████▉| 5.17MB / 5.17MB,  511kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":334.975031291,"data":"\n"}
+,{"stream_name":"stderr","time":335.075530182,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":335.075557124,"data":"\n"}
+,{"stream_name":"stderr","time":335.075692762,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  655kB/s  \n"}
+,{"stream_name":"stderr","time":335.17625551,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  501kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":335.176290653,"data":"\n"}
+,{"stream_name":"stderr","time":335.226209905,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":335.22622965,"data":"\n"}
+,{"stream_name":"stderr","time":335.226610354,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  645kB/s  \n"}
+,{"stream_name":"stderr","time":335.226763237,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  494kB/s  \n"}
+,{"stream_name":"stderr","time":335.226895095,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \n"}
+,{"stream_name":"stderr","time":335.841606154,"data":"2026-10-21 11:12:41,357 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":335.841990726,"data":"2026-10-21 11:12:41,357 [INFO] Committed in-progress checkpoint (epoch 1) to HF\n"}
+,{"stream_name":"stderr","time":414.269605675,"data":"2026-10-21 11:13:59,785 [INFO] Epoch 2: early_stop_loss=2.0359\n"}
+,{"stream_name":"stderr","time":414.429638258,"data":"2026-10-21 11:13:59,945 [INFO] HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 409 Conflict\"\n"}
+,{"stream_name":"stderr","time":414.692632861,"data":"2026-10-21 11:14:00,208 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":414.693349698,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":415.021373501,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":415.021401337,"data":"\n"}
+,{"stream_name":"stderr","time":415.021518833,"data":"\r  ...checkpoints/inprogress.pt:  24%|██▎       | 1.60MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":415.021534788,"data":"\n"}
+,{"stream_name":"stderr","time":415.122289745,"data":"\r  ...checkpoints/inprogress.pt:  24%|██▎       | 1.60MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  24%|██▎       | 1.60MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":415.122314203,"data":"\n"}
+,{"stream_name":"stderr","time":415.122489303,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.17MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  32%|███▏      | 2.17MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":415.223015948,"data":"\rNew Data Upload               :  11%|█         |  573kB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":415.223045252,"data":"\n"}
+,{"stream_name":"stderr","time":415.223175498,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      : 100%|█████████▉| 6.77MB / 6.77MB,  669kB/s  \n"}
+,{"stream_name":"stderr","time":415.323691357,"data":"\rNew Data Upload               : 100%|█████████▉| 5.17MB / 5.17MB,  512kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":415.323716549,"data":"\n"}
+,{"stream_name":"stderr","time":415.424209933,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":415.424233547,"data":"\n"}
+,{"stream_name":"stderr","time":415.42438954,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  655kB/s  \n"}
+,{"stream_name":"stderr","time":415.52497154,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  502kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":415.524997204,"data":"\n"}
+,{"stream_name":"stderr","time":415.625554238,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":415.62558067,"data":"\n"}
+,{"stream_name":"stderr","time":415.650769114,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":415.650786579,"data":"\n"}
+,{"stream_name":"stderr","time":415.651174598,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  641kB/s  \n"}
+,{"stream_name":"stderr","time":415.651321438,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  491kB/s  \n"}
+,{"stream_name":"stderr","time":415.65147792,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \n"}
+,{"stream_name":"stderr","time":419.366551486,"data":"2026-10-21 11:14:04,882 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":419.366924871,"data":"2026-10-21 11:14:04,882 [INFO] Committed in-progress checkpoint (epoch 2) to HF\n"}
+,{"stream_name":"stderr","time":498.852889069,"data":"2026-10-21 11:15:24,368 [INFO] Epoch 3: early_stop_loss=2.1296\n"}
+,{"stream_name":"stderr","time":498.971457261,"data":"2026-10-21 11:15:24,487 [INFO] HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 409 Conflict\"\n"}
+,{"stream_name":"stderr","time":499.096625651,"data":"2026-10-21 11:15:24,612 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":499.097219853,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":499.421102094,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":499.421129731,"data":"\n"}
+,{"stream_name":"stderr","time":499.42126739,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.16MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":499.421292654,"data":"\n"}
+,{"stream_name":"stderr","time":499.42158662,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.16MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  32%|███▏      | 2.16MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":499.522097041,"data":"\rNew Data Upload               :  11%|█         |  555kB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":499.522123306,"data":"\n"}
+,{"stream_name":"stderr","time":499.522398262,"data":"\r  ...checkpoints/inprogress.pt:  56%|█████▋    | 3.82MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  56%|█████▋    | 3.82MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":499.623003424,"data":"\rNew Data Upload               :  43%|████▎     | 2.22MB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":499.623028911,"data":"\n"}
+,{"stream_name":"stderr","time":499.623050712,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      : 100%|█████████▉| 6.77MB / 6.77MB,  667kB/s  \n"}
+,{"stream_name":"stderr","time":499.72366529,"data":"\rNew Data Upload               : 100%|█████████▉| 5.17MB / 5.17MB,  511kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":499.723693591,"data":"\n"}
+,{"stream_name":"stderr","time":499.824144338,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":499.824182413,"data":"\n"}
+,{"stream_name":"stderr","time":499.82422827,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  654kB/s  \n"}
+,{"stream_name":"stderr","time":499.924879023,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  500kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":499.924900692,"data":"\n"}
+,{"stream_name":"stderr","time":499.980979035,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":499.98099871,"data":"\n"}
+,{"stream_name":"stderr","time":499.981468946,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  644kB/s  \n"}
+,{"stream_name":"stderr","time":499.981556646,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  493kB/s  \n"}
+,{"stream_name":"stderr","time":499.981766102,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \n"}
+,{"stream_name":"stderr","time":500.543852658,"data":"2026-10-21 11:15:26,059 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":500.544323265,"data":"2026-10-21 11:15:26,060 [INFO] Committed in-progress checkpoint (epoch 3) to HF\n"}
+,{"stream_name":"stderr","time":580.745052994,"data":"2026-10-21 11:16:46,260 [INFO] Epoch 4: early_stop_loss=2.2861\n"}
+,{"stream_name":"stderr","time":580.881862774,"data":"2026-10-21 11:16:46,397 [INFO] HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 409 Conflict\"\n"}
+,{"stream_name":"stderr","time":581.008499699,"data":"2026-10-21 11:16:46,524 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":581.009194785,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":581.378827188,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":581.378858114,"data":"\n"}
+,{"stream_name":"stderr","time":581.378889235,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.18MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":581.378899884,"data":"\n"}
+,{"stream_name":"stderr","time":581.379266355,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.18MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  32%|███▏      | 2.18MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":581.479676539,"data":"\rNew Data Upload               :  11%|█         |  573kB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":581.479705006,"data":"\n"}
+,{"stream_name":"stderr","time":581.479998228,"data":"\r  ...checkpoints/inprogress.pt:  57%|█████▋    | 3.89MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  57%|█████▋    | 3.89MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":581.580584556,"data":"\rNew Data Upload               :  44%|████▍     | 2.29MB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":581.58061354,"data":"\n"}
+,{"stream_name":"stderr","time":581.58080112,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      : 100%|█████████▉| 6.77MB / 6.77MB,  667kB/s  \n"}
+,{"stream_name":"stderr","time":581.681338295,"data":"\rNew Data Upload               : 100%|█████████▉| 5.17MB / 5.17MB,  510kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":581.681363796,"data":"\n"}
+,{"stream_name":"stderr","time":581.781820866,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":581.781841188,"data":"\n"}
+,{"stream_name":"stderr","time":581.782078164,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  654kB/s  \n"}
+,{"stream_name":"stderr","time":581.882645717,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  500kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":581.882683594,"data":"\n"}
+,{"stream_name":"stderr","time":581.957095642,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":581.957113522,"data":"\n"}
+,{"stream_name":"stderr","time":581.957449072,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  643kB/s  \n"}
+,{"stream_name":"stderr","time":581.957521153,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  492kB/s  \n"}
+,{"stream_name":"stderr","time":581.957666897,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \n"}
+,{"stream_name":"stderr","time":582.629077461,"data":"2026-10-21 11:16:48,144 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":582.629518615,"data":"2026-10-21 11:16:48,145 [INFO] Committed in-progress checkpoint (epoch 4) to HF\n"}
+,{"stream_name":"stderr","time":663.231102406,"data":"2026-10-21 11:18:08,746 [INFO] Epoch 5: early_stop_loss=2.2909\n"}
+,{"stream_name":"stderr","time":663.367795115,"data":"2026-10-21 11:18:08,883 [INFO] HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 409 Conflict\"\n"}
+,{"stream_name":"stderr","time":663.454829559,"data":"2026-10-21 11:18:08,970 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":663.455566799,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":663.780236071,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":663.780267375,"data":"\n"}
+,{"stream_name":"stderr","time":663.780402642,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.16MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":663.780411715,"data":"\n"}
+,{"stream_name":"stderr","time":663.780722921,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.16MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  32%|███▏      | 2.16MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":663.881196518,"data":"\rNew Data Upload               :  11%|█         |  556kB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":663.881220311,"data":"\n"}
+,{"stream_name":"stderr","time":663.881507565,"data":"\r  ...checkpoints/inprogress.pt:  65%|██████▍   | 4.38MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  65%|██████▍   | 4.38MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":663.981891492,"data":"\rNew Data Upload               :  54%|█████▎    | 2.78MB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":663.981917636,"data":"\n"}
+,{"stream_name":"stderr","time":663.982195748,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      : 100%|█████████▉| 6.77MB / 6.77MB,  667kB/s  \n"}
+,{"stream_name":"stderr","time":664.082669679,"data":"\rNew Data Upload               : 100%|█████████▉| 5.17MB / 5.17MB,  510kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":664.082704878,"data":"\n"}
+,{"stream_name":"stderr","time":664.183099013,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":664.183158805,"data":"\n"}
+,{"stream_name":"stderr","time":664.183398616,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  654kB/s  \n"}
+,{"stream_name":"stderr","time":664.283970221,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  500kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":664.283986113,"data":"\n"}
+,{"stream_name":"stderr","time":664.32284771,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":664.322866436,"data":"\n"}
+,{"stream_name":"stderr","time":664.323281228,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  645kB/s  \n"}
+,{"stream_name":"stderr","time":664.323400608,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  493kB/s  \n"}
+,{"stream_name":"stderr","time":664.323543946,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \n"}
+,{"stream_name":"stderr","time":664.838542277,"data":"2026-10-21 11:18:10,354 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":664.838887623,"data":"2026-10-21 11:18:10,354 [INFO] Committed in-progress checkpoint (epoch 5) to HF\n"}
+,{"stream_name":"stderr","time":745.578400757,"data":"2026-10-21 11:19:31,094 [INFO] Epoch 6: early_stop_loss=2.3745\n"}
+,{"stream_name":"stderr","time":745.715470721,"data":"2026-10-21 11:19:31,231 [INFO] HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 409 Conflict\"\n"}
+,{"stream_name":"stderr","time":745.791871995,"data":"2026-10-21 11:19:31,307 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":745.79243861,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":746.112304821,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":746.112333356,"data":"\n"}
+,{"stream_name":"stderr","time":746.112491068,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.17MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":746.112501343,"data":"\n"}
+,{"stream_name":"stderr","time":746.112809288,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.17MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  32%|███▏      | 2.17MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":746.213361522,"data":"\rNew Data Upload               :  11%|█         |  571kB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":746.213387463,"data":"\n"}
+,{"stream_name":"stderr","time":746.213625132,"data":"\r  ...checkpoints/inprogress.pt:  66%|██████▌   | 4.46MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  66%|██████▌   | 4.46MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":746.314154812,"data":"\rNew Data Upload               :  55%|█████▌    | 2.86MB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":746.314195894,"data":"\n"}
+,{"stream_name":"stderr","time":746.31457821,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      : 100%|█████████▉| 6.77MB / 6.77MB,  667kB/s  \n"}
+,{"stream_name":"stderr","time":746.414938167,"data":"\rNew Data Upload               : 100%|█████████▉| 5.17MB / 5.17MB,  510kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":746.415004718,"data":"\n"}
+,{"stream_name":"stderr","time":746.515442624,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":746.51546556,"data":"\n"}
+,{"stream_name":"stderr","time":746.515625349,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  653kB/s  \n"}
+,{"stream_name":"stderr","time":746.602744272,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  500kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":746.602782878,"data":"\n"}
+,{"stream_name":"stderr","time":746.603239131,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  648kB/s  \n"}
+,{"stream_name":"stderr","time":746.603252812,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  496kB/s  \n"}
+,{"stream_name":"stderr","time":746.603443701,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \n"}
+,{"stream_name":"stderr","time":747.227369302,"data":"2026-10-21 11:19:32,742 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":747.227711072,"data":"2026-10-21 11:19:32,743 [INFO] Committed in-progress checkpoint (epoch 6) to HF\n"}
+,{"stream_name":"stderr","time":828.107545406,"data":"2026-10-21 11:20:53,623 [INFO] Epoch 7: early_stop_loss=2.3381\n"}
+,{"stream_name":"stderr","time":828.218274838,"data":"2026-10-21 11:20:53,734 [INFO] HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 409 Conflict\"\n"}
+,{"stream_name":"stderr","time":828.37197781,"data":"2026-10-21 11:20:53,887 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":828.372685458,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":828.700143341,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":828.700192089,"data":"\n"}
+,{"stream_name":"stderr","time":828.700197461,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.15MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":828.700216689,"data":"\n"}
+,{"stream_name":"stderr","time":828.700494471,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.15MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  32%|███▏      | 2.15MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":828.800987584,"data":"\rNew Data Upload               :  11%|█         |  547kB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":828.801028925,"data":"\n"}
+,{"stream_name":"stderr","time":828.801227469,"data":"\r  ...checkpoints/inprogress.pt:  64%|██████▍   | 4.34MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  64%|██████▍   | 4.34MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":828.901712065,"data":"\rNew Data Upload               :  53%|█████▎    | 2.73MB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":828.901737746,"data":"\n"}
+,{"stream_name":"stderr","time":828.901970766,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      : 100%|█████████▉| 6.77MB / 6.77MB,  667kB/s  \n"}
+,{"stream_name":"stderr","time":829.00239907,"data":"\rNew Data Upload               : 100%|█████████▉| 5.17MB / 5.17MB,  510kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":829.002417035,"data":"\n"}
+,{"stream_name":"stderr","time":829.002724643,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  660kB/s  \n"}
+,{"stream_name":"stderr","time":829.103262674,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  505kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":829.103284295,"data":"\n"}
+,{"stream_name":"stderr","time":829.203828398,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":829.203851031,"data":"\n"}
+,{"stream_name":"stderr","time":829.274421883,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":829.274443339,"data":"\n"}
+,{"stream_name":"stderr","time":829.274740509,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  643kB/s  \n"}
+,{"stream_name":"stderr","time":829.274882637,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  492kB/s  \n"}
+,{"stream_name":"stderr","time":829.274961604,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \n"}
+,{"stream_name":"stderr","time":830.095066438,"data":"2026-10-21 11:20:55,610 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":830.095351037,"data":"2026-10-21 11:20:55,611 [INFO] Committed in-progress checkpoint (epoch 7) to HF\n"}
+,{"stream_name":"stderr","time":910.984711041,"data":"2026-10-21 11:22:16,500 [INFO] Epoch 8: early_stop_loss=2.4071\n"}
+,{"stream_name":"stderr","time":911.122842086,"data":"2026-10-21 11:22:16,638 [INFO] HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 409 Conflict\"\n"}
+,{"stream_name":"stderr","time":911.538189518,"data":"2026-10-21 11:22:17,053 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":911.538773605,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":911.883479012,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":911.883506305,"data":"\n"}
+,{"stream_name":"stderr","time":911.883543774,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.16MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":911.883549725,"data":"\n"}
+,{"stream_name":"stderr","time":911.88386544,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.16MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  32%|███▏      | 2.16MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":911.984407913,"data":"\rNew Data Upload               :  11%|█         |  560kB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":911.984434692,"data":"\n"}
+,{"stream_name":"stderr","time":911.984785958,"data":"\r  ...checkpoints/inprogress.pt:  40%|████      | 2.72MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  40%|████      | 2.72MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":912.085250168,"data":"\rNew Data Upload               :  22%|██▏       | 1.12MB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":912.08527809,"data":"\n"}
+,{"stream_name":"stderr","time":912.085577529,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      : 100%|█████████▉| 6.77MB / 6.77MB,  668kB/s  \n"}
+,{"stream_name":"stderr","time":912.186209386,"data":"\rNew Data Upload               : 100%|█████████▉| 5.17MB / 5.17MB,  511kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":912.186233925,"data":"\n"}
+,{"stream_name":"stderr","time":912.286721519,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":912.286742124,"data":"\n"}
+,{"stream_name":"stderr","time":912.286939747,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  655kB/s  \n"}
+,{"stream_name":"stderr","time":912.387423542,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  501kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":912.387449,"data":"\n"}
+,{"stream_name":"stderr","time":912.418989932,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":912.419006274,"data":"\n"}
+,{"stream_name":"stderr","time":912.41935123,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  646kB/s  \n"}
+,{"stream_name":"stderr","time":912.419503307,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  495kB/s  \n"}
+,{"stream_name":"stderr","time":912.419624946,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \n"}
+,{"stream_name":"stderr","time":913.088195402,"data":"2026-10-21 11:22:18,603 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":913.08851516,"data":"2026-10-21 11:22:18,604 [INFO] Committed in-progress checkpoint (epoch 8) to HF\n"}
+,{"stream_name":"stderr","time":994.062772992,"data":"2026-10-21 11:23:39,578 [INFO] Epoch 9: early_stop_loss=2.5711\n"}
+,{"stream_name":"stderr","time":994.180202045,"data":"2026-10-21 11:23:39,695 [INFO] HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 409 Conflict\"\n"}
+,{"stream_name":"stderr","time":994.258575137,"data":"2026-10-21 11:23:39,774 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":994.259318627,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":994.583205178,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":994.583231485,"data":"\n"}
+,{"stream_name":"stderr","time":994.583236319,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.17MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":994.583242371,"data":"\n"}
+,{"stream_name":"stderr","time":994.583440121,"data":"\r  ...checkpoints/inprogress.pt:  32%|███▏      | 2.17MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  32%|███▏      | 2.17MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":994.683911154,"data":"\rNew Data Upload               :  11%|█         |  572kB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":994.683939146,"data":"\n"}
+,{"stream_name":"stderr","time":994.684376122,"data":"\r  ...checkpoints/inprogress.pt:  57%|█████▋    | 3.89MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  57%|█████▋    | 3.89MB / 6.77MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":994.784712757,"data":"\rNew Data Upload               :  44%|████▍     | 2.29MB / 5.17MB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":994.784743336,"data":"\n"}
+,{"stream_name":"stderr","time":994.785044943,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      : 100%|█████████▉| 6.77MB / 6.77MB,  667kB/s  \n"}
+,{"stream_name":"stderr","time":994.885697595,"data":"\rNew Data Upload               : 100%|█████████▉| 5.17MB / 5.17MB,  510kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":994.8857336,"data":"\n"}
+,{"stream_name":"stderr","time":994.986276529,"data":"\r  ...checkpoints/inprogress.pt: 100%|█████████▉| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":994.98630598,"data":"\n"}
+,{"stream_name":"stderr","time":994.986506378,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  654kB/s  \n"}
+,{"stream_name":"stderr","time":995.087040508,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  500kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":995.08705747,"data":"\n"}
+,{"stream_name":"stderr","time":995.095167858,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":995.095186183,"data":"\n"}
+,{"stream_name":"stderr","time":995.095578038,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 6.77MB / 6.77MB,  647kB/s  \n"}
+,{"stream_name":"stderr","time":995.095745966,"data":"\rNew Data Upload               : 100%|██████████| 5.17MB / 5.17MB,  495kB/s  \n"}
+,{"stream_name":"stderr","time":995.095858499,"data":"\r  ...checkpoints/inprogress.pt: 100%|██████████| 6.77MB / 6.77MB            \n"}
+,{"stream_name":"stderr","time":995.845283975,"data":"2026-10-21 11:23:41,361 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":995.84564984,"data":"2026-10-21 11:23:41,361 [INFO] Committed in-progress checkpoint (epoch 9) to HF\n"}
+,{"stream_name":"stderr","time":1000.928633943,"data":"2026-10-21 11:23:46,444 [INFO] NumExpr defaulting to 4 threads.\n"}
+,{"stream_name":"stderr","time":1003.166245396,"data":"2026-10-21 11:23:48,681 [INFO] Saved checkpoint to /tmp/impjr/feature engineering scripts/models/ssm_challenger/checkpoints/ssm_challenger.pt\n"}
+,{"stream_name":"stderr","time":1003.608633464,"data":"2026-10-21 11:23:49,124 [INFO] HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 409 Conflict\"\n"}
+,{"stream_name":"stderr","time":1003.689690467,"data":"2026-10-21 11:23:49,205 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":1003.69034744,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":1004.02189408,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":1004.021919792,"data":"\n"}
+,{"stream_name":"stderr","time":1004.02201172,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1004.022026936,"data":"\n"}
+,{"stream_name":"stderr","time":1004.02233286,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 1.70MB / 1.70MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":1004.122808942,"data":"\rNew Data Upload               : 100%|██████████|  497kB /  497kB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1004.122837364,"data":"\n"}
+,{"stream_name":"stderr","time":1004.223184294,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1004.223209868,"data":"\n"}
+,{"stream_name":"stderr","time":1004.3234086,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1004.323431883,"data":"\n"}
+,{"stream_name":"stderr","time":1004.374979522,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1004.375000131,"data":"\n"}
+,{"stream_name":"stderr","time":1004.375381744,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 1.70MB / 1.70MB,  163kB/s  \n"}
+,{"stream_name":"stderr","time":1004.375438539,"data":"\rNew Data Upload               : 100%|██████████|  497kB /  497kB, 47.8kB/s  \n"}
+,{"stream_name":"stderr","time":1004.375570992,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \n"}
+,{"stream_name":"stderr","time":1005.300861278,"data":"2026-10-21 11:23:50,816 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":1005.304015672,"data":"/usr/local/lib/python3.13/dist-packages/huggingface_hub/hf_api.py:5234: UserWarning: It seems that you are about to commit a data file (oof/ssm-challenger.parquet) to a model repository. You are sure this is intended? If you are trying to upload a dataset, please set `repo_type='dataset'` or `--repo-type=dataset` in a CLI.\n"}
+,{"stream_name":"stderr","time":1005.304067197,"data":"  warnings.warn(\n"}
+,{"stream_name":"stderr","time":1005.387863681,"data":"2026-10-21 11:23:50,903 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":1005.388466803,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":1005.71658764,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":1005.716613069,"data":"\n"}
+,{"stream_name":"stderr","time":1005.717032121,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1005.717059159,"data":"\n"}
+,{"stream_name":"stderr","time":1005.717064095,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████|  116kB /  116kB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":1005.817219474,"data":"\rNew Data Upload               : 100%|██████████|  116kB /  116kB,   ???B/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1005.817240132,"data":"\n"}
+,{"stream_name":"stderr","time":1005.917646369,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1005.917669688,"data":"\n"}
+,{"stream_name":"stderr","time":1006.018061198,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1006.01808985,"data":"\n"}
+,{"stream_name":"stderr","time":1006.118595265,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1006.118634016,"data":"\n"}
+,{"stream_name":"stderr","time":1006.218933997,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1006.218958264,"data":"\n"}
+,{"stream_name":"stderr","time":1006.319425512,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1006.31945336,"data":"\n"}
+,{"stream_name":"stderr","time":1006.419815676,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1006.41984256,"data":"\n"}
+,{"stream_name":"stderr","time":1006.520340668,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1006.520367722,"data":"\n"}
+,{"stream_name":"stderr","time":1006.620814198,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1006.620841401,"data":"\n"}
+,{"stream_name":"stderr","time":1006.721262382,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1006.721285837,"data":"\n"}
+,{"stream_name":"stderr","time":1006.821798921,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1006.821859744,"data":"\n"}
+,{"stream_name":"stderr","time":1006.922360637,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1006.922391168,"data":"\n"}
+,{"stream_name":"stderr","time":1007.022926669,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1007.022952423,"data":"\n"}
+,{"stream_name":"stderr","time":1007.123255485,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1007.123279471,"data":"\n"}
+,{"stream_name":"stderr","time":1007.223834504,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1007.223857955,"data":"\n"}
+,{"stream_name":"stderr","time":1007.324263261,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1007.324285157,"data":"\n"}
+,{"stream_name":"stderr","time":1007.424832967,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1007.424858552,"data":"\n"}
+,{"stream_name":"stderr","time":1007.525256963,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1007.52528274,"data":"\n"}
+,{"stream_name":"stderr","time":1007.625735807,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1007.625761813,"data":"\n"}
+,{"stream_name":"stderr","time":1007.726271507,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1007.726295745,"data":"\n"}
+,{"stream_name":"stderr","time":1007.826973972,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1007.827002884,"data":"\n"}
+,{"stream_name":"stderr","time":1007.927292827,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1007.927340438,"data":"\n"}
+,{"stream_name":"stderr","time":1008.02788444,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1008.027912262,"data":"\n"}
+,{"stream_name":"stderr","time":1008.090411323,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1008.090431546,"data":"\n"}
+,{"stream_name":"stderr","time":1008.090798043,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████|  116kB /  116kB, 9.20kB/s  \n"}
+,{"stream_name":"stderr","time":1008.090883483,"data":"\rNew Data Upload               : 100%|██████████|  116kB /  116kB, 9.20kB/s  \n"}
+,{"stream_name":"stderr","time":1008.091018798,"data":"\r  ...of/ssm-challenger.parquet: 100%|██████████|  116kB /  116kB            \n"}
+,{"stream_name":"stderr","time":1008.514514488,"data":"2026-10-21 11:23:54,030 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":1008.591898538,"data":"2026-10-21 11:23:54,107 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":1009.00308665,"data":"2026-10-21 11:23:54,518 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":1009.062440031,"data":"2026-10-21 11:23:54,578 [INFO] HTTP Request: POST https://huggingface.co/api/repos/create \"HTTP/1.1 409 Conflict\"\n"}
+,{"stream_name":"stderr","time":1009.14917216,"data":"2026-10-21 11:23:54,664 [INFO] HTTP Request: POST https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":1009.149782683,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":1009.593300414,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":1009.593333679,"data":"\n"}
+,{"stream_name":"stderr","time":1009.593621501,"data":"\r  ...ing_data_snapshot.parquet:   0%|          | 1.96MB /  875MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1009.593630404,"data":"\n"}
+,{"stream_name":"stderr","time":1009.694027702,"data":"\r  ...ing_data_snapshot.parquet:   0%|          | 1.96MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :   0%|          | 1.96MB /  875MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":1009.694062059,"data":"\n"}
+,{"stream_name":"stderr","time":1009.794429053,"data":"\r  ...ing_data_snapshot.parquet:   0%|          | 1.96MB /  875MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1009.794462014,"data":"\n"}
+,{"stream_name":"stderr","time":1009.894921053,"data":"\r  ...ing_data_snapshot.parquet:   0%|          | 1.96MB /  875MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1009.89495561,"data":"\n"}
+,{"stream_name":"stderr","time":1009.995450372,"data":"\r  ...ing_data_snapshot.parquet:   0%|          | 1.96MB /  875MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1009.995484262,"data":"\n"}
+,{"stream_name":"stderr","time":1010.095903229,"data":"\r  ...ing_data_snapshot.parquet:   0%|          | 1.96MB /  875MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1010.095931812,"data":"\n"}
+,{"stream_name":"stderr","time":1010.096210255,"data":"\r  ...ing_data_snapshot.parquet:   1%|          | 5.89MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :   1%|          | 5.89MB /  875MB,  571kB/s  \n"}
+,{"stream_name":"stderr","time":1010.196682375,"data":"\rNew Data Upload               :   1%|          |  614kB / 67.1MB, 60.1kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1010.19671471,"data":"\n"}
+,{"stream_name":"stderr","time":1010.197175673,"data":"\r  ...ing_data_snapshot.parquet:   1%|          | 9.58MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :   1%|          | 9.58MB /  875MB,  925kB/s  \n"}
+,{"stream_name":"stderr","time":1010.297461959,"data":"\rNew Data Upload               :   6%|▋         | 4.30MB / 67.1MB,  419kB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1010.297642394,"data":"\n"}
+,{"stream_name":"stderr","time":1010.297963314,"data":"\r  ...ing_data_snapshot.parquet:   2%|▏         | 20.3MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :   2%|▏         | 20.3MB /  875MB, 1.96MB/s  \n"}
+,{"stream_name":"stderr","time":1010.398854551,"data":"\rNew Data Upload               :  19%|█▉        | 12.9MB / 67.1MB, 1.25MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1010.398895903,"data":"\n"}
+,{"stream_name":"stderr","time":1010.398900427,"data":"\r  ...ing_data_snapshot.parquet:   4%|▍         | 36.9MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :   4%|▍         | 36.9MB /  875MB, 3.55MB/s  \n"}
+,{"stream_name":"stderr","time":1010.499122767,"data":"\rNew Data Upload               :  22%|██▏       | 29.5MB /  134MB, 2.85MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1010.499183944,"data":"\n"}
+,{"stream_name":"stderr","time":1010.499439762,"data":"\r  ...ing_data_snapshot.parquet:   6%|▌         | 52.8MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :   6%|▌         | 52.8MB /  875MB, 5.06MB/s  \n"}
+,{"stream_name":"stderr","time":1010.599829258,"data":"\rNew Data Upload               :  34%|███▍      | 45.5MB /  134MB, 4.37MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1010.5998607,"data":"\n"}
+,{"stream_name":"stderr","time":1010.600156377,"data":"\r  ...ing_data_snapshot.parquet:   8%|▊         | 68.2MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :   8%|▊         | 68.2MB /  875MB, 6.49MB/s  \n"}
+,{"stream_name":"stderr","time":1010.701118144,"data":"\rNew Data Upload               :  45%|████▌     | 60.8MB /  134MB, 5.81MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1010.701161758,"data":"\n"}
+,{"stream_name":"stderr","time":1010.701168369,"data":"\r  ...ing_data_snapshot.parquet:   9%|▊         | 75.2MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :   9%|▊         | 75.2MB /  875MB, 7.10MB/s  \n"}
+,{"stream_name":"stderr","time":1010.801390064,"data":"\rNew Data Upload               :  50%|█████     | 67.7MB /  134MB, 6.42MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1010.801420112,"data":"\n"}
+,{"stream_name":"stderr","time":1010.801822901,"data":"\r  ...ing_data_snapshot.parquet:   9%|▉         | 78.5MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :   9%|▉         | 78.5MB /  875MB, 7.35MB/s  \n"}
+,{"stream_name":"stderr","time":1010.902307666,"data":"\rNew Data Upload               :  53%|█████▎    | 71.1MB /  134MB, 6.68MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1010.902338834,"data":"\n"}
+,{"stream_name":"stderr","time":1010.902830662,"data":"\r  ...ing_data_snapshot.parquet:  10%|█         | 89.2MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  10%|█         | 89.2MB /  875MB, 8.31MB/s  \n"}
+,{"stream_name":"stderr","time":1011.00311186,"data":"\rNew Data Upload               :  41%|████      | 81.8MB /  201MB, 7.64MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1011.003158167,"data":"\n"}
+,{"stream_name":"stderr","time":1011.003439132,"data":"\r  ...ing_data_snapshot.parquet:  12%|█▏        |  106MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  12%|█▏        |  106MB /  875MB, 9.82MB/s  \n"}
+,{"stream_name":"stderr","time":1011.104446445,"data":"\rNew Data Upload               :  49%|████▉     | 98.5MB /  201MB, 9.16MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1011.104473177,"data":"\n"}
+,{"stream_name":"stderr","time":1011.104869041,"data":"\r  ...ing_data_snapshot.parquet:  14%|█▍        |  121MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  14%|█▍        |  121MB /  875MB, 11.1MB/s  \n"}
+,{"stream_name":"stderr","time":1011.20538779,"data":"\rNew Data Upload               :  56%|█████▋    |  113MB /  201MB, 10.5MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1011.205430012,"data":"\n"}
+,{"stream_name":"stderr","time":1011.20587098,"data":"\r  ...ing_data_snapshot.parquet:  16%|█▌        |  137MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  16%|█▌        |  137MB /  875MB, 12.5MB/s  \n"}
+,{"stream_name":"stderr","time":1011.306429153,"data":"\rNew Data Upload               :  64%|██████▍   |  129MB /  201MB, 11.9MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1011.306454378,"data":"\n"}
+,{"stream_name":"stderr","time":1011.306721427,"data":"\r  ...ing_data_snapshot.parquet:  17%|█▋        |  147MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  17%|█▋        |  147MB /  875MB, 13.4MB/s  \n"}
+,{"stream_name":"stderr","time":1011.407238453,"data":"\rNew Data Upload               :  70%|██████▉   |  140MB /  201MB, 12.8MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1011.408096903,"data":"\n"}
+,{"stream_name":"stderr","time":1011.408829999,"data":"\r  ...ing_data_snapshot.parquet:  18%|█▊        |  157MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  18%|█▊        |  157MB /  875MB, 14.2MB/s  \n"}
+,{"stream_name":"stderr","time":1011.508103231,"data":"\rNew Data Upload               :  74%|███████▍  |  150MB /  201MB, 13.6MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1011.508156287,"data":"\n"}
+,{"stream_name":"stderr","time":1011.508481068,"data":"\r  ...ing_data_snapshot.parquet:  20%|█▉        |  173MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  20%|█▉        |  173MB /  875MB, 15.6MB/s  \n"}
+,{"stream_name":"stderr","time":1011.609000404,"data":"\rNew Data Upload               :  62%|██████▏   |  166MB /  268MB, 15.0MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1011.609033889,"data":"\n"}
+,{"stream_name":"stderr","time":1011.609300514,"data":"\r  ...ing_data_snapshot.parquet:  21%|██▏       |  186MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  21%|██▏       |  186MB /  875MB, 16.7MB/s  \n"}
+,{"stream_name":"stderr","time":1011.709730319,"data":"\rNew Data Upload               :  67%|██████▋   |  179MB /  268MB, 16.0MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1011.709761194,"data":"\n"}
+,{"stream_name":"stderr","time":1011.710070591,"data":"\r  ...ing_data_snapshot.parquet:  24%|██▍       |  209MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  24%|██▍       |  209MB /  875MB, 18.7MB/s  \n"}
+,{"stream_name":"stderr","time":1011.810784137,"data":"\rNew Data Upload               :  75%|███████▌  |  201MB /  268MB, 18.0MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1011.81083749,"data":"\n"}
+,{"stream_name":"stderr","time":1011.811297326,"data":"\r  ...ing_data_snapshot.parquet:  26%|██▌       |  224MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  26%|██▌       |  224MB /  875MB, 19.9MB/s  \n"}
+,{"stream_name":"stderr","time":1011.912019958,"data":"\rNew Data Upload               :  81%|████████  |  217MB /  268MB, 19.3MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1011.912052505,"data":"\n"}
+,{"stream_name":"stderr","time":1011.912056954,"data":"\r  ...ing_data_snapshot.parquet:  27%|██▋       |  232MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  27%|██▋       |  232MB /  875MB, 20.5MB/s  \n"}
+,{"stream_name":"stderr","time":1012.012340844,"data":"\rNew Data Upload               :  84%|████████▎ |  225MB /  268MB, 19.8MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1012.012376508,"data":"\n"}
+,{"stream_name":"stderr","time":1012.012615856,"data":"\r  ...ing_data_snapshot.parquet:  28%|██▊       |  245MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  28%|██▊       |  245MB /  875MB, 21.5MB/s  \n"}
+,{"stream_name":"stderr","time":1012.113075414,"data":"\rNew Data Upload               :  71%|███████   |  238MB /  335MB, 20.9MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1012.113106509,"data":"\n"}
+,{"stream_name":"stderr","time":1012.113433204,"data":"\r  ...ing_data_snapshot.parquet:  30%|██▉       |  259MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  30%|██▉       |  259MB /  875MB, 22.6MB/s  \n"}
+,{"stream_name":"stderr","time":1012.21398702,"data":"\rNew Data Upload               :  75%|███████▍  |  251MB /  335MB, 21.9MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1012.214019767,"data":"\n"}
+,{"stream_name":"stderr","time":1012.214448444,"data":"\r  ...ing_data_snapshot.parquet:  33%|███▎      |  286MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  33%|███▎      |  286MB /  875MB, 24.9MB/s  \n"}
+,{"stream_name":"stderr","time":1012.314952294,"data":"\rNew Data Upload               :  83%|████████▎ |  279MB /  335MB, 24.3MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1012.315001815,"data":"\n"}
+,{"stream_name":"stderr","time":1012.315363894,"data":"\r  ...ing_data_snapshot.parquet:  35%|███▌      |  307MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  35%|███▌      |  307MB /  875MB, 26.5MB/s  \n"}
+,{"stream_name":"stderr","time":1012.415810972,"data":"\rNew Data Upload               :  89%|████████▉ |  299MB /  335MB, 25.9MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1012.415835061,"data":"\n"}
+,{"stream_name":"stderr","time":1012.416227639,"data":"\r  ...ing_data_snapshot.parquet:  36%|███▋      |  319MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  36%|███▋      |  319MB /  875MB, 27.4MB/s  \n"}
+,{"stream_name":"stderr","time":1012.516836667,"data":"\rNew Data Upload               :  93%|█████████▎|  311MB /  335MB, 26.8MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1012.516892877,"data":"\n"}
+,{"stream_name":"stderr","time":1012.517962514,"data":"\r  ...ing_data_snapshot.parquet:  38%|███▊      |  333MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  38%|███▊      |  333MB /  875MB, 28.5MB/s  \n"}
+,{"stream_name":"stderr","time":1012.618785317,"data":"\rNew Data Upload               :  81%|████████  |  325MB /  402MB, 27.9MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1012.618815364,"data":"\n"}
+,{"stream_name":"stderr","time":1012.619187956,"data":"\r  ...ing_data_snapshot.parquet:  39%|███▉      |  343MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  39%|███▉      |  343MB /  875MB, 29.1MB/s  \n"}
+,{"stream_name":"stderr","time":1012.719823727,"data":"\rNew Data Upload               :  83%|████████▎ |  335MB /  402MB, 28.5MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1012.719850303,"data":"\n"}
+,{"stream_name":"stderr","time":1012.720374326,"data":"\r  ...ing_data_snapshot.parquet:  39%|███▉      |  344MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  39%|███▉      |  344MB /  875MB, 28.9MB/s  \n"}
+,{"stream_name":"stderr","time":1012.820883134,"data":"\rNew Data Upload               :  83%|████████▎ |  336MB /  402MB, 28.3MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1012.820913462,"data":"\n"}
+,{"stream_name":"stderr","time":1012.821301406,"data":"\r  ...ing_data_snapshot.parquet:  40%|███▉      |  346MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  40%|███▉      |  346MB /  875MB, 28.9MB/s  \n"}
+,{"stream_name":"stderr","time":1012.921941555,"data":"\rNew Data Upload               :  84%|████████▍ |  338MB /  402MB, 28.3MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1012.92203067,"data":"\n"}
+,{"stream_name":"stderr","time":1012.922042366,"data":"\r  ...ing_data_snapshot.parquet:  40%|████      |  352MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  40%|████      |  352MB /  875MB, 29.1MB/s  \n"}
+,{"stream_name":"stderr","time":1013.02249084,"data":"\rNew Data Upload               :  85%|████████▌ |  344MB /  402MB, 28.5MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1013.022521357,"data":"\n"}
+,{"stream_name":"stderr","time":1013.022718881,"data":"\r  ...ing_data_snapshot.parquet:  42%|████▏     |  365MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  42%|████▏     |  365MB /  875MB, 30.0MB/s  \n"}
+,{"stream_name":"stderr","time":1013.123121051,"data":"\rNew Data Upload               :  89%|████████▊ |  356MB /  402MB, 29.4MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1013.123160646,"data":"\n"}
+,{"stream_name":"stderr","time":1013.12351849,"data":"\r  ...ing_data_snapshot.parquet:  43%|████▎     |  376MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  43%|████▎     |  376MB /  875MB, 30.8MB/s  \n"}
+,{"stream_name":"stderr","time":1013.223982306,"data":"\rNew Data Upload               :  78%|███████▊  |  367MB /  469MB, 30.1MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1013.224012933,"data":"\n"}
+,{"stream_name":"stderr","time":1013.224267278,"data":"\r  ...ing_data_snapshot.parquet:  45%|████▍     |  391MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  45%|████▍     |  391MB /  875MB, 31.8MB/s  \n"}
+,{"stream_name":"stderr","time":1013.324736261,"data":"\rNew Data Upload               :  81%|████████▏ |  382MB /  469MB, 31.2MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1013.324898654,"data":"\n"}
+,{"stream_name":"stderr","time":1013.325091071,"data":"\r  ...ing_data_snapshot.parquet:  47%|████▋     |  410MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  47%|████▋     |  410MB /  875MB, 33.3MB/s  \n"}
+,{"stream_name":"stderr","time":1013.425643915,"data":"\rNew Data Upload               :  86%|████████▌ |  401MB /  469MB, 32.6MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1013.425674253,"data":"\n"}
+,{"stream_name":"stderr","time":1013.427256506,"data":"\r  ...ing_data_snapshot.parquet:  50%|████▉     |  435MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  50%|████▉     |  435MB /  875MB, 35.3MB/s  \n"}
+,{"stream_name":"stderr","time":1013.526645071,"data":"\rNew Data Upload               :  91%|█████████ |  426MB /  469MB, 34.6MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1013.526691225,"data":"\n"}
+,{"stream_name":"stderr","time":1013.526978634,"data":"\r  ...ing_data_snapshot.parquet:  52%|█████▏    |  452MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  52%|█████▏    |  452MB /  875MB, 36.4MB/s  \n"}
+,{"stream_name":"stderr","time":1013.627597394,"data":"\rNew Data Upload               :  94%|█████████▍|  443MB /  469MB, 35.8MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1013.62763918,"data":"\n"}
+,{"stream_name":"stderr","time":1013.62796513,"data":"\r  ...ing_data_snapshot.parquet:  53%|█████▎    |  467MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  53%|█████▎    |  467MB /  875MB, 37.5MB/s  \n"}
+,{"stream_name":"stderr","time":1013.728419144,"data":"\rNew Data Upload               :  85%|████████▌ |  458MB /  536MB, 36.8MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1013.7284541,"data":"\n"}
+,{"stream_name":"stderr","time":1013.728552324,"data":"\r  ...ing_data_snapshot.parquet:  55%|█████▍    |  479MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  55%|█████▍    |  479MB /  875MB, 38.2MB/s  \n"}
+,{"stream_name":"stderr","time":1013.829016588,"data":"\rNew Data Upload               :  87%|████████▋ |  469MB /  536MB, 37.5MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1013.829049647,"data":"\n"}
+,{"stream_name":"stderr","time":1013.82939031,"data":"\r  ...ing_data_snapshot.parquet:  55%|█████▌    |  483MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  55%|█████▌    |  483MB /  875MB, 38.2MB/s  \n"}
+,{"stream_name":"stderr","time":1013.929909043,"data":"\rNew Data Upload               :  88%|████████▊ |  474MB /  536MB, 37.6MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1013.929941616,"data":"\n"}
+,{"stream_name":"stderr","time":1013.93055012,"data":"\r  ...ing_data_snapshot.parquet:  56%|█████▋    |  493MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  56%|█████▋    |  493MB /  875MB, 38.7MB/s  \n"}
+,{"stream_name":"stderr","time":1014.033062249,"data":"\rNew Data Upload               :  90%|█████████ |  483MB /  536MB, 38.1MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1014.033089123,"data":"\n"}
+,{"stream_name":"stderr","time":1014.03337605,"data":"\r  ...ing_data_snapshot.parquet:  58%|█████▊    |  509MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  58%|█████▊    |  509MB /  875MB, 39.8MB/s  \n"}
+,{"stream_name":"stderr","time":1014.133840025,"data":"\rNew Data Upload               :  93%|█████████▎|  499MB /  536MB, 39.1MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1014.13397502,"data":"\n"}
+,{"stream_name":"stderr","time":1014.134046311,"data":"\r  ...ing_data_snapshot.parquet:  60%|█████▉    |  524MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  60%|█████▉    |  524MB /  875MB, 40.8MB/s  \n"}
+,{"stream_name":"stderr","time":1014.234610163,"data":"\rNew Data Upload               :  85%|████████▌ |  515MB /  603MB, 40.2MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1014.234650532,"data":"\n"}
+,{"stream_name":"stderr","time":1014.23497196,"data":"\r  ...ing_data_snapshot.parquet:  62%|██████▏   |  539MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  62%|██████▏   |  539MB /  875MB, 41.8MB/s  \n"}
+,{"stream_name":"stderr","time":1014.335575082,"data":"\rNew Data Upload               :  88%|████████▊ |  530MB /  603MB, 41.2MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1014.335606007,"data":"\n"}
+,{"stream_name":"stderr","time":1014.335888696,"data":"\r  ...ing_data_snapshot.parquet:  63%|██████▎   |  555MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  63%|██████▎   |  555MB /  875MB, 42.8MB/s  \n"}
+,{"stream_name":"stderr","time":1014.436374019,"data":"\rNew Data Upload               :  90%|█████████ |  545MB /  603MB, 42.1MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1014.436406261,"data":"\n"}
+,{"stream_name":"stderr","time":1014.436667948,"data":"\r  ...ing_data_snapshot.parquet:  65%|██████▌   |  570MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  65%|██████▌   |  570MB /  875MB, 43.7MB/s  \n"}
+,{"stream_name":"stderr","time":1014.537169946,"data":"\rNew Data Upload               :  93%|█████████▎|  560MB /  603MB, 43.1MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1014.537219619,"data":"\n"}
+,{"stream_name":"stderr","time":1014.537417419,"data":"\r  ...ing_data_snapshot.parquet:  67%|██████▋   |  584MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  67%|██████▋   |  584MB /  875MB, 44.6MB/s  \n"}
+,{"stream_name":"stderr","time":1014.637908841,"data":"\rNew Data Upload               :  95%|█████████▌|  574MB /  603MB, 43.9MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1014.637941928,"data":"\n"}
+,{"stream_name":"stderr","time":1014.638356443,"data":"\r  ...ing_data_snapshot.parquet:  68%|██████▊   |  595MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  68%|██████▊   |  595MB /  875MB, 45.2MB/s  \n"}
+,{"stream_name":"stderr","time":1014.739002136,"data":"\rNew Data Upload               :  87%|████████▋ |  586MB /  671MB, 44.6MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1014.739036243,"data":"\n"}
+,{"stream_name":"stderr","time":1014.739077637,"data":"\r  ...ing_data_snapshot.parquet:  70%|██████▉   |  611MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  70%|██████▉   |  611MB /  875MB, 46.2MB/s  \n"}
+,{"stream_name":"stderr","time":1014.839548387,"data":"\rNew Data Upload               :  90%|████████▉ |  601MB /  671MB, 45.5MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1014.839576173,"data":"\n"}
+,{"stream_name":"stderr","time":1014.840019135,"data":"\r  ...ing_data_snapshot.parquet:  71%|███████   |  618MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  71%|███████   |  618MB /  875MB, 46.4MB/s  \n"}
+,{"stream_name":"stderr","time":1014.940404785,"data":"\rNew Data Upload               :  91%|█████████ |  608MB /  671MB, 45.7MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1014.940437967,"data":"\n"}
+,{"stream_name":"stderr","time":1014.940735015,"data":"\r  ...ing_data_snapshot.parquet:  72%|███████▏  |  630MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  72%|███████▏  |  630MB /  875MB, 47.0MB/s  \n"}
+,{"stream_name":"stderr","time":1015.041838591,"data":"\rNew Data Upload               :  92%|█████████▏|  620MB /  671MB, 46.4MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1015.041873428,"data":"\n"}
+,{"stream_name":"stderr","time":1015.041879501,"data":"\r  ...ing_data_snapshot.parquet:  74%|███████▍  |  646MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  74%|███████▍  |  646MB /  875MB, 48.0MB/s  \n"}
+,{"stream_name":"stderr","time":1015.142130325,"data":"\rNew Data Upload               :  95%|█████████▍|  636MB /  671MB, 47.4MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1015.142179593,"data":"\n"}
+,{"stream_name":"stderr","time":1015.142677216,"data":"\r  ...ing_data_snapshot.parquet:  76%|███████▌  |  667MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  76%|███████▌  |  667MB /  875MB, 49.4MB/s  \n"}
+,{"stream_name":"stderr","time":1015.243393525,"data":"\rNew Data Upload               :  89%|████████▉ |  657MB /  738MB, 48.8MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1015.243450984,"data":"\n"}
+,{"stream_name":"stderr","time":1015.243598572,"data":"\r  ...ing_data_snapshot.parquet:  77%|███████▋  |  675MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  77%|███████▋  |  675MB /  875MB, 49.7MB/s  \n"}
+,{"stream_name":"stderr","time":1015.344067858,"data":"\rNew Data Upload               :  90%|█████████ |  665MB /  738MB, 49.1MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1015.344099487,"data":"\n"}
+,{"stream_name":"stderr","time":1015.344419857,"data":"\r  ...ing_data_snapshot.parquet:  78%|███████▊  |  684MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  78%|███████▊  |  684MB /  875MB, 50.0MB/s  \n"}
+,{"stream_name":"stderr","time":1015.444879258,"data":"\rNew Data Upload               :  91%|█████████▏|  675MB /  738MB, 49.4MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1015.444908568,"data":"\n"}
+,{"stream_name":"stderr","time":1015.44548993,"data":"\r  ...ing_data_snapshot.parquet:  79%|███████▉  |  695MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  79%|███████▉  |  695MB /  875MB, 50.6MB/s  \n"}
+,{"stream_name":"stderr","time":1015.546132208,"data":"\rNew Data Upload               :  93%|█████████▎|  686MB /  738MB, 50.0MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1015.546176595,"data":"\n"}
+,{"stream_name":"stderr","time":1015.546537964,"data":"\r  ...ing_data_snapshot.parquet:  81%|████████  |  707MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  81%|████████  |  707MB /  875MB, 51.1MB/s  \n"}
+,{"stream_name":"stderr","time":1015.647042486,"data":"\rNew Data Upload               :  94%|█████████▍|  696MB /  738MB, 50.5MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1015.64707437,"data":"\n"}
+,{"stream_name":"stderr","time":1015.64738696,"data":"\r  ...ing_data_snapshot.parquet:  82%|████████▏ |  720MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  82%|████████▏ |  720MB /  875MB, 51.8MB/s  \n"}
+,{"stream_name":"stderr","time":1015.749423111,"data":"\rNew Data Upload               :  88%|████████▊ |  710MB /  805MB, 51.2MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1015.749455455,"data":"\n"}
+,{"stream_name":"stderr","time":1015.749460179,"data":"\r  ...ing_data_snapshot.parquet:  84%|████████▎ |  731MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  84%|████████▎ |  731MB /  875MB, 52.3MB/s  \n"}
+,{"stream_name":"stderr","time":1015.849025275,"data":"\rNew Data Upload               :  90%|████████▉ |  721MB /  805MB, 51.7MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1015.849054302,"data":"\n"}
+,{"stream_name":"stderr","time":1015.849375613,"data":"\r  ...ing_data_snapshot.parquet:  86%|████████▌ |  749MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  86%|████████▌ |  749MB /  875MB, 53.4MB/s  \n"}
+,{"stream_name":"stderr","time":1015.949687444,"data":"\rNew Data Upload               :  92%|█████████▏|  738MB /  805MB, 52.7MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1015.949723168,"data":"\n"}
+,{"stream_name":"stderr","time":1015.949936342,"data":"\r  ...ing_data_snapshot.parquet:  87%|████████▋ |  760MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  87%|████████▋ |  760MB /  875MB, 53.9MB/s  \n"}
+,{"stream_name":"stderr","time":1016.050472661,"data":"\rNew Data Upload               :  93%|█████████▎|  749MB /  805MB, 53.2MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1016.050521535,"data":"\n"}
+,{"stream_name":"stderr","time":1016.050771923,"data":"\r  ...ing_data_snapshot.parquet:  88%|████████▊ |  774MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  88%|████████▊ |  774MB /  875MB, 54.6MB/s  \n"}
+,{"stream_name":"stderr","time":1016.15135234,"data":"\rNew Data Upload               :  90%|█████████ |  763MB /  844MB, 54.0MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1016.15138063,"data":"\n"}
+,{"stream_name":"stderr","time":1016.151663757,"data":"\r  ...ing_data_snapshot.parquet:  91%|█████████ |  795MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  91%|█████████ |  795MB /  875MB, 55.9MB/s  \n"}
+,{"stream_name":"stderr","time":1016.252173599,"data":"\rNew Data Upload               :  93%|█████████▎|  784MB /  844MB, 55.3MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1016.252216504,"data":"\n"}
+,{"stream_name":"stderr","time":1016.252527053,"data":"\r  ...ing_data_snapshot.parquet:  94%|█████████▍|  821MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  94%|█████████▍|  821MB /  875MB, 57.7MB/s  \n"}
+,{"stream_name":"stderr","time":1016.352932217,"data":"\rNew Data Upload               :  96%|█████████▌|  810MB /  844MB, 57.0MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1016.352961142,"data":"\n"}
+,{"stream_name":"stderr","time":1016.353233876,"data":"\r  ...ing_data_snapshot.parquet:  96%|█████████▌|  840MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  96%|█████████▌|  840MB /  875MB, 58.8MB/s  \n"}
+,{"stream_name":"stderr","time":1016.453769627,"data":"\rNew Data Upload               :  98%|█████████▊|  829MB /  844MB, 58.2MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1016.453798727,"data":"\n"}
+,{"stream_name":"stderr","time":1016.454075138,"data":"\r  ...ing_data_snapshot.parquet:  98%|█████████▊|  855MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  98%|█████████▊|  855MB /  875MB, 59.6MB/s  \n"}
+,{"stream_name":"stderr","time":1016.554738264,"data":"\rNew Data Upload               : 100%|█████████▉|  844MB /  844MB, 58.9MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1016.554763969,"data":"\n"}
+,{"stream_name":"stderr","time":1016.554950296,"data":"\r  ...ing_data_snapshot.parquet:  98%|█████████▊|  855MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  98%|█████████▊|  855MB /  875MB, 59.1MB/s  \n"}
+,{"stream_name":"stderr","time":1016.655649178,"data":"\rNew Data Upload               : 100%|█████████▉|  844MB /  844MB, 58.4MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1016.655675742,"data":"\n"}
+,{"stream_name":"stderr","time":1016.755839821,"data":"\r  ...ing_data_snapshot.parquet:  98%|█████████▊|  855MB /  875MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1016.75586322,"data":"\n"}
+,{"stream_name":"stderr","time":1016.856566614,"data":"\r  ...ing_data_snapshot.parquet:  98%|█████████▊|  855MB /  875MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1016.85659841,"data":"\n"}
+,{"stream_name":"stderr","time":1016.856723477,"data":"\r  ...ing_data_snapshot.parquet:  98%|█████████▊|  855MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  98%|█████████▊|  855MB /  875MB, 57.6MB/s  \n"}
+,{"stream_name":"stderr","time":1016.957176564,"data":"\rNew Data Upload               : 100%|█████████▉|  844MB /  844MB, 56.9MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1016.957211067,"data":"\n"}
+,{"stream_name":"stderr","time":1016.957562849,"data":"\r  ...ing_data_snapshot.parquet:  98%|█████████▊|  855MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  98%|█████████▊|  855MB /  875MB, 57.1MB/s  \n"}
+,{"stream_name":"stderr","time":1017.05801404,"data":"\rNew Data Upload               : 100%|██████████|  844MB /  844MB, 56.4MB/s  \u001b[A\n"}
+,{"stream_name":"stderr","time":1017.058052292,"data":"\n"}
+,{"stream_name":"stderr","time":1017.158546981,"data":"\r  ...ing_data_snapshot.parquet:  98%|█████████▊|  855MB /  875MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1017.158570248,"data":"\n"}
+,{"stream_name":"stderr","time":1017.25901533,"data":"\r  ...ing_data_snapshot.parquet:  98%|█████████▊|  855MB /  875MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1017.259039312,"data":"\n"}
+,{"stream_name":"stderr","time":1017.305651708,"data":"\r  ...ing_data_snapshot.parquet:  98%|█████████▊|  855MB /  875MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1017.305670676,"data":"\n"}
+,{"stream_name":"stderr","time":1017.305996665,"data":"\r  ...ing_data_snapshot.parquet:  98%|█████████▊|  855MB /  875MB            \u001b[A\u001b[A\rProcessing Files (0 / 1)      :  98%|█████████▊|  855MB /  875MB, 55.4MB/s  \n"}
+,{"stream_name":"stderr","time":1017.306080701,"data":"\rNew Data Upload               : 100%|██████████|  844MB /  844MB, 54.8MB/s  \n"}
+,{"stream_name":"stderr","time":1017.30623729,"data":"\r  ...ing_data_snapshot.parquet:  98%|█████████▊|  855MB /  875MB            \n"}
+,{"stream_name":"stderr","time":1017.843603138,"data":"2026-10-21 11:24:03,359 [INFO] HTTP Request: POST https://huggingface.co/api/datasets/p-j-r-1-2-3/Project-IMPJR-TrainingData/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":1017.844028002,"data":"2026-10-21 11:24:03,359 [INFO] Uploaded checkpoint to p-j-r-1-2-3/Project-IMPJR-v4-Models-ssm-challenger and training data to p-j-r-1-2-3/Project-IMPJR-TrainingData\n"}
+,{"stream_name":"stderr","time":1017.926580017,"data":"2026-10-21 11:24:03,442 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier2_tactical/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":1017.927293186,"data":"\rProcessing Files (0 / 0)      : |          |  0.00B /  0.00B            \n"}
+,{"stream_name":"stderr","time":1018.133706106,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B            \u001b[A\n"}
+,{"stream_name":"stderr","time":1018.133750133,"data":"\n"}
+,{"stream_name":"stderr","time":1018.133838708,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1018.133854617,"data":"\n"}
+,{"stream_name":"stderr","time":1018.23448059,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 1.70MB / 1.70MB,   ???B/s  \n"}
+,{"stream_name":"stderr","time":1018.234504179,"data":"\n"}
+,{"stream_name":"stderr","time":1018.334993069,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1018.335013991,"data":"\n"}
+,{"stream_name":"stderr","time":1018.37334561,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \u001b[A\u001b[A\n"}
+,{"stream_name":"stderr","time":1018.37337438,"data":"\n"}
+,{"stream_name":"stderr","time":1018.373673285,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \u001b[A\u001b[A\rProcessing Files (1 / 1)      : 100%|██████████| 1.70MB / 1.70MB,  166kB/s  \n"}
+,{"stream_name":"stderr","time":1018.373732313,"data":"\rNew Data Upload               : |          |  0.00B /  0.00B,  0.00B/s  \n"}
+,{"stream_name":"stderr","time":1018.373895553,"data":"\r  ...kpoints/ssm_challenger.pt: 100%|██████████| 1.70MB / 1.70MB            \n"}
+,{"stream_name":"stderr","time":1018.887875551,"data":"2026-10-21 11:24:04,403 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier2_tactical/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":1018.955878803,"data":"2026-10-21 11:24:04,471 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier2_tactical/preupload/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":1019.360511963,"data":"2026-10-21 11:24:04,876 [INFO] HTTP Request: POST https://huggingface.co/api/models/p-j-r-1-2-3/Project-IMPJR-v4-Models-tier2_tactical/commit/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stderr","time":1019.360855969,"data":"2026-10-21 11:24:04,876 [INFO] Successfully uploaded dual checkpoint to p-j-r-1-2-3/Project-IMPJR-v4-Models-tier2_tactical\n"}
+,{"stream_name":"stderr","time":1019.36607251,"data":"2026-10-21 11:24:04,881 [INFO] SSM Challenger dedicated training finished successfully: {'best_early_stop_loss': 1.5745627289166266, 'accuracy': 0.5172987358616101, 'balanced_accuracy': 0.3436102346076771, 'f1_macro': 0.33158708563932715, 'n_train_windows': 133499, 'n_early_stop_windows': 14858, 'n_val_windows': 6012, 'mamba_ssm_available': False}\n"}
+,{"stream_name":"stdout","time":1023.961707618,"data":"[bundle] session exited with code 0\n"}
+,{"stream_name":"stderr","time":1026.73451673,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":1026.73455615,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":1026.9828914,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":1026.982922796,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":1027.809170979,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":1029.060569286,"data":"[NbConvertApp] Writing 973220 bytes to __results__.html\n"}
+]
