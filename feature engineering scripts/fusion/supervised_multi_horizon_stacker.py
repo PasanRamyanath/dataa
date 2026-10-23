@@ -273,17 +273,7 @@ class SupervisedMultiHorizonOOFStacker:
         X_meta_stage2 = np.hstack([X_meta, cal_probs, margin])
 
         raw_meta_p = self.meta_win_clf.predict_proba(X_meta_stage2)[:, 1]
-        if self.meta_isotonic is not None:
-            try:
-                iso_val = float(self.meta_isotonic.transform(raw_meta_p)[0])
-                if hasattr(self.meta_isotonic, "y_thresholds_") and np.ptp(self.meta_isotonic.y_thresholds_) < 1e-4:
-                    cal_meta_p = float(raw_meta_p[0])
-                else:
-                    cal_meta_p = float(iso_val)
-            except Exception:
-                cal_meta_p = float(raw_meta_p[0])
-        else:
-            cal_meta_p = float(raw_meta_p[0])
+        cal_meta_p = float(self.meta_isotonic.transform(raw_meta_p)[0])
         pred_net_bps = float(self.meta_net_bps_reg.predict(X_meta_stage2)[0])
 
         return {

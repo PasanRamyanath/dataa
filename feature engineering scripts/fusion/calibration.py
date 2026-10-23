@@ -44,8 +44,6 @@ from fusion.stacking_meta_learner import (
     build_meta_features,
 )
 
-from fusion.conformal_dirichlet_calibrator import SymmetricODIRDirichletCalibrator
-
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("fusion.calibration")
 
@@ -60,18 +58,11 @@ class PerClassCalibrator:
         self.calibrators: list | None = None
         self.W: np.ndarray | None = None
         self.b: np.ndarray | None = None
-        self.cal_type: str | None = "odir_dirichlet"
-        self.dirichlet = SymmetricODIRDirichletCalibrator()
+        self.cal_type: str | None = None
 
     def fit(self, proba: np.ndarray, y: np.ndarray) -> "PerClassCalibrator":
         from sklearn.isotonic import IsotonicRegression
 
-        # 1. Fit Symmetric ODIR Dirichlet Calibrator (preserves diagonal sensitivity, enforces Up/Down symmetry)
-        self.dirichlet.fit(proba, y)
-        self.W = self.dirichlet.W_
-        self.b = self.dirichlet.b_
-
-        # 2. Fit one-vs-rest isotonic calibrators for per-class reliability
         self.calibrators = []
         for k in range(self.n_classes):
             ir = IsotonicRegression(out_of_bounds="clip", y_min=0.0, y_max=1.0)
@@ -80,20 +71,29 @@ class PerClassCalibrator:
         return self
 
     def transform(self, proba: np.ndarray) -> np.ndarray:
-        if getattr(self, "dirichlet", None) is not None and hasattr(self.dirichlet, "W_"):
-            return self.dirichlet.predict_proba(proba)
         if getattr(self, "W", None) is not None:
-            # Fallback using saved symmetric weights
-            d = SymmetricODIRDirichletCalibrator()
-            d.W_ = np.asarray(self.W, dtype=np.float64)
-            d.b_ = np.asarray(self.b, dtype=np.float64) if self.b is not None else np.zeros(3)
-            return d.predict_proba(proba)
-        if self.calibrators is not None:
-            calibrated = np.stack([self.calibrators[k].predict(proba[:, k]) for k in range(self.n_classes)], axis=1)
-            row_sums = calibrated.sum(axis=1, keepdims=True)
-            row_sums[row_sums == 0] = 1.0
-            return calibrated / row_sums
-        return proba
+            eps = 1e-12
+            p = np.clip(np.asarray(proba, dtype=np.float64), eps, 1.0)
+            # Symmetrize the Dirichlet diagonal temperature between DOWN (0) and UP (2)
+            # and zero out the static intercept shift so the calibrator never forces
+            # a 78% DOWN bias on neutral [0.50, 0, 0.50] inputs while preserving FLAT (1) mass.
+            W = np.asarray(self.W, dtype=np.float64)
+            diag_temp = float(0.5 * (W[0, 0] + W[2, 2])) if W.shape == (3, 3) else 1.0
+            temp = float(np.clip(diag_temp, 0.85, 1.15))
+            p_down = np.power(p[..., 0], temp)
+            p_flat = p[..., 1]
+            p_up = np.power(p[..., 2], temp)
+            dir_sum = np.maximum(p_down + p_up, eps)
+            rem = np.clip(1.0 - p_flat, 0.0, 1.0)
+            out = np.stack([rem * (p_down / dir_sum), p_flat, rem * (p_up / dir_sum)], axis=-1)
+            return out / np.maximum(np.sum(out, axis=-1, keepdims=True), eps)
+
+        if self.calibrators is None:
+            raise RuntimeError("PerClassCalibrator.transform called before fit")
+        calibrated = np.stack([self.calibrators[k].predict(proba[:, k]) for k in range(self.n_classes)], axis=1)
+        row_sums = calibrated.sum(axis=1, keepdims=True)
+        row_sums[row_sums == 0] = 1.0
+        return calibrated / row_sums
 
     def save(self, path: Path) -> None:
         with open(path, "wb") as f:

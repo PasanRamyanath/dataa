@@ -183,10 +183,9 @@ class HierarchicalMultiHorizonFusionEngine:
             except Exception as e:
                 log.debug("Stacker live prediction error: %s", e)
 
-        if stacker_res is not None:
+        if stacker_res is not None and float(analytical_swing[1]) < 0.44:
             cal_p = np.asarray(stacker_res["calibrated_probs"], dtype=np.float64)
-            # Learned Stage-5 Stacker serves as the primary meta-fusion model
-            fused_swing = 0.70 * cal_p + 0.30 * analytical_swing
+            fused_swing = 0.80 * analytical_swing + 0.20 * cal_p
             fused_swing = np.clip(fused_swing, 1e-6, None)
             fused_swing = fused_swing / np.sum(fused_swing)
         else:
@@ -220,19 +219,13 @@ class HierarchicalMultiHorizonFusionEngine:
         meta_logit = -0.32 + 4.35 * swing_conviction + 1.15 * cross_alignment
         analytical_meta_prob = float(np.clip(1.0 / (1.0 + math.exp(-meta_logit)), 0.02, 0.98))
         if stacker_res is not None:
-            st_meta = float(stacker_res.get("meta_win_prob", stacker_res.get("p_long_profitable" if primary_dir == 2 else "p_short_profitable", 0.50)))
-            meta_act_prob = float(np.clip(0.70 * st_meta + 0.30 * analytical_meta_prob, 0.02, 0.98))
-            pred_net_stacker = float(stacker_res.get("predicted_net_bps", 0.0))
-            if pred_net_stacker > 0.0:
-                expected_net_bps = pred_net_stacker
-                expected_gross_bps = expected_net_bps + self.maker_fee_bps
-            else:
-                expected_gross_bps = meta_act_prob * tp_bps - (1.0 - meta_act_prob) * sl_bps
-                expected_net_bps = expected_gross_bps - self.maker_fee_bps
+            st_meta = float(stacker_res["p_long_profitable"] if primary_dir == 2 else stacker_res["p_short_profitable"])
+            meta_act_prob = float(np.clip(0.70 * analytical_meta_prob + 0.30 * max(st_meta, 0.45), 0.02, 0.98))
         else:
             meta_act_prob = analytical_meta_prob
-            expected_gross_bps = meta_act_prob * tp_bps - (1.0 - meta_act_prob) * sl_bps
-            expected_net_bps = expected_gross_bps - self.maker_fee_bps
+
+        expected_gross_bps = meta_act_prob * tp_bps - (1.0 - meta_act_prob) * sl_bps
+        expected_net_bps = expected_gross_bps - self.maker_fee_bps
 
         # 5. Tier 1 (1s/10s) Sniper Trigger Evaluation
         micro_agrees_with_swing = (primary_dir in (0, 2)) and ((sign_target * d_micro) >= -0.03)
