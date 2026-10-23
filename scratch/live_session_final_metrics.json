@@ -1,68 +1,68 @@
 {
-  "session_duration_minutes": 120.01,
+  "session_duration_minutes": 120.0,
   "bars_evaluated": 720,
-  "total_trades": 2,
-  "winning_trades": 2,
-  "win_rate_pct": 100.0,
-  "total_net_pnl_bps": 17.9,
-  "avg_net_pnl_bps": 8.95,
+  "total_trades": 4,
+  "winning_trades": 1,
+  "win_rate_pct": 25.0,
+  "total_net_pnl_bps": -38.46,
+  "avg_net_pnl_bps": -9.61,
   "accuracy_summary": {
     "10s": {
       "evaluated_samples": 719,
-      "overall_accuracy_pct": 81.92,
-      "active_signals_count": 15,
-      "active_precision_pct": 0.0,
-      "sign_accuracy_pct": 60.0,
-      "sign_samples": 5
+      "overall_accuracy_pct": 41.86,
+      "active_signals_count": 139,
+      "active_precision_pct": 15.11,
+      "sign_accuracy_pct": 58.41,
+      "sign_samples": 113
     },
     "30s": {
       "evaluated_samples": 717,
-      "overall_accuracy_pct": 67.92,
-      "active_signals_count": 15,
-      "active_precision_pct": 0.0,
-      "sign_accuracy_pct": 46.15,
-      "sign_samples": 13
+      "overall_accuracy_pct": 36.96,
+      "active_signals_count": 138,
+      "active_precision_pct": 19.57,
+      "sign_accuracy_pct": 53.79,
+      "sign_samples": 132
     },
     "1m": {
       "evaluated_samples": 714,
-      "overall_accuracy_pct": 69.75,
-      "active_signals_count": 15,
-      "active_precision_pct": 0.0,
-      "sign_accuracy_pct": 60.0,
-      "sign_samples": 15
+      "overall_accuracy_pct": 37.54,
+      "active_signals_count": 137,
+      "active_precision_pct": 21.17,
+      "sign_accuracy_pct": 53.73,
+      "sign_samples": 134
     },
     "5m": {
       "evaluated_samples": 690,
-      "overall_accuracy_pct": 57.83,
-      "active_signals_count": 12,
-      "active_precision_pct": 75.0,
-      "sign_accuracy_pct": 75.0,
-      "sign_samples": 12
+      "overall_accuracy_pct": 32.32,
+      "active_signals_count": 399,
+      "active_precision_pct": 21.3,
+      "sign_accuracy_pct": 53.38,
+      "sign_samples": 399
     },
     "15m": {
       "evaluated_samples": 630,
-      "overall_accuracy_pct": 37.94,
-      "active_signals_count": 9,
-      "active_precision_pct": 100.0,
-      "sign_accuracy_pct": 100.0,
-      "sign_samples": 9
+      "overall_accuracy_pct": 36.35,
+      "active_signals_count": 391,
+      "active_precision_pct": 30.18,
+      "sign_accuracy_pct": 59.85,
+      "sign_samples": 391
     },
     "tiers": {
       "macro": {
         "evaluated": 630,
-        "accuracy_pct": 36.51
+        "accuracy_pct": 45.08
       },
       "meso": {
         "evaluated": 630,
-        "accuracy_pct": 37.94
+        "accuracy_pct": 42.22
       },
       "tactical": {
         "evaluated": 714,
-        "accuracy_pct": 69.75
+        "accuracy_pct": 52.1
       },
       "micro": {
         "evaluated": 719,
-        "accuracy_pct": 81.92
+        "accuracy_pct": 72.88
       }
     }
   },
@@ -70,34 +70,66 @@
     {
       "symbol": "BTCUSDT",
       "side": "SELL",
-      "entry_price": 81506.5,
-      "exit_price": 81400.4,
-      "quantity": 0.058,
-      "entry_ts_ms": 1792697550000,
-      "exit_ts_ms": 1792697800000,
-      "holding_duration_sec": 250.0,
-      "gross_return_bps": 13.0174,
+      "entry_price": 81750.1,
+      "exit_price": 81677.9,
+      "quantity": 0.016,
+      "entry_ts_ms": 1792741000000,
+      "exit_ts_ms": 1792741440000,
+      "holding_duration_sec": 440.0,
+      "gross_return_bps": 8.8318,
       "total_fee_bps": 4.0,
-      "net_return_bps": 9.0174,
-      "peak_mfe_bps": 13.0174,
-      "max_mae_bps": -0.638,
-      "exit_reason": "MICRO_TRAILING_MAKER_TP"
+      "net_return_bps": 4.8318,
+      "peak_mfe_bps": 8.8318,
+      "max_mae_bps": -3.4251,
+      "exit_reason": "MACRO_REVERSAL_MAKER_EXIT"
     },
     {
       "symbol": "BTCUSDT",
       "side": "SELL",
-      "entry_price": 81484.0,
-      "exit_price": 81379.0,
-      "quantity": 0.054,
-      "entry_ts_ms": 1792698950000,
-      "exit_ts_ms": 1792699670000,
-      "holding_duration_sec": 720.0,
-      "gross_return_bps": 12.886,
+      "entry_price": 81569.8,
+      "exit_price": 81783.2,
+      "quantity": 0.012,
+      "entry_ts_ms": 1792742540000,
+      "exit_ts_ms": 1792743340000,
+      "holding_duration_sec": 800.0,
+      "gross_return_bps": -26.1616,
+      "total_fee_bps": 7.0,
+      "net_return_bps": -33.1616,
+      "peak_mfe_bps": 2.4274,
+      "max_mae_bps": -26.1616,
+      "exit_reason": "HARD_STOP_LOSS_TAKER"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "SELL",
+      "entry_price": 81783.2,
+      "exit_price": 81802.7,
+      "quantity": 0.041,
+      "entry_ts_ms": 1792743350000,
+      "exit_ts_ms": 1792744950000,
+      "holding_duration_sec": 1600.0,
+      "gross_return_bps": -2.3844,
       "total_fee_bps": 4.0,
-      "net_return_bps": 8.886,
-      "peak_mfe_bps": 12.886,
-      "max_mae_bps": -2.0495,
-      "exit_reason": "MICRO_TRAILING_MAKER_TP"
+      "net_return_bps": -6.3844,
+      "peak_mfe_bps": 5.6491,
+      "max_mae_bps": -11.4082,
+      "exit_reason": "PASSIVE_MAKER_TIME_UNWIND"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "SELL",
+      "entry_price": 81756.7,
+      "exit_price": 81754.6,
+      "quantity": 0.012,
+      "entry_ts_ms": 1792746370000,
+      "exit_ts_ms": 1792747200000,
+      "holding_duration_sec": 830.0,
+      "gross_return_bps": 0.2569,
+      "total_fee_bps": 4.0,
+      "net_return_bps": -3.7431,
+      "peak_mfe_bps": 3.3269,
+      "max_mae_bps": -4.0975,
+      "exit_reason": "PASSIVE_MAKER_TIME_UNWIND"
     }
   ]
 }

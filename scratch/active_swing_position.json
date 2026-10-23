@@ -1,0 +1,23 @@
+{
+  "saved_at_ms": 1792748086958,
+  "fsm_state": "FILLED_SWING_HOLDING",
+  "active_position": {
+    "symbol": "BTCUSDT",
+    "side": "SELL",
+    "entry_price": 81619.2,
+    "quantity": 0.012,
+    "entry_ts_ms": 1792748020000,
+    "target_holding_seconds": 900,
+    "take_profit_bps": 30.47,
+    "stop_loss_bps": 22.28,
+    "tp_price": 81370.50629759999,
+    "sl_price": 81801.0475776,
+    "maker_entry_fee_bps": 2.0,
+    "peak_favorable_excursion_bps": 2.4994119030809148,
+    "max_adverse_excursion_bps": -1.323218066337689,
+    "trailing_maker_armed": false,
+    "resting_tp_order_id": null,
+    "unwind_order_id": null
+  },
+  "closed_trades_count": 4
+}
