@@ -26,6 +26,8 @@ from safetensors.torch import load_file
 
 from common.feature_contract import FEATURE_COLUMNS
 from fusion.supervised_multi_horizon_stacker import SupervisedMultiHorizonOOFStacker
+from inference.adaptive_hardware_coordinator import detect_optimal_hardware_topology
+from inference.fast_direct_nf_predictor import DirectDeviceAwareNeuralForecastPredictor
 from models.ssm_challenger.model import SSMChallenger
 from models_v3.tier1_micro.survival_queue_hazard import MicroQueueSurvivalHazardModel
 
@@ -241,17 +243,22 @@ class LiveMultiHorizonV4ModelRegistry:
 
     def __init__(self, device: str | None = None) -> None:
         self.device = device or ("cuda:0" if torch.cuda.is_available() else "cpu")
+        topo = detect_optimal_hardware_topology()
+        self.t4_device = device or topo.tier4_macro_device
+        self.t3_device = device or topo.tier3_meso_device
+        self.t2_device = device or topo.tier2_tactical_device
+        self.t1_device = device or topo.tier1_micro_device
         self.loaded_members: list[str] = []
 
         # Tier 4 Macro (4 models)
         self.tier4_hmm: dict[str, Any] | None = None
-        self.tier4_patchtst: _DirectSafetensorsSequenceRunner | None = None
-        self.tier4_tft: _DirectSafetensorsSequenceRunner | None = None
+        self.tier4_patchtst: Any = None
+        self.tier4_tft: Any = None
         self.tier4_kronos_npz: dict[str, np.ndarray] | None = None
 
         # Tier 3 Meso (4 models)
-        self.tier3_itransformer: _DirectSafetensorsSequenceRunner | None = None
-        self.tier3_nhits: _DirectSafetensorsSequenceRunner | None = None
+        self.tier3_itransformer: Any = None
+        self.tier3_nhits: Any = None
         self.tier3_kronos_npz: dict[str, np.ndarray] | None = None
         self.tier3_lgbm: _LoadedLGBMMember | None = None
 
@@ -288,6 +295,13 @@ class LiveMultiHorizonV4ModelRegistry:
                 return p
         return None
 
+    @staticmethod
+    def _resolve_dir(candidates: list[Path]) -> Path | None:
+        for p in candidates:
+            if p.exists() and p.is_dir():
+                return p
+        return None
+
     def _load_all_16_models(self) -> None:
         # --- TIER 4 MACRO ---
         hmm_p = self._resolve_file([
@@ -299,20 +313,54 @@ class LiveMultiHorizonV4ModelRegistry:
                 self.tier4_hmm = pickle.load(f)
             self.loaded_members.append("tier4-hmm-regime")
 
+        ptst_dir = self._resolve_dir([
+            V3_CHK_ROOT / "tier4_macro" / "models" / "tier4-patchtst-ffd",
+            V1_MODELS_ROOT / "patchtst" / "checkpoints",
+        ])
         ptst_p = self._resolve_file([
             V3_CHK_ROOT / "tier4_macro" / "models" / "tier4-patchtst-ffd" / "PatchTST_0.safetensors",
             V1_MODELS_ROOT / "patchtst" / "checkpoints" / "PatchTST_0.safetensors",
         ])
-        if ptst_p:
-            self.tier4_patchtst = _DirectSafetensorsSequenceRunner("tier4-patchtst-ffd", ptst_p, self.device)
+        if ptst_dir and (ptst_dir / "configuration.json").exists():
+            try:
+                from neuralforecast import NeuralForecast
+                nf_ptst = NeuralForecast.load(path=str(ptst_dir))
+                self.tier4_patchtst = DirectDeviceAwareNeuralForecastPredictor(
+                    "tier4-patchtst-ffd", nf_ptst, tier="tier4_macro", device=self.t4_device, subtract_rolling_mean=False
+                )
+                self.loaded_members.append("tier4-patchtst-ffd")
+            except Exception as e:
+                log.warning("Could not load full PatchTST via NeuralForecast: %s (using runner)", e)
+                if ptst_p:
+                    self.tier4_patchtst = _DirectSafetensorsSequenceRunner("tier4-patchtst-ffd", ptst_p, self.t4_device)
+                    self.loaded_members.append("tier4-patchtst-ffd")
+        elif ptst_p:
+            self.tier4_patchtst = _DirectSafetensorsSequenceRunner("tier4-patchtst-ffd", ptst_p, self.t4_device)
             self.loaded_members.append("tier4-patchtst-ffd")
 
+        tft_dir = self._resolve_dir([
+            V3_CHK_ROOT / "tier4_macro" / "models" / "tier4-tft-funding",
+            V1_MODELS_ROOT / "tft" / "checkpoints",
+        ])
         tft_p = self._resolve_file([
             V3_CHK_ROOT / "tier4_macro" / "models" / "tier4-tft-funding" / "TFT_0.safetensors",
             V1_MODELS_ROOT / "tft" / "checkpoints" / "TFT_0.safetensors",
         ])
-        if tft_p:
-            self.tier4_tft = _DirectSafetensorsSequenceRunner("tier4-tft-funding", tft_p, self.device)
+        if tft_dir and (tft_dir / "configuration.json").exists():
+            try:
+                from neuralforecast import NeuralForecast
+                nf_tft = NeuralForecast.load(path=str(tft_dir))
+                self.tier4_tft = DirectDeviceAwareNeuralForecastPredictor(
+                    "tier4-tft-funding", nf_tft, tier="tier4_macro", device=self.t4_device, subtract_rolling_mean=False
+                )
+                self.loaded_members.append("tier4-tft-funding")
+            except Exception as e:
+                log.warning("Could not load full TFT via NeuralForecast: %s (using runner)", e)
+                if tft_p:
+                    self.tier4_tft = _DirectSafetensorsSequenceRunner("tier4-tft-funding", tft_p, self.t4_device)
+                    self.loaded_members.append("tier4-tft-funding")
+        elif tft_p:
+            self.tier4_tft = _DirectSafetensorsSequenceRunner("tier4-tft-funding", tft_p, self.t4_device)
             self.loaded_members.append("tier4-tft-funding")
 
         k_macro_p = self._resolve_file([
@@ -327,20 +375,54 @@ class LiveMultiHorizonV4ModelRegistry:
             self.loaded_members.append("tier4-kronos-macro")
 
         # --- TIER 3 MESO ---
+        itrans_dir = self._resolve_dir([
+            V3_CHK_ROOT / "tier3_meso" / "models" / "tier3-itransformer-32",
+            V1_MODELS_ROOT / "itransformer" / "checkpoints",
+        ])
         itrans_p = self._resolve_file([
             V3_CHK_ROOT / "tier3_meso" / "models" / "tier3-itransformer-32" / "iTransformer_0.safetensors",
             V1_MODELS_ROOT / "itransformer" / "checkpoints" / "iTransformer_0.safetensors",
         ])
-        if itrans_p:
-            self.tier3_itransformer = _DirectSafetensorsSequenceRunner("tier3-itransformer-32", itrans_p, self.device)
+        if itrans_dir and (itrans_dir / "configuration.json").exists():
+            try:
+                from neuralforecast import NeuralForecast
+                nf_itrans = NeuralForecast.load(path=str(itrans_dir))
+                self.tier3_itransformer = DirectDeviceAwareNeuralForecastPredictor(
+                    "tier3-itransformer-32", nf_itrans, tier="tier3_meso", device=self.t3_device, subtract_rolling_mean=False
+                )
+                self.loaded_members.append("tier3-itransformer-32")
+            except Exception as e:
+                log.warning("Could not load full iTransformer via NeuralForecast: %s (using runner)", e)
+                if itrans_p:
+                    self.tier3_itransformer = _DirectSafetensorsSequenceRunner("tier3-itransformer-32", itrans_p, self.t3_device)
+                    self.loaded_members.append("tier3-itransformer-32")
+        elif itrans_p:
+            self.tier3_itransformer = _DirectSafetensorsSequenceRunner("tier3-itransformer-32", itrans_p, self.t3_device)
             self.loaded_members.append("tier3-itransformer-32")
 
+        nhits_dir = self._resolve_dir([
+            V3_CHK_ROOT / "tier3_meso" / "models" / "tier3-nhits-multirate",
+            V1_MODELS_ROOT / "nhits" / "checkpoints",
+        ])
         nhits_p = self._resolve_file([
             V3_CHK_ROOT / "tier3_meso" / "models" / "tier3-nhits-multirate" / "NHITS_0.safetensors",
             V1_MODELS_ROOT / "nhits" / "checkpoints" / "NHITS_0.safetensors",
         ])
-        if nhits_p:
-            self.tier3_nhits = _DirectSafetensorsSequenceRunner("tier3-nhits-multirate", nhits_p, self.device)
+        if nhits_dir and (nhits_dir / "configuration.json").exists():
+            try:
+                from neuralforecast import NeuralForecast
+                nf_nhits = NeuralForecast.load(path=str(nhits_dir))
+                self.tier3_nhits = DirectDeviceAwareNeuralForecastPredictor(
+                    "tier3-nhits-multirate", nf_nhits, tier="tier3_meso", device=self.t3_device, subtract_rolling_mean=False
+                )
+                self.loaded_members.append("tier3-nhits-multirate")
+            except Exception as e:
+                log.warning("Could not load full NHITS via NeuralForecast: %s (using runner)", e)
+                if nhits_p:
+                    self.tier3_nhits = _DirectSafetensorsSequenceRunner("tier3-nhits-multirate", nhits_p, self.t3_device)
+                    self.loaded_members.append("tier3-nhits-multirate")
+        elif nhits_p:
+            self.tier3_nhits = _DirectSafetensorsSequenceRunner("tier3-nhits-multirate", nhits_p, self.t3_device)
             self.loaded_members.append("tier3-nhits-multirate")
 
         k_meso_p = self._resolve_file([
@@ -684,19 +766,29 @@ class LiveMultiHorizonV4ModelRegistry:
         self.cached_hmm_probs = hmm_post
 
         # 2. PatchTST-FFD Model
-        if self.tier4_patchtst is not None and len(closes_4h) >= 12:
-            p_ptst = self.tier4_patchtst.predict_from_series(closes_4h, imbs_4h, aux_bias=meso_anchor)
+        if self.tier4_patchtst is not None:
+            if hasattr(self.tier4_patchtst, "predict") and hasattr(self.tier4_patchtst, "torch_model"):
+                df_4h = pl.DataFrame({"close": closes_4h, "ts": np.arange(len(closes_4h))})
+                res = self.tier4_patchtst.predict(df_4h)
+                p_ptst = res if res is not None else _score_to_simplex(meso_anchor, base_flat=0.50, gain=3.2)
+            else:
+                p_ptst = self.tier4_patchtst.predict_from_series(closes_4h, imbs_4h, aux_bias=meso_anchor)
         else:
-            p_ptst = _score_to_simplex(meso_anchor, base_flat=0.54, gain=3.2)
+            p_ptst = _score_to_simplex(meso_anchor, base_flat=0.50, gain=3.2)
 
         # 3. TFT-Funding Model
-        if self.tier4_tft is not None and len(closes_1h) >= 12:
-            p_tft = self.tier4_tft.predict_from_series(closes_1h, None, aux_bias=meso_anchor)
+        if self.tier4_tft is not None:
+            if hasattr(self.tier4_tft, "predict") and hasattr(self.tier4_tft, "torch_model"):
+                df_1h = pl.DataFrame({"close": closes_1h, "ts": np.arange(len(closes_1h))})
+                res = self.tier4_tft.predict(df_1h)
+                p_tft = res if res is not None else p_ptst
+            else:
+                p_tft = self.tier4_tft.predict_from_series(closes_1h, None, aux_bias=meso_anchor)
         else:
             p_tft = p_ptst
 
         # 4. Kronos-Macro + Multi-Scale FFD (4h, 6h, 8h, 12h, 1d)
-        p_kronos = _score_to_simplex(meso_anchor, base_flat=0.54, gain=3.2)
+        p_kronos = _score_to_simplex(meso_anchor, base_flat=0.50, gain=3.2)
 
         macro_probs = 0.15 * p_hmm + 0.30 * p_ptst + 0.25 * p_tft + 0.30 * p_kronos
         macro_probs = macro_probs / np.sum(macro_probs)
@@ -753,9 +845,10 @@ class LiveMultiHorizonV4ModelRegistry:
         has_full_history = len(c_arr) >= 40
         has_10m_history = len(c_arr) >= 65
 
-        # Multi-Scale Exhaustion (15m) + Stabilization (5m/10m) + Micro Inflection (10s/30s)
+        # Multi-Scale Continuous Response + Reversal Inflections (Audit Point 2)
+        cont_bias = float(np.clip(-0.45 * z_meso + 0.35 * math.tanh(vel_30s_bps / 3.0) + 0.20 * flow_10s, -1.8, 1.8))
         if abs(z_meso) < 1.15:
-            meso_score = 0.0
+            meso_score = cont_bias
         elif z_meso <= -1.15:
             # Pattern 1: Standard 5m stabilization after 15m drop
             is_long_std = (
@@ -789,7 +882,7 @@ class LiveMultiHorizonV4ModelRegistry:
             if (not has_full_history and vel_30s_bps >= -0.15 and bounce_from_2m_low_bps >= 1.2) or is_long_std or is_long_cap or is_long_floor:
                 meso_score = float(np.clip(-0.95 * (z_meso + 0.25) * 1.35, -2.2, 2.2))
             else:
-                meso_score = 0.0
+                meso_score = cont_bias
         else:
             # Mature 10m/20m range-top guard: prevents premature shorting during fresh 5m V-recovery breakouts
             htf_trend_ok = (not has_10m_history) or (5.25 <= ret_10m_bps <= 16.50 and ret_20m_bps <= 15.50)
@@ -803,14 +896,10 @@ class LiveMultiHorizonV4ModelRegistry:
             if htf_ok and vel_30s_bps <= 0.15 and pullback_from_2m_high_bps >= 0.8:
                 meso_score = float(np.clip(-0.95 * (z_meso - 0.25) * 1.35, -2.2, 2.2))
             else:
-                meso_score = 0.0
+                meso_score = cont_bias
 
-        if meso_score == 0.0 and abs(z_tact) < 1.15:
-            tact_score = 0.0
-            micro_score = 0.0
-        else:
-            tact_score = float(np.clip(0.85 * meso_score + 0.15 * (-z_tact), -2.2, 2.2)) if meso_score != 0.0 else 0.0
-            micro_score = float(np.clip(0.80 * tact_score + 0.20 * math.tanh(vel_30s_bps / 2.0 + flow_10s), -2.2, 2.2)) if tact_score != 0.0 else 0.0
+        tact_score = float(np.clip(0.70 * meso_score + 0.30 * (-z_tact), -2.2, 2.2))
+        micro_score = float(np.clip(0.70 * tact_score + 0.30 * math.tanh(vel_30s_bps / 2.0 + flow_10s), -2.2, 2.2))
 
         return meso_score, tact_score, micro_score
 
@@ -837,14 +926,24 @@ class LiveMultiHorizonV4ModelRegistry:
         meso_anchor, _, _ = self._compute_regime_displacement(klines_um)
 
         # 1. iTransformer-32
-        if self.tier3_itransformer is not None and len(closes_15m) >= 10:
-            p_itrans = self.tier3_itransformer.predict_from_series(closes_15m, imbs_15m, aux_bias=meso_anchor)
+        if self.tier3_itransformer is not None:
+            if hasattr(self.tier3_itransformer, "predict") and hasattr(self.tier3_itransformer, "torch_model"):
+                df_15m = pl.DataFrame({"close": closes_15m, "ts": np.arange(len(closes_15m))})
+                res = self.tier3_itransformer.predict(df_15m)
+                p_itrans = res if res is not None else _score_to_simplex(meso_anchor, base_flat=0.50, gain=3.2)
+            else:
+                p_itrans = self.tier3_itransformer.predict_from_series(closes_15m, imbs_15m, aux_bias=meso_anchor)
         else:
-            p_itrans = _score_to_simplex(meso_anchor, base_flat=0.54, gain=3.2)
+            p_itrans = _score_to_simplex(meso_anchor, base_flat=0.50, gain=3.2)
 
         # 2. N-HiTS Multi-Rate
-        if self.tier3_nhits is not None and len(closes_15m) >= 10:
-            p_nhits = self.tier3_nhits.predict_from_series(closes_15m, imbs_15m, aux_bias=meso_anchor)
+        if self.tier3_nhits is not None:
+            if hasattr(self.tier3_nhits, "predict") and hasattr(self.tier3_nhits, "torch_model"):
+                df_15m = pl.DataFrame({"close": closes_15m, "ts": np.arange(len(closes_15m))})
+                res = self.tier3_nhits.predict(df_15m)
+                p_nhits = res if res is not None else p_itrans
+            else:
+                p_nhits = self.tier3_nhits.predict_from_series(closes_15m, imbs_15m, aux_bias=meso_anchor)
         else:
             p_nhits = p_itrans
 

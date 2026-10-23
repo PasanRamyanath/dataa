@@ -103,15 +103,26 @@ class DirectDeviceAwareNeuralForecastPredictor:
                         "stat_exog": None,
                     }
                     if self.hist_exog:
-                        avail_h = [c for c in self.hist_exog if c in window_df.columns]
-                        if len(avail_h) == len(self.hist_exog):
-                            h_mat = window_df.select(avail_h).to_numpy().astype(np.float32)
-                            windows_batch["hist_exog"] = torch.from_numpy(h_mat).unsqueeze(0).to(self.device)
+                        missing_h = [c for c in self.hist_exog if c not in window_df.columns]
+                        if missing_h:
+                            window_df = window_df.with_columns([pl.lit(0.0).alias(c) for c in missing_h])
+                        h_mat = window_df.select(self.hist_exog).to_numpy().astype(np.float32)
+                        windows_batch["hist_exog"] = torch.from_numpy(h_mat).unsqueeze(0).to(self.device)
+
+                    if self.futr_exog:
+                        f_mat = np.zeros((1, self.input_size + self.h, len(self.futr_exog)), dtype=np.float32)
+                        windows_batch["futr_exog"] = torch.from_numpy(f_mat).to(self.device)
 
                     out_t = self.torch_model(windows_batch)
                     vals = out_t.detach().float().cpu().numpy().ravel()
         except Exception:
             # Fallback to nf.predict if custom exog/futr signature requires full DataFrame wrapper
+            if "ts" not in window_df.columns:
+                window_df = window_df.with_columns(pl.arange(0, window_df.height).alias("ts"))
+            all_needed = list(set(self.hist_exog + self.futr_exog))
+            missing_ex = [c for c in all_needed if c not in window_df.columns]
+            if missing_ex:
+                window_df = window_df.with_columns([pl.lit(0.0).alias(c) for c in missing_ex])
             from common.neuralforecast_harness import to_long_format
             long_df = to_long_format(window_df, self.hist_exog + self.futr_exog).copy()
             forecast = self.nf.predict(df=long_df)

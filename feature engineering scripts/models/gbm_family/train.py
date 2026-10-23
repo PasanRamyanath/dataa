@@ -186,15 +186,106 @@ def train_regressor(train: pl.DataFrame, val: pl.DataFrame, target: str, feature
     return booster, metrics
 
 
+def _get_member_feature_columns(base_cols: list[str], member_name: str) -> list[str]:
+    """
+    Subsets the full feature list to orthogonal, stationary features tailored
+    to each ensemble member's specific structural mechanism (features/orthogonal_features.py).
+    """
+    f1_leadlag = {
+        "eth_lead_return_lag_1", "eth_lead_return_lag_2", "eth_lead_return_lag_3",
+        "cross_return_spread_10s", "cross_return_spread_30s", "cross_return_residual_10s",
+        "cross_ofi_divergence_10s", "cross_ofi_divergence_30s", "cross_mom_diff_30s",
+        "cross_mom_diff_zscore_30s", "eth_lead_ret_bps", "eth_imbalance",
+        "toptrader_sum_ls_ratio", "taker_ls_vol_ratio", "all_account_ls_ratio",
+    }
+    f2_basis_funding = {
+        "basis_spread_bps", "basis_zscore_180", "basis_zscore_720",
+        "basis_velocity_10s", "basis_velocity_30s", "basis_acceleration_30s",
+        "funding_pressure_bps", "funding_basis_divergence", "funding_rate_pressure",
+        "funding_rate", "funding_rate_ma_8h", "funding_rate_ma_24h", "funding_rate_change",
+        "funding_oi_crowding_180", "funding_oi_crowding_720", "open_interest_pct_change",
+        "open_interest_zscore_30", "open_interest_zscore_180", "toptrader_count_ls_ratio",
+        "toptrader_sum_ls_ratio", "all_account_ls_ratio", "taker_ls_vol_ratio",
+        "implied_vol", "iv_realized_vol_spread",
+    }
+    f3_microstructure = {
+        "l1_queue_imbalance", "l1_queue_imbalance_ma3", "l1_queue_velocity",
+        "microprice_drift_bps", "microprice_velocity_10s", "microprice_velocity_30s",
+        "trade_flow_imbalance", "tfi_ma_3", "vpin_toxicity_6", "vpin_surge_ratio",
+        "liq_net_flow_bps", "liq_burst_zscore", "l1_imbalance", "vpin", "ofi",
+        "bids_depth", "asks_depth", "depth_imbalance", "spread_bps", "order_flow_imbalance",
+    }
+
+    if member_name == "tier3-lgbm-positioning":
+        cols = [c for c in base_cols if c in f2_basis_funding or "funding" in c or "oi" in c or "interest" in c or "basis" in c or "ratio" in c or "vol" in c]
+        return cols if len(cols) >= 15 else base_cols
+    elif member_name == "tier2-lgbm-bookdepth":
+        cols = [c for c in base_cols if c in f3_microstructure or "depth" in c or "imbalance" in c or "flow" in c or "spread" in c or "vpin" in c or "queue" in c]
+        return cols if len(cols) >= 15 else base_cols
+    elif member_name == "tier1-spot1s-leadlag":
+        cols = [c for c in base_cols if c in f1_leadlag or "eth" in c or "lead" in c or "lag" in c or "spread" in c or "basis" in c]
+        return cols if len(cols) >= 10 else base_cols
+    elif member_name == "tier1-queue-hazard":
+        cols = [c for c in base_cols if c in f3_microstructure or "hazard" in c or "queue" in c or "vpin" in c or "drift" in c]
+        return cols if len(cols) >= 10 else base_cols
+    elif member_name == "tier1-lgbm-micro-1s10s":
+        cols = [c for c in base_cols if c in f3_microstructure or "10s" in c or "velocity" in c or "imbalance" in c or "return_1" in c]
+        return cols if len(cols) >= 15 else base_cols
+    return base_cols
+
+
 def _apply_member_horizon_targets(df: pl.DataFrame, member_name: str) -> tuple[pl.DataFrame, str, dict]:
     """
     Configures horizon-specific Fee-Floored Triple-Barrier / Return targets and
     regularization parameters per new_plan.md §6.2, §23.1, and §24 so each tier's
     LightGBM specialist trains on its authentic operational horizon rather than
     duplicating the 10-second H1 model.
-    Note: realized_vol_* columns in the feature parquets are already Z-scored (~1.0),
-    so deadbands must be expressed directly in decimal log-return units.
     """
+    has_ohlc = ("close" in df.columns and "high" in df.columns and "low" in df.columns)
+    if has_ohlc:
+        try:
+            from labeling_multi_horizon_v4 import fee_floored_triple_barrier_labels_v4
+            if member_name == "tier3-lgbm-positioning":
+                df = fee_floored_triple_barrier_labels_v4(
+                    df, max_hold_bars=12, pt_mult=1.85, sl_mult=1.15, min_pt_bps=24.0, min_sl_bps=16.0,
+                    maker_tp_fee_bps=4.0, passive_unwind_fee_bps=5.0, taker_sl_fee_bps=7.5, prefix="meso_15m",
+                )
+                dir_col = "label_meso_15m_tb"
+                reg_col = "label_meso_15m_net_long_bps"
+                df = df.with_columns([
+                    (pl.col(dir_col) != 0).cast(pl.Int8).alias(META_LABEL_TARGET),
+                    pl.col(dir_col).alias(CLASSIFICATION_TARGET),
+                ])
+                return df, reg_col, {"num_leaves": 31, "max_depth": 6, "min_data_in_leaf": 300, "learning_rate": 0.03}
+
+            elif member_name == "tier2-lgbm-bookdepth":
+                df = fee_floored_triple_barrier_labels_v4(
+                    df, max_hold_bars=6, pt_mult=1.5, sl_mult=1.0, min_pt_bps=14.0, min_sl_bps=10.0,
+                    maker_tp_fee_bps=4.0, passive_unwind_fee_bps=5.0, taker_sl_fee_bps=7.5, prefix="tactical_5m",
+                )
+                dir_col = "label_tactical_5m_tb"
+                reg_col = "label_tactical_5m_net_long_bps"
+                df = df.with_columns([
+                    (pl.col(dir_col) != 0).cast(pl.Int8).alias(META_LABEL_TARGET),
+                    pl.col(dir_col).alias(CLASSIFICATION_TARGET),
+                ])
+                return df, reg_col, {"num_leaves": 31, "max_depth": 6, "min_data_in_leaf": 250, "learning_rate": 0.03}
+
+            elif member_name in ("tier1-spot1s-leadlag", "tier1-queue-hazard", "tier1-lgbm-micro-1s10s"):
+                df = fee_floored_triple_barrier_labels_v4(
+                    df, max_hold_bars=3, pt_mult=1.2, sl_mult=1.0, min_pt_bps=6.0, min_sl_bps=5.0,
+                    maker_tp_fee_bps=4.0, passive_unwind_fee_bps=5.0, taker_sl_fee_bps=7.5, prefix="micro_10s",
+                )
+                dir_col = "label_micro_10s_tb"
+                reg_col = "label_micro_10s_net_long_bps"
+                df = df.with_columns([
+                    (pl.col(dir_col) != 0).cast(pl.Int8).alias(META_LABEL_TARGET),
+                    pl.col(dir_col).alias(CLASSIFICATION_TARGET),
+                ])
+                return df, reg_col, {"num_leaves": 28, "max_depth": 5, "min_data_in_leaf": 250, "learning_rate": 0.035}
+        except Exception as exc:
+            log.warning("fee_floored_triple_barrier_labels_v4 computation failed: %s; using return deadbands", exc)
+
     if member_name == "tier3-lgbm-positioning" and "label_return_h4" in df.columns:
         # Tier 3 Meso (label_return_h4): fee-floored deadband = 18.0 bps (0.0018)
         deadband = pl.lit(0.0018)
@@ -289,6 +380,7 @@ def run(
         feature_cols = [c for c in FEATURE_COLUMNS if c not in NON_STATIONARY_OR_CALENDAR_ID_COLS]
 
     df, reg_target_col, extra_params = _apply_member_horizon_targets(df, member_name)
+    feature_cols = _get_member_feature_columns(feature_cols, member_name)
     val_size = val_days * config.BARS_PER_DAY
     splits = purged_walk_forward_splits(df, n_folds=n_folds, val_size=val_size)
 

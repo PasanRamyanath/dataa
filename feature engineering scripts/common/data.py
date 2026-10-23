@@ -305,7 +305,7 @@ def to_xy(
     X = np.nan_to_num(X_df.to_numpy().astype(np.float32), nan=0.0, posinf=0.0, neginf=0.0)
 
     y_raw = df[target_col].to_numpy()
-    if target_col == "label_triple_barrier":
+    if target_col == "label_triple_barrier" or target_col.endswith("_tb"):
         y = y_raw.astype(np.int64) + 1 if remap_triple_barrier else y_raw.astype(np.int64)
     elif target_col in ("label_meta_act",):
         y = y_raw.astype(np.int64)

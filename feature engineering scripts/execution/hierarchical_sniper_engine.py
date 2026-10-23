@@ -194,7 +194,7 @@ class HierarchicalSniperExecutionEngine:
         # CASE 1: Engine is IDLE -> Check if Macro + Meso + Tactical authorize a new Swing Setup
         if self.state == "IDLE":
             if decision.execution_mode in ("PASSIVE_MAKER_SNIPER", "URGENT_HYBRID", "WAIT_FOR_MICRO_SNIPER"):
-                if decision.primary_direction in (0, 2) and decision.expected_net_edge_bps >= 6.0:
+                if decision.primary_direction in (0, 2) and decision.expected_net_edge_bps >= 6.0 and decision.meta_act_probability >= 0.58:
                     self.stalking_decision = decision
                     self.stalking_start_ts_ms = now_ms
                     self.state = "SNIPER_ENTRY_STALKING"
@@ -639,7 +639,22 @@ class HierarchicalSniperExecutionEngine:
             exec_mode = "NONE"
         else:
             p_dir = 2 if side_str == "LONG" else 0
-            exec_mode = "PASSIVE_MAKER_SNIPER"
+            sign = 1.0 if side_str == "LONG" else -1.0
+
+            # Tier 1 Micro Confirmation Guards (Audit Point 4):
+            # Blocks RESTING_MAKER_ENTRY unless micro edge, L1 imbalance, spot lead, and VPIN toxicity confirm Meso
+            micro_edge = sign * float(pkt.tier1_micro_probs[2] - pkt.tier1_micro_probs[0])
+            l1_ok = (sign * pkt.tier1_l1_imbalance) >= -0.10
+            spot_lead_ok = (sign * pkt.tier1_spot_1s_lead_bps) >= -0.50
+            vpin_ok = pkt.tier1_vpin_toxicity < 0.78
+            meta_ok = pkt.tier2_meta_act_prob >= 0.58
+
+            if meta_ok and (micro_edge >= -0.05) and l1_ok and spot_lead_ok and vpin_ok:
+                exec_mode = "PASSIVE_MAKER_SNIPER"
+            elif meta_ok:
+                exec_mode = "WAIT_FOR_MICRO_SNIPER"
+            else:
+                exec_mode = "NONE"
 
         tp_bps, sl_bps, _, hold_sec = self.compute_swing_barriers_and_size(pkt, side_str if side_str != "FLAT" else "LONG", alignment)
 

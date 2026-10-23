@@ -80,6 +80,15 @@ def get_member_runner(spec: MultiHorizonMemberSpec, output_root: Path):
                     "--member-name", spec.member_name,
                     "--output-dir", str(member_dir),
                 ]
+            elif mod_name == "models.sentiment_branch.train":
+                cmd = [
+                    sys.executable, "-m", mod_name,
+                    "--max-days", max_days_arg,
+                    "--member-name", spec.member_name,
+                    "--output-dir", str(member_dir),
+                ]
+                if spec.member_name == "tier2-cryptobert-news":
+                    cmd.append("--with-news")
             else:
                 cmd = [sys.executable, "-m", mod_name, "--upload", "--max-days", max_days_arg]
             if is_gpu and device_str.startswith("cuda"):

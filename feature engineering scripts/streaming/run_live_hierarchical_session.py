@@ -10,6 +10,8 @@ from collections import deque
 from datetime import datetime, timezone
 import json
 import logging
+import math
+import os
 from pathlib import Path
 import sys
 import threading
@@ -77,6 +79,8 @@ class ForwardAccuracyEvaluator:
         meso_probs: tuple[float, float, float],
         tactical_probs: tuple[float, float, float],
         micro_probs: tuple[float, float, float],
+        micro_authorized: bool = True,
+        atr_15m_bps: float = 20.0,
     ) -> None:
         self.pending_ticks.append({
             "bar_idx": bar_idx,
@@ -87,6 +91,8 @@ class ForwardAccuracyEvaluator:
             "meso_probs": meso_probs,
             "tactical_probs": tactical_probs,
             "micro_probs": micro_probs,
+            "micro_authorized": micro_authorized,
+            "atr_15m_bps": atr_15m_bps,
             "resolved_horizons": set(),
         })
 
@@ -96,10 +102,15 @@ class ForwardAccuracyEvaluator:
 
         for tick in self.pending_ticks:
             delta_bars = current_bar_idx - tick["bar_idx"]
-            for tf, (h_bars, deadband_bps) in self.HORIZONS.items():
+            for tf, (h_bars, min_deadband_bps) in self.HORIZONS.items():
                 if tf in tick["resolved_horizons"]:
                     continue
                 if delta_bars >= h_bars:
+                    # Calibrate evaluation deadband dynamically to realized volatility (sigma_h * sqrt(h))
+                    atr_15m = tick.get("atr_15m_bps", 20.0)
+                    sigma_h = (atr_15m / 9.4868) * math.sqrt(h_bars)
+                    deadband_bps = max(min_deadband_bps, 0.35 * sigma_h)
+
                     # Ground truth return in bps
                     ret_bps = ((current_price - tick["mid_price"]) / tick["mid_price"]) * 10000.0
                     if ret_bps > deadband_bps:
@@ -115,14 +126,18 @@ class ForwardAccuracyEvaluator:
                         st["correct_dir"] += 1
 
                     if tick["primary_dir"] in (0, 2):
-                        st["active_total"] += 1
-                        if tick["primary_dir"] == actual_dir:
-                            st["active_correct"] += 1
-                        if ret_bps != 0.0:
-                            actual_sign = 2 if ret_bps > 0 else 0
-                            st["sign_total"] += 1
-                            if tick["primary_dir"] == actual_sign:
-                                st["sign_correct"] += 1
+                        # Score 10s/30s/1m active precision conditioned on Tier 1 micro-entry authorization
+                        is_micro_tf = tf in ("10s", "30s", "1m")
+                        micro_auth = tick.get("micro_authorized", True)
+                        if not is_micro_tf or micro_auth:
+                            st["active_total"] += 1
+                            if tick["primary_dir"] == actual_dir:
+                                st["active_correct"] += 1
+                            if ret_bps != 0.0:
+                                actual_sign = 2 if ret_bps > 0 else 0
+                                st["sign_total"] += 1
+                                if tick["primary_dir"] == actual_sign:
+                                    st["sign_correct"] += 1
 
                     # Tier specific evaluations
                     if tf == "15m":
@@ -298,6 +313,7 @@ class LiveHierarchicalTradingSession:
         )
 
         # 7. Update Forward Accuracy Evaluator
+        is_micro_auth = (decision.execution_mode in ("PASSIVE_MAKER_SNIPER", "URGENT_HYBRID"))
         self.evaluator.record_tick(
             bar_idx=self.bars_evaluated,
             ts_ms=now_ms,
@@ -307,6 +323,8 @@ class LiveHierarchicalTradingSession:
             meso_probs=decision.meso_probs,
             tactical_probs=decision.tactical_probs,
             micro_probs=decision.micro_probs,
+            micro_authorized=is_micro_auth,
+            atr_15m_bps=atr_15m,
         )
         self.evaluator.update_evaluations(self.bars_evaluated, bbo_mid)
 
@@ -409,6 +427,21 @@ class LiveHierarchicalTradingSession:
         log.info("=" * 80)
 
     def start(self) -> None:
+        # 0. Restore persistent swing state from HF Hub if available across Kaggle 12h sessions
+        try:
+            from inference.adaptive_hardware_coordinator import restore_active_swing_state_from_hf
+            hf_tok = os.environ.get("KAGGLE_HF_TOKEN") or os.environ.get("HF_TOKEN")
+            restored = restore_active_swing_state_from_hf(
+                sniper_engine=self.sniper_engine,
+                repo_id="Pasan/project-impjr-checkpoints",
+                local_scratch_dir=REPO_ROOT / "scratch",
+                hf_token=hf_tok,
+            )
+            if restored:
+                log.info("Restored active swing position from Hugging Face Hub.")
+        except Exception as exc:
+            log.debug("No previous swing position restored: %s", exc)
+
         log.info("Bootstrapping multi-horizon ring buffer from Binance REST...")
         stats = self.ring_buffer.bootstrap_from_binance_rest(limit=100)
         log.info("Bootstrap complete across all 14 timeframes: %s", stats)
@@ -465,6 +498,19 @@ class LiveHierarchicalTradingSession:
         metrics_path = REPO_ROOT / "scratch" / "live_session_final_metrics.json"
         with open(metrics_path, "w", encoding="utf-8") as f:
             json.dump(final_metrics, f, indent=2)
+
+        # Persist active swing position and FSM state before session concludes across Kaggle 12h boundaries
+        try:
+            from inference.adaptive_hardware_coordinator import save_active_swing_state_to_hf
+            hf_tok = os.environ.get("KAGGLE_HF_TOKEN") or os.environ.get("HF_TOKEN")
+            save_active_swing_state_to_hf(
+                sniper_engine=self.sniper_engine,
+                repo_id="Pasan/project-impjr-checkpoints",
+                local_scratch_dir=REPO_ROOT / "scratch",
+                hf_token=hf_tok,
+            )
+        except Exception as exc:
+            log.debug("Could not persist active swing position to HF: %s", exc)
 
         log.info("=" * 80)
         log.info("SESSION CONCLUDED SUCCESSFULLY")

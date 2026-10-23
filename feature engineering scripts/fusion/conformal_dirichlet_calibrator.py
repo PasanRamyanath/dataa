@@ -85,7 +85,16 @@ class SymmetricODIRDirichletCalibrator:
             b_sq = 2.0 * (theta[5] ** 2) + (theta[6] ** 2)
             return float(nll + self.lambda_odir * off_diag_sq + diag_reg + self.mu_intercept * b_sq)
 
-        res = minimize(_objective, theta0, method="L-BFGS-B")
+        bounds = [
+            (0.20, 3.0),   # w_diag_dir >= 0.20 (strictly positive sensitivity W_ii > 0)
+            (0.20, 3.0),   # w_diag_flat >= 0.20
+            (-1.0, 0.50),  # w_cross_dir
+            (-1.0, 1.0),   # w_dir_from_flat
+            (-1.0, 1.0),   # w_flat_from_dir
+            (-2.0, 2.0),   # b_dir
+            (-2.0, 2.0),   # b_flat
+        ]
+        res = minimize(_objective, theta0, method="L-BFGS-B", bounds=bounds)
         self.W_, self.b_ = self._unpack_symmetric_params(res.x)
 
         cal_con = self.predict_proba( np.exp(log_P_con) )
@@ -100,6 +109,9 @@ class SymmetricODIRDirichletCalibrator:
         eps = 1e-7
         P = np.clip(np.asarray(raw_probs, dtype=np.float64), eps, 1.0 - eps)
         P /= P.sum(axis=1, keepdims=True)
+        # Ensure positive diagonal sensitivity W_ii > 0 to guarantee directional monotonicity
+        if getattr(self, "W_", None) is None or self.W_[0, 0] <= 0.0 or self.W_[1, 1] <= 0.0:
+            return P
         logits = np.log(P) @ self.W_.T + self.b_[None, :]
         logits -= logits.max(axis=1, keepdims=True)
         exp_l = np.exp(logits)
@@ -123,6 +135,10 @@ class SymmetricODIRDirichletCalibrator:
             q_lvl = float(np.clip(1.0 - self.alpha_online_, 0.50, 0.95))
             self.q_hat_ = float(np.quantile(self._calib_scores_, q_lvl))
         return self.q_hat_
+
+    def prediction_set_mask(self, raw_probs: np.ndarray) -> np.ndarray:
+        cal_p = self.predict_proba(raw_probs)
+        return (1.0 - cal_p) <= self.q_hat_
 
     def is_directional_singleton(self, raw_probs: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
         cal_p = self.predict_proba(raw_probs)
