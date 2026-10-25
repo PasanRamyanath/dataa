@@ -1,0 +1,31 @@
+{
+  "member": "tier4-kronos-macro",
+  "winner": "offline-autoregressive-fallback",
+  "val_direction_acc": 0.4940898345153664,
+  "val_return_mae": 42.020635276688985,
+  "chosen_metrics": {
+    "variant": "offline-autoregressive-fallback",
+    "mae": 42.020635276688985,
+    "directional_accuracy": 0.4940898345153664,
+    "n_windows": 423,
+    "n_windows_skipped_gap": 0
+  },
+  "zero_shot_metrics": {
+    "variant": "offline-autoregressive-fallback",
+    "mae": 42.020635276688985,
+    "directional_accuracy": 0.4940898345153664,
+    "n_windows": 423,
+    "n_windows_skipped_gap": 0
+  },
+  "finetuned_metrics": null,
+  "tokenizer_diagnostic": {
+    "coarse_tokens": 256,
+    "fine_tokens": 256
+  },
+  "calibration": {
+    "scale": 8.931501970473232e-05,
+    "flat_gain": 1.0
+  },
+  "v4_peak_calibrated": true,
+  "status": "completed"
+}

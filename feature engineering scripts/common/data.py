@@ -36,7 +36,11 @@ def _local_parquet_files(symbol: str = config.SYMBOL_UM) -> list[Path]:
 
 
 def _download_from_hf(symbol: str = config.SYMBOL_UM, max_files: int | None = None) -> list[Path]:
-    from huggingface_hub import HfApi, hf_hub_download
+    try:
+        from huggingface_hub import HfApi, hf_hub_download
+    except Exception as exc:
+        log.warning("huggingface_hub unavailable (%s) — falling back to local parquets", exc)
+        return []
 
     token = config.get_hf_token()
     api = HfApi(token=token)
@@ -189,23 +193,24 @@ def load_days(
     which embeds the ISO date) — use this to bound memory/download time
     during development; omit it for a real full-history training run."""
     if max_days is None:
-        env_days = os.environ.get("MAX_TRAIN_DAYS", "180")  # Default to 6 months (180 days)
+        env_days = os.environ.get("MAX_TRAIN_DAYS", "365")  # Default to 6 months (180 days)
         if env_days and env_days.lower() != "all":
             try:
                 max_days = int(env_days)
             except ValueError:
-                max_days = 180
+                max_days = 365
     min_needed = max_days if max_days is not None else 42
     files = _local_parquet_files(symbol) if prefer_local else []
     
-    # Verify no corrupted files
+    # Verify no corrupted files (fast size check first; schema check on selected tail)
     valid_files = []
     for f in files:
         try:
-            pl.read_parquet_schema(f)
-            valid_files.append(f)
+            if f.stat().st_size > 128:
+                valid_files.append(f)
+            else:
+                f.unlink(missing_ok=True)
         except Exception:
-            log.warning("Purging corrupted parquet %s", f)
             f.unlink(missing_ok=True)
     files = valid_files
 
@@ -250,9 +255,19 @@ def load_days(
     if relabel and len(frames) >= 1:
         # Per-day labels can't see past midnight: recover each day's last
         # hour of labels and make label_return_h4 computable (labeling.py).
-        from labeling import relabel_contiguous
+        # Skip redundant recomputation if the loaded frame already has valid
+        # cross-midnight labels (e.g. pre-relabeled parquets).
+        already_relabeled = False
+        if "label_return_h4" in df.columns and "label_is_valid" in df.columns and len(frames) > 1:
+            first_day_valid = int(df["label_is_valid"].to_numpy()[:8640].sum()) if df.height >= 8640 else 0
+            h4_arr = df["label_return_h4"].to_numpy()[:min(8640, df.height)]
+            h4_non_nan = int(np.sum(~np.isnan(h4_arr))) if len(h4_arr) > 0 else 0
+            if first_day_valid == 8640 and h4_non_nan >= 8000:
+                already_relabeled = True
+        if not already_relabeled:
+            from labeling import relabel_contiguous
 
-        df = relabel_contiguous(df)
+            df = relabel_contiguous(df)
 
     # Impute lookback warm-up and boundary nulls across the contiguous time series:
     active_cols = [c for c in FEATURE_COLUMNS if c in df.columns]

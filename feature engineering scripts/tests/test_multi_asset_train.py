@@ -8,7 +8,7 @@ import numpy as np
 import polars as pl
 import torch
 
-REPO_ROOT = Path(r"F:\Downloads\Binance data\feature engineering scripts")
+REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 import config

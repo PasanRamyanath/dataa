@@ -77,6 +77,10 @@ def _filter_by_cutoff(df: pl.DataFrame | None, cutoff_timestamp_ms: int, stream_
         return pl.DataFrame()
 
     ts_col = "cutoff_ts" if "cutoff_ts" in df.columns else "ts"
+    if hasattr(df, "_df"):
+        s = df._df[ts_col]
+        if len(s) > 0 and not hasattr(s.iloc[-1], "timestamp") and int(s.iloc[-1]) <= cutoff_timestamp_ms and int(s.max()) <= cutoff_timestamp_ms:
+            return df
     if df.schema[ts_col] == pl.Datetime:
         cutoff_val = pl.from_epoch(cutoff_timestamp_ms * 1_000_000, time_unit="ns")
     else:
@@ -131,15 +135,21 @@ def compute_orthogonal_features(
 
     # 5. Clean, downcast, and assert all orthogonal features present
     # Replace +-inf and NaN with 0.0
-    float_cols = [c for c, t in df.schema.items() if t in (pl.Float32, pl.Float64)]
-    df = df.with_columns([
-        pl.when(pl.col(c).is_infinite() | pl.col(c).is_nan() | pl.col(c).is_null())
-        .then(0.0)
-        .otherwise(pl.col(c))
-        .cast(pl.Float32)
-        .alias(c)
-        for c in float_cols
-    ])
+    if hasattr(df, "_df"):
+        for c in list(df._df.columns):
+            if c != "ts":
+                arr = np.nan_to_num(df._df[c].to_numpy(dtype=np.float32, na_value=0.0), nan=0.0, posinf=0.0, neginf=0.0)
+                df._df[c] = arr
+    else:
+        float_cols = [c for c, t in df.schema.items() if t in (pl.Float32, pl.Float64)]
+        df = df.with_columns([
+            pl.when(pl.col(c).is_infinite() | pl.col(c).is_nan() | pl.col(c).is_null())
+            .then(0.0)
+            .otherwise(pl.col(c))
+            .cast(pl.Float32)
+            .alias(c)
+            for c in float_cols
+        ])
 
     # 6. Select stationary features and drop non-stationary / forbidden price levels
     available_cols = set(df.columns)

@@ -261,7 +261,7 @@ class HierarchicalMultiHorizonFusionEngine:
         if not is_swing_valid:
             exec_mode = "NONE"
             final_size = 0.0
-        elif expected_gross_bps >= (self.hybrid_fee_bps + 2.5 * self.edge_buffer_bps) and sniper_trigger_prob >= 0.80:
+        elif expected_gross_bps >= (self.hybrid_fee_bps + 4.5 * self.edge_buffer_bps) and sniper_trigger_prob >= 0.995:
             exec_mode = "URGENT_HYBRID"
             final_size = float(np.clip(half_kelly, 0.05, self.max_leverage_fraction))
         elif sniper_trigger_prob >= self.min_sniper_trigger_prob:

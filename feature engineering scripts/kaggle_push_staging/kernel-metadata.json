@@ -1,15 +1,13 @@
 {
-  "id": "malaysiatrip/btcusdt-prediction-engine",
-  "title": "btcusdt-prediction-engine",
-  "code_file": "btcusdt-prediction-engine.py",
+  "id": "rimramyanath/btcusdt-v4-ensemble-train",
+  "title": "btcusdt-v4-ensemble-train",
+  "code_file": "kaggle_session_bundle.py",
   "language": "python",
   "kernel_type": "script",
   "is_private": true,
   "enable_gpu": true,
-  "enable_tpu": false,
   "enable_internet": true,
   "dataset_sources": [],
   "competition_sources": [],
-  "kernel_sources": [],
-  "model_sources": []
+  "kernel_sources": []
 }

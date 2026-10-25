@@ -138,3 +138,7 @@ class SymmetricODIRDirichletCalibrator:
         is_single = only_long | only_short | dom_long | dom_short
         direction = np.where(only_long | dom_long, 1, np.where(only_short | dom_short, -1, 0)).astype(np.int8)
         return is_single, direction
+
+    def prediction_set_mask(self, raw_probs: np.ndarray) -> np.ndarray:
+        cal_p = self.predict_proba(raw_probs)
+        return (1.0 - cal_p) <= self.q_hat_

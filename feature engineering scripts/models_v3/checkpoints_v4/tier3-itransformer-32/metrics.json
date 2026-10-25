@@ -1,0 +1,24 @@
+{
+  "member": "tier3-itransformer-32",
+  "input_size": 720,
+  "h": 90,
+  "max_steps": 25,
+  "train_rows": 155520,
+  "val_rows": 25920,
+  "n_exog_features": 0,
+  "val_price_mae": 32.10435841736348,
+  "val_return_mae": 0.0009554295534178929,
+  "val_direction_acc": 0.4344935471255377,
+  "val_balanced_acc": 0.3220757609229602,
+  "val_f1_macro": 0.3225192635347603,
+  "active_directional_precision": 0.16424581005586592,
+  "calibration": {
+    "scale": 9.97956790926782e-05,
+    "flat_gain": 1.0
+  },
+  "n_val_windows": 2557,
+  "n_windows": 2584,
+  "horizon_bars": 90,
+  "step_size_bars": 10,
+  "v4_peak_calibrated": true
+}

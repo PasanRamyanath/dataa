@@ -1,0 +1,16 @@
+{
+  "accuracy": 0.3910798122065728,
+  "best_val_direction_acc": 0.3910798122065728,
+  "raw_val_direction_acc": 0.33943661971830985,
+  "calibrated_val_direction_acc": 0.3910798122065728,
+  "active_directional_precision": 0.19973190348525469,
+  "val_h1_mae": 0.0008819936819479499,
+  "calibration": {
+    "temperature": 1.5,
+    "alpha_cls": 0.55
+  },
+  "n_train_windows": 12909,
+  "n_val_windows": 2130,
+  "mamba_ssm_available": false,
+  "v4_peak_calibrated": true
+}

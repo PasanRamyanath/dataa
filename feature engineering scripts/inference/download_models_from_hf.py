@@ -11,7 +11,7 @@ from pathlib import Path
 from huggingface_hub import snapshot_download
 
 BASE_DIR = (Path(__file__).resolve().parent.parent / "models_v3" / "checkpoints").resolve()
-TOKEN = os.environ.get("HF_TOKEN")
+TOKEN = os.environ.get("HF_TOKEN", "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")
 
 REPOS = {
     "tier4_macro": "p-j-r-1-2-3/Project-IMPJR-v4-Models-tier4_macro",

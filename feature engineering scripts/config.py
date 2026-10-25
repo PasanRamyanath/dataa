@@ -21,8 +21,9 @@ socket.getaddrinfo = _ipv4_first_getaddrinfo
 # Filesystem roots
 # --------------------------------------------------------------------------
 _DEFAULT_PROJECT_ROOT = (
-    Path(r"D:\backup\Binance data") if Path(r"D:\backup\Binance data").exists()
-    else Path(r"F:\Downloads\Binance data")
+    Path(r"D:\backup\Binance data") if (os.name == "nt" and Path(r"D:\backup\Binance data").exists())
+    else (Path(r"F:\Downloads\Binance data") if (os.name == "nt" and Path(r"F:\Downloads\Binance data").exists())
+          else Path(__file__).resolve().parent.parent)
 )
 PROJECT_ROOT = Path(os.environ.get("PROJECT_ROOT", _DEFAULT_PROJECT_ROOT))
 
@@ -109,18 +110,14 @@ HF_TRAINING_DATA_REPO_ID = os.environ.get(
 )
 
 
+DEFAULT_HF_TOKEN = "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"
+
+
 def get_hf_token() -> str:
-    import platform
-    if platform.system() == "Windows":
-        import winreg
-        try:
-            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Environment") as key:
-                token, _ = winreg.QueryValueEx(key, "HF_TOKEN")
-                if token:
-                    return token
-        except OSError:
-            pass
-    return os.environ.get("HF_TOKEN", "")
+    env_tok = os.environ.get("HF_TOKEN", "").strip()
+    if env_tok:
+        return env_tok
+    return DEFAULT_HF_TOKEN
 
 
 # --------------------------------------------------------------------------
@@ -142,7 +139,8 @@ TRIPLE_BARRIER_MAX_HOLD_BARS = 360     # time barrier fallback (~1hr)
 # --------------------------------------------------------------------------
 EMBARGO_BARS = 8640     # 1 day embargo between train/val/test folds
 PURGE_BARS = 360        # purge window (~1hr) around fold boundaries to remove label-overlap leakage
-VAL_DAYS = 7            # matches train_tft_kaggle.py --val-days default
+VAL_DAYS = int(os.environ.get("VAL_DAYS", "14"))
+EARLY_STOPPING_FRAC = 0.1            # matches train_tft_kaggle.py --val-days default
 
 # OOF export density / fusion alignment. Sequence members score val windows
 # on a strided grid, so fusion.stacking_meta_learner.build_meta_features
@@ -353,7 +351,9 @@ HIGH_VOL_REGIME_SIZE_MULTIPLIER = 0.4
 # than being killed mid-write.
 # --------------------------------------------------------------------------
 _kaggle_json_paths = (
+    Path(__file__).resolve().parent / "kaggle_2.json",
     Path(__file__).resolve().parent / "kaggle.json",
+    Path(r"D:\backup\Binance data\feature engineering scripts\kaggle_2.json"),
     Path(r"D:\backup\Binance data\feature engineering scripts\kaggle.json"),
     Path(r"d:\backup\feature engineering scripts\kaggle.json"),
     Path.home() / ".kaggle" / "kaggle.json",

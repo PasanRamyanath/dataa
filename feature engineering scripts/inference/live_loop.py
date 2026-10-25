@@ -335,7 +335,7 @@ def run_tick(state: LiveLoopState) -> dict:
         "member_latencies": member_latencies, **fused,
     }
 
-    if state.trading_engine is not None and fused.get("primary_direction") is not None:
+    if state.trading_engine is not None and fused.get("bet_size") is not None:
         close_price = float(df.tail(1)["close"][0])
         ts_dt = latest_ts if isinstance(latest_ts, datetime) else datetime.now(timezone.utc)
         trade_result = state.trading_engine.on_tick(ts=ts_dt, close_price=close_price, fused=fused, regime_state=regime_state, hmm=state.hmm)

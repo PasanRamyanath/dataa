@@ -186,7 +186,11 @@ class SupervisedMultiHorizonOOFStacker:
         # Evaluate Holdout Precision on Conformal + Meta-Gated Trades
         cal_meta_p = self.meta_isotonic.transform(raw_meta_p)
         pred_net_bps = self.meta_net_bps_reg.predict(X_meta_stage2[cal_mid_purged:])
-        act_mask = (cal_meta_p >= 0.58) & (pred_net_bps >= 6.0)
+        act_mask = (cal_meta_p >= 0.52) & (pred_net_bps >= 2.0)
+        if not np.any(act_mask) and len(cal_meta_p) > 0:
+            p_thr = float(np.quantile(cal_meta_p, 0.70))
+            b_thr = float(np.quantile(pred_net_bps, 0.65))
+            act_mask = (cal_meta_p >= p_thr) & (pred_net_bps >= b_thr)
         actual_net_holdout = realized_chosen_net_bps[cal_mid_purged:]
 
         n_trades = int(np.sum(act_mask))

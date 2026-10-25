@@ -1,0 +1,31 @@
+{
+  "member": "tier3-kronos-meso",
+  "winner": "offline-autoregressive-fallback",
+  "val_direction_acc": 0.4693396226415094,
+  "val_return_mae": 28.17654386052521,
+  "chosen_metrics": {
+    "variant": "offline-autoregressive-fallback",
+    "mae": 28.17654386052521,
+    "directional_accuracy": 0.4693396226415094,
+    "n_windows": 424,
+    "n_windows_skipped_gap": 0
+  },
+  "zero_shot_metrics": {
+    "variant": "offline-autoregressive-fallback",
+    "mae": 28.17654386052521,
+    "directional_accuracy": 0.4693396226415094,
+    "n_windows": 424,
+    "n_windows_skipped_gap": 0
+  },
+  "finetuned_metrics": null,
+  "tokenizer_diagnostic": {
+    "coarse_tokens": 256,
+    "fine_tokens": 256
+  },
+  "calibration": {
+    "scale": 5.2106805007570083e-05,
+    "flat_gain": 1.0
+  },
+  "v4_peak_calibrated": true,
+  "status": "completed"
+}

@@ -77,7 +77,7 @@ def build_meta_features(
     for member in members:
         if member == base:
             continue
-        renamed = oof_dict[member].sort("ts").rename({c: f"{member}__{c}" for c in PROB_COLS})
+        renamed = oof_dict[member].with_columns(pl.col("ts").cast(meta.schema["ts"])).sort("ts").rename({c: f"{member}__{c}" for c in PROB_COLS})
         meta = meta.join_asof(renamed, on="ts", strategy="backward", tolerance=tolerance)
     meta = meta.drop_nulls()
 
@@ -122,7 +122,22 @@ class StackingMetaLearner:
             self.model = LogisticRegression(max_iter=2000, C=1.0)
 
     def fit(self, meta_df: pl.DataFrame, y: np.ndarray) -> "StackingMetaLearner":
-        X = meta_df.select(self.feature_cols).to_numpy().astype(np.float64)
+        X = np.nan_to_num(meta_df.select(self.feature_cols).to_numpy().astype(np.float64), nan=0.33)
+        if len(X) >= 200 and len(np.unique(y)) >= 2 and self.model.__class__.__name__ == "LogisticRegression":
+            from sklearn.linear_model import LogisticRegression
+            split = int(len(X) * 0.80)
+            if len(np.unique(y[:split])) >= 2 and len(X) - split >= 20:
+                best_acc = -1.0
+                best_cfg = (1.0, None)
+                for c_val in (0.08, 0.25, 0.60, 1.0, 2.5):
+                    for cw in (None, "balanced"):
+                        cand = LogisticRegression(max_iter=2000, C=c_val, class_weight=cw, random_state=42)
+                        cand.fit(X[:split], y[:split])
+                        acc = float((cand.predict(X[split:]) == y[split:]).mean())
+                        if acc > best_acc:
+                            best_acc = acc
+                            best_cfg = (c_val, cw)
+                self.model = LogisticRegression(max_iter=2000, C=best_cfg[0], class_weight=best_cfg[1], random_state=42)
         self.model.fit(X, y)
         return self
 

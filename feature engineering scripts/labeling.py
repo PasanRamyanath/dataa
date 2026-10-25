@@ -122,8 +122,7 @@ def triple_barrier_labels(
     )
     # Mark rows too close to the end of the available data as invalid for
     # training rather than silently keeping a degenerate label.
-    valid_mask = pl.arange(0, n) < usable
-    out = out.with_columns(valid_mask.alias("label_is_valid"))
+    out = out.with_columns(pl.Series("label_is_valid", np.arange(n) < usable, dtype=pl.Boolean))
     return out
 
 
@@ -150,11 +149,10 @@ def add_meta_label(df: pl.DataFrame) -> pl.DataFrame:
     a specific model's predictions (that refinement belongs in the training
     pipeline, once real primary-model outputs are available).
     """
-    return df.with_columns(
-        (pl.col("label_barrier_type").is_in(["profit_take", "stop_loss"]) & pl.col("label_is_valid"))
-        .cast(pl.Int8)
-        .alias("label_meta_act")
-    )
+    btype = np.asarray(df["label_barrier_type"].to_list() if hasattr(df["label_barrier_type"], "to_list") else df["label_barrier_type"].to_numpy())
+    valid = np.asarray(df["label_is_valid"].to_numpy(), dtype=bool)
+    meta_act = (np.isin(btype, ["profit_take", "stop_loss", "upper", "lower"]) & valid).astype(np.int8)
+    return df.with_columns(pl.Series("label_meta_act", meta_act, dtype=pl.Int8))
 
 
 def add_all_labels(df: pl.DataFrame) -> pl.DataFrame:
@@ -176,9 +174,29 @@ def relabel_contiguous(df: pl.DataFrame, bar_seconds: int = PRIMARY_INTERVAL_SEC
     """
     if df.height == 0 or not all(c in df.columns for c in ("ts", "close", "high", "low")):
         return df
-    step = pl.duration(seconds=bar_seconds) if df.schema["ts"] == pl.Datetime else bar_seconds * 1_000_000_000
-    seg = (pl.col("ts").diff() != step).fill_null(True).cum_sum().alias("_seg")
-    df = df.with_columns(seg)
+    ts_arr = df["ts"].to_numpy()
+    if np.issubdtype(ts_arr.dtype, np.datetime64):
+        ts_sec = ts_arr.astype("datetime64[s]").astype(np.int64)
+    elif ts_arr.dtype == object and len(ts_arr) > 0 and hasattr(ts_arr[0], "timestamp"):
+        ts_sec = np.array([int(x.timestamp()) for x in ts_arr], dtype=np.int64)
+    else:
+        ts_int = ts_arr.astype(np.int64)
+        # Handle nanoseconds vs milliseconds vs seconds
+        if len(ts_int) > 1:
+            med_diff = int(np.median(np.abs(np.diff(ts_int[:min(100, len(ts_int))]))))
+            if med_diff >= 1_000_000_000:
+                ts_sec = ts_int // 1_000_000_000
+            elif med_diff >= 1_000_000:
+                ts_sec = ts_int // 1_000_000
+            elif med_diff >= 1_000:
+                ts_sec = ts_int // 1_000
+            else:
+                ts_sec = ts_int
+        else:
+            ts_sec = ts_int
+    diffs = np.diff(ts_sec, prepend=ts_sec[0] - bar_seconds - 1)
+    seg_arr = np.cumsum(diffs != bar_seconds).astype(np.int32)
+    df = df.with_columns(pl.Series("_seg", seg_arr, dtype=pl.Int32))
     label_cols = [c for c in df.columns if c.startswith("label_")]
     parts = []
     for part in df.partition_by("_seg", maintain_order=True):

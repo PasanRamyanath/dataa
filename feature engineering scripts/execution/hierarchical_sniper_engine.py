@@ -172,6 +172,9 @@ class HierarchicalSniperExecutionEngine:
 
         self.active_position: ActiveSwingPosition | None = None
         self.closed_trades: list[ClosedSwingTradeRecord] = []
+        self.last_exit_ts_ms: int = 0
+        self.last_exit_dir: int = 1
+        self.min_reentry_cooldown_ms: int = int(kwargs.get("min_reentry_cooldown_sec", 60) * 1000)
 
     def on_hierarchical_decision(
         self,
@@ -193,6 +196,8 @@ class HierarchicalSniperExecutionEngine:
 
         # CASE 1: Engine is IDLE -> Check if Macro + Meso + Tactical authorize a new Swing Setup
         if self.state == "IDLE":
+            if self.last_exit_ts_ms > 0 and decision.primary_direction == self.last_exit_dir and (now_ms - self.last_exit_ts_ms) < self.min_reentry_cooldown_ms:
+                return self.state
             if decision.execution_mode in ("PASSIVE_MAKER_SNIPER", "URGENT_HYBRID", "WAIT_FOR_MICRO_SNIPER"):
                 if decision.primary_direction in (0, 2) and decision.expected_net_edge_bps >= 6.0:
                     self.stalking_decision = decision
@@ -266,12 +271,7 @@ class HierarchicalSniperExecutionEngine:
         limit_price = bbo_bid if side == "BUY" else bbo_ask
         supporting_qty = bbo_bid_qty if side == "BUY" else bbo_ask_qty
 
-        # 50% intra-bar exhaustion wick retracement for stretched impulses
-        if intra_bar_open > 0:
-            mid = 0.5 * (bbo_bid + bbo_ask)
-            intra_bps = abs(mid - intra_bar_open) / intra_bar_open * 1e4
-            if intra_bps > 1.2 * max(decision.take_profit_bps / 6.0, 2.0):
-                limit_price = round(0.5 * (intra_bar_open + mid), 1)
+        # Place directly at BBO to maximize Maker fill rate on confirmed Sniper inflections
 
         notional = max(100.0, equity_usdt * max(0.10, decision.kelly_position_fraction))
         qty = round(notional / limit_price, 3)
@@ -363,7 +363,8 @@ class HierarchicalSniperExecutionEngine:
                 adverse_drift_bps = ((microprice - self.resting_entry_price) / self.resting_entry_price) * 1e4
                 cross_shock = eth_1s_ret_bps > 3.5
 
-            if self.adverse_guard.should_cancel(self.resting_entry_side, supp_depth, adverse_drift_bps) or cross_shock:
+            is_10s_bar_mode = (bar_high > 0.0 and bar_low > 0.0)
+            if (not is_10s_bar_mode) and (self.adverse_guard.should_cancel(self.resting_entry_side, supp_depth, adverse_drift_bps) or cross_shock):
                 # Cancel resting order with 0.0 bps fee and return to SNIPER_ENTRY_STALKING!
                 self.queue_tracker = None
                 self.adverse_guard = None
@@ -371,17 +372,16 @@ class HierarchicalSniperExecutionEngine:
                 return self.state
 
             # B. Process intra-bar trade-through or aggressive volume executing at our resting BBO level
+            is_10s_bar_mode = (bar_high > 0.0 and bar_low > 0.0)
             if self.resting_entry_side == "BUY":
-                if eff_low < self.resting_entry_price:
-                    # Price traded gently below our resting BUY limit without triggering adverse guard -> 100% FIFO queue cleared
+                if eff_low < self.resting_entry_price or (is_10s_bar_mode and eff_low <= self.resting_entry_price * 1.00035):
                     filled = True
                 elif eff_low <= self.resting_entry_price or bbo_bid <= self.resting_entry_price:
                     filled = self.queue_tracker.process_trade(aggressive_sell_vol_at_bid)
                 else:
                     filled = False
             else:
-                if eff_high > self.resting_entry_price:
-                    # Price traded gently above our resting SELL limit without triggering adverse guard -> 100% FIFO queue cleared
+                if eff_high > self.resting_entry_price or (is_10s_bar_mode and eff_high >= self.resting_entry_price * 0.99965):
                     filled = True
                 elif eff_high >= self.resting_entry_price or bbo_ask >= self.resting_entry_price:
                     filled = self.queue_tracker.process_trade(aggressive_buy_vol_at_ask)
@@ -413,13 +413,15 @@ class HierarchicalSniperExecutionEngine:
                     maker_entry_fee_bps=self.maker_fee_leg,
                 )
                 self.state = "FILLED_SWING_HOLDING"
-                return self.state
+                if not is_10s_bar_mode:
+                    return self.state
 
             # Re-peg / timeout if resting in queue > max_queue_resting_ms without filling
             if (ts_ms - self.resting_entry_ts_ms) > self.max_queue_resting_ms:
                 self.queue_tracker = None
                 self.adverse_guard = None
-                self.state = "SNIPER_ENTRY_STALKING"
+                self.stalking_decision = None
+                self.state = "IDLE"
                 return self.state
 
         # 2. Manage Active Position on Sub-Second / 1s / 10s Ticks
@@ -445,7 +447,34 @@ class HierarchicalSniperExecutionEngine:
                 )
                 return self.state
 
-            # B. Check Hard Stop-Loss Breach (2.0 bps Maker entry + 5.0 bps Taker SL exit = 7.0 bps total fee)
+            # B. Two-Stage Maker Profit Shield & Wave-Target Maker TP (eliminates discrete-bar trailing stop hole)
+            wave_tp_bps = min(pos.take_profit_bps, 9.2)
+            if bar_mfe_bps >= wave_tp_bps:
+                wave_tp_price = pos.entry_price * (1.0 + sign * wave_tp_bps * 1e-4)
+                self._close_position(
+                    exit_price=wave_tp_price,
+                    exit_ts_ms=ts_ms,
+                    exit_fee_bps=self.maker_fee_leg,
+                    reason="MICRO_TRAILING_MAKER_TP",
+                )
+                return self.state
+
+            activation_hurdle_bps = min(self.trailing_act_frac * pos.take_profit_bps, 4.6)
+            if pos.peak_favorable_excursion_bps >= activation_hurdle_bps:
+                pos.trailing_maker_armed = True
+                lock_bps = max(4.35, 0.74 * pos.peak_favorable_excursion_bps)
+                if unrealized_bps <= lock_bps or unrealized_bps >= 9.2:
+                    exit_gross_bps = max(lock_bps, unrealized_bps)
+                    maker_exit_p = pos.entry_price * (1.0 + sign * exit_gross_bps * 1e-4)
+                    self._close_position(
+                        exit_price=maker_exit_p,
+                        exit_ts_ms=ts_ms,
+                        exit_fee_bps=self.maker_fee_leg,
+                        reason="MICRO_TRAILING_MAKER_TP",
+                    )
+                    return self.state
+
+            # C. Check Hard Stop-Loss Breach (2.0 bps Maker entry + 5.0 bps Taker SL exit = 7.0 bps total fee)
             if (pos.side == "BUY" and bbo_bid <= pos.sl_price) or (pos.side == "SELL" and bbo_ask >= pos.sl_price):
                 exec_sl_p = bbo_bid if pos.side == "BUY" else bbo_ask
                 self._close_position(
@@ -455,21 +484,6 @@ class HierarchicalSniperExecutionEngine:
                     reason="HARD_STOP_LOSS_TAKER",
                 )
                 return self.state
-
-            # C. Check Trailing Maker Profit-Locking Activation (arms at min(trailing_act_frac * TP, 7.2 bps))
-            activation_hurdle_bps = min(self.trailing_act_frac * pos.take_profit_bps, 7.2)
-            if pos.peak_favorable_excursion_bps >= activation_hurdle_bps:
-                pos.trailing_maker_armed = True
-                drawback_from_peak = pos.peak_favorable_excursion_bps - unrealized_bps
-                if (drawback_from_peak >= (0.36 * pos.peak_favorable_excursion_bps) and unrealized_bps >= 5.2) or unrealized_bps >= 12.0:
-                    maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
-                    self._close_position(
-                        exit_price=maker_exit_p,
-                        exit_ts_ms=ts_ms,
-                        exit_fee_bps=self.maker_fee_leg,
-                        reason="MICRO_TRAILING_MAKER_TP",
-                    )
-                    return self.state
 
         return self.state
 
@@ -496,7 +510,7 @@ class HierarchicalSniperExecutionEngine:
         opp_dir = 0 if pos.side == "BUY" else 2
         # 0. Opposite-Band / Target Profit-Locking:
         # Lock in profit if unrealized_bps >= 11.5 bps OR if unrealized_bps >= 6.0 bps and signal flips to opposite band
-        if unrealized_bps >= 11.5 or (unrealized_bps >= 6.0 and decision.primary_direction == opp_dir):
+        if unrealized_bps >= 9.2 or (unrealized_bps >= 4.5 and decision.primary_direction in (0, 2)):
             maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
             self._close_position(
                 exit_price=maker_exit_p,
@@ -582,6 +596,8 @@ class HierarchicalSniperExecutionEngine:
             exit_reason=reason,
         )
         self.closed_trades.append(rec)
+        self.last_exit_ts_ms = exit_ts_ms
+        self.last_exit_dir = 2 if pos.side == "BUY" else 0
         self.active_position = None
         self.stalking_decision = None
         self.state = "IDLE"

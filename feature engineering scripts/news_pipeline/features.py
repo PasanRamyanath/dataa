@@ -286,17 +286,40 @@ def compute_news_features(bar_ts_ns: np.ndarray, articles: pl.DataFrame | None =
 
 
 def bar_ts_to_ns(ts: pl.Series) -> np.ndarray:
-    if isinstance(ts.dtype, pl.Datetime) and ts.dtype.time_zone:
-        ts = ts.dt.convert_time_zone("UTC").dt.replace_time_zone(None)
-    return ts.dt.cast_time_unit("ns").cast(pl.Int64).to_numpy()
+    dtype = getattr(ts, "dtype", None)
+    if dtype is not None and isinstance(dtype, getattr(pl, "Datetime", ())):
+        if getattr(dtype, "time_zone", None):
+            ts = ts.dt.convert_time_zone("UTC").dt.replace_time_zone(None)
+        return ts.dt.cast_time_unit("ns").cast(pl.Int64).to_numpy()
+    raw = ts.to_numpy() if hasattr(ts, "to_numpy") else np.asarray(ts)
+    if np.issubdtype(raw.dtype, np.datetime64):
+        return raw.astype("datetime64[ns]").astype(np.int64)
+    if raw.dtype == object and len(raw) > 0 and hasattr(raw[0], "timestamp"):
+        return np.array([int(x.timestamp() * 1_000_000_000) for x in raw], dtype=np.int64)
+    arr = raw.astype(np.int64, copy=False)
+    if arr.size > 0:
+        med = float(np.median(np.abs(arr)))
+        if med < 1e11:
+            return arr * 1_000_000_000
+        elif med < 1e14:
+            return arr * 1_000_000
+        elif med < 1e17:
+            return arr * 1_000
+    return arr
 
 
 def attach_news_features(df: pl.DataFrame, articles: pl.DataFrame | None = None,
                          ts_col: str = "ts") -> pl.DataFrame:
     """Returns df with NEWS_FEATURE_COLUMNS added (replacing any existing
     ones). Row order and count are unchanged."""
-    feats = compute_news_features(bar_ts_to_ns(df[ts_col]), articles)
-    return df.drop([c for c in NEWS_FEATURE_COLUMNS if c in df.columns]).with_columns(
+    from pathlib import Path as _Path
+    if isinstance(articles, (str, _Path)):
+        articles = load_scored_articles(_Path(articles))
+    actual_ts_col = ts_col if ts_col in df.columns else ("timestamp" if "timestamp" in df.columns else ("ts" if "ts" in df.columns else df.columns[0]))
+    feats = compute_news_features(bar_ts_to_ns(df[actual_ts_col]), articles)
+    drop_cols = [c for c in NEWS_FEATURE_COLUMNS if c in df.columns]
+    base_df = df.drop(drop_cols) if drop_cols else df
+    return base_df.with_columns(
         [pl.Series(c, feats[c], dtype=pl.Float32) for c in NEWS_FEATURE_COLUMNS]
     )
 

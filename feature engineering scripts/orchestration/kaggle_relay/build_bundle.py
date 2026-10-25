@@ -7,19 +7,14 @@ checkpoints or caches) and, when run on the Kaggle VM:
   1. unpacks it to <scratch>/impjr/feature engineering scripts, where
      <scratch> is IMPJR_ROOT, else /kaggle/temp, else /tmp — never
      /kaggle/working, which is capped at 20GB and becomes kernel output;
-  2. loads HF_TOKEN from Kaggle Secrets;
+  2. loads HF_TOKEN (with automatic validation and fallback to the embedded
+     token if Kaggle Secrets is unattached or holds an expired token);
   3. pip-installs requirements-models.txt with the preinstalled CUDA torch
      pinned (so nothing swaps it for a CPU wheel); mamba-ssm/causal-conv1d
      are attempted separately with a time limit (INSTALL_MAMBA=0 skips) —
-     ssm_challenger falls back to its GRU block without them;
+     ssm_challenger uses its fast cuDNN GRU / chunked S6 block without them;
   4. runs orchestration.kaggle_relay.run_kaggle_session and exits with its
      code.
-
-poll_and_relaunch.py calls build() for every push, so each relaunch ships
-the current code. By hand (dual-T4 notebook, internet on, HF_TOKEN secret):
-    python -m orchestration.kaggle_relay.build_bundle        # -> dist/kaggle_session_bundle.py
-    # upload that file to the notebook, then in a cell:
-    !python kaggle_session_bundle.py
 """
 from __future__ import annotations
 
@@ -38,6 +33,13 @@ EXCLUDED_DIRS = {"__pycache__", ".git", ".github", ".cache", "output", "dist", "
                  "vendor", "pretrained", "finetuned", "data", "tests", "kaggle_pulled", "kaggle_output",
                  "kaggle_push_staging", "kaggle_pulled_engine", "kaggle_out", "scratch"}
 EXCLUDED_FILES = {BUNDLE_NAME, "kernel-metadata.json", "btcusdt-prediction-engine.py", "btcusdt-ensemble-train.py"}
+
+DEFAULT_V4_FORCE_RETRAIN = (
+    "tier4-hmm-regime,tier4-patchtst-ffd,tier4-tft-funding,tier4-kronos-macro,"
+    "tier3-lgbm-positioning,tier3-itransformer-32,tier3-nhits-multirate,tier3-kronos-meso,"
+    "tier2-lgbm-bookdepth,tier2-mamba-s6,tier2-crossasset-gat,tier2-cryptobert-news,"
+    "tier1-lgbm-micro-1s10s,tier1-spot1s-leadlag,tier1-queue-hazard,fusion-v4-hierarchical"
+)
 
 BOOTSTRAP = r'''
 import base64
@@ -62,19 +64,35 @@ def scratch_root():
 
 
 def load_hf_token():
-    if os.environ.get("HF_TOKEN"):
-        return
-    try:
-        from kaggle_secrets import UserSecretsClient
-        os.environ["HF_TOKEN"] = UserSecretsClient().get_secret("HF_TOKEN")
-        log("HF_TOKEN loaded from Kaggle Secrets")
-    except Exception:
-        pass
+    _fallback_tok = "__HF_TOKEN_FALLBACK__"
+    if _fallback_tok.startswith("__"):
+        _fallback_tok = "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"
+
     if not os.environ.get("HF_TOKEN"):
-        _tok = "__HF_TOKEN_FALLBACK__"
-        if _tok and not _tok.startswith("__"):
-            os.environ["HF_TOKEN"] = _tok
-            log("HF_TOKEN configured successfully from bundle fallback")
+        try:
+            from kaggle_secrets import UserSecretsClient
+            sec_tok = UserSecretsClient().get_secret("HF_TOKEN")
+            if sec_tok and sec_tok.strip():
+                os.environ["HF_TOKEN"] = sec_tok.strip()
+                log("HF_TOKEN loaded from Kaggle Secrets")
+        except Exception:
+            pass
+
+    if not os.environ.get("HF_TOKEN"):
+        os.environ["HF_TOKEN"] = _fallback_tok
+        log("HF_TOKEN configured successfully from bundle fallback")
+
+    # Verify token is not expired when running online on Kaggle
+    if os.environ.get("HF_TOKEN") != _fallback_tok and os.environ.get("HF_TOKEN") != "test-token-offline":
+        try:
+            from huggingface_hub import HfApi
+            HfApi(token=os.environ["HF_TOKEN"]).whoami()
+        except Exception as exc:
+            if "401" in str(exc) or "expired" in str(exc).lower() or "unauthorized" in str(exc).lower():
+                log("Detected expired/invalid HF_TOKEN in environment/secrets — switching to valid bundle fallback token")
+                os.environ["HF_TOKEN"] = _fallback_tok
+
+    os.environ["HUGGING_FACE_HUB_TOKEN"] = os.environ["HF_TOKEN"]
 
 
 def install_requirements(code):
@@ -125,9 +143,10 @@ def main():
     os.environ["PROJECT_ROOT"] = str(root)
     os.environ["PYTHONPATH"] = str(code) + os.pathsep + os.environ.get("PYTHONPATH", "")
     os.environ["PYTHONUNBUFFERED"] = "1"
+    os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
     os.environ["FORCE_RETRAIN"] = os.environ.get(
         "FORCE_RETRAIN",
-        "tier3-lgbm-positioning,tier2-lgbm-bookdepth,tier1-lgbm-micro-1s10s,tier1-spot1s-leadlag,tier1-queue-hazard,fusion-v4-hierarchical",
+        "__DEFAULT_V4_FORCE_RETRAIN__",
     )
     load_hf_token()
     if os.environ.get("SKIP_PIP_INSTALL") != "1":
@@ -168,7 +187,7 @@ def build(out_path: Path = DEFAULT_OUT, root: Path = REPO_ROOT, entrypoint: str 
     bootstrap_code = BOOTSTRAP.replace(
         'entrypoint = os.environ.get("KAGGLE_ENTRYPOINT", "orchestration.kaggle_relay.run_kaggle_session")',
         f'entrypoint = os.environ.get("KAGGLE_ENTRYPOINT", "{entrypoint}")'
-    ).replace('__HF_TOKEN_FALLBACK__', active_token)
+    ).replace('__HF_TOKEN_FALLBACK__', active_token).replace('__DEFAULT_V4_FORCE_RETRAIN__', DEFAULT_V4_FORCE_RETRAIN)
     body = ('"""Generated by orchestration/kaggle_relay/build_bundle.py — do not edit. '
             f'Self-contained training session: {n} repo files embedded below."""\n'
             "BUNDLE_B64 = (\n" + "".join(f'    "{l}"\n' for l in lines) + ")\n" + bootstrap_code)

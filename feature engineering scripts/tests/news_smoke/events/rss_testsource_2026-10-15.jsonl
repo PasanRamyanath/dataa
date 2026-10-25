@@ -1,2 +1,0 @@
-{"source": "testsource", "kind": "rss_headline", "event_id": "2fe984f9462d0fa8f38126df3fdae489f8ca7e39", "ts": "2026-10-15T18:48:26.508640+00:00", "published": "Mon, 01 Jan 2026 00:00:00 GMT", "title": "BTC breaks 100k", "summary": "desc1", "url": "https://example.com/1"}
-{"source": "testsource", "kind": "rss_headline", "event_id": "0baf71b29c89cb3fd23f4a60992b8db223685bc0", "ts": "2026-10-15T18:48:26.508669+00:00", "published": "Mon, 01 Jan 2026 00:01:00 GMT", "title": "ETH news", "summary": "desc2", "url": "https://example.com/2"}

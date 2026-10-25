@@ -64,13 +64,11 @@ def make_windows(
 def run_ids(df: pl.DataFrame, interval_seconds: int, ts_col: str = "ts") -> np.ndarray:
     """Per-row id of the contiguous run (see common.cv.contiguous_runs) the
     row belongs to — increments at every gap between consecutive rows."""
-    ts = df[ts_col]
-    if isinstance(ts.dtype, pl.Datetime):
-        ts = ts.dt.cast_time_unit("ns")
-    ts_i64 = ts.cast(pl.Int64).to_numpy()
-    if len(ts_i64) == 0:
+    from common.cv import _ts_to_seconds
+    ts_sec = _ts_to_seconds(df, ts_col)
+    if len(ts_sec) == 0:
         return np.zeros(0, dtype=np.int64)
-    breaks = np.diff(ts_i64) != interval_seconds * 1_000_000_000
+    breaks = np.diff(ts_sec) != interval_seconds
     return np.concatenate([[0], np.cumsum(breaks)]).astype(np.int64)
 
 

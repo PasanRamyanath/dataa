@@ -243,6 +243,21 @@ def load_hf_generate(model_name: str, max_new_tokens: int = 64, gpu_id: int | No
                                  pad_token_id=tok.pad_token_id)
         return tok.batch_decode(out[:, enc["input_ids"].shape[1]:], skip_special_tokens=True)
 
+    def _close_hf() -> None:
+        nonlocal model, tok
+        try:
+            if model is not None and hasattr(model, "cpu"):
+                model.cpu()
+        except Exception:
+            pass
+        model = None
+        tok = None
+        import gc
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
+    generate.close = _close_hf  # type: ignore[attr-defined]
     log.info("Loaded tier-2 news LLM %s (hf, %s)", model_name, device)
     return generate
 

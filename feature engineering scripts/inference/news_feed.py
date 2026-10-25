@@ -104,14 +104,43 @@ class _StateStore:
         self.data["seen_ids"].append(event_id)
 
 
+def _parse_rss_fallback(xml_bytes: bytes) -> list[dict]:
+    import xml.etree.ElementTree as ET
+    entries = []
+    try:
+        root = ET.fromstring(xml_bytes)
+    except ET.ParseError:
+        return entries
+    for item in root.iter():
+        tag = item.tag.split("}")[-1].lower()
+        if tag not in ("item", "entry"):
+            continue
+        rec = {}
+        for child in item:
+            ctag = child.tag.split("}")[-1].lower()
+            text = (child.text or "").strip()
+            if ctag in ("guid", "id") and text:
+                rec["id"] = text
+            elif ctag == "title" and text:
+                rec["title"] = text
+            elif ctag in ("description", "summary", "content") and text and "summary" not in rec:
+                rec["summary"] = text
+            elif ctag == "link":
+                href = child.attrib.get("href", "").strip()
+                rec["link"] = href or text
+            elif ctag in ("pubdate", "published", "updated") and text:
+                rec["published"] = text
+        entries.append(rec)
+    return entries
+
+
 def poll_rss(source: str, url: str) -> list[dict]:
     """One conditional-GET poll of a single RSS feed. Returns only entries
     not already recorded in this source's state (by entry guid/link hash)."""
     try:
         import feedparser
     except ImportError:
-        log.warning("feedparser not installed — skipping RSS source %s (pip install -r requirements-models.txt)", source)
-        return []
+        feedparser = None
 
     state = _StateStore(f"rss_{source}")
     headers = {}
@@ -135,9 +164,9 @@ def poll_rss(source: str, url: str) -> list[dict]:
     state.data["etag"] = resp.headers.get("ETag")
     state.data["last_modified"] = resp.headers.get("Last-Modified")
 
-    parsed = feedparser.parse(resp.content)
+    entries = feedparser.parse(resp.content).entries if feedparser is not None else _parse_rss_fallback(resp.content)
     new_events = []
-    for entry in parsed.entries:
+    for entry in entries:
         guid = entry.get("id") or entry.get("link", "") + entry.get("title", "")
         event_id = _event_id(source, guid)
         if state.is_seen(event_id):

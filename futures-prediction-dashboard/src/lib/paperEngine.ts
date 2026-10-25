@@ -263,28 +263,36 @@ export class ClientPaperTradingEngine {
         }
       }
 
-      // B. Update Trailing Stop Peak/Trough & Evaluate Trigger
-      const callbackPct = (this.settings.trailingStopCallbackPct || 0.05) / 100.0;
+      // B. Two-Stage Maker Profit Shield (arms at >= 4.8 bps MFE, locks >= 4.35 bps or 74% of peak MFE)
+      const activationPct = 0.00048;
+      const minProfitFloorPct = 0.000435;
+      const retainFrac = 0.74;
       const trailRole: ExecutionRole = this.settings.executionStyle === "MARKET_TAKER" ? "TAKER" : "MAKER";
       if (isLong) {
         const peak = Math.max(this.account.trailing_stop_peak_price || this.account.entry_price, price);
         this.account.trailing_stop_peak_price = peak;
-        const trailStop = peak * (1.0 - callbackPct);
-        this.account.trailing_stop_price = parseFloat(trailStop.toFixed(2));
-
-        // Trigger trailing stop if in profit and price pulled back by callbackPct
-        if (price >= this.account.entry_price * (1.0 + callbackPct) && price <= trailStop) {
-          return this.executeTrade(0.0, price, dummyPred.timestamp, "TRAILING_STOP", dummyPred, trailRole, bookTicker);
+        const mfePct = (peak - this.account.entry_price) / this.account.entry_price;
+        if (mfePct >= activationPct) {
+          this.account.trailing_stop_active = true;
+          const lockPct = Math.max(minProfitFloorPct, retainFrac * mfePct);
+          const trailStop = this.account.entry_price * (1.0 + lockPct);
+          this.account.trailing_stop_price = parseFloat(trailStop.toFixed(2));
+          if (price <= trailStop) {
+            return this.executeTrade(0.0, Math.max(price, trailStop), dummyPred.timestamp, "TRAILING_STOP", dummyPred, trailRole, bookTicker);
+          }
         }
       } else {
         const trough = Math.min(this.account.trailing_stop_peak_price || this.account.entry_price, price);
         this.account.trailing_stop_peak_price = trough;
-        const trailStop = trough * (1.0 + callbackPct);
-        this.account.trailing_stop_price = parseFloat(trailStop.toFixed(2));
-
-        // Trigger trailing stop if in profit and price bounced by callbackPct
-        if (price <= this.account.entry_price * (1.0 - callbackPct) && price >= trailStop) {
-          return this.executeTrade(0.0, price, dummyPred.timestamp, "TRAILING_STOP", dummyPred, trailRole, bookTicker);
+        const mfePct = (this.account.entry_price - trough) / this.account.entry_price;
+        if (mfePct >= activationPct) {
+          this.account.trailing_stop_active = true;
+          const lockPct = Math.max(minProfitFloorPct, retainFrac * mfePct);
+          const trailStop = this.account.entry_price * (1.0 - lockPct);
+          this.account.trailing_stop_price = parseFloat(trailStop.toFixed(2));
+          if (price >= trailStop) {
+            return this.executeTrade(0.0, Math.min(price, trailStop), dummyPred.timestamp, "TRAILING_STOP", dummyPred, trailRole, bookTicker);
+          }
         }
       }
 
@@ -515,8 +523,9 @@ export class ClientPaperTradingEngine {
         this.account.total_fees += liqClearanceFee;
       }
 
-      // Net PnL = Gross PnL - order friction cost - liquidation fee
-      closedNetPnl = closedGrossPnl - orderFriction - liqClearanceFee;
+      // Attribute only the closing leg friction to closedNetPnl on position flips
+      const closeLegRatio = turnoverFraction > 0 ? Math.min(1.0, Math.abs(currentFraction) / turnoverFraction) : 1.0;
+      closedNetPnl = closedGrossPnl - (orderFriction * closeLegRatio) - liqClearanceFee;
 
       const initialMargin = this.account.initial_margin > 0 ? this.account.initial_margin : this.account.position_notional / leverage;
       closedRoePct = (closedNetPnl / Math.max(1, initialMargin)) * 100;

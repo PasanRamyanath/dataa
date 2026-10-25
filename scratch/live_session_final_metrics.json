@@ -1,68 +1,68 @@
 {
-  "session_duration_minutes": 120.01,
-  "bars_evaluated": 720,
-  "total_trades": 2,
-  "winning_trades": 2,
+  "session_duration_minutes": 60.06,
+  "bars_evaluated": 360,
+  "total_trades": 5,
+  "winning_trades": 5,
   "win_rate_pct": 100.0,
-  "total_net_pnl_bps": 17.9,
-  "avg_net_pnl_bps": 8.95,
+  "total_net_pnl_bps": 8.97,
+  "avg_net_pnl_bps": 1.79,
   "accuracy_summary": {
     "10s": {
-      "evaluated_samples": 719,
-      "overall_accuracy_pct": 81.92,
-      "active_signals_count": 15,
-      "active_precision_pct": 0.0,
-      "sign_accuracy_pct": 60.0,
-      "sign_samples": 5
-    },
-    "30s": {
-      "evaluated_samples": 717,
-      "overall_accuracy_pct": 67.92,
-      "active_signals_count": 15,
-      "active_precision_pct": 0.0,
-      "sign_accuracy_pct": 46.15,
-      "sign_samples": 13
-    },
-    "1m": {
-      "evaluated_samples": 714,
-      "overall_accuracy_pct": 69.75,
-      "active_signals_count": 15,
-      "active_precision_pct": 0.0,
-      "sign_accuracy_pct": 60.0,
-      "sign_samples": 15
-    },
-    "5m": {
-      "evaluated_samples": 690,
-      "overall_accuracy_pct": 57.83,
-      "active_signals_count": 12,
-      "active_precision_pct": 75.0,
-      "sign_accuracy_pct": 75.0,
-      "sign_samples": 12
-    },
-    "15m": {
-      "evaluated_samples": 630,
-      "overall_accuracy_pct": 37.94,
-      "active_signals_count": 9,
+      "evaluated_samples": 359,
+      "overall_accuracy_pct": 85.79,
+      "active_signals_count": 13,
       "active_precision_pct": 100.0,
       "sign_accuracy_pct": 100.0,
-      "sign_samples": 9
+      "sign_samples": 13
+    },
+    "30s": {
+      "evaluated_samples": 357,
+      "overall_accuracy_pct": 70.59,
+      "active_signals_count": 12,
+      "active_precision_pct": 100.0,
+      "sign_accuracy_pct": 83.33,
+      "sign_samples": 12
+    },
+    "1m": {
+      "evaluated_samples": 354,
+      "overall_accuracy_pct": 58.47,
+      "active_signals_count": 11,
+      "active_precision_pct": 100.0,
+      "sign_accuracy_pct": 81.82,
+      "sign_samples": 11
+    },
+    "5m": {
+      "evaluated_samples": 330,
+      "overall_accuracy_pct": 34.55,
+      "active_signals_count": 13,
+      "active_precision_pct": 100.0,
+      "sign_accuracy_pct": 84.62,
+      "sign_samples": 13
+    },
+    "15m": {
+      "evaluated_samples": 270,
+      "overall_accuracy_pct": 37.78,
+      "active_signals_count": 7,
+      "active_precision_pct": 100.0,
+      "sign_accuracy_pct": 71.43,
+      "sign_samples": 7
     },
     "tiers": {
       "macro": {
-        "evaluated": 630,
-        "accuracy_pct": 36.51
+        "evaluated": 270,
+        "accuracy_pct": 37.78
       },
       "meso": {
-        "evaluated": 630,
-        "accuracy_pct": 37.94
+        "evaluated": 270,
+        "accuracy_pct": 37.78
       },
       "tactical": {
-        "evaluated": 714,
-        "accuracy_pct": 69.75
+        "evaluated": 354,
+        "accuracy_pct": 58.47
       },
       "micro": {
-        "evaluated": 719,
-        "accuracy_pct": 81.92
+        "evaluated": 359,
+        "accuracy_pct": 85.79
       }
     }
   },
@@ -70,33 +70,81 @@
     {
       "symbol": "BTCUSDT",
       "side": "SELL",
-      "entry_price": 81506.5,
-      "exit_price": 81400.4,
+      "entry_price": 80402.8,
+      "exit_price": 80367.50200000001,
       "quantity": 0.058,
-      "entry_ts_ms": 1792697550000,
-      "exit_ts_ms": 1792697800000,
-      "holding_duration_sec": 250.0,
-      "gross_return_bps": 13.0174,
+      "entry_ts_ms": 1792963480000,
+      "exit_ts_ms": 1792963560000,
+      "holding_duration_sec": 80.0,
+      "gross_return_bps": 4.3901,
       "total_fee_bps": 4.0,
-      "net_return_bps": 9.0174,
-      "peak_mfe_bps": 13.0174,
-      "max_mae_bps": -0.638,
+      "net_return_bps": 0.3901,
+      "peak_mfe_bps": 5.9326,
+      "max_mae_bps": 0.0,
+      "exit_reason": "MICRO_TRAILING_MAKER_TP"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "BUY",
+      "entry_price": 80367.9,
+      "exit_price": 80441.838468,
+      "quantity": 0.06,
+      "entry_ts_ms": 1792963570000,
+      "exit_ts_ms": 1792963610000,
+      "holding_duration_sec": 40.0,
+      "gross_return_bps": 9.2,
+      "total_fee_bps": 4.0,
+      "net_return_bps": 5.2,
+      "peak_mfe_bps": 9.9791,
+      "max_mae_bps": 0.0,
       "exit_reason": "MICRO_TRAILING_MAKER_TP"
     },
     {
       "symbol": "BTCUSDT",
       "side": "SELL",
-      "entry_price": 81484.0,
-      "exit_price": 81379.0,
-      "quantity": 0.054,
-      "entry_ts_ms": 1792698950000,
-      "exit_ts_ms": 1792699670000,
-      "holding_duration_sec": 720.0,
-      "gross_return_bps": 12.886,
+      "entry_price": 80438.9,
+      "exit_price": 80398.2,
+      "quantity": 0.055,
+      "entry_ts_ms": 1792963940000,
+      "exit_ts_ms": 1792964010000,
+      "holding_duration_sec": 70.0,
+      "gross_return_bps": 5.0597,
       "total_fee_bps": 4.0,
-      "net_return_bps": 8.886,
-      "peak_mfe_bps": 12.886,
-      "max_mae_bps": -2.0495,
+      "net_return_bps": 1.0597,
+      "peak_mfe_bps": 6.8375,
+      "max_mae_bps": 0.0,
+      "exit_reason": "MICRO_TRAILING_MAKER_TP"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "SELL",
+      "entry_price": 80430.0,
+      "exit_price": 80395.01295,
+      "quantity": 0.06,
+      "entry_ts_ms": 1792964300000,
+      "exit_ts_ms": 1792964450000,
+      "holding_duration_sec": 150.0,
+      "gross_return_bps": 4.35,
+      "total_fee_bps": 4.0,
+      "net_return_bps": 0.35,
+      "peak_mfe_bps": 5.6447,
+      "max_mae_bps": 0.0,
+      "exit_reason": "MICRO_TRAILING_MAKER_TP"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "BUY",
+      "entry_price": 80284.9,
+      "exit_price": 80332.85199999998,
+      "quantity": 0.06,
+      "entry_ts_ms": 1792964800000,
+      "exit_ts_ms": 1792965310000,
+      "holding_duration_sec": 510.0,
+      "gross_return_bps": 5.9727,
+      "total_fee_bps": 4.0,
+      "net_return_bps": 1.9727,
+      "peak_mfe_bps": 8.0713,
+      "max_mae_bps": -3.7118,
       "exit_reason": "MICRO_TRAILING_MAKER_TP"
     }
   ]

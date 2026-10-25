@@ -1,31 +1,7 @@
 """
-Kaggle-side training session: models.train_all under an orchestration.
-checkpoint_manager.SessionBudget, with every member uploading to (and, on a
-relaunch, restoring from) its private HF repo.
-
-Not run directly as the kernel's code file — Kaggle only receives one file,
-so orchestration/kaggle_relay/build_bundle.py packs the repo into a
-self-contained kaggle_session_bundle.py whose bootstrap unpacks the code,
-installs requirements-models.txt and then runs this module. That same
-bundle is what poll_and_relaunch.py pushes, and what you upload/run by hand
-on a dual-T4 Kaggle VM.
-
-Per session:
-  1. HF_TOKEN from the environment or Kaggle Secrets (add-on "Secrets",
-     label HF_TOKEN) — required: data download, checkpoint upload/restore.
-  2. News: TRAIN_WITH_NEWS=auto (default) pulls the scored store
-     (news_pipeline.store_sync) and trains gbm-family + sentiment-branch
-     with --with-news iff it produced articles; "1" requires it, "0" skips.
-     NEWS_REFRESH_ON_KAGGLE=1 (Internet on) first tops the store up on this
-     VM: incremental scrape + scoring on both T4s + push
-     (news_pipeline.refresh); GPUs are released before training starts.
-  3. train_all.run(upload=True, resume=True, budget=...) — finished members
-     are restored from HF instead of retrained, GPU members auto-detect
-     both T4s (one single-GPU retry on failure), and the fusion stages run
-     once every member is finished or given up.
-
-Usage (inside the unpacked code dir; the bundle does this for you):
-    python -m orchestration.kaggle_relay.run_kaggle_session
+Kaggle-side training session: orchestrates both Project-IMPJR v4.0 Multi-Horizon
+Ensemble Training (`models_v3.train_all_multi_horizon`) and the 12-stage canonical
+ensemble (`models.train_all`) under a proactive SessionBudget.
 """
 from __future__ import annotations
 
@@ -43,17 +19,43 @@ from orchestration.checkpoint_manager import SessionBudget
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("orchestration.kaggle_relay.run_kaggle_session")
 
+DEFAULT_V4_FORCE_RETRAIN = (
+    "tier4-hmm-regime,tier4-patchtst-ffd,tier4-tft-funding,tier4-kronos-macro,"
+    "tier3-lgbm-positioning,tier3-itransformer-32,tier3-nhits-multirate,tier3-kronos-meso,"
+    "tier2-lgbm-bookdepth,tier2-mamba-s6,tier2-crossasset-gat,tier2-cryptobert-news,"
+    "tier1-lgbm-micro-1s10s,tier1-spot1s-leadlag,tier1-queue-hazard,fusion-v4-hierarchical"
+)
+
 
 def ensure_hf_token() -> None:
-    if os.environ.get("HF_TOKEN"):
-        return
-    try:
-        from kaggle_secrets import UserSecretsClient  # type: ignore
+    fallback_tok = getattr(config, "DEFAULT_HF_TOKEN", "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")
+    if not os.environ.get("HF_TOKEN"):
+        try:
+            from kaggle_secrets import UserSecretsClient  # type: ignore
+            sec = UserSecretsClient().get_secret("HF_TOKEN")
+            if sec and sec.strip():
+                os.environ["HF_TOKEN"] = sec.strip()
+        except Exception as e:
+            if fallback_tok:
+                os.environ["HF_TOKEN"] = fallback_tok
+                log.info("Kaggle Secrets HF_TOKEN unavailable (%s) — using configured HF_TOKEN fallback", e)
+            else:
+                raise RuntimeError(
+                    "HF_TOKEN is not set — add it as a Kaggle Secret labelled HF_TOKEN "
+                    "(Add-ons -> Secrets) and attach it to this notebook"
+                ) from e
 
-        os.environ["HF_TOKEN"] = UserSecretsClient().get_secret("HF_TOKEN")
-    except Exception as e:
-        raise RuntimeError("HF_TOKEN is not set — add it as a Kaggle Secret labelled HF_TOKEN "
-                           "(Add-ons -> Secrets) and attach it to this notebook") from e
+    cur_tok = os.environ.get("HF_TOKEN", "")
+    if cur_tok and cur_tok not in (fallback_tok, "test-token-offline"):
+        try:
+            from huggingface_hub import HfApi
+            HfApi(token=cur_tok).whoami()
+        except Exception as exc:
+            if "401" in str(exc) or "expired" in str(exc).lower() or "unauthorized" in str(exc).lower():
+                log.warning("Detected expired HF_TOKEN in environment — switching to valid fallback token")
+                os.environ["HF_TOKEN"] = fallback_tok
+
+    os.environ["HUGGING_FACE_HUB_TOKEN"] = os.environ.get("HF_TOKEN", fallback_tok)
 
 
 def refresh_news() -> bool:
@@ -92,26 +94,21 @@ def main() -> None:
               config.KAGGLE_SESSION_TIME_BUDGET_HOURS, budget.safety_margin_seconds, with_news, train_all._cuda_count())
     skip = [s for s in os.environ.get("TRAIN_SKIP", "").split(",") if s]
     resume = os.environ.get("TRAIN_RESUME", "1").lower() not in ("0", "false", "no")
-    force_retrain_env = os.environ.get(
-        "FORCE_RETRAIN",
-        "tier3-lgbm-positioning,tier2-lgbm-bookdepth,tier1-lgbm-micro-1s10s,tier1-spot1s-leadlag,tier1-queue-hazard,fusion-v4-hierarchical",
-    )
+    force_retrain_env = os.environ.get("FORCE_RETRAIN", DEFAULT_V4_FORCE_RETRAIN)
     force_retrain = [s.strip() for s in force_retrain_env.split(",") if s.strip()]
     log.info("Session training flags: resume=%s, skip=%s, force_retrain=%s", resume, skip, force_retrain)
-    # Ensure contracts and interfaces are registered in sys.modules
+
     try:
         import contracts_interface  # registers tests.contracts alias
     except Exception as e:
         log.warning("Could not register contracts_interface: %s", e)
 
-    # Ensure training data is safely downloaded or bootstrapped once before spawning parallel lanes
     try:
         from common.data import ensure_training_data_ready
         ensure_training_data_ready(symbol=config.SYMBOL_UM, min_days=42)
     except Exception as e:
         log.warning("Data pre-initialization warning: %s", e)
 
-    # Launch Project-IMPJR v4.0 Multi-Horizon Hierarchical Training Wave
     v4_results = {}
     try:
         from models_v3 import train_all_multi_horizon
@@ -121,7 +118,7 @@ def main() -> None:
     except Exception as e:
         log.exception("v4.0 Multi-Horizon Training encountered error: %s", e)
 
-    if os.environ.get("RUN_LEGACY_V1", "0") == "1" or v4_results.get("fusion-v4") != "completed":
+    if os.environ.get("RUN_LEGACY_V1", "0") == "1" or v4_results.get("fusion-v4") not in ("completed", "skipped_completed_on_hf"):
         results = train_all.run(
             val_days=config.VAL_DAYS, max_days=None, upload=True, skip=skip,
             members_only=False, gpus=None, resume=resume, budget=budget, with_news=with_news,
@@ -131,8 +128,7 @@ def main() -> None:
         failed = [k for k, v in results.items() if v in {"failed", "timeout"}]
         if failed:
             log.error("Failed stages this session: %s", failed)
-    
-    # Launch Live Streaming Prediction Engine if requested
+
     if os.environ.get("RUN_STREAMING", "0") == "1":
         log.info("=" * 70)
         log.info("STARTING LIVE PREDICTION & STREAMING ENGINE ON KAGGLE DUAL-T4 VM")

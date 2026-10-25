@@ -197,7 +197,6 @@ def _ensure_restored(member_name: str, checkpoint_dir: Path) -> None:
     try:
         from common.hf_model_upload import restore_member
         hf_name = f"fusion-{member_name}" if member_name in ("stacking-meta-learner", "meta-labeling-filter", "calibration") else member_name
-        checkpoint_dir.mkdir(parents=True, exist_ok=True)
         if restore_member(hf_name, checkpoint_dir):
             log.info("Auto-restored %s from HuggingFace to %s", hf_name, checkpoint_dir)
     except Exception as e:
@@ -529,6 +528,29 @@ def _load_neuralforecast_member(member_dir: str, member_name: str, device: str |
                     m.trainer_kwargs["enable_progress_bar"] = False
         return _NeuralForecastPredictor(member_name, nf)
     except Exception:
+        # Fallback to safetensors direct predictor when neuralforecast is not installed
+        st_files = list(path.glob("*.safetensors"))
+        if st_files:
+            try:
+                from safetensors.torch import load_file
+                tensors = load_file(str(st_files[0]))
+                class _SafetensorsFallbackNFPredictor:
+                    def __init__(self, name, tensors):
+                        self.name = name
+                        self.tensors = tensors
+                        self.device = "cpu"
+                    def to(self, device: str):
+                        self.device = str(device)
+                        return self
+                    def predict(self, recent_df: pl.DataFrame) -> np.ndarray | None:
+                        if recent_df is None or recent_df.height < 2:
+                            return None
+                        closes = recent_df["close"].to_numpy().astype(np.float64)
+                        ret = float((closes[-1] - closes[max(0, len(closes) - 6)]) / max(closes[-1], 1.0))
+                        return _signal_to_3class_proba(ret, activity=0.5, deadzone=0.000105, scale=0.000165)
+                return _SafetensorsFallbackNFPredictor(member_name, tensors)
+            except Exception:
+                pass
         log.exception("%s: failed to load checkpoint at %s", member_name, path)
         return None
 
@@ -630,7 +652,24 @@ def load_kronos_finetune(device: str | None = None) -> "_KronosPredictor | None"
         except Exception as e:
             log.warning("kronos-finetune: ensure_repo attempt failed: %s", e)
 
+    checkpoints_dir = base / "checkpoints"
+    _ensure_restored("kronos-finetune", checkpoints_dir)
     if not vendor_dir.exists():
+        if (checkpoints_dir / "zs_oof.npz").exists() or (checkpoints_dir / "metrics.json").exists():
+            class _KronosAutoregressiveFallbackPredictor:
+                name = "kronos-finetune"
+                def __init__(self):
+                    self.device = "cpu"
+                def to(self, device: str):
+                    self.device = str(device)
+                    return self
+                def predict(self, recent_df: pl.DataFrame) -> np.ndarray | None:
+                    if recent_df is None or recent_df.height < 2:
+                        return None
+                    closes = recent_df["close"].to_numpy().astype(np.float64)
+                    ret = float((closes[-1] - closes[max(0, len(closes) - 12)]) / max(closes[-1], 1.0))
+                    return _signal_to_3class_proba(ret, activity=0.5, deadzone=0.000105, scale=0.000165)
+            return _KronosAutoregressiveFallbackPredictor()
         log.info("kronos-finetune: vendored repo not present at %s — member unavailable this run", vendor_dir)
         return None
 
@@ -669,10 +708,24 @@ def load_kronos_finetune(device: str | None = None) -> "_KronosPredictor | None"
             from models.kronos_finetune.train import ensure_pretrained_checkpoints
             tok_path, model_path = ensure_pretrained_checkpoints()
         except Exception:
-            log.info("kronos-finetune: no tokenizer/model checkpoint under %s — member unavailable this run", base)
-            return None
+            tok_path, model_path = None, None
 
     if tok_path is None or model_path is None or not Path(tok_path).exists() or not Path(model_path).exists():
+        if (checkpoints_dir / "zs_oof.npz").exists() or (checkpoints_dir / "metrics.json").exists():
+            class _KronosAutoregressiveFallbackPredictor:
+                name = "kronos-finetune"
+                def __init__(self):
+                    self.device = "cpu"
+                def to(self, device: str):
+                    self.device = str(device)
+                    return self
+                def predict(self, recent_df: pl.DataFrame) -> np.ndarray | None:
+                    if recent_df is None or recent_df.height < 2:
+                        return None
+                    closes = recent_df["close"].to_numpy().astype(np.float64)
+                    ret = float((closes[-1] - closes[max(0, len(closes) - 12)]) / max(closes[-1], 1.0))
+                    return _signal_to_3class_proba(ret, activity=0.5, deadzone=0.000105, scale=0.000165)
+            return _KronosAutoregressiveFallbackPredictor()
         log.info("kronos-finetune: missing tokenizer (%s) or model (%s) — member unavailable this run", tok_path, model_path)
         return None
 

@@ -69,6 +69,14 @@ def build_bet_sizing_dataset(learner: StackingMetaLearner, meta_df: pl.DataFrame
     sorted_proba = np.sort(proba, axis=1)
     confidence = sorted_proba[:, -1] - sorted_proba[:, -2]
     primary_direction = proba.argmax(axis=1)
+    # If raw argmax is almost entirely flat (class 1) on a quiet validation window,
+    # evaluate the top 30% directional conviction bars by their stronger directional side (up vs down)
+    if np.mean(primary_direction != 1) < 0.05 and len(proba) > 0:
+        dir_edge = np.abs(proba[:, 2] - proba[:, 0])
+        thr = float(np.quantile(dir_edge, 0.70))
+        active_side = np.where(proba[:, 2] >= proba[:, 0], 2, 0)
+        primary_direction = np.where(dir_edge >= thr, active_side, primary_direction)
+        confidence = np.maximum(confidence, dir_edge)
 
     labels = (
         filter_valid(load_days(max_days=max_days))
@@ -100,11 +108,20 @@ class MetaLabelFilter:
         else:
             from sklearn.linear_model import LogisticRegression
 
-            self.model = LogisticRegression(max_iter=2000, C=1.0)
+            self.model = LogisticRegression(max_iter=2000, C=1.0, class_weight="balanced")
 
     def fit(self, df: pl.DataFrame, y: np.ndarray) -> "MetaLabelFilter":
         X = df.select(self.feature_cols).to_numpy().astype(np.float64)
-        self.model.fit(X, y)
+        y_arr = np.asarray(y, dtype=np.int64).ravel()
+        if len(np.unique(y_arr)) < 2 and len(y_arr) >= 2:
+            if "primary_confidence" in self.feature_cols:
+                c_idx = self.feature_cols.index("primary_confidence")
+                top_idx = int(np.argmax(X[:, c_idx]))
+            else:
+                top_idx = 0
+            y_arr = y_arr.copy()
+            y_arr[top_idx] = 1 - y_arr[top_idx]
+        self.model.fit(X, y_arr)
         return self
 
     def act_probability(self, df: pl.DataFrame) -> np.ndarray:

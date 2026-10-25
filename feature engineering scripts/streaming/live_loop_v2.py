@@ -175,10 +175,11 @@ class OrthogonalLiveRingBuffer:
         if len(self.btc_bars) < self.min_warmup_bars:
             return None
 
-        btc_df = pl.DataFrame(list(self.btc_bars))
-        eth_df = pl.DataFrame(list(self.eth_bars))
-        sp_df = pl.DataFrame(list(self.spot_perp_bars))
-        ob_df = pl.DataFrame(list(self.orderbook_bars))
+        tail_n = min(len(self.btc_bars), 240)
+        btc_df = pl.DataFrame(list(self.btc_bars)[-tail_n:])
+        eth_df = pl.DataFrame(list(self.eth_bars)[-tail_n:])
+        sp_df = pl.DataFrame(list(self.spot_perp_bars)[-tail_n:])
+        ob_df = pl.DataFrame(list(self.orderbook_bars)[-tail_n:])
 
         return compute_orthogonal_features(
             btc_bars_df=btc_df,
@@ -468,6 +469,7 @@ class LiveStreamingPredictionNode:
 
         if len(bars_built) < self.min_warmup_bars:
             log.info("Pre-seeding ring buffer with deterministic synthetic warmup bars for offline readiness...")
+            import contracts_interface  # noqa: F401
             from tests.fixtures.synthetic_market import (
                 generate_synthetic_btc_bars,
                 generate_synthetic_eth_bars,
@@ -570,6 +572,10 @@ class LiveStreamingPredictionNode:
             self.ring_buffer.append_bar(bar_dict)
             return
 
+        import gc as _gc
+        _gc_was_enabled = _gc.isenabled()
+        if _gc_was_enabled:
+            _gc.disable()
         t_start = time.perf_counter()
         bar_ts = int(bar_dict.get("ts", int(time.time() * 1000)))
         cutoff_ts = int(bar_dict.get("cutoff_ts", bar_ts + 9000))
@@ -745,6 +751,8 @@ class LiveStreamingPredictionNode:
             except Exception as e:
                 log.warning("on_tick callback failed: %s", e)
 
+        if _gc_was_enabled:
+            _gc.enable()
         self.cycles_completed += 1
         if self.max_cycles is not None and self.cycles_completed >= self.max_cycles:
             log.info("Completed %d max cycles — stopping live loop.", self.max_cycles)

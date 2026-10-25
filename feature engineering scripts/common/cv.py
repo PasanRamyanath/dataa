@@ -43,36 +43,47 @@ def purged_walk_forward_splits(
     return splits
 
 
+def _ts_to_seconds(df: pl.DataFrame, ts_col: str = "ts") -> np.ndarray:
+    ts_arr = df[ts_col].to_numpy()
+    if len(ts_arr) == 0:
+        return np.zeros(0, dtype=np.int64)
+    if np.issubdtype(ts_arr.dtype, np.datetime64):
+        return ts_arr.astype("datetime64[s]").astype(np.int64)
+    if ts_arr.dtype == object and hasattr(ts_arr[0], "timestamp"):
+        return np.array([int(x.timestamp()) for x in ts_arr], dtype=np.int64)
+    ts_int = ts_arr.astype(np.int64)
+    if len(ts_int) > 1:
+        diffs = np.abs(np.diff(ts_int[:min(100, len(ts_int))]))
+        nz = diffs[diffs > 0]
+        med_diff = int(np.median(nz)) if len(nz) > 0 else 0
+        if med_diff >= 1_000_000_000:
+            return ts_int // 1_000_000_000
+        elif med_diff >= 1_000_000:
+            return ts_int // 1_000_000
+        elif med_diff >= 1_000:
+            return ts_int // 1_000
+    return ts_int
+
+
 def assert_contiguous(df: pl.DataFrame, interval_seconds: int, ts_col: str = "ts") -> None:
     """Sequence models (TFT/PatchTST/iTransformer/N-HiTS/SSM/Kronos) assume a
-    fixed-step bar grid with no missing bars inside a window. Concatenating
-    multiple days (common.data.load_days) can introduce a gap wherever a day
-    was skipped upstream (build_day returns None for a day with no UM
-    aggTrades — see build_dataset.py) — this catches that before it silently
-    corrupts a windowed model's notion of elapsed time."""
-    ts = df[ts_col]
-    if isinstance(ts.dtype, pl.Datetime):
-        ts = ts.dt.cast_time_unit("ns")
-    diffs = ts.diff().drop_nulls()
-    expected_ns = interval_seconds * 1_000_000_000
-    bad = diffs.filter(diffs.cast(pl.Int64) != expected_ns)
-    if bad.len() > 0:
+    fixed-step bar grid with no missing bars inside a window."""
+    ts_sec = _ts_to_seconds(df, ts_col)
+    if len(ts_sec) <= 1:
+        return
+    bad = np.sum(np.diff(ts_sec) != interval_seconds)
+    if bad > 0:
         raise AssertionError(
-            f"{bad.len()} non-uniform gap(s) found in '{ts_col}' (expected {interval_seconds}s steps); "
+            f"{int(bad)} non-uniform gap(s) found in '{ts_col}' (expected {interval_seconds}s steps); "
             "sequence models must window within contiguous runs only — see common.cv.contiguous_runs"
         )
 
 
 def contiguous_runs(df: pl.DataFrame, interval_seconds: int, ts_col: str = "ts") -> list[pl.DataFrame]:
-    """Splits `df` into maximal runs of uniformly-spaced rows, at every gap
-    (day boundary with a missing day, or any other hole). Sequence-model
-    scripts should window within each run separately rather than across a
-    gap that would otherwise look like a single normal step."""
-    expected_ns = interval_seconds * 1_000_000_000
-    ts = df[ts_col]
-    ts_i64 = (ts.dt.cast_time_unit("ns") if isinstance(ts.dtype, pl.Datetime) else ts).cast(pl.Int64).to_numpy()
-    if len(ts_i64) == 0:
+    """Splits `df` into maximal runs of uniformly-spaced rows, at every gap."""
+    ts_sec = _ts_to_seconds(df, ts_col)
+    if len(ts_sec) == 0:
         return []
-    gap_idx = np.where(np.diff(ts_i64) != expected_ns)[0] + 1
-    bounds = [0, *gap_idx.tolist(), len(ts_i64)]
+    gap_idx = np.where(np.diff(ts_sec) != interval_seconds)[0] + 1
+    bounds = [0, *gap_idx.tolist(), len(ts_sec)]
     return [df.slice(bounds[i], bounds[i + 1] - bounds[i]) for i in range(len(bounds) - 1)]

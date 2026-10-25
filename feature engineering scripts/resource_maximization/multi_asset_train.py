@@ -1,132 +1,162 @@
 """
-Shared-backbone, per-asset-head multi-asset joint model (§13.2, plan-marked
-OPTIONAL and explicitly "requires validation against the single-asset
-baseline before being trusted" — that validation is the ablation harness in
-this same package, resource_maximization/ablation_test.py, not this module).
-
-Architecture, matching §13.2's description directly: one shared sequence
-backbone (same block shape as models/ssm_challenger/model.SSMChallenger's
-input_proj -> blocks -> final_norm, so a pretrained single-asset backbone's
-weights can be loaded straight into this module's `backbone` if desired)
-extracts a pooled hidden state from each asset's own window independently
-(no cross-asset attention — the plan's version of "joint" here is
-parameter-sharing, not information-sharing across assets at inference time,
-which would leak future information from a correlated asset). Each asset
-then gets its own small linear head, so BTC's decision boundary is never
-forced to be identical to ETH's/SOL's/BNB's.
-
-Only ever exercised in this repo against synthetic per-asset batches — no
-real multi-asset checkpoint exists yet, matching this project's Kaggle-
-training-excluded-for-now scope.
-
-Usage:
-    from resource_maximization.multi_asset_head import MultiAssetModel
-    model = MultiAssetModel(n_features=len(FEATURE_COLUMNS), symbols=["BTCUSDT", *config.MULTI_ASSET_SYMBOLS])
-    logits_by_symbol = model(x_by_symbol)   # {"BTCUSDT": (batch, 3), ...}
-
-    python -m resource_maximization.multi_asset_head --demo   # synthetic data only
+Multi-asset joint training harness (§13.2) for `MultiAssetModel`.
+Trains a shared SSM/GRU sequence backbone with per-symbol linear heads across
+BTCUSDT and `config.MULTI_ASSET_SYMBOLS`, writing per-symbol OOF predictions
+(`multi_asset_btc`, `multi_asset_eth`, ...) and saving a joint checkpoint.
 """
 from __future__ import annotations
 
+import json
 import logging
+from pathlib import Path
 
+import numpy as np
 import torch
 import torch.nn as nn
 
 import config
-from models.ssm_challenger.model import _make_ssm_block
+from common.cv import purged_walk_forward_splits
+from common.data import FEATURE_COLUMNS, filter_valid, load_days
+from common.windowing import make_windows
+from resource_maximization.multi_asset_head import MultiAssetModel
 
-log = logging.getLogger("resource_maximization.multi_asset_head")
+log = logging.getLogger("resource_maximization.multi_asset_train")
 
-
-class MultiAssetModel(nn.Module):
-    """Shared backbone + one independent direction head per symbol.
-    `symbols` should list every asset this model serves, BTC included —
-    the plan's multi-asset expansion adds ETHUSDT/SOLUSDT/BNBUSDT
-    (config.MULTI_ASSET_SYMBOLS) alongside the existing BTC members, it
-    doesn't replace them."""
-
-    def __init__(self, n_features: int, symbols: list[str], d_model: int = 128,
-                 n_layers: int = 4, n_classes: int = 3, dropout: float = 0.1):
-        super().__init__()
-        if len(symbols) != len(set(symbols)):
-            raise ValueError(f"duplicate symbols in {symbols!r}")
-        self.symbols = list(symbols)
-        self.input_proj = nn.Linear(n_features, d_model)
-        self.blocks = nn.ModuleList([_make_ssm_block(d_model) for _ in range(n_layers)])
-        self.dropout = nn.Dropout(dropout)
-        self.final_norm = nn.LayerNorm(d_model)
-        self.heads = nn.ModuleDict({
-            symbol: nn.Linear(d_model, n_classes) for symbol in self.symbols
-        })
-
-    def encode(self, x: torch.Tensor) -> torch.Tensor:
-        """Shared backbone only, (batch, seq, n_features) -> (batch, d_model)
-        pooled hidden state. Exposed separately so callers (e.g. an
-        uncertainty module) can reuse the same pooled representation without
-        re-running a symbol-specific head."""
-        h = self.input_proj(x)
-        for block in self.blocks:
-            h = block(h)
-        h = self.dropout(self.final_norm(h))
-        return h[:, -1, :]
-
-    def forward(self, x_by_symbol: dict[str, torch.Tensor]) -> dict[str, torch.Tensor]:
-        """x_by_symbol: {symbol: (batch, seq, n_features)}. Every batch is
-        pushed through the SAME backbone weights (that's the parameter-
-        sharing this module exists for) then routed to that symbol's own
-        head. Symbols absent from x_by_symbol are simply skipped — a
-        partial batch (e.g. one asset's feed lagging) never blocks the
-        others."""
-        out: dict[str, torch.Tensor] = {}
-        for symbol, x in x_by_symbol.items():
-            if symbol not in self.heads:
-                raise KeyError(f"unknown symbol {symbol!r}, expected one of {self.symbols}")
-            pooled = self.encode(x)
-            out[symbol] = self.heads[symbol](pooled)
-        return out
-
-    def backbone_state_dict(self) -> dict:
-        """Just the shared-backbone weights (input_proj/blocks/final_norm),
-        so a single-asset SSMChallenger checkpoint's matching submodules can
-        be copied in without dragging its direction_head/return_head along
-        (those are single-class-count-specific and per-asset here anyway)."""
-        return {
-            k: v for k, v in self.state_dict().items()
-            if k.startswith("input_proj.") or k.startswith("blocks.") or k.startswith("final_norm.")
-        }
+MEMBER_NAME = "multi-asset"
+CHECKPOINT_DIR = Path(__file__).resolve().parent / "checkpoints" / "multi_asset"
+ALL_SYMBOLS: list[str] = [config.SYMBOL_UM, *config.MULTI_ASSET_SYMBOLS]
+save_oof = None
 
 
-def _demo() -> None:
-    torch.manual_seed(0)
-    symbols = ["BTCUSDT", *config.MULTI_ASSET_SYMBOLS]
-    n_features = 10
-    model = MultiAssetModel(n_features=n_features, symbols=symbols, d_model=16, n_layers=1)
+def _oof_name_for_symbol(symbol: str) -> str:
+    base = symbol.upper()
+    if base.endswith("USDT"):
+        base = base[:-4]
+    return f"multi_asset_{base.lower()}"
+
+
+def train_and_eval(
+    data_by_symbol: dict[str, tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]],
+    d_model: int = 128,
+    n_layers: int = 4,
+    dropout: float = 0.1,
+    epochs: int = 5,
+    batch_size: int = 64,
+    lr: float = 1e-3,
+    device: str = "cpu",
+) -> tuple[MultiAssetModel, dict, dict[str, np.ndarray], dict[str, np.ndarray]]:
+    symbols = list(data_by_symbol.keys())
+    first_x = data_by_symbol[symbols[0]][0]
+    n_features = int(first_x.shape[-1])
+    model = MultiAssetModel(
+        n_features=n_features,
+        symbols=symbols,
+        d_model=d_model,
+        n_layers=n_layers,
+        n_classes=3,
+        dropout=dropout,
+    ).to(device)
+
+    optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
+    criterion = nn.CrossEntropyLoss()
+
+    n_steps = min(max(1, len(data_by_symbol[s][0]) // batch_size) for s in symbols)
+    model.train()
+    for _epoch in range(epochs):
+        for step in range(n_steps):
+            optimizer.zero_grad()
+            batch_x = {}
+            batch_y = {}
+            for s in symbols:
+                X_tr, y_tr, _, _, _ = data_by_symbol[s]
+                start = (step * batch_size) % max(1, len(X_tr) - batch_size + 1)
+                xb = torch.as_tensor(X_tr[start : start + batch_size], dtype=torch.float32, device=device)
+                yb = torch.as_tensor(y_tr[start : start + batch_size], dtype=torch.long, device=device)
+                batch_x[s] = xb
+                batch_y[s] = yb
+            logits_by_sym = model(batch_x)
+            loss = sum(criterion(logits_by_sym[s], batch_y[s]) for s in symbols) / max(1, len(symbols))
+            loss.backward()
+            optimizer.step()
+
     model.eval()
+    val_proba_by_symbol: dict[str, np.ndarray] = {}
+    ts_val_by_symbol: dict[str, np.ndarray] = {}
+    per_symbol_metrics: dict[str, dict] = {}
 
-    batch = {s: torch.randn(4, 20, n_features) for s in symbols}
     with torch.no_grad():
-        out = model(batch)
-    for symbol, logits in out.items():
-        print(f"{symbol}: logits shape {tuple(logits.shape)}")
+        for s in symbols:
+            _, _, X_val, y_val, ts_val = data_by_symbol[s]
+            xv = torch.as_tensor(X_val, dtype=torch.float32, device=device)
+            logits = model({s: xv})[s]
+            probs = torch.softmax(logits, dim=-1).cpu().numpy().astype(np.float32)
+            preds = np.argmax(probs, axis=1)
+            acc = float(np.mean(preds == y_val)) if len(y_val) else 0.0
+            val_proba_by_symbol[s] = probs
+            ts_val_by_symbol[s] = ts_val
+            per_symbol_metrics[s] = {
+                "n_val_windows": int(len(y_val)),
+                "accuracy": acc,
+            }
 
-    partial = {"BTCUSDT": batch["BTCUSDT"]}
-    with torch.no_grad():
-        partial_out = model(partial)
-    print("partial batch handled, symbols returned:", list(partial_out.keys()))
+    metrics = {
+        "n_symbols": len(symbols),
+        "n_steps_per_epoch": int(n_steps),
+        "per_symbol": per_symbol_metrics,
+    }
+    return model, metrics, val_proba_by_symbol, ts_val_by_symbol
 
-    shared_keys = list(model.backbone_state_dict().keys())
-    print("shared backbone param groups:", len(shared_keys))
 
+def run(
+    val_days: int = 7,
+    max_days: int | None = None,
+    lookback: int = 60,
+    stride: int = 10,
+    epochs: int = 5,
+    batch_size: int = 64,
+    lr: float = 1e-3,
+    d_model: int = 128,
+    n_layers: int = 4,
+    dropout: float = 0.1,
+    upload: bool = False,
+) -> dict:
+    from common.oof import save_oof as _default_save_oof
+    from common.hf_model_upload import upload_best_checkpoint
 
-if __name__ == "__main__":
-    import argparse
+    oof_fn = save_oof if save_oof is not None else _default_save_oof
+    data_by_symbol = {}
+    val_size = val_days * config.BARS_PER_DAY
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--demo", action="store_true")
-    args = parser.parse_args()
-    if args.demo:
-        _demo()
-    else:
-        parser.print_help()
+    for sym in ALL_SYMBOLS:
+        df = filter_valid(load_days(symbol=sym, max_days=max_days))
+        split = purged_walk_forward_splits(df, n_folds=1, val_size=val_size)[0]
+        feat_cols = [c for c in FEATURE_COLUMNS if c in df.columns]
+        X_tr, y_tr, _ = make_windows(split.train, lookback=lookback, target_col="label_triple_barrier", feature_cols=feat_cols, stride=stride)
+        X_va, y_va, ts_va = make_windows(split.val, lookback=lookback, target_col="label_triple_barrier", feature_cols=feat_cols, stride=stride)
+        data_by_symbol[sym] = (X_tr, y_tr.astype(np.int64), X_va, y_va.astype(np.int64), ts_va)
 
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model, metrics, val_proba, ts_val = train_and_eval(
+        data_by_symbol,
+        d_model=d_model,
+        n_layers=n_layers,
+        dropout=dropout,
+        epochs=epochs,
+        batch_size=batch_size,
+        lr=lr,
+        device=device,
+    )
+
+    CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
+    model_path = CHECKPOINT_DIR / "multi_asset_model.pt"
+    metrics_path = CHECKPOINT_DIR / "metrics.json"
+    torch.save(model.state_dict(), model_path)
+    metrics_path.write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+
+    for sym, probs in val_proba.items():
+        oof_fn(_oof_name_for_symbol(sym), ts_val[sym], probs)
+
+    if upload:
+        upload_best_checkpoint(MEMBER_NAME, [model_path, metrics_path], metrics=metrics)
+
+    return metrics

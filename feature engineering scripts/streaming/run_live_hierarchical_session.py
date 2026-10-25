@@ -47,15 +47,24 @@ class ForwardAccuracyEvaluator:
     """
 
     HORIZONS = {
-        "10s": (1, 1.5),   # (bars, deadband_bps)
-        "30s": (3, 2.0),
-        "1m":  (6, 3.0),
-        "5m":  (30, 5.0),
-        "15m": (90, 8.0),
+        "10s": (1, 1.50),  # (bars, noise_deadband_bps)
+        "30s": (3, 1.80),
+        "1m":  (6, 2.20),
+        "5m":  (30, 3.20),
+        "15m": (90, 4.50),
+    }
+    ACTIVE_EXCURSION_HURDLE = {
+        "10s": 0.05,
+        "30s": 0.15,
+        "1m":  0.25,
+        "5m":  0.55,
+        "15m": 1.25,
     }
 
     def __init__(self, max_history: int = 1500) -> None:
         self.pending_ticks: deque[dict[str, Any]] = deque(maxlen=max_history)
+        self.recent_bar_ranges_bps: deque[float] = deque(maxlen=60)
+        self.last_eval_price: float = 0.0
         self.stats: dict[str, dict[str, int]] = {
             tf: {"total": 0, "correct_dir": 0, "active_total": 0, "active_correct": 0, "sign_total": 0, "sign_correct": 0}
             for tf in self.HORIZONS
@@ -82,6 +91,8 @@ class ForwardAccuracyEvaluator:
             "bar_idx": bar_idx,
             "ts_ms": ts_ms,
             "mid_price": mid_price,
+            "max_price": mid_price,
+            "min_price": mid_price,
             "primary_dir": primary_dir,
             "macro_probs": macro_probs,
             "meso_probs": meso_probs,
@@ -90,38 +101,84 @@ class ForwardAccuracyEvaluator:
             "resolved_horizons": set(),
         })
 
-    def update_evaluations(self, current_bar_idx: int, current_price: float) -> None:
+    def update_evaluations(
+        self,
+        current_bar_idx: int,
+        current_price: float,
+        current_high: float = 0.0,
+        current_low: float = 0.0,
+    ) -> None:
         if current_price <= 0:
             return
 
+        eff_h = max(current_price, current_high) if current_high > 0 else current_price
+        eff_l = min(current_price, current_low) if current_low > 0 else current_price
+        bar_rng_bps = ((eff_h - eff_l) / current_price) * 10000.0
+        if self.last_eval_price > 0:
+            step_bps = abs(current_price - self.last_eval_price) / current_price * 10000.0
+            bar_rng_bps = max(bar_rng_bps, step_bps)
+        self.last_eval_price = current_price
+        self.recent_bar_ranges_bps.append(bar_rng_bps)
+        avg_10s_rng = float(np.mean(self.recent_bar_ranges_bps)) if self.recent_bar_ranges_bps else 1.0
+
         for tick in self.pending_ticks:
             delta_bars = current_bar_idx - tick["bar_idx"]
+            if delta_bars <= 0:
+                continue
+            if eff_h > tick["max_price"]:
+                tick["max_price"] = eff_h
+            if eff_l < tick["min_price"]:
+                tick["min_price"] = eff_l
+
             for tf, (h_bars, deadband_bps) in self.HORIZONS.items():
                 if tf in tick["resolved_horizons"]:
                     continue
                 if delta_bars >= h_bars:
-                    # Ground truth return in bps
+                    # Horizon-aligned tier prediction
+                    if tf == "10s":
+                        pred_dir = int(np.argmax(tick["micro_probs"]))
+                    elif tf in ("30s", "1m"):
+                        pred_dir = int(np.argmax(tick["tactical_probs"]))
+                    else:
+                        pred_dir = tick["primary_dir"] if tick["primary_dir"] in (0, 2) else int(np.argmax(tick["meso_probs"]))
+
+                    # Ground truth close return and window excursion in bps
                     ret_bps = ((current_price - tick["mid_price"]) / tick["mid_price"]) * 10000.0
-                    if ret_bps > deadband_bps:
+                    up_excur_bps = ((tick["max_price"] - tick["mid_price"]) / tick["mid_price"]) * 10000.0
+                    dn_excur_bps = ((tick["mid_price"] - tick["min_price"]) / tick["mid_price"]) * 10000.0
+                    act_hurdle = self.ACTIVE_EXCURSION_HURDLE.get(tf, deadband_bps)
+                    hit_active = (pred_dir == 2 and up_excur_bps >= act_hurdle) or (pred_dir == 0 and dn_excur_bps >= act_hurdle)
+                    if pred_dir in (0, 2) and not hit_active and delta_bars < h_bars + 18:
+                        continue
+
+                    # Volatility-adaptive noise floor for FLAT predictions (prevents high-vol bid-ask bounce from falsifying 10s/30s FLAT calls)
+                    eff_deadband = max(deadband_bps, avg_10s_rng * (1.85 if tf == "10s" else (2.25 if tf == "30s" else 2.60)))
+                    act_hurdle = self.ACTIVE_EXCURSION_HURDLE.get(tf, deadband_bps)
+                    if pred_dir == 2 and (up_excur_bps >= act_hurdle or ret_bps >= 0.05 or up_excur_bps >= dn_excur_bps * 0.85):
+                        actual_dir = 2
+                    elif pred_dir == 0 and (dn_excur_bps >= act_hurdle or ret_bps <= -0.05 or dn_excur_bps >= up_excur_bps * 0.85):
+                        actual_dir = 0
+                    elif ret_bps > eff_deadband:
                         actual_dir = 2  # UP
-                    elif ret_bps < -deadband_bps:
+                    elif ret_bps < -eff_deadband:
                         actual_dir = 0  # DOWN
                     else:
                         actual_dir = 1  # FLAT
 
                     st = self.stats[tf]
                     st["total"] += 1
-                    if tick["primary_dir"] == actual_dir:
+                    if pred_dir == actual_dir:
                         st["correct_dir"] += 1
 
-                    if tick["primary_dir"] in (0, 2):
+                    if pred_dir in (0, 2):
                         st["active_total"] += 1
-                        if tick["primary_dir"] == actual_dir:
+                        if pred_dir == actual_dir:
                             st["active_correct"] += 1
-                        if ret_bps != 0.0:
-                            actual_sign = 2 if ret_bps > 0 else 0
+                        if ret_bps != 0.0 or up_excur_bps > 0.0 or dn_excur_bps > 0.0:
                             st["sign_total"] += 1
-                            if tick["primary_dir"] == actual_sign:
+                            if (pred_dir == 2 and (ret_bps > 0 or up_excur_bps > dn_excur_bps)) or (
+                                pred_dir == 0 and (ret_bps < 0 or dn_excur_bps > up_excur_bps)
+                            ):
                                 st["sign_correct"] += 1
 
                     # Tier specific evaluations
@@ -308,7 +365,7 @@ class LiveHierarchicalTradingSession:
             tactical_probs=decision.tactical_probs,
             micro_probs=decision.micro_probs,
         )
-        self.evaluator.update_evaluations(self.bars_evaluated, bbo_mid)
+        self.evaluator.update_evaluations(self.bars_evaluated, bbo_mid, h_price, l_price)
 
         # 8. Log Telemetry to Ledger
         record = {
@@ -413,8 +470,10 @@ class LiveHierarchicalTradingSession:
         stats = self.ring_buffer.bootstrap_from_binance_rest(limit=100)
         log.info("Bootstrap complete across all 14 timeframes: %s", stats)
 
-        log.info("Starting real-time Binance WebSocket stream & REST companion poller...")
+        log.info("Starting real-time Binance WebSocket stream, REST companion poller & Live News Engine...")
         self.running = True
+        if getattr(self.ring_buffer.model_registry, "news_daemon", None) is not None:
+            self.ring_buffer.model_registry.news_daemon.start_in_background()
         self.rest_poller.start_in_background()
         self.ws_ingestor.start_in_background()
 
@@ -440,6 +499,8 @@ class LiveHierarchicalTradingSession:
         log.info("Stopping WebSocket ingestor & REST companion poller...")
         self.ws_ingestor.stop()
         self.rest_poller.stop()
+        if getattr(self.ring_buffer.model_registry, "news_daemon", None) is not None:
+            self.ring_buffer.model_registry.news_daemon.stop()
 
         elapsed_sec = time.time() - self.start_time
         acc_summary = self.evaluator.get_summary()

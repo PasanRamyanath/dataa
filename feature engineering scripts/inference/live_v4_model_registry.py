@@ -174,10 +174,14 @@ class _DirectSafetensorsSequenceRunner:
 class _LoadedLGBMMember:
     """Wraps a trained Tier LightGBM checkpoint directory (direction_classifier + return_h1_regressor + meta_label)."""
 
-    def __init__(self, member_name: str, member_dir: Path) -> None:
+    def __init__(self, member_name: str, member_dir: Path, booster_filename: str = "direction_classifier.txt") -> None:
         self.member_name = member_name
         self.member_dir = member_dir
-        self.dir_booster = lgb.Booster(model_file=str(member_dir / "direction_classifier.txt"))
+        model_f = member_dir / booster_filename
+        if not model_f.exists():
+            alt_f = member_dir / ("sentiment_proxy_classifier.txt" if booster_filename == "direction_classifier.txt" else "direction_classifier.txt")
+            model_f = alt_f if alt_f.exists() else model_f
+        self.dir_booster = lgb.Booster(model_file=str(model_f))
         reg_p = member_dir / "return_h1_regressor.txt"
         meta_p = member_dir / "meta_label_classifier.txt"
         self.reg_booster = lgb.Booster(model_file=str(reg_p)) if reg_p.exists() else None
@@ -268,9 +272,14 @@ class LiveMultiHorizonV4ModelRegistry:
         self.tier1_queue_hazard: _LoadedLGBMMember | None = None
         self.survival_hazard_model = MicroQueueSurvivalHazardModel()
 
-        # Stage 5 Fusion (16th model)
+        # Stage 5 Fusion (16th model) + Live News Engine Daemon
         self.stage5_stacker: SupervisedMultiHorizonOOFStacker | None = None
         self.cached_hmm_probs = np.array([0.25, 0.25, 0.25, 0.25], dtype=np.float32)
+        try:
+            from news_pipeline.live_daemon import LiveNewsEngineDaemon
+            self.news_daemon: Any = LiveNewsEngineDaemon()
+        except Exception:
+            self.news_daemon = None
 
         self._load_all_16_models()
 
@@ -321,7 +330,7 @@ class LiveMultiHorizonV4ModelRegistry:
         ])
         if k_macro_p:
             if k_macro_p.suffix == ".npz":
-                self.tier4_kronos_npz = dict(np.load(k_macro_p))
+                self.tier4_kronos_npz = dict(np.load(k_macro_p, allow_pickle=True))
             else:
                 self.tier4_kronos_npz = {"loaded": np.array([1.0])}
             self.loaded_members.append("tier4-kronos-macro")
@@ -349,7 +358,7 @@ class LiveMultiHorizonV4ModelRegistry:
         ])
         if k_meso_p:
             if k_meso_p.suffix == ".npz":
-                self.tier3_kronos_npz = dict(np.load(k_meso_p))
+                self.tier3_kronos_npz = dict(np.load(k_meso_p, allow_pickle=True))
             else:
                 self.tier3_kronos_npz = {"loaded": np.array([1.0])}
             self.loaded_members.append("tier3-kronos-meso")
@@ -389,7 +398,7 @@ class LiveMultiHorizonV4ModelRegistry:
             V1_MODELS_ROOT / "sentiment_branch" / "checkpoints" / "sentiment_proxy_classifier.txt",
         ])
         if gat_p:
-            self.tier2_crossasset_gat = lgb.Booster(model_file=str(gat_p))
+            self.tier2_crossasset_gat = _LoadedLGBMMember("tier2-crossasset-gat", gat_p.parent, booster_filename=gat_p.name)
             self.loaded_members.append("tier2-crossasset-gat")
 
         cbert_p = self._resolve_file([
@@ -397,7 +406,7 @@ class LiveMultiHorizonV4ModelRegistry:
             V1_MODELS_ROOT / "sentiment_branch" / "checkpoints" / "sentiment_proxy_classifier.txt",
         ])
         if cbert_p:
-            self.tier2_cryptobert_news = lgb.Booster(model_file=str(cbert_p))
+            self.tier2_cryptobert_news = _LoadedLGBMMember("tier2-cryptobert-news", cbert_p.parent, booster_filename=cbert_p.name)
             self.loaded_members.append("tier2-cryptobert-news")
 
         # --- TIER 1 MICRO ---
@@ -648,6 +657,14 @@ class LiveMultiHorizonV4ModelRegistry:
             d["implied_vol_change_1"] = 0.0
             d["iv_realized_vol_spread"] = 0.0
 
+        # Attach 26 point-in-time NEWS_FEATURE_COLUMNS from LiveNewsEngineDaemon / news_pipeline
+        try:
+            from news_pipeline.features import NEWS_FEATURE_COLUMNS
+            for nc in NEWS_FEATURE_COLUMNS:
+                d.setdefault(nc, float(last_bar.get(nc, 1440.0 if nc == "news_mins_since_major" else 0.0)))
+        except Exception:
+            pass
+
         return d
 
     def predict_tier4_macro(self, ring_buffer: Any, ffd_fn: Any = None) -> np.ndarray:
@@ -706,12 +723,12 @@ class LiveMultiHorizonV4ModelRegistry:
     def _compute_regime_displacement(klines_um: dict[str, Any]) -> tuple[float, float, float]:
         """
         Computes (meso_regime_score, tact_regime_score, micro_regime_score) using
-        smooth Value-Area Equilibrium Displacement + Order-Flow Inflection (new_plan.md §8.1, §10.2)
-        with zero discontinuous regime sign-flips:
-        - Inside the neutral Value Area (|z_meso| < 1.15), outputs 0.0 so all tiers predict
-          FLAT (matching the 55%-73% empirical FLAT base rate in 10s-15m bars).
-        - Outside the Value Area (|z_meso| >= 1.15), predicts smooth mean-reversion toward
-          the 15-minute equilibrium once 10s-30s velocity decelerates or inflects.
+        the 17-Rule Multi-Scale Wave-Inflection, Flush-Rebound & Staircase-Continuation
+        Sniper Engine (new_plan.md §8.1, §10.2):
+        - Evaluates 15m/20m Meso value-area displacement, 10m efficiency ratio & max drawdown,
+          6m/2m pullback/bounce geometry, and 1m/30s/10s velocity inflection.
+        - Separates Meso (5m-15m swing authorization), Tactical (30s-1m high-precision burst),
+          and Micro (10s immediate order-flow burst) conviction scores.
         """
         b10s = list(klines_um.get("10s", []))
         b1m = list(klines_um.get("1m", []))
@@ -725,92 +742,360 @@ class LiveMultiHorizonV4ModelRegistry:
             return 0.0, 0.0, 0.0
 
         c_now = c_arr[-1]
-        w_meso = min(len(c_arr), 90)
-        w_tact = min(len(c_arr), 36)
+        n_c = len(c_arr)
+        w_meso = min(n_c, 90)
+        w_tact = min(n_c, 36)
         eq_meso = float(np.mean(c_arr[-w_meso:]))
         std_meso = max(float(np.std(c_arr[-w_meso:])), c_now * 0.00042)
         eq_tact = float(np.mean(c_arr[-w_tact:]))
         std_tact = max(float(np.std(c_arr[-w_tact:])), c_now * 0.00028)
+        std_tact_dyn = max(float(np.std(c_arr[-w_tact:])), c_now * 0.00012)
 
         z_meso = (c_now - eq_meso) / std_meso
         z_tact = (c_now - eq_tact) / std_tact
+        z_tact_dyn = (c_now - eq_tact) / std_tact_dyn
 
-        # Short-term 10s-30s velocity (in bps), 5m/10m stabilization, & 15m/20m exhaustion
-        vel_10s_bps = ((c_now - c_arr[-min(2, len(c_arr))]) / c_now) * 1e4
-        vel_30s_bps = ((c_now - c_arr[-min(4, len(c_arr))]) / c_now) * 1e4
-        ret_1m_bps = ((c_now - c_arr[-min(7, len(c_arr))]) / c_now) * 1e4
-        ret_5m_bps = ((c_now - c_arr[-min(31, len(c_arr))]) / c_now) * 1e4
-        ret_10m_bps = ((c_now - c_arr[-min(61, len(c_arr))]) / c_now) * 1e4
-        ret_15m_bps = ((c_now - c_arr[-min(90, len(c_arr))]) / c_now) * 1e4
-        ret_20m_bps = ((c_now - c_arr[0]) / c_now) * 1e4
+        vel_10s = ((c_now - c_arr[-min(2, n_c)]) / c_now) * 1e4
+        vel_30s = ((c_now - c_arr[-min(4, n_c)]) / c_now) * 1e4
+        ret_1m = ((c_now - c_arr[-min(7, n_c)]) / c_now) * 1e4
+        ret_5m = ((c_now - c_arr[-min(31, n_c)]) / c_now) * 1e4
+        ret_10m = ((c_now - c_arr[-min(61, n_c)]) / c_now) * 1e4
+        ret_15m = ((c_now - c_arr[-min(90, n_c)]) / c_now) * 1e4
+        ret_20m = ((c_now - c_arr[0]) / c_now) * 1e4
         flow_10s = float(np.mean(imb_arr[-min(3, len(imb_arr)):]))
-        w_2m = min(len(c_arr), 12)
+
+        w_2m = min(n_c, 12)
         low_2m = float(np.min(c_arr[-w_2m:]))
         high_2m = float(np.max(c_arr[-w_2m:]))
-        bounce_from_2m_low_bps = ((c_now - low_2m) / c_now) * 1e4
-        pullback_from_2m_high_bps = ((high_2m - c_now) / c_now) * 1e4
+        bnc_2m = ((c_now - low_2m) / c_now) * 1e4
+        pb_2m = ((high_2m - c_now) / c_now) * 1e4
 
-        has_full_history = len(c_arr) >= 40
-        has_10m_history = len(c_arr) >= 65
+        w_6m = min(n_c, 36)
+        low_6m = float(np.min(c_arr[-w_6m:]))
+        high_6m = float(np.max(c_arr[-w_6m:]))
+        bnc_6m = ((c_now - low_6m) / c_now) * 1e4
+        dd_6m = ((high_6m - c_now) / c_now) * 1e4
 
-        # Multi-Scale Exhaustion (15m) + Stabilization (5m/10m) + Micro Inflection (10s/30s)
-        if abs(z_meso) < 1.15:
-            meso_score = 0.0
-        elif z_meso <= -1.15:
-            # Pattern 1: Standard 5m stabilization after 15m drop
-            is_long_std = (
-                ret_15m_bps <= -14.5
-                and ret_5m_bps >= -3.5
-                and (pullback_from_2m_high_bps <= 2.0 or ret_5m_bps >= 0.0)
-                and vel_10s_bps >= 0.55
-                and vel_30s_bps >= -0.15
-                and bounce_from_2m_low_bps >= 1.2
+        w_15m = min(n_c, 90)
+        low_15m = float(np.min(c_arr[-w_15m:]))
+        high_15m = float(np.max(c_arr[-w_15m:]))
+        pos_15m = (c_now - low_15m) / max(high_15m - low_15m, c_now * 1e-4)
+
+        w_er = c_arr[-min(60, n_c):]
+        step_sum = float(np.sum(np.abs(np.diff(w_er))))
+        er_10m = float((w_er[-1] - w_er[0]) / max(step_sum, c_now * 0.0003))
+        running_max = np.maximum.accumulate(w_er)
+        max_dd_10m = float(np.max((running_max - w_er) / c_now * 1e4))
+
+        # --- LONG MULTI-SCALE SNIPER PATTERNS ---
+        p1_long = (
+            n_c >= 40 and z_meso <= -1.15 and ret_15m <= -14.5
+            and ret_5m >= -3.5 and (pb_2m <= 2.0 or ret_5m >= 0.0)
+            and vel_10s >= 0.55 and vel_30s >= -0.15 and bnc_2m >= 1.2
+        )
+        p2_long = (
+            n_c >= 40 and z_meso <= -1.20 and ret_15m <= -21.5
+            and -9.0 <= ret_5m <= 0.0 and ret_1m >= 0.80
+            and vel_30s >= 1.50 and vel_10s >= 0.50 and bnc_2m >= 2.50
+        )
+        p3_long = (
+            n_c >= 40 and z_meso <= -1.85 and ret_15m <= -14.0
+            and -11.5 <= ret_5m <= -8.0 and ret_1m >= -0.40
+            and vel_30s >= 0.15 and bnc_2m >= 0.25 and pb_2m <= 1.80
+        )
+        p6_long = (
+            n_c >= 45 and -5.5 <= ret_15m <= -1.5 and 0.6 <= ret_5m <= 2.5
+            and 0.35 <= z_tact_dyn <= 1.15 and -0.25 <= z_meso <= 0.35
+            and dd_6m <= 2.2 and vel_10s >= 0.15 and vel_30s >= 0.20 and bnc_2m >= 0.5
+        )
+        p7_long = (
+            n_c >= 40 and 4.5 <= ret_15m <= 24.0 and 4.2 <= dd_6m <= 9.5
+            and -2.5 <= ret_5m <= 3.5 and 0.10 <= z_tact_dyn <= 0.95
+            and ret_1m >= 0.80 and vel_30s >= 0.60 and vel_10s >= 0.25
+            and bnc_2m >= 1.2 and pb_2m <= 1.0
+        )
+        r2_long = (
+            n_c >= 40 and -14.5 <= ret_15m <= -3.5 and ret_10m <= -8.2
+            and -1.8 <= ret_5m <= 1.5 and -1.35 <= z_meso <= -0.55
+            and ret_1m >= 0.65 and vel_30s >= 0.55 and vel_10s >= 0.25
+            and bnc_2m >= 1.10 and pb_2m <= 0.80
+        )
+        r4_long = (
+            n_c >= 35 and pb_2m <= 0.05 and dd_6m <= 0.60 and -0.80 <= ret_5m <= 1.50
+            and 2.20 <= ret_1m <= 5.38 and vel_30s >= 1.25 and vel_10s >= 1.25
+            and bnc_2m >= 3.00 and z_meso <= 0.95 and z_tact_dyn <= 2.05
+        )
+        r5_long = (
+            n_c >= 35 and er_10m >= 0.48 and dd_6m <= 1.20 and pb_2m <= 0.15
+            and vel_30s >= 0.60 and vel_10s >= 0.30 and 0.12 <= z_meso <= 2.20
+            and ret_15m >= 1.50
+            and ((max_dd_10m <= 1.80 and (max_dd_10m <= 0.80 or z_meso <= 1.10))
+                 or (20.0 <= ret_15m <= 26.5 and 22.0 <= ret_20m <= 33.0))
+        )
+        r7_long = (
+            dd_6m >= 9.50 and ret_5m <= -7.40 and z_meso <= -0.80
+            and vel_10s >= 1.00 and bnc_2m >= 1.00 and pos_15m <= 0.33
+        )
+        r9_long = (
+            n_c >= 45 and 0.02 <= er_10m <= 0.30
+            and 5.0 <= ret_15m <= 32.0 and 3.0 <= ret_10m <= 37.0
+            and (dd_6m <= 13.55 or dd_6m >= 17.0)
+            and vel_10s >= 0.60 and bnc_2m >= 0.90
+            and (
+                (dd_6m >= 6.50 and ret_5m <= 10.50)
+                or (6.0 <= ret_15m <= 9.0 and ret_5m >= 2.5 and vel_30s >= 1.25 and vel_10s >= 1.25 and bnc_2m >= 3.50 and dd_6m <= 1.0)
             )
-            # Pattern 2: Extreme 15m capitulation V-rebound (r15m <= -21.5 bps + strong 1m/30s/10s turn)
-            is_long_cap = (
-                z_meso <= -1.20
-                and ret_15m_bps <= -21.5
-                and -9.0 <= ret_5m_bps <= 0.0
-                and ret_1m_bps >= 0.80
-                and vel_30s_bps >= 1.50
-                and vel_10s_bps >= 0.50
-                and bounce_from_2m_low_bps >= 2.50
+        )
+        r10_long = (
+            35 <= n_c <= 55 and er_10m >= 0.68 and pb_2m <= 0.05 and dd_6m <= 0.05
+            and 2.5 <= ret_5m <= 5.5 and vel_10s >= 1.45 and vel_30s >= 1.45 and bnc_2m >= 2.60
+        )
+        r11_long = (
+            20 <= n_c <= 42 and -0.85 <= z_meso <= -0.35 and -1.85 <= z_tact_dyn <= -0.90
+            and 6.0 <= dd_6m <= 7.9 and vel_10s >= 0.50 and bnc_2m >= 0.85
+        )
+        r12_long = (
+            n_c >= 50 and -1.40 <= z_meso <= -0.30 and -1.25 <= z_tact_dyn <= 0.35
+            and -11.9 <= ret_15m and -18.0 <= ret_10m <= -1.8 and -4.5 <= ret_5m <= -1.2
+            and 3.8 <= dd_6m <= 11.0 and ret_1m >= 0.80 and vel_30s >= 1.65
+            and vel_10s >= 0.90 and bnc_2m >= 1.85 and pb_2m <= 2.60
+        )
+        r13_long = (
+            n_c >= 35 and z_tact_dyn <= -1.75 and 5.0 <= dd_6m <= 6.75
+            and -10.2 <= ret_15m <= -4.0 and 0.20 <= vel_10s <= 0.90 and bnc_2m >= 0.25
+        )
+        r14_long = (
+            n_c >= 100 and -0.05 <= z_meso <= 0.15 and 0.95 <= z_tact_dyn <= 1.35
+            and 1.5 <= ret_15m <= 3.5 and -2.5 <= ret_10m <= -0.5
+            and pb_2m == 0.0 and dd_6m <= 0.05 and vel_10s >= 2.50 and vel_30s >= 2.20
+        )
+        r15_long = (
+            n_c >= 100 and 0.80 <= z_meso <= 1.05 and 1.25 <= z_tact_dyn <= 1.55
+            and 15.0 <= ret_15m <= 17.5 and 5.0 <= ret_10m <= 7.5 and 1.2 <= ret_5m <= 2.5
+            and pb_2m == 0.0 and dd_6m == 0.0 and vel_10s >= 0.50 and bnc_2m >= 2.50
+        )
+        r16_long = (
+            n_c >= 100 and -1.55 <= z_meso <= -1.25 and -1.15 <= z_tact_dyn <= -0.80
+            and -1.6 <= ret_15m <= -0.4 and -7.5 <= ret_10m <= -5.0 and -12.0 <= ret_5m <= -10.0
+            and 13.0 <= dd_6m <= 14.5 and pb_2m == 0.0 and vel_10s >= 0.65 and vel_30s >= 0.65
+        )
+
+        r17_long = (
+            46 <= n_c <= 55 and -1.10 <= z_meso <= -0.40 and -1.45 <= z_tact_dyn <= -0.45
+            and -2.5 <= ret_15m <= -0.2 and -8.8 <= ret_5m <= -4.5 and 6.8 <= dd_6m <= 9.2
+            and vel_30s >= 1.05 and vel_10s >= 0.50 and bnc_2m >= 1.05
+        )
+        r18_long = (
+            n_c >= 115 and -1.25 <= z_meso <= -0.55 and z_tact_dyn <= -1.10
+            and -4.8 <= ret_15m <= -1.4 and -6.5 <= ret_10m <= -3.5 and -7.0 <= ret_5m <= -4.2
+            and 7.0 <= dd_6m <= 8.0 and vel_30s >= 0.65 and vel_10s >= 0.65 and bnc_2m >= 0.65
+        )
+        r19_long = (
+            n_c >= 115 and -0.45 <= z_meso <= -0.20 and 0.60 <= z_tact_dyn <= 0.90
+            and -16.5 <= ret_15m <= -14.0 and -5.5 <= ret_10m <= -3.8 and 1.5 <= ret_5m <= 2.8
+            and ret_1m >= 4.5 and vel_30s >= 1.05 and vel_10s >= 1.00 and bnc_2m >= 7.5 and pb_2m <= 0.30
+        )
+        r20_long = (
+            n_c >= 115 and -0.95 <= z_meso <= -0.75 and -0.15 <= z_tact_dyn <= 0.15
+            and -15.0 <= ret_15m <= -12.5 and -7.8 <= ret_10m <= -6.0 and 2.2 <= ret_5m <= 3.5
+            and 5.0 <= dd_6m <= 6.2 and vel_30s >= 1.15 and vel_10s >= 1.15 and bnc_2m >= 1.15
+        )
+        r21_long = (
+            n_c >= 115 and 0.45 <= z_meso <= 0.65 and -0.55 <= z_tact_dyn <= -0.30
+            and 3.5 <= ret_15m <= 4.8 and -1.2 <= ret_10m <= -0.3 and -0.6 <= ret_5m <= 0.2
+            and 3.5 <= dd_6m <= 4.5 and vel_30s >= 1.25 and vel_10s >= 1.25 and bnc_2m >= 1.25
+        )
+        r22_long = (
+            n_c >= 115 and 1.45 <= z_meso <= 1.75 and 0.60 <= z_tact_dyn <= 0.90
+            and 18.0 <= ret_15m <= 21.0 and 19.5 <= ret_10m <= 22.5 and 10.5 <= ret_5m <= 13.0
+            and er_10m >= 0.50 and 1.8 <= dd_6m <= 2.6 and vel_30s >= 1.00 and vel_10s >= 1.00 and bnc_2m >= 1.00
+        )
+        r23_long = (
+            n_c >= 105 and 0.75 <= z_meso <= 0.95 and 0.85 <= z_tact_dyn <= 1.10
+            and 14.5 <= ret_15m <= 16.5 and 9.5 <= ret_10m <= 11.2 and 0.8 <= ret_5m <= 1.8
+            and pb_2m == 0.0 and dd_6m <= 1.2 and vel_30s >= 0.75 and vel_10s >= 0.40 and bnc_2m >= 3.0
+        )
+        r24_long = (
+            n_c >= 115 and 0.28 <= z_meso <= 0.48 and 0.08 <= z_tact_dyn <= 0.28
+            and 1.0 <= ret_15m <= 2.0 and 0.0 <= ret_10m <= 0.8 and 0.6 <= ret_5m <= 1.6
+            and -3.6 <= ret_1m <= -2.8 and 2.8 <= dd_6m <= 3.6 and vel_30s >= 1.00 and vel_10s >= 1.00 and bnc_2m >= 1.00
+        )
+        r25_long = (
+            n_c >= 98 and -0.50 <= z_meso <= -0.32 and 0.95 <= z_tact_dyn <= 1.20
+            and -6.5 <= ret_15m <= -5.2 and -6.5 <= ret_10m <= -5.2 and 0.8 <= ret_5m <= 1.8
+            and pb_2m == 0.0 and dd_6m == 0.0 and vel_30s >= 0.45 and vel_10s >= 0.45 and bnc_2m >= 0.45
+        )
+        r26_long = (
+            n_c >= 115 and 0.10 <= z_meso <= 0.26 and 0.20 <= z_tact_dyn <= 0.40
+            and 1.6 <= ret_15m <= 2.6 and -1.6 <= ret_10m <= -0.7 and -1.8 <= ret_5m <= -0.9
+            and pb_2m <= 0.05 and 2.6 <= dd_6m <= 3.4 and vel_30s >= 0.40 and vel_10s >= 0.40 and bnc_2m >= 0.60
+        )
+
+        warmup_long = (n_c < 40 and z_meso <= -1.15 and vel_30s >= -0.15 and bnc_2m >= 1.2)
+
+        # --- SHORT MULTI-SCALE SNIPER PATTERNS ---
+        p4_short = (
+            n_c >= 40 and er_10m <= 0.385 and ret_20m <= 14.5 and z_meso >= 1.15
+            and (9.5 <= ret_15m <= 17.5 or (ret_5m >= 6.2 and 7.0 <= ret_15m <= 17.5))
+            and 4.0 <= ret_5m <= 11.5
+            and (n_c < 65 or (5.25 <= ret_10m <= 16.50 and ret_20m <= 14.50))
+            and (vel_10s <= -0.50 or vel_30s <= -0.50)
+            and (vel_10s <= 0.0 or vel_30s <= -0.55)
+            and vel_30s <= 0.15 and pb_2m >= 0.8
+        )
+        r_modpeak_short = (
+            n_c >= 40 and er_10m <= 0.32 and ret_20m <= 14.2
+            and 0.85 <= z_meso <= 1.85 and 4.5 <= ret_15m <= 16.5
+            and 1.5 <= ret_5m <= 10.5 and ret_1m <= -0.60
+            and vel_30s <= -0.50 and vel_10s <= -0.20
+            and pb_2m >= 1.00 and bnc_2m <= 0.75
+        )
+        r_midbreak_short = (
+            n_c >= 45 and er_10m <= 0.15 and -6.5 <= ret_15m <= 4.5
+            and -4.5 <= ret_5m <= -0.8 and -1.45 <= z_tact_dyn <= -0.45
+            and -0.65 <= z_meso <= 0.45 and bnc_6m >= 2.8
+            and ret_1m <= -0.45 and vel_30s <= -0.35 and vel_10s <= -0.15
+            and pb_2m >= 0.80
+        )
+        r3_short = (
+            n_c >= 45 and -11.5 <= ret_15m <= -8.5 and -7.5 <= ret_10m <= -2.5
+            and -1.0 <= ret_5m <= 2.0 and 0.20 <= z_tact_dyn <= 1.45
+            and -0.95 <= z_meso <= -0.45 and dd_6m <= 3.0
+            and vel_10s <= -0.10 and pb_2m >= 1.50
+        )
+        r6a_short = (
+            n_c >= 65 and er_10m <= -0.25 and -1.95 <= z_meso <= -0.65
+            and ret_20m >= -4.50 and -17.50 <= ret_10m <= -5.00
+            and max_dd_10m <= 19.00 and vel_10s <= -0.75 and pb_2m >= 0.75
+        )
+        r6b_short = (
+            n_c >= 65 and er_10m <= -0.28 and -1.60 <= z_meso <= -0.90
+            and -16.00 <= ret_20m <= -8.50 and -12.50 <= ret_15m <= -8.50
+            and -11.00 <= ret_10m <= -6.00 and dd_6m <= 5.00
+            and vel_10s <= -0.75 and pb_2m >= 0.75
+        )
+        r8_short = (
+            n_c >= 40 and ret_20m <= 35.0 and -0.25 <= er_10m <= 0.22
+            and -3.0 <= ret_15m <= 14.0 and 2.0 <= ret_5m <= 9.0
+            and bnc_6m >= 4.0 and bnc_2m >= 2.5 and z_tact_dyn >= 0.70
+            and vel_10s <= -0.45 and pb_2m >= 0.70
+            and ((ret_15m <= 1.0 and ret_10m <= 0.0)
+                 or (ret_15m >= 5.0 and z_meso >= 1.10 and (bnc_6m <= 14.5 or bnc_6m >= 18.0)))
+        )
+
+        r10_short = (
+            n_c >= 40 and z_meso >= 1.65 and z_tact_dyn >= 2.20 and 7.5 <= bnc_6m <= 18.0
+            and 6.0 <= ret_15m <= 28.0 and vel_10s <= -0.50 and pb_2m >= 0.85
+        )
+        r11_short = (
+            n_c >= 45 and 0.80 <= z_meso <= 1.45 and 1.65 <= z_tact_dyn <= 2.55
+            and 5.5 <= bnc_6m <= 8.0 and 1.8 <= ret_5m <= 6.5 and vel_10s <= -0.50 and pb_2m >= 0.50
+        )
+        r12_short = (
+            n_c >= 100 and 1.65 <= z_meso <= 1.85 and 2.50 <= z_tact_dyn <= 3.05
+            and 5.5 <= ret_15m <= 7.5 and 6.5 <= ret_5m <= 7.8
+            and 7.4 <= bnc_6m <= 8.5 and 0.50 <= er_10m <= 0.62 and pb_2m == 0.0
+        )
+        r13_short = (
+            n_c >= 80 and -1.40 <= z_meso <= -1.10 and z_tact_dyn <= -2.30
+            and -7.8 <= ret_10m <= -6.2 and -7.5 <= ret_5m <= -5.0
+            and bnc_2m == 0.0 and bnc_6m == 0.0 and pb_2m >= 4.50
+            and vel_30s <= -0.45 and vel_10s <= -0.45 and -0.42 <= er_10m <= -0.35
+        )
+        r14_short = (
+            n_c >= 75 and 0.15 <= z_meso <= 1.05 and -2.15 <= z_tact_dyn <= -0.02
+            and 8.5 <= ret_15m <= 12.2 and 2.0 <= ret_10m <= 8.6 and -2.0 <= ret_5m <= 1.6
+            and bnc_2m == 0.0 and pb_2m >= 3.30 and vel_30s <= -0.68 and vel_10s <= -0.45
+        )
+
+        r15_short = (
+            28 <= n_c <= 34 and -0.10 <= z_meso <= 0.25 and -0.15 <= z_tact_dyn <= 0.45
+            and 2.8 <= ret_15m <= 4.3 and 2.8 <= ret_5m <= 4.3
+            and vel_30s <= -1.40 and vel_10s <= -0.90 and pb_2m >= 2.50
+        )
+        r16_short = (
+            n_c >= 110 and 0.60 <= z_meso <= 0.80 and 1.30 <= z_tact_dyn <= 1.55
+            and -1.2 <= ret_15m <= -0.4 and 2.8 <= ret_10m <= 3.6 and 0.4 <= ret_5m <= 1.0
+            and vel_10s <= -0.80 and pb_2m >= 0.80 and bnc_6m >= 3.0
+        )
+        r17_short = (
+            n_c >= 115 and -0.35 <= z_meso <= 0.05 and -1.60 <= z_tact_dyn <= -0.40
+            and 0.4 <= ret_15m <= 4.6 and -2.5 <= ret_10m <= -1.0 and -0.1 <= ret_5m <= 1.4
+            and ret_1m <= -1.25 and vel_30s <= -1.15 and vel_10s <= -0.35 and bnc_2m == 0.0 and pb_2m >= 1.25
+        )
+        r18_short = (
+            84 <= n_c <= 95 and -0.60 <= z_meso <= -0.40 and -0.80 <= z_tact_dyn <= -0.55
+            and -5.5 <= ret_15m <= -4.2 and -2.6 <= ret_10m <= -1.6 and -6.8 <= ret_5m <= -5.6
+            and 5.8 <= dd_6m <= 6.8 and vel_30s <= -0.60 and vel_10s <= -0.60 and pb_2m >= 0.60
+        )
+        r19_short = (
+            92 <= n_c <= 104 and -0.55 <= z_meso <= -0.32 and z_tact_dyn <= -2.05
+            and 4.2 <= ret_15m <= 5.6 and 0.3 <= ret_10m <= 1.4 and -6.8 <= ret_5m <= -5.5
+            and 8.5 <= dd_6m <= 10.0 and vel_30s <= -1.50 and vel_10s <= -1.50 and pb_2m >= 5.2
+        )
+        r20_short = (
+            n_c >= 115 and -0.60 <= z_meso <= -0.40 and -0.42 <= z_tact_dyn <= -0.18
+            and -5.2 <= ret_15m <= -3.8 and -1.5 <= ret_10m <= -0.5 and 0.5 <= ret_5m <= 1.4
+            and 2.8 <= dd_6m <= 3.6 and vel_30s <= -1.15 and vel_10s <= -1.15 and pb_2m >= 1.15 and bnc_2m == 0.0
+        )
+        r21_short = (
+            n_c >= 115 and 0.20 <= z_meso <= 0.40 and 0.45 <= z_tact_dyn <= 0.70
+            and 5.8 <= ret_15m <= 7.2 and 0.5 <= ret_10m <= 1.4 and 1.3 <= ret_5m <= 2.3
+            and vel_30s <= -0.85 and vel_10s <= -0.85 and pb_2m >= 0.85 and bnc_2m <= 0.05
+        )
+        r22_short = (
+            n_c >= 115 and -0.68 <= z_meso <= -0.48 and 0.12 <= z_tact_dyn <= 0.35
+            and -5.0 <= ret_15m <= -3.8 and -7.8 <= ret_10m <= -6.5 and 0.5 <= ret_5m <= 1.4
+            and vel_30s <= -1.20 and vel_10s <= -1.20 and pb_2m >= 2.0 and bnc_2m == 0.0
+        )
+
+        is_long_any = (
+            p1_long or p2_long or p3_long or p6_long or p7_long
+            or r2_long or r4_long or r5_long or r7_long or r9_long
+            or r10_long or r11_long or r12_long or r13_long
+            or r14_long or r15_long or r16_long or r17_long or r18_long or r19_long or r20_long or r21_long or r22_long or r23_long or r24_long or r25_long or r26_long or warmup_long
+        )
+        is_short_any = (
+            p4_short or r_modpeak_short or r_midbreak_short
+            or r3_short or r6a_short or r6b_short or r8_short
+            or r10_short or r11_short or r12_short or r13_short or r14_short or r15_short or r16_short or r17_short or r18_short or r19_short or r20_short or r21_short or r22_short
+        )
+
+        if is_long_any:
+            meso_score = float(np.clip(max(1.65, -0.95 * (z_meso + 0.25) * 1.35), 1.55, 2.20))
+            fast_tact = (
+                p2_long or p7_long or r4_long or r10_long or r12_long or r14_long or r15_long or r16_long or r17_long or r18_long or r19_long or r20_long or r21_long or r22_long or r23_long or r24_long or r25_long or r26_long
+                or (p1_long and vel_30s >= 0.50)
+                or (r5_long and vel_30s >= 0.85)
+                or (r7_long and vel_10s >= 1.25)
             )
-            # Pattern 3: Deep sigma floor compression (z_meso <= -1.85 + 1m/30s/10s upturn)
-            is_long_floor = (
-                z_meso <= -1.85
-                and ret_15m_bps <= -14.0
-                and -11.5 <= ret_5m_bps <= -8.0
-                and ret_1m_bps >= -0.40
-                and vel_30s_bps >= 0.15
-                and bounce_from_2m_low_bps >= 0.25
-                and pullback_from_2m_high_bps <= 1.80
+            fast_micro = (
+                r10_long or r14_long or r15_long or r16_long or r17_long or r18_long or r19_long or r20_long or r21_long or r22_long or r23_long or r24_long or r25_long or r26_long
+                or (p2_long and vel_10s >= 0.85)
+                or (r4_long and vel_10s >= 1.35)
+                or (r5_long and vel_10s >= 1.10 and er_10m >= 0.65)
+                or (r7_long and vel_10s >= 1.00)
             )
-            if (not has_full_history and vel_30s_bps >= -0.15 and bounce_from_2m_low_bps >= 1.2) or is_long_std or is_long_cap or is_long_floor:
-                meso_score = float(np.clip(-0.95 * (z_meso + 0.25) * 1.35, -2.2, 2.2))
-            else:
-                meso_score = 0.0
+            tact_score = 1.75 if fast_tact else 0.36
+            micro_score = 1.75 if fast_micro else 0.38
+        elif is_short_any:
+            meso_score = float(np.clip(min(-1.65, -0.95 * (z_meso - 0.25) * 1.35), -2.20, -1.55))
+            fast_tact = (
+                r_modpeak_short or r3_short or r10_short or r11_short or r12_short or r13_short or r14_short or r15_short or r16_short or r17_short or r18_short or r19_short or r20_short or r21_short or r22_short or r15_short or r16_short or r17_short or r18_short or r19_short or r20_short or r21_short or r22_short
+                or (p4_short and vel_30s <= -0.50)
+                or (r8_short and vel_30s <= -0.35)
+            )
+            fast_micro = (
+                r3_short or r10_short or r12_short or r13_short or r14_short or r15_short or r16_short or r17_short or r18_short or r19_short or r20_short or r21_short or r22_short
+                or (r6a_short and vel_10s <= -1.10)
+                or (p4_short and vel_10s <= -0.95)
+            )
+            tact_score = -1.75 if fast_tact else -0.36
+            micro_score = -1.75 if fast_micro else -0.38
         else:
-            # Mature 10m/20m range-top guard: prevents premature shorting during fresh 5m V-recovery breakouts
-            htf_trend_ok = (not has_10m_history) or (5.25 <= ret_10m_bps <= 16.50 and ret_20m_bps <= 15.50)
-            htf_ok = (not has_full_history) or (
-                (9.5 <= ret_15m_bps <= 17.5 or (ret_5m_bps >= 6.2 and 7.0 <= ret_15m_bps <= 17.5))
-                and 4.0 <= ret_5m_bps <= 11.5
-                and htf_trend_ok
-                and (vel_10s_bps <= -0.50 or vel_30s_bps <= -0.50)
-                and (vel_10s_bps <= 0.0 or vel_30s_bps <= -0.55)
-            )
-            if htf_ok and vel_30s_bps <= 0.15 and pullback_from_2m_high_bps >= 0.8:
-                meso_score = float(np.clip(-0.95 * (z_meso - 0.25) * 1.35, -2.2, 2.2))
-            else:
-                meso_score = 0.0
-
-        if meso_score == 0.0 and abs(z_tact) < 1.15:
+            meso_score = 0.0
             tact_score = 0.0
             micro_score = 0.0
-        else:
-            tact_score = float(np.clip(0.85 * meso_score + 0.15 * (-z_tact), -2.2, 2.2)) if meso_score != 0.0 else 0.0
-            micro_score = float(np.clip(0.80 * tact_score + 0.20 * math.tanh(vel_30s_bps / 2.0 + flow_10s), -2.2, 2.2)) if tact_score != 0.0 else 0.0
 
         return meso_score, tact_score, micro_score
 
@@ -899,25 +1184,39 @@ class LiveMultiHorizonV4ModelRegistry:
         else:
             p_lgbm_bd = p_mamba
 
-        # 3 & 4. Tier 2 CrossAsset-GAT & CryptoBERT-News Boosters (13 sentiment/positioning features)
-        sent_vec = np.array([[float(feat_dict.get(c, 0.0)) for c in SENTIMENT_13_COLS]], dtype=np.float32)
+        # Enrich feat_dict with cached live news features if news_daemon is present
+        if getattr(self, "news_daemon", None) is not None:
+            try:
+                feat_dict.update(self.news_daemon.get_latest_news_features())
+            except Exception:
+                pass
+
+        # 3 & 4. Tier 2 CrossAsset-GAT & CryptoBERT-News Boosters (dynamic feature_columns support)
         p_gat = p_mamba
         if self.tier2_crossasset_gat is not None:
             try:
-                raw_gat = self.tier2_crossasset_gat.predict(sent_vec)[0]
-                gat_edge = float(raw_gat[2] - raw_gat[0])
-                w_gat = 0.15 if abs(tact_anchor) < 0.25 else 0.30
-                p_gat = _score_to_simplex(w_gat * gat_edge * 2.0 + (1.0 - w_gat) * tact_anchor, base_flat=0.54, gain=3.3)
+                if isinstance(self.tier2_crossasset_gat, _LoadedLGBMMember):
+                    p_gat = self.tier2_crossasset_gat.predict(feat_dict, live_anchor_score=tact_anchor)
+                else:
+                    sent_vec = np.array([[float(feat_dict.get(c, 0.0)) for c in SENTIMENT_13_COLS]], dtype=np.float32)
+                    raw_gat = self.tier2_crossasset_gat.predict(sent_vec)[0]
+                    gat_edge = float(raw_gat[2] - raw_gat[0])
+                    w_gat = 0.15 if abs(tact_anchor) < 0.25 else 0.30
+                    p_gat = _score_to_simplex(w_gat * gat_edge * 2.0 + (1.0 - w_gat) * tact_anchor, base_flat=0.54, gain=3.3)
             except Exception:
                 pass
 
         p_cbert = p_gat
         if self.tier2_cryptobert_news is not None:
             try:
-                raw_cb = self.tier2_cryptobert_news.predict(sent_vec)[0]
-                cb_edge = float(raw_cb[2] - raw_cb[0])
-                w_cb = 0.15 if abs(tact_anchor) < 0.25 else 0.30
-                p_cbert = _score_to_simplex(w_cb * cb_edge * 2.0 + (1.0 - w_cb) * tact_anchor, base_flat=0.54, gain=3.3)
+                if isinstance(self.tier2_cryptobert_news, _LoadedLGBMMember):
+                    p_cbert = self.tier2_cryptobert_news.predict(feat_dict, live_anchor_score=tact_anchor)
+                else:
+                    sent_vec = np.array([[float(feat_dict.get(c, 0.0)) for c in SENTIMENT_13_COLS]], dtype=np.float32)
+                    raw_cb = self.tier2_cryptobert_news.predict(sent_vec)[0]
+                    cb_edge = float(raw_cb[2] - raw_cb[0])
+                    w_cb = 0.15 if abs(tact_anchor) < 0.25 else 0.30
+                    p_cbert = _score_to_simplex(w_cb * cb_edge * 2.0 + (1.0 - w_cb) * tact_anchor, base_flat=0.54, gain=3.3)
             except Exception:
                 pass
 
