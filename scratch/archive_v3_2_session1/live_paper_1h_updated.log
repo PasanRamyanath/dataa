@@ -1,0 +1,852 @@
+2026-10-26 07:07:34,006 [INFO] ================================================================================
+2026-10-26 07:07:34,006 [INFO] LAUNCHING 1-HOUR LIVE PAPER TRADING & ACCURACY EVALUATION SESSION (V3.2 UPDATED ENGINE)
+2026-10-26 07:07:34,006 [INFO] Symbol: BTCUSDT | Target Duration: 60.0 minutes (1.0 hour)
+2026-10-26 07:07:34,006 [INFO] Checkpoints: D:\PrivateProjects\BTC Futures\feature engineering scripts\models_v3\checkpoints
+2026-10-26 07:07:34,007 [INFO] Ledger Path: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_1h_ledger.jsonl
+2026-10-26 07:07:34,007 [INFO] Metrics Path: D:\PrivateProjects\BTC Futures\scratch\live_session_1h_final_metrics.json
+2026-10-26 07:07:34,007 [INFO] Heartbeat Path: D:\PrivateProjects\BTC Futures\scratch\live_session_1h_heartbeat.json
+2026-10-26 07:07:34,007 [INFO] ================================================================================
+2026-10-26 07:07:34,009 [INFO] Initializing Project-IMPJR v4.0 Live Trading & Monitoring Session...
+2026-10-26 07:07:34,416 [INFO] Detected Hardware Topology: HardwareTopologyProfile(deployment_mode='LOCAL_LAPTOP_STANDALONE', is_kaggle_vm=False, os_platform='Windows', cuda_device_count=0, tier4_macro_device='cpu', tier3_meso_device='cpu', tier2_tactical_device='cpu', tier1_micro_device='cpu', use_fp16_autocast=False, use_cpu_int8_quantization=True, binance_fapi_reachable=True, active_rest_kline_base='https://fapi.binance.com/fapi/v1/klines', active_ws_base='wss://fstream.binance.com/stream')
+2026-10-26 07:07:35,288 [INFO] LiveMultiHorizonV4ModelRegistry initialized: 16/16 models loaded (tier4-hmm-regime, tier4-patchtst-ffd, tier4-tft-funding, tier4-kronos-macro, tier3-itransformer-32, tier3-nhits-multirate, tier3-kronos-meso, tier3-lgbm-positioning, tier2-mamba-s6, tier2-lgbm-bookdepth, tier2-crossasset-gat, tier2-cryptobert-news, tier1-lgbm-micro-1s10s, tier1-spot1s-leadlag, tier1-queue-hazard, fusion-v4-hierarchical) | Stage5 fitted=True
+2026-10-26 07:07:35,301 [INFO] Loaded fitted Stage-5 SupervisedMultiHorizonOOFStacker from D:\PrivateProjects\BTC Futures\feature engineering scripts\models_v3\checkpoints\stage5_fusion\models\fusion-v4-hierarchical\supervised_multi_horizon_stacker.joblib
+2026-10-26 07:07:35,302 [INFO] Bootstrapping multi-horizon ring buffer from Binance REST...
+2026-10-26 07:07:36,208 [INFO] Bootstrap complete across all 14 timeframes: {'1m': 99, '3m': 99, '5m': 99, '15m': 99, '30m': 99, '1h': 99, '2h': 99, '4h': 99, '6h': 99, '8h': 99, '12h': 99, '1d': 99}
+2026-10-26 07:07:36,208 [INFO] Starting real-time Binance WebSocket stream, REST companion poller & Live News Engine...
+2026-10-26 07:07:36,234 [INFO] LiveNewsEngineDaemon started in background (poll_interval=30s)
+2026-10-26 07:07:36,235 [INFO] Starting Binance REST Companion Poller (Interval: 30s, Symbol: BTCUSDT)...
+2026-10-26 07:07:36,236 [INFO] ================================================================================
+2026-10-26 07:07:36,237 [INFO] LIVE HIERARCHICAL TRADING & MONITORING SESSION STARTED (BTCUSDT)
+2026-10-26 07:07:36,237 [INFO] Target Duration: 60.0 minutes (1.0 hours)
+2026-10-26 07:07:36,237 [INFO] Ledger Output: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_1h_ledger.jsonl
+2026-10-26 07:07:36,237 [INFO] ================================================================================
+2026-10-26 07:07:36,240 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-26 07:07:36,279 [WARNING] Could not load sentiment model 'ElKulako/cryptobert' (ModuleNotFoundError: No module named 'transformers') — falling back to lexicon-based polarity heuristic. Install `transformers`/`torch` (requirements-models.txt) and ensure the model is reachable (HF Hub network access) for real FinBERT-class scoring.
+2026-10-26 07:07:36,928 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-26 07:07:42,400 [INFO] scored 1/1 pending articles
+2026-10-26 07:07:42,456 [INFO] [01:37:42 | #0001] BTC: $79848.05 | Dir: FLAT | Edge: -2.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:07:43,527 [INFO] rss_cointelegraph: appended 1 new event(s) to D:\backup\Binance data\feature engineering scripts\inference\data\news_events\rss_cointelegraph_2026-10-26.jsonl
+2026-10-26 07:07:50,041 [INFO] [01:37:50 | #0002] BTC: $79827.55 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:07:55,604 [INFO] Scored 1 new event(s): polarity=0.000 magnitude=0.000 confidence=0.300 mention_velocity=1
+2026-10-26 07:08:00,088 [INFO] [01:38:00 | #0003] BTC: $79802.65 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:08:10,070 [INFO] [01:38:10 | #0004] BTC: $79800.15 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:08:20,076 [INFO] [01:38:20 | #0005] BTC: $79832.35 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:08:30,058 [INFO] [01:38:30 | #0006] BTC: $79797.55 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:08:40,048 [INFO] [01:38:40 | #0007] BTC: $79782.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:08:50,042 [INFO] [01:38:50 | #0008] BTC: $79765.55 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:09:00,112 [INFO] [01:39:00 | #0009] BTC: $79750.35 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:09:10,042 [INFO] [01:39:10 | #0010] BTC: $79641.15 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:09:20,033 [INFO] [01:39:20 | #0011] BTC: $79651.65 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:09:30,038 [INFO] [01:39:30 | #0012] BTC: $79670.75 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:09:40,128 [INFO] [01:39:40 | #0013] BTC: $79690.05 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:09:50,041 [INFO] [01:39:50 | #0014] BTC: $79700.05 | Dir: FLAT | Edge: -2.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:10:00,078 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 07:10:00,094 [INFO] [01:40:00 | #0015] BTC: $79672.45 | Dir: FLAT | Edge: -2.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:10:10,062 [INFO] [01:40:10 | #0016] BTC: $79699.95 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:10:20,036 [INFO] [01:40:20 | #0017] BTC: $79661.85 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:10:30,044 [INFO] [01:40:30 | #0018] BTC: $79649.45 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:10:40,042 [INFO] [01:40:40 | #0019] BTC: $79615.35 | Dir: FLAT | Edge: -2.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:10:50,040 [INFO] [01:40:50 | #0020] BTC: $79631.55 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:11:00,072 [INFO] [01:41:00 | #0021] BTC: $79668.85 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:11:10,157 [INFO] [01:41:10 | #0022] BTC: $79644.15 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:11:20,038 [INFO] [01:41:20 | #0023] BTC: $79663.85 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:11:30,064 [INFO] [01:41:30 | #0024] BTC: $79664.85 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:11:40,044 [INFO] [01:41:40 | #0025] BTC: $79687.25 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:11:50,046 [INFO] [01:41:50 | #0026] BTC: $79722.25 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:12:00,097 [INFO] [01:42:00 | #0027] BTC: $79740.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:12:10,038 [INFO] [01:42:10 | #0028] BTC: $79740.75 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:12:20,053 [INFO] [01:42:20 | #0029] BTC: $79730.15 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:12:30,044 [INFO] [01:42:30 | #0030] BTC: $79679.55 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:12:40,041 [INFO] [01:42:40 | #0031] BTC: $79678.05 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:12:50,047 [INFO] [01:42:50 | #0032] BTC: $79646.55 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:13:00,074 [INFO] [01:43:00 | #0033] BTC: $79668.35 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:13:10,038 [INFO] [01:43:10 | #0034] BTC: $79620.35 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:13:20,091 [INFO] [01:43:20 | #0035] BTC: $79624.25 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:13:30,041 [INFO] [01:43:30 | #0036] BTC: $79624.25 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:13:40,039 [INFO] [01:43:40 | #0037] BTC: $79632.95 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:13:50,042 [INFO] [01:43:50 | #0038] BTC: $79656.15 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:14:00,112 [INFO] [01:44:00 | #0039] BTC: $79638.95 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:14:10,046 [INFO] [01:44:10 | #0040] BTC: $79620.35 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:14:20,058 [INFO] [01:44:20 | #0041] BTC: $79627.65 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:14:30,064 [INFO] [01:44:30 | #0042] BTC: $79517.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:14:40,037 [INFO] [01:44:40 | #0043] BTC: $79551.55 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:14:50,042 [INFO] [01:44:50 | #0044] BTC: $79494.65 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:15:00,068 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-26 07:15:00,092 [INFO] [01:45:00 | #0045] BTC: $79490.85 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:15:10,034 [INFO] [01:45:10 | #0046] BTC: $79511.95 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:15:20,047 [INFO] [01:45:20 | #0047] BTC: $79479.85 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:15:30,054 [INFO] [01:45:30 | #0048] BTC: $79470.65 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:15:40,038 [INFO] [01:45:40 | #0049] BTC: $79475.65 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:15:50,050 [INFO] [01:45:50 | #0050] BTC: $79425.85 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:16:00,119 [INFO] [01:46:00 | #0051] BTC: $79405.15 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:16:10,060 [INFO] [01:46:10 | #0052] BTC: $79396.65 | Dir: FLAT | Edge: -2.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:16:20,048 [INFO] [01:46:20 | #0053] BTC: $79392.95 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:16:30,153 [INFO] [01:46:30 | #0054] BTC: $79362.95 | Dir: FLAT | Edge: -2.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:16:40,044 [INFO] [01:46:40 | #0055] BTC: $79389.95 | Dir: FLAT | Edge: -2.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:16:50,050 [INFO] [01:46:50 | #0056] BTC: $79432.75 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:17:00,092 [INFO] [01:47:00 | #0057] BTC: $79478.25 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:17:10,033 [INFO] [01:47:10 | #0058] BTC: $79543.55 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:17:20,031 [INFO] [01:47:20 | #0059] BTC: $79542.05 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:17:30,042 [INFO] [01:47:30 | #0060] BTC: $79523.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:17:30,042 [INFO] ================================================================================
+2026-10-26 07:17:30,042 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 9.9 min | Bars: 60)
+2026-10-26 07:17:30,043 [INFO] --- TRADING PERFORMANCE ---
+2026-10-26 07:17:30,043 [INFO]     Closed Trades: 0 | Wins: 0 | Win Rate: 0.0%
+2026-10-26 07:17:30,043 [INFO]     Total Net PnL: +0.00 bps | Avg PnL: +0.00 bps
+2026-10-26 07:17:30,043 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-26 07:17:30,043 [INFO]     Horizon 10s: Overall Acc:  93.2% (59 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:17:30,043 [INFO]     Horizon 30s: Overall Acc:  79.0% (57 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:17:30,043 [INFO]     Horizon 1m : Overall Acc:  85.2% (54 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:17:30,043 [INFO]     Horizon 5m : Overall Acc: 100.0% (30 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:17:30,043 [INFO]     Horizon 15m: Overall Acc:   0.0% (0 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:17:30,044 [INFO]     Tier Accuracies -> Tactical(1m): 85.2% | Meso(15m): 0.0% | Macro(15m): 0.0%
+2026-10-26 07:17:30,044 [INFO] ================================================================================
+2026-10-26 07:17:40,053 [INFO] [01:47:40 | #0061] BTC: $79569.95 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:17:50,031 [INFO] [01:47:50 | #0062] BTC: $79594.95 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:18:00,057 [INFO] [01:48:00 | #0063] BTC: $79579.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:18:10,033 [INFO] [01:48:10 | #0064] BTC: $79549.95 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:18:20,030 [INFO] [01:48:20 | #0065] BTC: $79552.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:18:30,040 [INFO] [01:48:30 | #0066] BTC: $79640.65 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:18:40,044 [INFO] [01:48:40 | #0067] BTC: $79658.85 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:18:50,071 [INFO] [01:48:50 | #0068] BTC: $79631.95 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:19:00,156 [INFO] [01:49:00 | #0069] BTC: $79591.15 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:19:10,037 [INFO] [01:49:10 | #0070] BTC: $79650.55 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:19:20,080 [INFO] [01:49:20 | #0071] BTC: $79621.15 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:19:30,032 [INFO] [01:49:30 | #0072] BTC: $79610.35 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:19:40,069 [INFO] [01:49:40 | #0073] BTC: $79611.35 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:19:50,037 [INFO] [01:49:50 | #0074] BTC: $79599.85 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:20:00,062 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 07:20:00,080 [INFO] [01:50:00 | #0075] BTC: $79573.15 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:20:10,030 [INFO] [01:50:10 | #0076] BTC: $79593.35 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:20:20,031 [INFO] [01:50:20 | #0077] BTC: $79585.05 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:20:30,034 [INFO] [01:50:30 | #0078] BTC: $79587.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:20:40,037 [INFO] [01:50:40 | #0079] BTC: $79600.75 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:20:50,041 [INFO] [01:50:50 | #0080] BTC: $79581.55 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:21:00,067 [INFO] [01:51:00 | #0081] BTC: $79581.55 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:21:10,052 [INFO] [01:51:10 | #0082] BTC: $79560.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:21:20,049 [INFO] [01:51:20 | #0083] BTC: $79526.25 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:21:30,090 [INFO] [01:51:30 | #0084] BTC: $79505.55 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:21:40,054 [INFO] [01:51:40 | #0085] BTC: $79493.95 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:21:50,052 [INFO] [01:51:50 | #0086] BTC: $79500.05 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:22:00,104 [INFO] [01:52:00 | #0087] BTC: $79533.25 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:22:10,032 [INFO] [01:52:10 | #0088] BTC: $79563.25 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:22:20,045 [INFO] [01:52:20 | #0089] BTC: $79579.55 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:22:30,033 [INFO] [01:52:30 | #0090] BTC: $79642.55 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:22:40,031 [INFO] [01:52:40 | #0091] BTC: $79645.85 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:22:50,033 [INFO] [01:52:50 | #0092] BTC: $79642.65 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:23:00,056 [INFO] [01:53:00 | #0093] BTC: $79644.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:23:10,035 [INFO] [01:53:10 | #0094] BTC: $79677.75 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:23:20,055 [INFO] [01:53:20 | #0095] BTC: $79684.05 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:23:30,045 [INFO] [01:53:30 | #0096] BTC: $79651.05 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:23:40,035 [INFO] [01:53:40 | #0097] BTC: $79660.05 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:23:50,034 [INFO] [01:53:50 | #0098] BTC: $79651.15 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:24:00,129 [INFO] [01:54:00 | #0099] BTC: $79688.35 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:24:10,040 [INFO] [01:54:10 | #0100] BTC: $79689.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:24:20,036 [INFO] [01:54:20 | #0101] BTC: $79693.45 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:24:30,042 [INFO] [01:54:30 | #0102] BTC: $79684.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:24:40,033 [INFO] [01:54:40 | #0103] BTC: $79685.05 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:24:50,033 [INFO] [01:54:50 | #0104] BTC: $79705.85 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:25:00,048 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 07:25:00,061 [INFO] [01:55:00 | #0105] BTC: $79734.45 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:25:10,057 [INFO] [01:55:10 | #0106] BTC: $79739.65 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:25:20,037 [INFO] [01:55:20 | #0107] BTC: $79750.05 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:25:30,037 [INFO] [01:55:30 | #0108] BTC: $79771.15 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:25:40,033 [INFO] [01:55:40 | #0109] BTC: $79732.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:25:50,124 [INFO] [01:55:50 | #0110] BTC: $79723.45 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:26:00,057 [INFO] [01:56:00 | #0111] BTC: $79762.65 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:26:10,036 [INFO] [01:56:10 | #0112] BTC: $79757.55 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:26:20,056 [INFO] [01:56:20 | #0113] BTC: $79755.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:26:30,117 [INFO] [01:56:30 | #0114] BTC: $79767.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:26:40,035 [INFO] [01:56:40 | #0115] BTC: $79762.15 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:26:50,035 [INFO] [01:56:50 | #0116] BTC: $79762.15 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:27:00,063 [INFO] [01:57:00 | #0117] BTC: $79767.05 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:27:10,038 [INFO] [01:57:10 | #0118] BTC: $79764.55 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:27:20,036 [INFO] [01:57:20 | #0119] BTC: $79774.65 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:27:30,033 [INFO] [01:57:30 | #0120] BTC: $79757.05 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:27:30,033 [INFO] ================================================================================
+2026-10-26 07:27:30,034 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 19.9 min | Bars: 120)
+2026-10-26 07:27:30,034 [INFO] --- TRADING PERFORMANCE ---
+2026-10-26 07:27:30,034 [INFO]     Closed Trades: 0 | Wins: 0 | Win Rate: 0.0%
+2026-10-26 07:27:30,034 [INFO]     Total Net PnL: +0.00 bps | Avg PnL: +0.00 bps
+2026-10-26 07:27:30,035 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-26 07:27:30,035 [INFO]     Horizon 10s: Overall Acc:  95.0% (119 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:27:30,035 [INFO]     Horizon 30s: Overall Acc:  88.0% (117 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:27:30,035 [INFO]     Horizon 1m : Overall Acc:  88.6% (114 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:27:30,035 [INFO]     Horizon 5m : Overall Acc: 100.0% (90 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:27:30,035 [INFO]     Horizon 15m: Overall Acc: 100.0% (30 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:27:30,036 [INFO]     Tier Accuracies -> Tactical(1m): 88.6% | Meso(15m): 100.0% | Macro(15m): 100.0%
+2026-10-26 07:27:30,036 [INFO] ================================================================================
+2026-10-26 07:27:40,036 [INFO] [01:57:40 | #0121] BTC: $79718.85 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:27:50,072 [INFO] [01:57:50 | #0122] BTC: $79731.65 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:28:00,070 [INFO] [01:58:00 | #0123] BTC: $79718.85 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:28:10,037 [INFO] [01:58:10 | #0124] BTC: $79708.25 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:28:20,048 [INFO] [01:58:20 | #0125] BTC: $79677.65 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:28:30,045 [INFO] [01:58:30 | #0126] BTC: $79666.65 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:28:40,037 [INFO] [01:58:40 | #0127] BTC: $79660.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:28:50,035 [INFO] [01:58:50 | #0128] BTC: $79670.15 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:29:00,060 [INFO] [01:59:00 | #0129] BTC: $79674.85 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:29:10,036 [INFO] [01:59:10 | #0130] BTC: $79671.05 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:29:20,045 [INFO] [01:59:20 | #0131] BTC: $79674.85 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:29:30,084 [INFO] [01:59:30 | #0132] BTC: $79705.35 | Dir: LONG | Edge: +58.3 bps | Mode: PASSIVE_MAKER_SNIPER | FSM: RESTING_ENTRY_QUEUE | Pos: NONE
+2026-10-26 07:29:40,037 [INFO] [01:59:40 | #0133] BTC: $79714.45 | Dir: LONG | Edge: +58.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: +1.1 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:29:50,042 [INFO] [01:59:50 | #0134] BTC: $79724.15 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: +2.4 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:30:00,058 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-26 07:30:00,073 [INFO] [02:00:00 | #0135] BTC: $79719.05 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: +1.7 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:30:10,032 [INFO] [02:00:10 | #0136] BTC: $79666.75 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -4.8 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:30:20,043 [INFO] [02:00:20 | #0137] BTC: $79651.25 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -6.8 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:30:30,038 [INFO] [02:00:30 | #0138] BTC: $79640.35 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -8.1 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:30:40,032 [INFO] [02:00:40 | #0139] BTC: $79673.05 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -4.0 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:30:50,042 [INFO] [02:00:50 | #0140] BTC: $79676.95 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -3.6 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:31:00,068 [INFO] [02:01:00 | #0141] BTC: $79620.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -10.7 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:31:10,035 [INFO] [02:01:10 | #0142] BTC: $79643.65 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -7.7 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:31:20,035 [INFO] [02:01:20 | #0143] BTC: $79626.05 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -9.9 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:31:30,047 [INFO] [02:01:30 | #0144] BTC: $79643.75 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -7.7 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:31:40,034 [INFO] [02:01:40 | #0145] BTC: $79648.35 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -7.1 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:31:50,040 [INFO] [02:01:50 | #0146] BTC: $79679.95 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -3.2 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:32:00,089 [INFO] [02:02:00 | #0147] BTC: $79677.95 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -3.4 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:32:10,040 [INFO] [02:02:10 | #0148] BTC: $79679.95 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: -3.2 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:32:20,061 [INFO] [02:02:20 | #0149] BTC: $79727.75 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: +2.8 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:32:30,034 [INFO] [02:02:30 | #0150] BTC: $79728.05 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: +2.9 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:32:40,086 [INFO] [02:02:40 | #0151] BTC: $79709.25 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: +0.5 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:32:50,041 [INFO] [02:02:50 | #0152] BTC: $79710.65 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: +0.7 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:33:00,058 [INFO] [02:03:00 | #0153] BTC: $79734.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: +3.6 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:33:10,031 [INFO] [02:03:10 | #0154] BTC: $79724.05 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: +2.4 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:33:20,034 [INFO] [02:03:20 | #0155] BTC: $79717.75 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: +1.6 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:33:30,038 [INFO] [02:03:30 | #0156] BTC: $79727.05 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: +2.7 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:33:40,036 [INFO] [02:03:40 | #0157] BTC: $79733.15 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79705.3 (Unreal: +3.5 bps, TP: 80227.1, SL: 79422.9)
+2026-10-26 07:33:50,037 [INFO] [02:03:50 | #0158] BTC: $79780.25 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:34:00,077 [INFO] [02:04:00 | #0159] BTC: $79775.95 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:34:10,058 [INFO] [02:04:10 | #0160] BTC: $79783.15 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:34:20,087 [INFO] [02:04:20 | #0161] BTC: $79783.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:34:30,045 [INFO] [02:04:30 | #0162] BTC: $79760.05 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:34:40,053 [INFO] [02:04:40 | #0163] BTC: $79763.95 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:34:50,044 [INFO] [02:04:50 | #0164] BTC: $79791.55 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:35:00,051 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 07:35:00,065 [INFO] [02:05:00 | #0165] BTC: $79797.85 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:35:10,038 [INFO] [02:05:10 | #0166] BTC: $79852.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:35:20,082 [INFO] [02:05:20 | #0167] BTC: $79852.75 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:35:30,038 [INFO] [02:05:30 | #0168] BTC: $79860.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:35:40,044 [INFO] [02:05:40 | #0169] BTC: $79860.45 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:35:50,060 [INFO] [02:05:50 | #0170] BTC: $79866.15 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:36:00,063 [INFO] [02:06:00 | #0171] BTC: $79860.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:36:10,042 [INFO] [02:06:10 | #0172] BTC: $79852.35 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:36:20,046 [INFO] [02:06:20 | #0173] BTC: $79854.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:36:30,031 [INFO] [02:06:30 | #0174] BTC: $79866.15 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:36:40,036 [INFO] [02:06:40 | #0175] BTC: $79881.75 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:36:50,042 [INFO] [02:06:50 | #0176] BTC: $79903.95 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:37:00,075 [INFO] [02:07:00 | #0177] BTC: $79879.75 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:37:10,048 [INFO] [02:07:10 | #0178] BTC: $79907.85 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:37:20,058 [INFO] [02:07:20 | #0179] BTC: $79907.85 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:37:30,030 [INFO] [02:07:30 | #0180] BTC: $79888.05 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:37:30,031 [INFO] ================================================================================
+2026-10-26 07:37:30,031 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 29.9 min | Bars: 180)
+2026-10-26 07:37:30,031 [INFO] --- TRADING PERFORMANCE ---
+2026-10-26 07:37:30,031 [INFO]     Closed Trades: 1 | Wins: 1 | Win Rate: 100.0%
+2026-10-26 07:37:30,031 [INFO]     Total Net PnL: +5.20 bps | Avg PnL: +5.20 bps
+2026-10-26 07:37:30,031 [INFO]     Profit Factor: 999.00 | Total Fees Paid: 4.00 bps
+2026-10-26 07:37:30,031 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-26 07:37:30,031 [INFO]     Horizon 10s: Overall Acc:  93.8% (179 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:37:30,031 [INFO]     Horizon 30s: Overall Acc:  87.0% (177 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:37:30,032 [INFO]     Horizon 1m : Overall Acc:  89.7% (174 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:37:30,032 [INFO]     Horizon 5m : Overall Acc:  96.7% (150 smp) | Active Excursion: 100.0% (2 sig) | Directional Sign Acc: 100.0% (2 sig)
+2026-10-26 07:37:30,032 [INFO]     Horizon 15m: Overall Acc:  84.4% (90 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:37:30,032 [INFO]     Tier Accuracies -> Tactical(1m): 89.7% | Meso(15m): 84.4% | Macro(15m): 84.4%
+2026-10-26 07:37:30,032 [INFO] ================================================================================
+2026-10-26 07:37:40,035 [INFO] [02:07:40 | #0181] BTC: $79924.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:37:50,046 [INFO] [02:07:50 | #0182] BTC: $79925.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:38:00,066 [INFO] [02:08:00 | #0183] BTC: $79911.95 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:38:10,038 [INFO] [02:08:10 | #0184] BTC: $79926.35 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:38:20,038 [INFO] [02:08:20 | #0185] BTC: $79926.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:38:30,034 [INFO] [02:08:30 | #0186] BTC: $79920.35 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:38:40,034 [INFO] [02:08:40 | #0187] BTC: $79906.55 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:38:50,039 [INFO] [02:08:50 | #0188] BTC: $79890.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:39:00,065 [INFO] [02:09:00 | #0189] BTC: $79864.85 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:39:10,033 [INFO] [02:09:10 | #0190] BTC: $79852.35 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:39:20,037 [INFO] [02:09:20 | #0191] BTC: $79828.15 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:39:30,044 [INFO] [02:09:30 | #0192] BTC: $79828.25 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:39:40,031 [INFO] [02:09:40 | #0193] BTC: $79844.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:39:50,056 [INFO] [02:09:50 | #0194] BTC: $79845.55 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:40:00,058 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 07:40:00,072 [INFO] [02:10:00 | #0195] BTC: $79836.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:40:10,035 [INFO] [02:10:10 | #0196] BTC: $79811.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:40:20,049 [INFO] [02:10:20 | #0197] BTC: $79811.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:40:30,032 [INFO] [02:10:30 | #0198] BTC: $79777.05 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:40:40,046 [INFO] [02:10:40 | #0199] BTC: $79791.85 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:40:50,037 [INFO] [02:10:50 | #0200] BTC: $79801.15 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:41:00,057 [INFO] [02:11:00 | #0201] BTC: $79814.65 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:41:10,040 [INFO] [02:11:10 | #0202] BTC: $79810.65 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:41:20,043 [INFO] [02:11:20 | #0203] BTC: $79755.95 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:41:30,038 [INFO] [02:11:30 | #0204] BTC: $79789.45 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:41:40,056 [INFO] [02:11:40 | #0205] BTC: $79802.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:41:50,061 [INFO] [02:11:50 | #0206] BTC: $79796.85 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:42:00,079 [INFO] [02:12:00 | #0207] BTC: $79805.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:42:10,038 [INFO] [02:12:10 | #0208] BTC: $79829.05 | Dir: LONG | Edge: +60.8 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:42:20,033 [INFO] [02:12:20 | #0209] BTC: $79860.45 | Dir: LONG | Edge: +60.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:42:30,040 [INFO] [02:12:30 | #0210] BTC: $79843.95 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:42:40,034 [INFO] [02:12:40 | #0211] BTC: $79834.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:42:50,040 [INFO] [02:12:50 | #0212] BTC: $79831.95 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:43:00,058 [INFO] [02:13:00 | #0213] BTC: $79801.45 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:43:10,043 [INFO] [02:13:10 | #0214] BTC: $79800.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:43:20,060 [INFO] [02:13:20 | #0215] BTC: $79819.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:43:30,057 [INFO] [02:13:30 | #0216] BTC: $79814.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:43:40,044 [INFO] [02:13:40 | #0217] BTC: $79800.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:43:50,034 [INFO] [02:13:50 | #0218] BTC: $79804.65 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:44:00,124 [INFO] [02:14:00 | #0219] BTC: $79801.85 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:44:10,036 [INFO] [02:14:10 | #0220] BTC: $79801.85 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:44:20,044 [INFO] [02:14:20 | #0221] BTC: $79803.05 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:44:30,060 [INFO] [02:14:30 | #0222] BTC: $79790.25 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:44:40,035 [INFO] [02:14:40 | #0223] BTC: $79793.55 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:44:50,057 [INFO] [02:14:50 | #0224] BTC: $79784.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:45:00,115 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-26 07:45:00,131 [INFO] [02:15:00 | #0225] BTC: $79759.25 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:45:10,082 [INFO] [02:15:10 | #0226] BTC: $79771.85 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 07:45:20,085 [INFO] [02:15:20 | #0227] BTC: $79773.85 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:45:30,035 [INFO] [02:15:30 | #0228] BTC: $79794.95 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:45:40,040 [INFO] [02:15:40 | #0229] BTC: $79781.15 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:45:50,041 [INFO] [02:15:50 | #0230] BTC: $79814.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:46:00,061 [INFO] [02:16:00 | #0231] BTC: $79823.85 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:46:10,052 [INFO] [02:16:10 | #0232] BTC: $79789.25 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:46:20,043 [INFO] [02:16:20 | #0233] BTC: $79753.65 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:46:30,045 [INFO] [02:16:30 | #0234] BTC: $79775.85 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:46:40,065 [INFO] [02:16:40 | #0235] BTC: $79777.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:46:50,052 [INFO] [02:16:50 | #0236] BTC: $79773.95 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:47:00,066 [INFO] [02:17:00 | #0237] BTC: $79791.05 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:47:10,047 [INFO] [02:17:10 | #0238] BTC: $79805.25 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:47:20,036 [INFO] [02:17:20 | #0239] BTC: $79807.85 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:47:30,035 [INFO] [02:17:30 | #0240] BTC: $79790.95 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:47:30,036 [INFO] ================================================================================
+2026-10-26 07:47:30,036 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 39.9 min | Bars: 240)
+2026-10-26 07:47:30,036 [INFO] --- TRADING PERFORMANCE ---
+2026-10-26 07:47:30,036 [INFO]     Closed Trades: 1 | Wins: 1 | Win Rate: 100.0%
+2026-10-26 07:47:30,036 [INFO]     Total Net PnL: +5.20 bps | Avg PnL: +5.20 bps
+2026-10-26 07:47:30,036 [INFO]     Profit Factor: 999.00 | Total Fees Paid: 4.00 bps
+2026-10-26 07:47:30,036 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-26 07:47:30,037 [INFO]     Horizon 10s: Overall Acc:  93.3% (239 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:47:30,037 [INFO]     Horizon 30s: Overall Acc:  87.8% (237 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:47:30,037 [INFO]     Horizon 1m : Overall Acc:  91.0% (234 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 07:47:30,037 [INFO]     Horizon 5m : Overall Acc:  97.6% (209 smp) | Active Excursion: 100.0% (3 sig) | Directional Sign Acc: 100.0% (3 sig)
+2026-10-26 07:47:30,037 [INFO]     Horizon 15m: Overall Acc:  88.0% (150 smp) | Active Excursion: 100.0% (2 sig) | Directional Sign Acc: 100.0% (2 sig)
+2026-10-26 07:47:30,037 [INFO]     Tier Accuracies -> Tactical(1m): 91.0% | Meso(15m): 88.0% | Macro(15m): 88.0%
+2026-10-26 07:47:30,037 [INFO] ================================================================================
+2026-10-26 07:47:40,038 [INFO] [02:17:40 | #0241] BTC: $79767.15 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:47:50,045 [INFO] [02:17:50 | #0242] BTC: $79771.45 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:48:00,070 [INFO] [02:18:00 | #0243] BTC: $79795.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:48:10,129 [INFO] [02:18:10 | #0244] BTC: $79809.65 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:48:20,040 [INFO] [02:18:20 | #0245] BTC: $79823.75 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:48:30,039 [INFO] [02:18:30 | #0246] BTC: $79794.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:48:40,034 [INFO] [02:18:40 | #0247] BTC: $79772.25 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:48:50,037 [INFO] [02:18:50 | #0248] BTC: $79749.25 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:49:00,066 [INFO] [02:19:00 | #0249] BTC: $79736.25 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:49:10,047 [INFO] [02:19:10 | #0250] BTC: $79744.25 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:49:20,036 [INFO] [02:19:20 | #0251] BTC: $79749.35 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:49:30,041 [INFO] [02:19:30 | #0252] BTC: $79741.65 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:49:40,042 [INFO] [02:19:40 | #0253] BTC: $79735.15 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:49:50,036 [INFO] [02:19:50 | #0254] BTC: $79714.35 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:50:00,064 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 07:50:00,081 [INFO] [02:20:00 | #0255] BTC: $79695.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:50:10,046 [INFO] [02:20:10 | #0256] BTC: $79679.55 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:50:20,036 [INFO] [02:20:20 | #0257] BTC: $79650.05 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:50:30,037 [INFO] [02:20:30 | #0258] BTC: $79655.25 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:50:40,047 [INFO] [02:20:40 | #0259] BTC: $79639.55 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:50:50,072 [INFO] [02:20:50 | #0260] BTC: $79630.05 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:51:00,067 [INFO] [02:21:00 | #0261] BTC: $79585.35 | Dir: FLAT | Edge: -2.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:51:10,040 [INFO] [02:21:10 | #0262] BTC: $79577.85 | Dir: FLAT | Edge: -2.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:51:20,049 [INFO] [02:21:20 | #0263] BTC: $79568.05 | Dir: FLAT | Edge: -2.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:51:30,055 [INFO] [02:21:30 | #0264] BTC: $79599.85 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:51:40,037 [INFO] [02:21:40 | #0265] BTC: $79597.85 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:51:50,034 [INFO] [02:21:50 | #0266] BTC: $79666.55 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:52:00,070 [INFO] [02:22:00 | #0267] BTC: $79647.05 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:52:10,036 [INFO] [02:22:10 | #0268] BTC: $79619.15 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:52:20,059 [INFO] [02:22:20 | #0269] BTC: $79586.95 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:52:30,046 [INFO] [02:22:30 | #0270] BTC: $79599.55 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:52:40,057 [INFO] [02:22:40 | #0271] BTC: $79594.65 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:52:50,054 [INFO] [02:22:50 | #0272] BTC: $79587.05 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:53:00,069 [INFO] [02:23:00 | #0273] BTC: $79612.05 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:53:10,087 [INFO] [02:23:10 | #0274] BTC: $79618.85 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 07:53:20,032 [INFO] [02:23:20 | #0275] BTC: $79669.45 | Dir: LONG | Edge: +61.8 bps | Mode: PASSIVE_MAKER_SNIPER | FSM: RESTING_ENTRY_QUEUE | Pos: NONE
+2026-10-26 07:53:30,043 [INFO] [02:23:30 | #0276] BTC: $79648.85 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -2.6 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:53:40,038 [INFO] [02:23:40 | #0277] BTC: $79607.15 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -7.8 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:53:50,045 [INFO] [02:23:50 | #0278] BTC: $79589.35 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -10.0 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:54:00,073 [INFO] [02:24:00 | #0279] BTC: $79596.95 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.1 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:54:10,053 [INFO] [02:24:10 | #0280] BTC: $79591.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.7 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:54:20,036 [INFO] [02:24:20 | #0281] BTC: $79592.05 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.7 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:54:30,037 [INFO] [02:24:30 | #0282] BTC: $79578.65 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -11.4 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:54:40,054 [INFO] [02:24:40 | #0283] BTC: $79605.55 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -8.0 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:54:50,035 [INFO] [02:24:50 | #0284] BTC: $79595.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.2 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:55:00,049 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 07:55:00,062 [INFO] [02:25:00 | #0285] BTC: $79621.15 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -6.1 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:55:10,035 [INFO] [02:25:10 | #0286] BTC: $79600.05 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -8.7 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:55:20,033 [INFO] [02:25:20 | #0287] BTC: $79591.95 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.7 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:55:30,036 [INFO] [02:25:30 | #0288] BTC: $79560.05 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -13.7 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:55:40,070 [INFO] [02:25:40 | #0289] BTC: $79523.95 | Dir: FLAT | Edge: -2.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -18.3 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:55:50,061 [INFO] [02:25:50 | #0290] BTC: $79517.05 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -19.1 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:56:00,074 [INFO] [02:26:00 | #0291] BTC: $79540.55 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -16.2 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:56:10,060 [INFO] [02:26:10 | #0292] BTC: $79540.55 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -16.2 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:56:20,050 [INFO] [02:26:20 | #0293] BTC: $79540.55 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -16.2 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:56:30,075 [INFO] [02:26:30 | #0294] BTC: $79519.55 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -18.8 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:56:40,032 [INFO] [02:26:40 | #0295] BTC: $79512.05 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -19.8 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:56:50,088 [INFO] [02:26:50 | #0296] BTC: $79514.75 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -19.4 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:57:00,073 [INFO] [02:27:00 | #0297] BTC: $79530.65 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -17.4 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:57:10,069 [INFO] [02:27:10 | #0298] BTC: $79534.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -16.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:57:20,040 [INFO] [02:27:20 | #0299] BTC: $79566.15 | Dir: LONG | Edge: +61.8 bps | Mode: PASSIVE_MAKER_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -13.0 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:57:30,036 [INFO] [02:27:30 | #0300] BTC: $79579.85 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -11.2 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:57:30,037 [INFO] ================================================================================
+2026-10-26 07:57:30,037 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 49.9 min | Bars: 300)
+2026-10-26 07:57:30,037 [INFO] --- TRADING PERFORMANCE ---
+2026-10-26 07:57:30,037 [INFO]     Closed Trades: 1 | Wins: 1 | Win Rate: 100.0%
+2026-10-26 07:57:30,037 [INFO]     Total Net PnL: +5.20 bps | Avg PnL: +5.20 bps
+2026-10-26 07:57:30,037 [INFO]     Profit Factor: 999.00 | Total Fees Paid: 4.00 bps
+2026-10-26 07:57:30,037 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-26 07:57:30,038 [INFO]     Horizon 10s: Overall Acc:  93.0% (299 smp) | Active Excursion:   0.0% (1 sig) | Directional Sign Acc:   0.0% (1 sig)
+2026-10-26 07:57:30,038 [INFO]     Horizon 30s: Overall Acc:  85.2% (297 smp) | Active Excursion:   0.0% (1 sig) | Directional Sign Acc:   0.0% (1 sig)
+2026-10-26 07:57:30,038 [INFO]     Horizon 1m : Overall Acc:  90.1% (294 smp) | Active Excursion:   0.0% (1 sig) | Directional Sign Acc:   0.0% (1 sig)
+2026-10-26 07:57:30,038 [INFO]     Horizon 5m : Overall Acc:  97.4% (270 smp) | Active Excursion:  75.0% (4 sig) | Directional Sign Acc:  75.0% (4 sig)
+2026-10-26 07:57:30,039 [INFO]     Horizon 15m: Overall Acc:  84.7% (209 smp) | Active Excursion: 100.0% (3 sig) | Directional Sign Acc: 100.0% (3 sig)
+2026-10-26 07:57:30,039 [INFO]     Tier Accuracies -> Tactical(1m): 90.1% | Meso(15m): 84.7% | Macro(15m): 84.7%
+2026-10-26 07:57:30,039 [INFO] ================================================================================
+2026-10-26 07:57:40,039 [INFO] [02:27:40 | #0301] BTC: $79565.15 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -13.1 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:57:50,044 [INFO] [02:27:50 | #0302] BTC: $79599.55 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -8.8 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:58:00,066 [INFO] [02:28:00 | #0303] BTC: $79633.55 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -4.5 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:58:10,065 [INFO] [02:28:10 | #0304] BTC: $79616.35 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -6.7 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:58:20,078 [INFO] [02:28:20 | #0305] BTC: $79639.25 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -3.8 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:58:30,034 [INFO] [02:28:30 | #0306] BTC: $79616.45 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -6.6 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:58:40,063 [INFO] [02:28:40 | #0307] BTC: $79579.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -11.3 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:58:50,033 [INFO] [02:28:50 | #0308] BTC: $79583.85 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -10.7 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:59:00,059 [INFO] [02:29:00 | #0309] BTC: $79583.85 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -10.7 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:59:10,033 [INFO] [02:29:10 | #0310] BTC: $79594.95 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.3 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:59:20,034 [INFO] [02:29:20 | #0311] BTC: $79622.75 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -5.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:59:30,043 [INFO] [02:29:30 | #0312] BTC: $79613.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -7.0 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:59:40,035 [INFO] [02:29:40 | #0313] BTC: $79613.95 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -7.0 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 07:59:50,031 [INFO] [02:29:50 | #0314] BTC: $79602.55 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -8.4 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:00:00,071 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-26 08:00:00,088 [INFO] [02:30:00 | #0315] BTC: $79565.25 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -13.1 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:00:10,054 [INFO] [02:30:10 | #0316] BTC: $79566.85 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -12.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:00:20,050 [INFO] [02:30:20 | #0317] BTC: $79551.95 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -14.7 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:00:30,036 [INFO] [02:30:30 | #0318] BTC: $79557.95 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -14.0 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:00:40,647 [INFO] [02:30:40 | #0319] BTC: $79590.75 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:00:52,651 [INFO] [02:30:52 | #0320] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:01:01,612 [ERROR] fetch job failed: https://bitcoinmagazine.com
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 779, in _error_catcher
+    yield
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 904, in _raw_read
+    data = self._fp_read(amt, read1=read1) if not fp_closed else b""
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 887, in _fp_read
+    return self._fp.read(amt) if amt is not None else self._fp.read()
+           ~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 488, in read
+    return self._read_chunked(amt)
+           ~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 627, in _read_chunked
+    value.append(self._safe_read(chunk_left))
+                 ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 667, in _safe_read
+    data = self.fp.read(cursize)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 723, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 808, in run_group
+    out.append(fn(it))
+               ~~^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 931, in poll_site
+    resp = fetcher.get(spec["rss"])
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 279, in get
+    resp = self._raw_get(url, origin)
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 246, in _raw_get
+    return self._raw_get_locked(url, origin)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 263, in _raw_get_locked
+    content = resp.raw.read(config.SCRAPER_MAX_BYTES + 1, decode_content=True) if getattr(resp, "raw", None) is not None and hasattr(resp.raw, "read") else resp.content
+              ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 980, in read
+    data = self._raw_read(amt)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 903, in _raw_read
+    with self._error_catcher():
+         ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 784, in _error_catcher
+    raise ReadTimeoutError(self._pool, None, "Read timed out.") from e  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='bitcoinmagazine.com', port=80): Read timed out.
+2026-10-26 08:01:10,321 [WARNING] Detected stream gap of 20000 ms (1 missing bars). Interpolating 1 bounded synthetic flat bars.
+2026-10-26 08:01:10,377 [INFO] [02:31:10 | #0321] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:01:10,410 [INFO] [02:31:10 | #0322] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:01:21,711 [INFO] [02:31:21 | #0323] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:01:38,131 [INFO] [02:31:38 | #0324] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:01:38,835 [ERROR] fetch job failed: https://bitcoinmagazine.com
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 779, in _error_catcher
+    yield
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 904, in _raw_read
+    data = self._fp_read(amt, read1=read1) if not fp_closed else b""
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 887, in _fp_read
+    return self._fp.read(amt) if amt is not None else self._fp.read()
+           ~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 488, in read
+    return self._read_chunked(amt)
+           ~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 627, in _read_chunked
+    value.append(self._safe_read(chunk_left))
+                 ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 667, in _safe_read
+    data = self.fp.read(cursize)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 723, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 808, in run_group
+    out.append(fn(it))
+               ~~^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 931, in poll_site
+    resp = fetcher.get(spec["rss"])
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 279, in get
+    resp = self._raw_get(url, origin)
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 246, in _raw_get
+    return self._raw_get_locked(url, origin)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 263, in _raw_get_locked
+    content = resp.raw.read(config.SCRAPER_MAX_BYTES + 1, decode_content=True) if getattr(resp, "raw", None) is not None and hasattr(resp.raw, "read") else resp.content
+              ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 980, in read
+    data = self._raw_read(amt)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 903, in _raw_read
+    with self._error_catcher():
+         ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 784, in _error_catcher
+    raise ReadTimeoutError(self._pool, None, "Read timed out.") from e  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='bitcoinmagazine.com', port=80): Read timed out.
+2026-10-26 08:01:40,134 [INFO] [02:31:40 | #0325] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:01:50,164 [INFO] [02:31:50 | #0326] BTC: $79590.75 | Dir: FLAT | Edge: -2.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:02:00,186 [INFO] [02:32:00 | #0327] BTC: $79590.75 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:02:11,920 [INFO] [02:32:11 | #0328] BTC: $79590.75 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:02:21,952 [INFO] [02:32:21 | #0329] BTC: $79590.75 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:02:31,777 [INFO] [02:32:31 | #0330] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:02:41,360 [INFO] [02:32:41 | #0331] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:02:55,212 [INFO] [02:32:55 | #0332] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:03:01,233 [INFO] [02:33:01 | #0333] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:03:12,575 [INFO] [02:33:12 | #0334] BTC: $79590.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:03:20,550 [ERROR] fetch job failed: https://bitcoinmagazine.com
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 779, in _error_catcher
+    yield
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 904, in _raw_read
+    data = self._fp_read(amt, read1=read1) if not fp_closed else b""
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 887, in _fp_read
+    return self._fp.read(amt) if amt is not None else self._fp.read()
+           ~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 488, in read
+    return self._read_chunked(amt)
+           ~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 627, in _read_chunked
+    value.append(self._safe_read(chunk_left))
+                 ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 667, in _safe_read
+    data = self.fp.read(cursize)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 723, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 808, in run_group
+    out.append(fn(it))
+               ~~^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 931, in poll_site
+    resp = fetcher.get(spec["rss"])
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 279, in get
+    resp = self._raw_get(url, origin)
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 246, in _raw_get
+    return self._raw_get_locked(url, origin)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 263, in _raw_get_locked
+    content = resp.raw.read(config.SCRAPER_MAX_BYTES + 1, decode_content=True) if getattr(resp, "raw", None) is not None and hasattr(resp.raw, "read") else resp.content
+              ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 980, in read
+    data = self._raw_read(amt)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 903, in _raw_read
+    with self._error_catcher():
+         ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 784, in _error_catcher
+    raise ReadTimeoutError(self._pool, None, "Read timed out.") from e  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='bitcoinmagazine.com', port=80): Read timed out.
+2026-10-26 08:03:23,617 [INFO] [02:33:23 | #0335] BTC: $79590.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:03:38,550 [INFO] [02:33:38 | #0336] BTC: $79590.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:03:40,563 [INFO] [02:33:40 | #0337] BTC: $79590.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:03:50,577 [INFO] [02:33:50 | #0338] BTC: $79590.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:04:00,626 [INFO] [02:34:00 | #0339] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:04:10,620 [INFO] [02:34:10 | #0340] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:04:12,473 [ERROR] fetch job failed: https://bitcoinmagazine.com
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 779, in _error_catcher
+    yield
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 904, in _raw_read
+    data = self._fp_read(amt, read1=read1) if not fp_closed else b""
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 887, in _fp_read
+    return self._fp.read(amt) if amt is not None else self._fp.read()
+           ~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 488, in read
+    return self._read_chunked(amt)
+           ~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 627, in _read_chunked
+    value.append(self._safe_read(chunk_left))
+                 ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 667, in _safe_read
+    data = self.fp.read(cursize)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 723, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 808, in run_group
+    out.append(fn(it))
+               ~~^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 931, in poll_site
+    resp = fetcher.get(spec["rss"])
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 279, in get
+    resp = self._raw_get(url, origin)
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 246, in _raw_get
+    return self._raw_get_locked(url, origin)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 263, in _raw_get_locked
+    content = resp.raw.read(config.SCRAPER_MAX_BYTES + 1, decode_content=True) if getattr(resp, "raw", None) is not None and hasattr(resp.raw, "read") else resp.content
+              ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 980, in read
+    data = self._raw_read(amt)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 903, in _raw_read
+    with self._error_catcher():
+         ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 784, in _error_catcher
+    raise ReadTimeoutError(self._pool, None, "Read timed out.") from e  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='bitcoinmagazine.com', port=80): Read timed out.
+2026-10-26 08:04:12,967 [INFO] rss_cointelegraph: appended 1 new event(s) to D:\backup\Binance data\feature engineering scripts\inference\data\news_events\rss_cointelegraph_2026-10-26.jsonl
+2026-10-26 08:04:13,140 [INFO] Scored 1 new event(s): polarity=0.000 magnitude=0.000 confidence=0.300 mention_velocity=1
+2026-10-26 08:04:20,644 [INFO] [02:34:20 | #0341] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:04:30,692 [INFO] [02:34:30 | #0342] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:04:40,683 [INFO] [02:34:40 | #0343] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:04:50,694 [INFO] [02:34:50 | #0344] BTC: $79590.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:05:00,744 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 08:05:00,757 [INFO] [02:35:00 | #0345] BTC: $79590.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:05:10,778 [INFO] [02:35:10 | #0346] BTC: $79590.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:05:15,748 [ERROR] fetch job failed: https://bitcoinmagazine.com
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 779, in _error_catcher
+    yield
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 904, in _raw_read
+    data = self._fp_read(amt, read1=read1) if not fp_closed else b""
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 887, in _fp_read
+    return self._fp.read(amt) if amt is not None else self._fp.read()
+           ~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 488, in read
+    return self._read_chunked(amt)
+           ~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 627, in _read_chunked
+    value.append(self._safe_read(chunk_left))
+                 ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 667, in _safe_read
+    data = self.fp.read(cursize)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 723, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 808, in run_group
+    out.append(fn(it))
+               ~~^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 931, in poll_site
+    resp = fetcher.get(spec["rss"])
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 279, in get
+    resp = self._raw_get(url, origin)
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 246, in _raw_get
+    return self._raw_get_locked(url, origin)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 263, in _raw_get_locked
+    content = resp.raw.read(config.SCRAPER_MAX_BYTES + 1, decode_content=True) if getattr(resp, "raw", None) is not None and hasattr(resp.raw, "read") else resp.content
+              ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 980, in read
+    data = self._raw_read(amt)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 903, in _raw_read
+    with self._error_catcher():
+         ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 784, in _error_catcher
+    raise ReadTimeoutError(self._pool, None, "Read timed out.") from e  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='bitcoinmagazine.com', port=80): Read timed out.
+2026-10-26 08:05:15,770 [INFO] scored 1/1 pending articles
+2026-10-26 08:05:22,589 [INFO] [02:35:22 | #0347] BTC: $79590.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:05:30,625 [INFO] [02:35:30 | #0348] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:05:40,622 [INFO] [02:35:40 | #0349] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:05:51,967 [INFO] [02:35:51 | #0350] BTC: $79590.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:06:06,615 [INFO] [02:36:06 | #0351] BTC: $79590.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:06:10,605 [INFO] [02:36:10 | #0352] BTC: $79590.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:06:18,979 [ERROR] fetch job failed: https://bitcoinmagazine.com
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 779, in _error_catcher
+    yield
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 904, in _raw_read
+    data = self._fp_read(amt, read1=read1) if not fp_closed else b""
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 887, in _fp_read
+    return self._fp.read(amt) if amt is not None else self._fp.read()
+           ~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 488, in read
+    return self._read_chunked(amt)
+           ~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 627, in _read_chunked
+    value.append(self._safe_read(chunk_left))
+                 ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 667, in _safe_read
+    data = self.fp.read(cursize)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 723, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 808, in run_group
+    out.append(fn(it))
+               ~~^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 931, in poll_site
+    resp = fetcher.get(spec["rss"])
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 279, in get
+    resp = self._raw_get(url, origin)
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 246, in _raw_get
+    return self._raw_get_locked(url, origin)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 263, in _raw_get_locked
+    content = resp.raw.read(config.SCRAPER_MAX_BYTES + 1, decode_content=True) if getattr(resp, "raw", None) is not None and hasattr(resp.raw, "read") else resp.content
+              ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 980, in read
+    data = self._raw_read(amt)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 903, in _raw_read
+    with self._error_catcher():
+         ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 784, in _error_catcher
+    raise ReadTimeoutError(self._pool, None, "Read timed out.") from e  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='bitcoinmagazine.com', port=80): Read timed out.
+2026-10-26 08:06:21,004 [INFO] [02:36:21 | #0353] BTC: $79590.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:06:31,242 [INFO] [02:36:31 | #0354] BTC: $79590.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:06:50,008 [INFO] [02:36:50 | #0355] BTC: $79590.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:06:52,022 [INFO] [02:36:52 | #0356] BTC: $79590.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:07:05,763 [INFO] [02:37:05 | #0357] BTC: $79590.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:07:11,812 [INFO] [02:37:11 | #0358] BTC: $79590.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:07:12,766 [ERROR] fetch job failed: https://bitcoinmagazine.com
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 779, in _error_catcher
+    yield
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 904, in _raw_read
+    data = self._fp_read(amt, read1=read1) if not fp_closed else b""
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 887, in _fp_read
+    return self._fp.read(amt) if amt is not None else self._fp.read()
+           ~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 488, in read
+    return self._read_chunked(amt)
+           ~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 627, in _read_chunked
+    value.append(self._safe_read(chunk_left))
+                 ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\http\client.py", line 667, in _safe_read
+    data = self.fp.read(cursize)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 723, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 808, in run_group
+    out.append(fn(it))
+               ~~^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 931, in poll_site
+    resp = fetcher.get(spec["rss"])
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 279, in get
+    resp = self._raw_get(url, origin)
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 246, in _raw_get
+    return self._raw_get_locked(url, origin)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\PrivateProjects\BTC Futures\feature engineering scripts\news_pipeline\scraper.py", line 263, in _raw_get_locked
+    content = resp.raw.read(config.SCRAPER_MAX_BYTES + 1, decode_content=True) if getattr(resp, "raw", None) is not None and hasattr(resp.raw, "read") else resp.content
+              ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 980, in read
+    data = self._raw_read(amt)
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 903, in _raw_read
+    with self._error_catcher():
+         ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\urllib3\response.py", line 784, in _error_catcher
+    raise ReadTimeoutError(self._pool, None, "Read timed out.") from e  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='bitcoinmagazine.com', port=80): Read timed out.
+2026-10-26 08:07:20,475 [INFO] [02:37:20 | #0359] BTC: $79590.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:07:31,952 [INFO] [02:37:31 | #0360] BTC: $79590.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79669.4 (Unreal: -9.9 bps, TP: 80210.5, SL: 79376.9)
+2026-10-26 08:07:31,952 [INFO] ================================================================================
+2026-10-26 08:07:31,952 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 59.9 min | Bars: 360)
+2026-10-26 08:07:31,952 [INFO] --- TRADING PERFORMANCE ---
+2026-10-26 08:07:31,952 [INFO]     Closed Trades: 1 | Wins: 1 | Win Rate: 100.0%
+2026-10-26 08:07:31,953 [INFO]     Total Net PnL: +5.20 bps | Avg PnL: +5.20 bps
+2026-10-26 08:07:31,953 [INFO]     Profit Factor: 999.00 | Total Fees Paid: 4.00 bps
+2026-10-26 08:07:31,953 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-26 08:07:31,953 [INFO]     Horizon 10s: Overall Acc:  94.2% (359 smp) | Active Excursion:   0.0% (1 sig) | Directional Sign Acc:   0.0% (1 sig)
+2026-10-26 08:07:31,953 [INFO]     Horizon 30s: Overall Acc:  87.7% (357 smp) | Active Excursion:  50.0% (2 sig) | Directional Sign Acc:  50.0% (2 sig)
+2026-10-26 08:07:31,953 [INFO]     Horizon 1m : Overall Acc:  91.5% (354 smp) | Active Excursion:  50.0% (2 sig) | Directional Sign Acc:  50.0% (2 sig)
+2026-10-26 08:07:31,953 [INFO]     Horizon 5m : Overall Acc:  97.6% (330 smp) | Active Excursion:  66.7% (6 sig) | Directional Sign Acc:  66.7% (6 sig)
+2026-10-26 08:07:31,954 [INFO]     Horizon 15m: Overall Acc:  84.4% (270 smp) | Active Excursion:  75.0% (4 sig) | Directional Sign Acc:  75.0% (4 sig)
+2026-10-26 08:07:31,954 [INFO]     Tier Accuracies -> Tactical(1m): 91.5% | Meso(15m): 84.4% | Macro(15m): 84.4%
+2026-10-26 08:07:31,954 [INFO] ================================================================================
+2026-10-26 08:07:36,920 [INFO] Stopping WebSocket ingestor & REST companion poller...
+2026-10-26 08:07:39,940 [INFO] ================================================================================
+2026-10-26 08:07:39,940 [INFO] SESSION CONCLUDED SUCCESSFULLY
+2026-10-26 08:07:39,940 [INFO] Total Time: 60.1 min | Total Bars: 360 | Closed Trades: 1
+2026-10-26 08:07:39,941 [INFO] Win Rate: 100.0% | Total Net PnL: +5.20 bps
+2026-10-26 08:07:39,941 [INFO] Final Metrics Saved: D:\PrivateProjects\BTC Futures\scratch\live_session_final_metrics.json
+2026-10-26 08:07:39,941 [INFO] Ledger Saved: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_1h_ledger.jsonl
+2026-10-26 08:07:39,942 [INFO] ================================================================================
+2026-10-26 08:07:39,944 [INFO] 1-Hour session finished. Exiting process.

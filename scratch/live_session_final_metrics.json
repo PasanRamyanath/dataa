@@ -1,102 +1,102 @@
 {
-  "session_duration_minutes": 120.01,
-  "bars_evaluated": 720,
+  "session_duration_minutes": 60.06,
+  "bars_evaluated": 360,
   "total_trades": 2,
   "winning_trades": 2,
   "win_rate_pct": 100.0,
-  "total_net_pnl_bps": 17.9,
-  "avg_net_pnl_bps": 8.95,
+  "total_net_pnl_bps": 2.1,
+  "avg_net_pnl_bps": 1.05,
   "accuracy_summary": {
     "10s": {
-      "evaluated_samples": 719,
-      "overall_accuracy_pct": 81.92,
-      "active_signals_count": 15,
+      "evaluated_samples": 359,
+      "overall_accuracy_pct": 87.19,
+      "active_signals_count": 0,
       "active_precision_pct": 0.0,
-      "sign_accuracy_pct": 60.0,
-      "sign_samples": 5
+      "sign_accuracy_pct": 0.0,
+      "sign_samples": 0
     },
     "30s": {
-      "evaluated_samples": 717,
-      "overall_accuracy_pct": 67.92,
-      "active_signals_count": 15,
-      "active_precision_pct": 0.0,
-      "sign_accuracy_pct": 46.15,
-      "sign_samples": 13
+      "evaluated_samples": 357,
+      "overall_accuracy_pct": 79.55,
+      "active_signals_count": 2,
+      "active_precision_pct": 50.0,
+      "sign_accuracy_pct": 50.0,
+      "sign_samples": 2
     },
     "1m": {
-      "evaluated_samples": 714,
-      "overall_accuracy_pct": 69.75,
-      "active_signals_count": 15,
-      "active_precision_pct": 0.0,
-      "sign_accuracy_pct": 60.0,
-      "sign_samples": 15
+      "evaluated_samples": 354,
+      "overall_accuracy_pct": 81.36,
+      "active_signals_count": 2,
+      "active_precision_pct": 50.0,
+      "sign_accuracy_pct": 50.0,
+      "sign_samples": 2
     },
     "5m": {
-      "evaluated_samples": 690,
-      "overall_accuracy_pct": 57.83,
-      "active_signals_count": 12,
-      "active_precision_pct": 75.0,
-      "sign_accuracy_pct": 75.0,
-      "sign_samples": 12
+      "evaluated_samples": 330,
+      "overall_accuracy_pct": 80.91,
+      "active_signals_count": 4,
+      "active_precision_pct": 50.0,
+      "sign_accuracy_pct": 50.0,
+      "sign_samples": 4
     },
     "15m": {
-      "evaluated_samples": 630,
-      "overall_accuracy_pct": 37.94,
-      "active_signals_count": 9,
+      "evaluated_samples": 270,
+      "overall_accuracy_pct": 67.41,
+      "active_signals_count": 2,
       "active_precision_pct": 100.0,
       "sign_accuracy_pct": 100.0,
-      "sign_samples": 9
+      "sign_samples": 2
     },
     "tiers": {
       "macro": {
-        "evaluated": 630,
-        "accuracy_pct": 36.51
+        "evaluated": 270,
+        "accuracy_pct": 67.41
       },
       "meso": {
-        "evaluated": 630,
-        "accuracy_pct": 37.94
+        "evaluated": 270,
+        "accuracy_pct": 67.41
       },
       "tactical": {
-        "evaluated": 714,
-        "accuracy_pct": 69.75
+        "evaluated": 354,
+        "accuracy_pct": 81.36
       },
       "micro": {
-        "evaluated": 719,
-        "accuracy_pct": 81.92
+        "evaluated": 359,
+        "accuracy_pct": 87.19
       }
     }
   },
   "closed_trades": [
     {
       "symbol": "BTCUSDT",
-      "side": "SELL",
-      "entry_price": 81506.5,
-      "exit_price": 81400.4,
-      "quantity": 0.058,
-      "entry_ts_ms": 1792697550000,
-      "exit_ts_ms": 1792697800000,
-      "holding_duration_sec": 250.0,
-      "gross_return_bps": 13.0174,
+      "side": "BUY",
+      "entry_price": 79864.7,
+      "exit_price": 79905.0316735,
+      "quantity": 0.061,
+      "entry_ts_ms": 1792988870000,
+      "exit_ts_ms": 1792989010000,
+      "holding_duration_sec": 140.0,
+      "gross_return_bps": 5.05,
       "total_fee_bps": 4.0,
-      "net_return_bps": 9.0174,
-      "peak_mfe_bps": 13.0174,
-      "max_mae_bps": -0.638,
+      "net_return_bps": 1.05,
+      "peak_mfe_bps": 5.0961,
+      "max_mae_bps": -1.6152,
       "exit_reason": "MICRO_TRAILING_MAKER_TP"
     },
     {
       "symbol": "BTCUSDT",
-      "side": "SELL",
-      "entry_price": 81484.0,
-      "exit_price": 81379.0,
-      "quantity": 0.054,
-      "entry_ts_ms": 1792698950000,
-      "exit_ts_ms": 1792699670000,
-      "holding_duration_sec": 720.0,
-      "gross_return_bps": 12.886,
+      "side": "BUY",
+      "entry_price": 79972.5,
+      "exit_price": 80012.8861125,
+      "quantity": 0.06,
+      "entry_ts_ms": 1792989900000,
+      "exit_ts_ms": 1792990300000,
+      "holding_duration_sec": 400.0,
+      "gross_return_bps": 5.05,
       "total_fee_bps": 4.0,
-      "net_return_bps": 8.886,
-      "peak_mfe_bps": 12.886,
-      "max_mae_bps": -2.0495,
+      "net_return_bps": 1.05,
+      "peak_mfe_bps": 4.7391,
+      "max_mae_bps": -5.1518,
       "exit_reason": "MICRO_TRAILING_MAKER_TP"
     }
   ]

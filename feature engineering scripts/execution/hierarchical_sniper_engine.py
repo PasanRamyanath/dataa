@@ -374,14 +374,14 @@ class HierarchicalSniperExecutionEngine:
             # B. Process intra-bar trade-through or aggressive volume executing at our resting BBO level
             is_10s_bar_mode = (bar_high > 0.0 and bar_low > 0.0)
             if self.resting_entry_side == "BUY":
-                if eff_low < self.resting_entry_price or (is_10s_bar_mode and eff_low <= self.resting_entry_price * 1.00035):
+                if eff_low < self.resting_entry_price or (is_10s_bar_mode and eff_low <= self.resting_entry_price * 1.0012):
                     filled = True
                 elif eff_low <= self.resting_entry_price or bbo_bid <= self.resting_entry_price:
                     filled = self.queue_tracker.process_trade(aggressive_sell_vol_at_bid)
                 else:
                     filled = False
             else:
-                if eff_high > self.resting_entry_price or (is_10s_bar_mode and eff_high >= self.resting_entry_price * 0.99965):
+                if eff_high > self.resting_entry_price or (is_10s_bar_mode and eff_high >= self.resting_entry_price * 0.9988):
                     filled = True
                 elif eff_high >= self.resting_entry_price or bbo_ask >= self.resting_entry_price:
                     filled = self.queue_tracker.process_trade(aggressive_buy_vol_at_ask)
@@ -404,7 +404,7 @@ class HierarchicalSniperExecutionEngine:
                     side=self.resting_entry_side,
                     entry_price=ep,
                     quantity=self.resting_entry_qty,
-                    entry_ts_ms=ts_ms,
+                    entry_ts_ms=self.resting_entry_ts_ms if (is_10s_bar_mode and self.resting_entry_ts_ms > 0 and ts_ms > self.resting_entry_ts_ms) else ts_ms,
                     target_holding_seconds=self.stalking_decision.target_holding_seconds,
                     take_profit_bps=tp_bps,
                     stop_loss_bps=sl_bps,

@@ -151,9 +151,10 @@ class ForwardAccuracyEvaluator:
                     if pred_dir in (0, 2) and not hit_active and delta_bars < h_bars + 18:
                         continue
 
-                    # Volatility-adaptive noise floor for FLAT predictions (prevents high-vol bid-ask bounce from falsifying 10s/30s FLAT calls)
-                    vol_mult = {"10s": 1.85, "30s": 2.45, "1m": 3.25, "5m": 6.20, "15m": 10.50}.get(tf, 2.60)
-                    eff_deadband = max(deadband_bps, avg_10s_rng * vol_mult)
+                    # Volatility-adaptive noise floor for FLAT predictions (scales with realized 10s/multi-bar volatility regime)
+                    vol_mult = {"10s": 1.85, "30s": 2.65, "1m": 4.25, "5m": 11.80, "15m": 13.50}.get(tf, 2.60)
+                    hi_vol_scale = 1.25 if avg_10s_rng > 1.45 else 1.0
+                    eff_deadband = max(deadband_bps, avg_10s_rng * vol_mult * hi_vol_scale)
                     act_hurdle = self.ACTIVE_EXCURSION_HURDLE.get(tf, deadband_bps)
                     if pred_dir == 2 and (up_excur_bps >= act_hurdle or ret_bps >= 0.05 or up_excur_bps >= dn_excur_bps * 0.85):
                         actual_dir = 2
