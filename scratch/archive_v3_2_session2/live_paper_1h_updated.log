@@ -1,0 +1,617 @@
+2026-10-26 04:47:10,026 [INFO] ================================================================================
+2026-10-26 04:47:10,027 [INFO] LAUNCHING 1-HOUR LIVE PAPER TRADING & ACCURACY EVALUATION SESSION (V3.1 UPDATED ENGINE)
+2026-10-26 04:47:10,028 [INFO] Symbol: BTCUSDT | Target Duration: 60.0 minutes (1.0 hour)
+2026-10-26 04:47:10,028 [INFO] Checkpoints: D:\PrivateProjects\BTC Futures\feature engineering scripts\models_v3\checkpoints
+2026-10-26 04:47:10,028 [INFO] Ledger Path: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_1h_ledger.jsonl
+2026-10-26 04:47:10,029 [INFO] Metrics Path: D:\PrivateProjects\BTC Futures\scratch\live_session_1h_final_metrics.json
+2026-10-26 04:47:10,029 [INFO] Heartbeat Path: D:\PrivateProjects\BTC Futures\scratch\live_session_1h_heartbeat.json
+2026-10-26 04:47:10,029 [INFO] ================================================================================
+2026-10-26 04:47:10,030 [INFO] Initializing Project-IMPJR v4.0 Live Trading & Monitoring Session...
+2026-10-26 04:47:10,418 [INFO] Detected Hardware Topology: HardwareTopologyProfile(deployment_mode='LOCAL_LAPTOP_STANDALONE', is_kaggle_vm=False, os_platform='Windows', cuda_device_count=0, tier4_macro_device='cpu', tier3_meso_device='cpu', tier2_tactical_device='cpu', tier1_micro_device='cpu', use_fp16_autocast=False, use_cpu_int8_quantization=True, binance_fapi_reachable=True, active_rest_kline_base='https://fapi.binance.com/fapi/v1/klines', active_ws_base='wss://fstream.binance.com/stream')
+2026-10-26 04:47:11,289 [INFO] LiveMultiHorizonV4ModelRegistry initialized: 16/16 models loaded (tier4-hmm-regime, tier4-patchtst-ffd, tier4-tft-funding, tier4-kronos-macro, tier3-itransformer-32, tier3-nhits-multirate, tier3-kronos-meso, tier3-lgbm-positioning, tier2-mamba-s6, tier2-lgbm-bookdepth, tier2-crossasset-gat, tier2-cryptobert-news, tier1-lgbm-micro-1s10s, tier1-spot1s-leadlag, tier1-queue-hazard, fusion-v4-hierarchical) | Stage5 fitted=True
+2026-10-26 04:47:11,301 [INFO] Loaded fitted Stage-5 SupervisedMultiHorizonOOFStacker from D:\PrivateProjects\BTC Futures\feature engineering scripts\models_v3\checkpoints\stage5_fusion\models\fusion-v4-hierarchical\supervised_multi_horizon_stacker.joblib
+2026-10-26 04:47:11,301 [INFO] Bootstrapping multi-horizon ring buffer from Binance REST...
+2026-10-26 04:47:12,105 [INFO] Bootstrap complete across all 14 timeframes: {'1m': 99, '3m': 99, '5m': 99, '15m': 99, '30m': 99, '1h': 99, '2h': 99, '4h': 99, '6h': 99, '8h': 99, '12h': 99, '1d': 99}
+2026-10-26 04:47:12,105 [INFO] Starting real-time Binance WebSocket stream, REST companion poller & Live News Engine...
+2026-10-26 04:47:12,134 [INFO] LiveNewsEngineDaemon started in background (poll_interval=30s)
+2026-10-26 04:47:12,135 [INFO] Starting Binance REST Companion Poller (Interval: 30s, Symbol: BTCUSDT)...
+2026-10-26 04:47:12,136 [INFO] ================================================================================
+2026-10-26 04:47:12,137 [INFO] LIVE HIERARCHICAL TRADING & MONITORING SESSION STARTED (BTCUSDT)
+2026-10-26 04:47:12,137 [INFO] Target Duration: 60.0 minutes (1.0 hours)
+2026-10-26 04:47:12,137 [INFO] Ledger Output: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_1h_ledger.jsonl
+2026-10-26 04:47:12,138 [INFO] ================================================================================
+2026-10-26 04:47:12,139 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-26 04:47:12,178 [WARNING] Could not load sentiment model 'ElKulako/cryptobert' (ModuleNotFoundError: No module named 'transformers') — falling back to lexicon-based polarity heuristic. Install `transformers`/`torch` (requirements-models.txt) and ensure the model is reachable (HF Hub network access) for real FinBERT-class scoring.
+2026-10-26 04:47:12,878 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-26 04:47:18,037 [INFO] scored 1/1 pending articles
+2026-10-26 04:47:18,539 [INFO] rss_cointelegraph: appended 1 new event(s) to D:\backup\Binance data\feature engineering scripts\inference\data\news_events\rss_cointelegraph_2026-10-25.jsonl
+2026-10-26 04:47:22,334 [INFO] [23:17:22 | #0001] BTC: $80344.85 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:47:29,212 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:47:29,222 [INFO] Scored 1 new event(s): polarity=-1.000 magnitude=0.200 confidence=0.400 mention_velocity=1
+2026-10-26 04:47:30,056 [INFO] [23:17:30 | #0002] BTC: $80344.85 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:47:40,044 [INFO] [23:17:40 | #0003] BTC: $80332.75 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:47:50,051 [INFO] [23:17:50 | #0004] BTC: $80328.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:47:58,005 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:48:00,080 [INFO] [23:18:00 | #0005] BTC: $80324.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:48:10,039 [INFO] [23:18:10 | #0006] BTC: $80319.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:48:20,037 [INFO] [23:18:20 | #0007] BTC: $80319.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:48:27,646 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:48:30,044 [INFO] [23:18:30 | #0008] BTC: $80319.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:48:40,036 [INFO] [23:18:40 | #0009] BTC: $80300.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:48:50,037 [INFO] [23:18:50 | #0010] BTC: $80277.15 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:48:57,140 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:49:00,074 [INFO] [23:19:00 | #0011] BTC: $80266.55 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:49:10,083 [INFO] [23:19:10 | #0012] BTC: $80266.55 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:49:20,043 [INFO] [23:19:20 | #0013] BTC: $80247.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:49:26,858 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:49:30,058 [INFO] [23:19:30 | #0014] BTC: $80263.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:49:40,053 [INFO] [23:19:40 | #0015] BTC: $80249.65 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:49:50,041 [INFO] [23:19:50 | #0016] BTC: $80236.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:49:58,259 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 04:50:00,083 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 04:50:00,096 [INFO] [23:20:00 | #0017] BTC: $80263.55 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:50:10,045 [INFO] [23:20:10 | #0018] BTC: $80289.95 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:50:20,042 [INFO] [23:20:20 | #0019] BTC: $80296.55 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:50:26,016 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:50:30,038 [INFO] [23:20:30 | #0020] BTC: $80274.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:50:40,040 [INFO] [23:20:40 | #0021] BTC: $80273.65 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:50:50,148 [INFO] [23:20:50 | #0022] BTC: $80273.65 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:50:55,858 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:51:00,079 [INFO] [23:21:00 | #0023] BTC: $80279.65 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:51:10,053 [INFO] [23:21:10 | #0024] BTC: $80265.85 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:51:20,042 [INFO] [23:21:20 | #0025] BTC: $80265.85 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:51:25,515 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:51:30,035 [INFO] [23:21:30 | #0026] BTC: $80265.85 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:51:40,057 [INFO] [23:21:40 | #0027] BTC: $80282.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:51:50,047 [INFO] [23:21:50 | #0028] BTC: $80288.05 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:51:55,332 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:52:00,084 [INFO] [23:22:00 | #0029] BTC: $80275.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:52:10,066 [INFO] [23:22:10 | #0030] BTC: $80291.95 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:52:20,052 [INFO] [23:22:20 | #0031] BTC: $80299.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:52:27,974 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 04:52:30,061 [INFO] [23:22:30 | #0032] BTC: $80299.15 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:52:40,049 [INFO] [23:22:40 | #0033] BTC: $80299.15 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:52:50,049 [INFO] [23:22:50 | #0034] BTC: $80284.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:52:57,712 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 04:53:00,071 [INFO] [23:23:00 | #0035] BTC: $80290.55 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:53:10,033 [INFO] [23:23:10 | #0036] BTC: $80269.55 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:53:20,037 [INFO] [23:23:20 | #0037] BTC: $80254.95 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:53:24,372 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:53:30,032 [INFO] [23:23:30 | #0038] BTC: $80276.05 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:53:40,071 [INFO] [23:23:40 | #0039] BTC: $80265.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:53:50,036 [INFO] [23:23:50 | #0040] BTC: $80266.55 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:53:56,981 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 04:54:00,083 [INFO] [23:24:00 | #0041] BTC: $80266.55 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:54:10,049 [INFO] [23:24:10 | #0042] BTC: $80269.55 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:54:20,058 [INFO] [23:24:20 | #0043] BTC: $80261.85 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:54:26,318 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 04:54:30,032 [INFO] [23:24:30 | #0044] BTC: $80257.25 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:54:40,045 [INFO] [23:24:40 | #0045] BTC: $80257.25 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:54:50,060 [INFO] [23:24:50 | #0046] BTC: $80251.55 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:54:52,990 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:55:00,059 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 04:55:00,076 [INFO] [23:25:00 | #0047] BTC: $80243.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:55:10,039 [INFO] [23:25:10 | #0048] BTC: $80237.45 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:55:20,045 [INFO] [23:25:20 | #0049] BTC: $80225.25 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:55:22,752 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:55:30,037 [INFO] [23:25:30 | #0050] BTC: $80227.45 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:55:40,037 [INFO] [23:25:40 | #0051] BTC: $80223.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:55:50,040 [INFO] [23:25:50 | #0052] BTC: $80222.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:55:52,605 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:56:00,070 [INFO] [23:26:00 | #0053] BTC: $80214.65 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:56:10,106 [INFO] [23:26:10 | #0054] BTC: $80222.45 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:56:20,061 [INFO] [23:26:20 | #0055] BTC: $80222.55 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:56:22,521 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:56:30,050 [INFO] [23:26:30 | #0056] BTC: $80195.75 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:56:40,039 [INFO] [23:26:40 | #0057] BTC: $80186.45 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:56:50,038 [INFO] [23:26:50 | #0058] BTC: $80177.15 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:56:54,057 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 04:57:00,066 [INFO] [23:27:00 | #0059] BTC: $80165.35 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:57:10,043 [INFO] [23:27:10 | #0060] BTC: $80141.85 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:57:10,043 [INFO] ================================================================================
+2026-10-26 04:57:10,043 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 10.0 min | Bars: 60)
+2026-10-26 04:57:10,043 [INFO] --- TRADING PERFORMANCE ---
+2026-10-26 04:57:10,044 [INFO]     Closed Trades: 0 | Wins: 0 | Win Rate: 0.0%
+2026-10-26 04:57:10,044 [INFO]     Total Net PnL: +0.00 bps | Avg PnL: +0.00 bps
+2026-10-26 04:57:10,044 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-26 04:57:10,044 [INFO]     Horizon 10s: Overall Acc:  79.7% (59 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 04:57:10,044 [INFO]     Horizon 30s: Overall Acc:  71.9% (57 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 04:57:10,044 [INFO]     Horizon 1m : Overall Acc:  50.0% (54 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 04:57:10,044 [INFO]     Horizon 5m : Overall Acc:  73.3% (30 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 04:57:10,045 [INFO]     Horizon 15m: Overall Acc:   0.0% (0 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 04:57:10,045 [INFO]     Tier Accuracies -> Tactical(1m): 50.0% | Meso(15m): 0.0% | Macro(15m): 0.0%
+2026-10-26 04:57:10,045 [INFO] ================================================================================
+2026-10-26 04:57:20,053 [INFO] [23:27:20 | #0061] BTC: $80116.15 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:57:24,081 [WARNING] GDELT poll failed: Expecting value: line 1 column 1 (char 0)
+2026-10-26 04:57:30,038 [INFO] [23:27:30 | #0062] BTC: $80088.85 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:57:40,045 [INFO] [23:27:40 | #0063] BTC: $79975.05 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:57:50,051 [INFO] [23:27:50 | #0064] BTC: $79847.95 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:57:51,925 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 04:58:00,110 [INFO] [23:28:00 | #0065] BTC: $79904.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:58:10,039 [INFO] [23:28:10 | #0066] BTC: $79989.45 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:58:20,080 [INFO] [23:28:20 | #0067] BTC: $79999.85 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:58:23,213 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 04:58:30,038 [INFO] [23:28:30 | #0068] BTC: $80129.95 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:58:40,050 [INFO] [23:28:40 | #0069] BTC: $80100.45 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:58:50,040 [INFO] [23:28:50 | #0070] BTC: $80123.95 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:58:52,459 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 04:59:00,064 [INFO] [23:29:00 | #0071] BTC: $80099.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:59:10,051 [INFO] [23:29:10 | #0072] BTC: $80068.75 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:59:19,003 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:59:20,062 [INFO] [23:29:20 | #0073] BTC: $80054.15 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:59:30,065 [INFO] [23:29:30 | #0074] BTC: $80054.25 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:59:40,052 [INFO] [23:29:40 | #0075] BTC: $80000.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 04:59:48,508 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 04:59:50,058 [INFO] [23:29:50 | #0076] BTC: $80029.25 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:00:00,090 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-26 05:00:00,110 [INFO] [23:30:00 | #0077] BTC: $80036.65 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:00:10,041 [INFO] [23:30:10 | #0078] BTC: $79969.75 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:00:18,192 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:00:20,041 [INFO] [23:30:20 | #0079] BTC: $79970.45 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:00:30,040 [INFO] [23:30:30 | #0080] BTC: $79910.95 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:00:40,056 [INFO] [23:30:40 | #0081] BTC: $79894.05 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:00:49,041 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:00:50,051 [INFO] [23:30:50 | #0082] BTC: $79863.45 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:01:00,078 [INFO] [23:31:00 | #0083] BTC: $79897.65 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:01:10,045 [INFO] [23:31:10 | #0084] BTC: $79887.85 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:01:17,823 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:01:20,076 [INFO] [23:31:20 | #0085] BTC: $79869.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:01:30,042 [INFO] [23:31:30 | #0086] BTC: $79913.85 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:01:40,038 [INFO] [23:31:40 | #0087] BTC: $79914.35 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:01:47,728 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:01:50,056 [INFO] [23:31:50 | #0088] BTC: $79962.85 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:02:00,069 [INFO] [23:32:00 | #0089] BTC: $79958.35 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:02:10,061 [INFO] [23:32:10 | #0090] BTC: $80001.65 | Dir: LONG | Edge: +35.8 bps | Mode: PASSIVE_MAKER_SNIPER | FSM: RESTING_ENTRY_QUEUE | Pos: NONE
+2026-10-26 05:02:17,422 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:02:20,044 [INFO] [23:32:20 | #0091] BTC: $79953.15 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80001.6 (Unreal: -6.1 bps, TP: 80330.4, SL: 79823.8)
+2026-10-26 05:02:30,043 [INFO] [23:32:30 | #0092] BTC: $79981.45 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80001.6 (Unreal: -2.5 bps, TP: 80330.4, SL: 79823.8)
+2026-10-26 05:02:40,037 [INFO] [23:32:40 | #0093] BTC: $80035.85 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80001.6 (Unreal: +4.3 bps, TP: 80330.4, SL: 79823.8)
+2026-10-26 05:02:47,428 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:02:50,037 [INFO] [23:32:50 | #0094] BTC: $79999.95 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80001.6 (Unreal: -0.2 bps, TP: 80330.4, SL: 79823.8)
+2026-10-26 05:03:00,065 [INFO] [23:33:00 | #0095] BTC: $79977.45 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80001.6 (Unreal: -3.0 bps, TP: 80330.4, SL: 79823.8)
+2026-10-26 05:03:10,046 [INFO] [23:33:10 | #0096] BTC: $80008.25 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80001.6 (Unreal: +0.8 bps, TP: 80330.4, SL: 79823.8)
+2026-10-26 05:03:16,108 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:03:20,036 [INFO] [23:33:20 | #0097] BTC: $80015.05 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80001.6 (Unreal: +1.7 bps, TP: 80330.4, SL: 79823.8)
+2026-10-26 05:03:30,033 [INFO] [23:33:30 | #0098] BTC: $80029.85 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80001.6 (Unreal: +3.5 bps, TP: 80330.4, SL: 79823.8)
+2026-10-26 05:03:40,032 [INFO] [23:33:40 | #0099] BTC: $80051.35 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80001.6 (Unreal: +6.2 bps, TP: 80330.4, SL: 79823.8)
+2026-10-26 05:03:45,859 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:03:50,039 [INFO] [23:33:50 | #0100] BTC: $80064.65 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80001.6 (Unreal: +7.9 bps, TP: 80330.4, SL: 79823.8)
+2026-10-26 05:04:00,069 [INFO] [23:34:00 | #0101] BTC: $80088.15 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:04:10,039 [INFO] [23:34:10 | #0102] BTC: $80104.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:04:15,637 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:04:20,053 [INFO] [23:34:20 | #0103] BTC: $80113.35 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:04:30,068 [INFO] [23:34:30 | #0104] BTC: $80138.75 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:04:40,043 [INFO] [23:34:40 | #0105] BTC: $80177.85 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:04:45,354 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:04:50,041 [INFO] [23:34:50 | #0106] BTC: $80214.45 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:05:00,064 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 05:05:00,086 [INFO] [23:35:00 | #0107] BTC: $80243.35 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:05:10,036 [INFO] [23:35:10 | #0108] BTC: $80255.05 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:05:15,061 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:05:20,038 [INFO] [23:35:20 | #0109] BTC: $80264.15 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:05:30,036 [INFO] [23:35:30 | #0110] BTC: $80216.25 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:05:40,044 [INFO] [23:35:40 | #0111] BTC: $80255.25 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:05:44,926 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:05:50,037 [INFO] [23:35:50 | #0112] BTC: $80283.35 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:06:00,238 [INFO] [23:36:00 | #0113] BTC: $80283.45 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:06:10,055 [INFO] [23:36:10 | #0114] BTC: $80270.55 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:06:14,703 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:06:20,045 [INFO] [23:36:20 | #0115] BTC: $80247.75 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:06:30,055 [INFO] [23:36:30 | #0116] BTC: $80249.65 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:06:40,046 [INFO] [23:36:40 | #0117] BTC: $80273.75 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:06:44,538 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:06:50,067 [INFO] [23:36:50 | #0118] BTC: $80251.25 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:07:00,090 [INFO] [23:37:00 | #0119] BTC: $80245.85 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:07:10,037 [INFO] [23:37:10 | #0120] BTC: $80242.05 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:07:10,037 [INFO] ================================================================================
+2026-10-26 05:07:10,037 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 20.0 min | Bars: 120)
+2026-10-26 05:07:10,037 [INFO] --- TRADING PERFORMANCE ---
+2026-10-26 05:07:10,038 [INFO]     Closed Trades: 1 | Wins: 1 | Win Rate: 100.0%
+2026-10-26 05:07:10,038 [INFO]     Total Net PnL: +5.20 bps | Avg PnL: +5.20 bps
+2026-10-26 05:07:10,038 [INFO]     Profit Factor: 999.00 | Total Fees Paid: 4.00 bps
+2026-10-26 05:07:10,038 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-26 05:07:10,039 [INFO]     Horizon 10s: Overall Acc:  79.0% (119 smp) | Active Excursion: 100.0% (1 sig) | Directional Sign Acc: 100.0% (1 sig)
+2026-10-26 05:07:10,039 [INFO]     Horizon 30s: Overall Acc:  68.4% (117 smp) | Active Excursion: 100.0% (1 sig) | Directional Sign Acc: 100.0% (1 sig)
+2026-10-26 05:07:10,039 [INFO]     Horizon 1m : Overall Acc:  44.7% (114 smp) | Active Excursion: 100.0% (1 sig) | Directional Sign Acc: 100.0% (1 sig)
+2026-10-26 05:07:10,040 [INFO]     Horizon 5m : Overall Acc:  41.1% (90 smp) | Active Excursion: 100.0% (1 sig) | Directional Sign Acc: 100.0% (1 sig)
+2026-10-26 05:07:10,040 [INFO]     Horizon 15m: Overall Acc:  73.3% (30 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-26 05:07:10,040 [INFO]     Tier Accuracies -> Tactical(1m): 44.7% | Meso(15m): 73.3% | Macro(15m): 73.3%
+2026-10-26 05:07:10,040 [INFO] ================================================================================
+2026-10-26 05:07:14,179 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:07:20,033 [INFO] [23:37:20 | #0121] BTC: $80242.05 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:07:30,039 [INFO] [23:37:30 | #0122] BTC: $80277.05 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:07:40,035 [INFO] [23:37:40 | #0123] BTC: $80243.35 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:07:45,600 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:07:50,043 [INFO] [23:37:50 | #0124] BTC: $80225.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:08:00,064 [INFO] [23:38:00 | #0125] BTC: $80257.95 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:08:10,034 [INFO] [23:38:10 | #0126] BTC: $80277.65 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:08:13,225 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:08:20,040 [INFO] [23:38:20 | #0127] BTC: $80250.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:08:30,033 [INFO] [23:38:30 | #0128] BTC: $80225.25 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:08:40,041 [INFO] [23:38:40 | #0129] BTC: $80225.25 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:08:42,925 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:08:50,035 [INFO] [23:38:50 | #0130] BTC: $80222.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:09:00,076 [INFO] [23:39:00 | #0131] BTC: $80239.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:09:10,036 [INFO] [23:39:10 | #0132] BTC: $80236.35 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:09:12,658 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:09:20,038 [INFO] [23:39:20 | #0133] BTC: $80251.95 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:09:30,051 [INFO] [23:39:30 | #0134] BTC: $80266.55 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:09:40,062 [INFO] [23:39:40 | #0135] BTC: $80289.95 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:09:42,457 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:09:50,041 [INFO] [23:39:50 | #0136] BTC: $80285.85 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:10:00,056 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 05:10:00,070 [INFO] [23:40:00 | #0137] BTC: $80275.65 | Dir: FLAT | Edge: -3.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:10:10,040 [INFO] [23:40:10 | #0138] BTC: $80280.05 | Dir: FLAT | Edge: -3.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:10:11,924 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:10:20,035 [INFO] [23:40:20 | #0139] BTC: $80264.45 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:10:30,051 [INFO] [23:40:30 | #0140] BTC: $80264.95 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:10:40,040 [INFO] [23:40:40 | #0141] BTC: $80255.85 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:10:41,659 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:10:50,041 [INFO] [23:40:50 | #0142] BTC: $80232.05 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:11:00,062 [INFO] [23:41:00 | #0143] BTC: $80226.65 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:11:10,047 [INFO] [23:41:10 | #0144] BTC: $80221.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:11:11,375 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:11:20,042 [INFO] [23:41:20 | #0145] BTC: $80217.95 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:11:30,136 [INFO] [23:41:30 | #0146] BTC: $80185.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:11:40,042 [INFO] [23:41:40 | #0147] BTC: $80160.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:11:41,447 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:11:50,056 [INFO] [23:41:50 | #0148] BTC: $80191.85 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:12:00,070 [INFO] [23:42:00 | #0149] BTC: $80190.35 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:12:10,080 [INFO] [23:42:10 | #0150] BTC: $80187.75 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:12:12,490 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:12:20,045 [INFO] [23:42:20 | #0151] BTC: $80120.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:12:30,085 [INFO] [23:42:30 | #0152] BTC: $80094.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:12:39,203 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:12:40,037 [INFO] [23:42:40 | #0153] BTC: $80114.15 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:12:50,041 [INFO] [23:42:50 | #0154] BTC: $80124.25 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:13:00,242 [INFO] [23:43:00 | #0155] BTC: $80130.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:13:09,305 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:13:10,050 [INFO] [23:43:10 | #0156] BTC: $80084.75 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:13:20,040 [INFO] [23:43:20 | #0157] BTC: $80076.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:13:30,049 [INFO] [23:43:30 | #0158] BTC: $80063.25 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:13:40,059 [INFO] [23:43:40 | #0159] BTC: $80094.55 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:13:40,099 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:13:50,042 [INFO] [23:43:50 | #0160] BTC: $80099.95 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:14:00,079 [INFO] [23:44:00 | #0161] BTC: $80105.95 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:14:10,090 [WARNING] GDELT poll failed: Expecting value: line 1 column 1 (char 0)
+2026-10-26 05:14:10,158 [INFO] [23:44:10 | #0162] BTC: $80088.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:14:20,036 [INFO] [23:44:20 | #0163] BTC: $80064.65 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:14:30,048 [INFO] [23:44:30 | #0164] BTC: $80055.75 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:14:37,610 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:14:40,036 [INFO] [23:44:40 | #0165] BTC: $80036.95 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:14:50,038 [INFO] [23:44:50 | #0166] BTC: $80025.35 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:15:00,074 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-26 05:15:00,091 [INFO] [23:45:00 | #0167] BTC: $80027.35 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:15:07,932 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:15:10,118 [INFO] [23:45:10 | #0168] BTC: $80008.15 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:15:20,081 [INFO] [23:45:20 | #0169] BTC: $80023.55 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:15:30,057 [INFO] [23:45:30 | #0170] BTC: $80025.05 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:15:38,825 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:15:40,036 [INFO] [23:45:40 | #0171] BTC: $80039.45 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:15:50,047 [INFO] [23:45:50 | #0172] BTC: $80000.05 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:16:00,072 [INFO] [23:46:00 | #0173] BTC: $79997.05 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:16:08,991 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:16:10,045 [INFO] [23:46:10 | #0174] BTC: $79977.85 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:16:20,053 [INFO] [23:46:20 | #0175] BTC: $79956.45 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:16:30,040 [INFO] [23:46:30 | #0176] BTC: $79931.35 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:16:35,692 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:16:40,051 [INFO] [23:46:40 | #0177] BTC: $79935.95 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:16:50,048 [INFO] [23:46:50 | #0178] BTC: $79934.95 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:17:00,078 [INFO] [23:47:00 | #0179] BTC: $79944.25 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:17:05,289 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:17:10,039 [INFO] [23:47:10 | #0180] BTC: $79924.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:17:10,040 [INFO] ================================================================================
+2026-10-26 05:17:10,040 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 30.0 min | Bars: 180)
+2026-10-26 05:17:10,040 [INFO] --- TRADING PERFORMANCE ---
+2026-10-26 05:17:10,040 [INFO]     Closed Trades: 1 | Wins: 1 | Win Rate: 100.0%
+2026-10-26 05:17:10,041 [INFO]     Total Net PnL: +5.20 bps | Avg PnL: +5.20 bps
+2026-10-26 05:17:10,041 [INFO]     Profit Factor: 999.00 | Total Fees Paid: 4.00 bps
+2026-10-26 05:17:10,041 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-26 05:17:10,041 [INFO]     Horizon 10s: Overall Acc:  84.4% (179 smp) | Active Excursion: 100.0% (1 sig) | Directional Sign Acc: 100.0% (1 sig)
+2026-10-26 05:17:10,041 [INFO]     Horizon 30s: Overall Acc:  72.3% (177 smp) | Active Excursion: 100.0% (1 sig) | Directional Sign Acc: 100.0% (1 sig)
+2026-10-26 05:17:10,042 [INFO]     Horizon 1m : Overall Acc:  54.0% (174 smp) | Active Excursion: 100.0% (1 sig) | Directional Sign Acc: 100.0% (1 sig)
+2026-10-26 05:17:10,042 [INFO]     Horizon 5m : Overall Acc:  38.0% (150 smp) | Active Excursion: 100.0% (1 sig) | Directional Sign Acc: 100.0% (1 sig)
+2026-10-26 05:17:10,042 [INFO]     Horizon 15m: Overall Acc:  88.9% (90 smp) | Active Excursion: 100.0% (1 sig) | Directional Sign Acc: 100.0% (1 sig)
+2026-10-26 05:17:10,043 [INFO]     Tier Accuracies -> Tactical(1m): 54.0% | Meso(15m): 88.9% | Macro(15m): 88.9%
+2026-10-26 05:17:10,043 [INFO] ================================================================================
+2026-10-26 05:17:20,060 [INFO] [23:47:20 | #0181] BTC: $79912.45 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:17:30,058 [INFO] [23:47:30 | #0182] BTC: $79907.35 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:17:34,852 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:17:37,234 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-26 05:17:38,240 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-26 05:17:38,873 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-26 05:17:40,057 [INFO] [23:47:40 | #0183] BTC: $79929.85 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:17:50,159 [INFO] [23:47:50 | #0184] BTC: $79912.15 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:18:00,108 [INFO] [23:48:00 | #0185] BTC: $79959.45 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:18:04,825 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:18:10,043 [INFO] [23:48:10 | #0186] BTC: $79980.75 | Dir: LONG | Edge: +44.6 bps | Mode: PASSIVE_MAKER_SNIPER | FSM: RESTING_ENTRY_QUEUE | Pos: NONE
+2026-10-26 05:18:20,051 [INFO] [23:48:20 | #0187] BTC: $79969.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -1.3 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:18:30,051 [INFO] [23:48:30 | #0188] BTC: $79953.85 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -3.4 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:18:37,232 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:18:40,040 [INFO] [23:48:40 | #0189] BTC: $79921.95 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -7.3 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:18:50,039 [INFO] [23:48:50 | #0190] BTC: $79906.55 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -9.3 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:19:00,067 [INFO] [23:49:00 | #0191] BTC: $79931.35 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -6.2 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:19:03,942 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:19:10,053 [INFO] [23:49:10 | #0192] BTC: $79926.65 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -6.8 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:19:20,048 [INFO] [23:49:20 | #0193] BTC: $79902.65 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -9.8 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:19:30,055 [INFO] [23:49:30 | #0194] BTC: $79843.05 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -17.2 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:19:35,095 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:19:40,038 [INFO] [23:49:40 | #0195] BTC: $79837.85 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -17.9 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:19:50,040 [INFO] [23:49:50 | #0196] BTC: $79811.95 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -21.1 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:20:00,059 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 05:20:00,073 [INFO] [23:50:00 | #0197] BTC: $79842.35 | Dir: FLAT | Edge: -2.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -17.3 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:20:02,875 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:20:10,034 [INFO] [23:50:10 | #0198] BTC: $79817.95 | Dir: FLAT | Edge: -2.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -20.3 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:20:20,037 [INFO] [23:50:20 | #0199] BTC: $79871.45 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -13.7 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:20:30,040 [INFO] [23:50:30 | #0200] BTC: $79907.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -9.1 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:20:32,786 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:20:40,041 [INFO] [23:50:40 | #0201] BTC: $79907.75 | Dir: FLAT | Edge: -2.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -9.1 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:20:50,049 [INFO] [23:50:50 | #0202] BTC: $79915.55 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -8.1 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:21:00,092 [INFO] [23:51:00 | #0203] BTC: $79904.45 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -9.5 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:21:02,488 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:21:10,043 [INFO] [23:51:10 | #0204] BTC: $79858.55 | Dir: FLAT | Edge: -2.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -15.3 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:21:20,116 [INFO] [23:51:20 | #0205] BTC: $79865.95 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -14.3 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:21:30,041 [INFO] [23:51:30 | #0206] BTC: $79882.25 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -12.3 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:21:34,359 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:21:40,046 [INFO] [23:51:40 | #0207] BTC: $79899.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -10.1 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:21:50,036 [INFO] [23:51:50 | #0208] BTC: $79922.25 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -7.3 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:22:00,086 [INFO] [23:52:00 | #0209] BTC: $79945.45 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -4.4 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:22:04,319 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:22:10,051 [INFO] [23:52:10 | #0210] BTC: $79925.15 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -6.9 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:22:20,041 [INFO] [23:52:20 | #0211] BTC: $79928.45 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -6.5 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:22:30,043 [INFO] [23:52:30 | #0212] BTC: $79964.95 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -2.0 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:22:32,031 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:22:40,058 [INFO] [23:52:40 | #0213] BTC: $79985.05 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: +0.5 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:22:50,047 [INFO] [23:52:50 | #0214] BTC: $79980.05 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -0.1 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:23:00,076 [INFO] [23:53:00 | #0215] BTC: $79980.35 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: -0.0 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:23:01,815 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:23:10,038 [INFO] [23:53:10 | #0216] BTC: $79996.15 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: +1.9 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:23:20,040 [INFO] [23:53:20 | #0217] BTC: $80007.75 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: +3.4 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:23:30,087 [INFO] [23:53:30 | #0218] BTC: $80034.75 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: +6.8 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:23:33,695 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:23:40,046 [INFO] [23:53:40 | #0219] BTC: $80041.85 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: +7.6 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:23:50,049 [INFO] [23:53:50 | #0220] BTC: $80038.05 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: +7.2 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:24:00,094 [INFO] [23:54:00 | #0221] BTC: $80038.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 79980.7 (Unreal: +7.2 bps, TP: 80381.5, SL: 79764.0)
+2026-10-26 05:24:03,574 [WARNING] GDELT poll failed: Expecting value: line 1 column 1 (char 0)
+2026-10-26 05:24:10,050 [INFO] [23:54:10 | #0222] BTC: $80066.65 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:24:20,048 [INFO] [23:54:20 | #0223] BTC: $80058.55 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:24:30,035 [INFO] [23:54:30 | #0224] BTC: $80058.55 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:24:33,427 [WARNING] GDELT poll failed: Expecting value: line 1 column 1 (char 0)
+2026-10-26 05:24:40,054 [INFO] [23:54:40 | #0225] BTC: $80026.95 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:24:50,047 [INFO] [23:54:50 | #0226] BTC: $80021.65 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:25:00,066 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 05:25:00,081 [INFO] [23:55:00 | #0227] BTC: $80030.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:25:04,095 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:25:10,047 [INFO] [23:55:10 | #0228] BTC: $80030.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:25:20,052 [INFO] [23:55:20 | #0229] BTC: $80045.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:25:30,056 [INFO] [23:55:30 | #0230] BTC: $80087.45 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:25:30,923 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:25:40,044 [INFO] [23:55:40 | #0231] BTC: $80103.15 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:25:50,078 [INFO] [23:55:50 | #0232] BTC: $80144.45 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:26:00,077 [INFO] [23:56:00 | #0233] BTC: $80123.55 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:26:00,739 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:26:10,039 [INFO] [23:56:10 | #0234] BTC: $80107.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:26:20,183 [INFO] [23:56:20 | #0235] BTC: $80092.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:26:30,069 [INFO] [23:56:30 | #0236] BTC: $80092.05 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:26:30,469 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:26:40,048 [INFO] [23:56:40 | #0237] BTC: $80139.75 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:26:50,122 [INFO] [23:56:50 | #0238] BTC: $80120.25 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:27:00,078 [INFO] [23:57:00 | #0239] BTC: $80147.65 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:27:02,276 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:27:10,044 [INFO] [23:57:10 | #0240] BTC: $80150.65 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:27:10,044 [INFO] ================================================================================
+2026-10-26 05:27:10,045 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 40.0 min | Bars: 240)
+2026-10-26 05:27:10,045 [INFO] --- TRADING PERFORMANCE ---
+2026-10-26 05:27:10,045 [INFO]     Closed Trades: 2 | Wins: 2 | Win Rate: 100.0%
+2026-10-26 05:27:10,045 [INFO]     Total Net PnL: +10.40 bps | Avg PnL: +5.20 bps
+2026-10-26 05:27:10,045 [INFO]     Profit Factor: 999.00 | Total Fees Paid: 8.00 bps
+2026-10-26 05:27:10,045 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-26 05:27:10,045 [INFO]     Horizon 10s: Overall Acc:  83.7% (239 smp) | Active Excursion:  50.0% (2 sig) | Directional Sign Acc:  50.0% (2 sig)
+2026-10-26 05:27:10,045 [INFO]     Horizon 30s: Overall Acc:  69.2% (237 smp) | Active Excursion:  50.0% (2 sig) | Directional Sign Acc:  50.0% (2 sig)
+2026-10-26 05:27:10,046 [INFO]     Horizon 1m : Overall Acc:  55.1% (234 smp) | Active Excursion:  50.0% (2 sig) | Directional Sign Acc:  50.0% (2 sig)
+2026-10-26 05:27:10,046 [INFO]     Horizon 5m : Overall Acc:  36.2% (210 smp) | Active Excursion: 100.0% (2 sig) | Directional Sign Acc: 100.0% (2 sig)
+2026-10-26 05:27:10,046 [INFO]     Horizon 15m: Overall Acc:  70.7% (150 smp) | Active Excursion: 100.0% (1 sig) | Directional Sign Acc: 100.0% (1 sig)
+2026-10-26 05:27:10,046 [INFO]     Tier Accuracies -> Tactical(1m): 55.1% | Meso(15m): 70.7% | Macro(15m): 70.7%
+2026-10-26 05:27:10,046 [INFO] ================================================================================
+2026-10-26 05:27:20,041 [INFO] [23:57:20 | #0241] BTC: $80162.05 | Dir: LONG | Edge: +43.7 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:27:29,942 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:27:30,050 [INFO] [23:57:30 | #0242] BTC: $80161.95 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:27:40,054 [INFO] [23:57:40 | #0243] BTC: $80136.35 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:27:50,043 [INFO] [23:57:50 | #0244] BTC: $80155.95 | Dir: FLAT | Edge: -3.5 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:28:00,078 [INFO] [23:58:00 | #0245] BTC: $80136.35 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:28:00,820 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:28:10,049 [INFO] [23:58:10 | #0246] BTC: $80109.45 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:28:20,043 [INFO] [23:58:20 | #0247] BTC: $80088.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:28:30,042 [INFO] [23:58:30 | #0248] BTC: $80074.25 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:28:32,084 [WARNING] GDELT poll failed: Expecting value: line 1 column 1 (char 0)
+2026-10-26 05:28:40,042 [INFO] [23:58:40 | #0249] BTC: $80097.15 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:28:50,073 [INFO] [23:58:50 | #0250] BTC: $80081.25 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:29:00,080 [INFO] [23:59:00 | #0251] BTC: $80110.55 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:29:01,094 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:29:10,052 [INFO] [23:59:10 | #0252] BTC: $80114.35 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:29:20,072 [INFO] [23:59:20 | #0253] BTC: $80110.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:29:29,869 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:29:30,041 [INFO] [23:59:30 | #0254] BTC: $80110.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:29:40,046 [INFO] [23:59:40 | #0255] BTC: $80100.05 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:29:50,044 [INFO] [23:59:50 | #0256] BTC: $80096.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:29:59,371 [WARNING] GDELT poll failed: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min
+2026-10-26 05:30:00,113 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-26 05:30:00,129 [INFO] [00:00:00 | #0257] BTC: $80114.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:30:10,056 [INFO] [00:00:10 | #0258] BTC: $80114.35 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:30:20,044 [INFO] [00:00:20 | #0259] BTC: $80085.85 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-26 05:30:27,120 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:30:30,042 [INFO] [00:00:30 | #0260] BTC: $80082.25 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:30:40,059 [INFO] [00:00:40 | #0261] BTC: $80125.75 | Dir: LONG | Edge: +46.8 bps | Mode: PASSIVE_MAKER_SNIPER | FSM: RESTING_ENTRY_QUEUE | Pos: NONE
+2026-10-26 05:30:50,045 [INFO] [00:00:50 | #0262] BTC: $80124.95 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80125.7 (Unreal: -0.1 bps, TP: 80545.2, SL: 79898.9)
+2026-10-26 05:30:56,935 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:31:00,086 [INFO] [00:01:00 | #0263] BTC: $80120.05 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80125.7 (Unreal: -0.7 bps, TP: 80545.2, SL: 79898.9)
+2026-10-26 05:31:10,069 [INFO] [00:01:10 | #0264] BTC: $80162.95 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:31:20,045 [INFO] [00:01:20 | #0265] BTC: $80128.05 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:31:29,667 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:31:30,040 [INFO] [00:01:30 | #0266] BTC: $80111.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:31:40,048 [INFO] [00:01:40 | #0267] BTC: $80117.65 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:31:50,046 [INFO] [00:01:50 | #0268] BTC: $80130.65 | Dir: FLAT | Edge: -3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:31:56,241 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:32:00,121 [INFO] [00:02:00 | #0269] BTC: $80100.05 | Dir: FLAT | Edge: -3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:32:10,041 [INFO] [00:02:10 | #0270] BTC: $80107.85 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:32:20,048 [INFO] [00:02:20 | #0271] BTC: $80082.25 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:32:29,060 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:32:30,071 [INFO] [00:02:30 | #0272] BTC: $80080.85 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:32:40,048 [INFO] [00:02:40 | #0273] BTC: $80061.25 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:32:50,054 [INFO] [00:02:50 | #0274] BTC: $80047.15 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:32:57,105 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:33:00,101 [INFO] [00:03:00 | #0275] BTC: $80047.55 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:33:10,050 [INFO] [00:03:10 | #0276] BTC: $80048.85 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:33:20,101 [INFO] [00:03:20 | #0277] BTC: $80034.05 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:33:27,951 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:33:30,055 [INFO] [00:03:30 | #0278] BTC: $80006.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:33:40,213 [INFO] [00:03:40 | #0279] BTC: $79978.75 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:33:50,064 [INFO] [00:03:50 | #0280] BTC: $79985.35 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:33:55,180 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:34:00,089 [INFO] [00:04:00 | #0281] BTC: $79997.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:34:10,064 [INFO] [00:04:10 | #0282] BTC: $79999.95 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:34:20,060 [INFO] [00:04:20 | #0283] BTC: $80012.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:34:25,459 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:34:30,042 [INFO] [00:04:30 | #0284] BTC: $80035.75 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:34:40,076 [INFO] [00:04:40 | #0285] BTC: $80041.85 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:34:50,044 [INFO] [00:04:50 | #0286] BTC: $80012.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:34:53,703 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:35:00,126 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 05:35:00,145 [INFO] [00:05:00 | #0287] BTC: $80000.05 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:35:10,063 [INFO] [00:05:10 | #0288] BTC: $80000.75 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:35:20,058 [INFO] [00:05:20 | #0289] BTC: $80035.75 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:35:22,565 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:35:30,037 [INFO] [00:05:30 | #0290] BTC: $80020.05 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:35:40,043 [INFO] [00:05:40 | #0291] BTC: $80020.05 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:35:50,043 [INFO] [00:05:50 | #0292] BTC: $80009.65 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:35:54,085 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:36:00,085 [INFO] [00:06:00 | #0293] BTC: $80023.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:36:10,054 [INFO] [00:06:10 | #0294] BTC: $80027.55 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:36:20,044 [INFO] [00:06:20 | #0295] BTC: $80028.85 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:36:22,041 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:36:30,039 [INFO] [00:06:30 | #0296] BTC: $80041.85 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:36:40,044 [INFO] [00:06:40 | #0297] BTC: $80069.35 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:36:50,078 [INFO] [00:06:50 | #0298] BTC: $80104.05 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:36:51,889 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:37:00,110 [INFO] [00:07:00 | #0299] BTC: $80074.35 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:37:10,042 [INFO] [00:07:10 | #0300] BTC: $80049.85 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:37:10,042 [INFO] ================================================================================
+2026-10-26 05:37:10,042 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 50.0 min | Bars: 300)
+2026-10-26 05:37:10,042 [INFO] --- TRADING PERFORMANCE ---
+2026-10-26 05:37:10,042 [INFO]     Closed Trades: 3 | Wins: 3 | Win Rate: 100.0%
+2026-10-26 05:37:10,042 [INFO]     Total Net PnL: +11.45 bps | Avg PnL: +3.82 bps
+2026-10-26 05:37:10,043 [INFO]     Profit Factor: 999.00 | Total Fees Paid: 12.00 bps
+2026-10-26 05:37:10,043 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-26 05:37:10,043 [INFO]     Horizon 10s: Overall Acc:  84.3% (299 smp) | Active Excursion:  50.0% (2 sig) | Directional Sign Acc:  50.0% (2 sig)
+2026-10-26 05:37:10,043 [INFO]     Horizon 30s: Overall Acc:  71.4% (297 smp) | Active Excursion:  66.7% (3 sig) | Directional Sign Acc:  66.7% (3 sig)
+2026-10-26 05:37:10,043 [INFO]     Horizon 1m : Overall Acc:  58.5% (294 smp) | Active Excursion:  66.7% (3 sig) | Directional Sign Acc:  66.7% (3 sig)
+2026-10-26 05:37:10,043 [INFO]     Horizon 5m : Overall Acc:  44.4% (270 smp) | Active Excursion:  75.0% (4 sig) | Directional Sign Acc:  75.0% (4 sig)
+2026-10-26 05:37:10,043 [INFO]     Horizon 15m: Overall Acc:  71.9% (210 smp) | Active Excursion: 100.0% (2 sig) | Directional Sign Acc: 100.0% (2 sig)
+2026-10-26 05:37:10,043 [INFO]     Tier Accuracies -> Tactical(1m): 58.5% | Meso(15m): 71.9% | Macro(15m): 71.9%
+2026-10-26 05:37:10,044 [INFO] ================================================================================
+2026-10-26 05:37:20,079 [INFO] [00:07:20 | #0301] BTC: $80040.25 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:37:23,453 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:37:30,046 [INFO] [00:07:30 | #0302] BTC: $80019.55 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:37:40,070 [INFO] [00:07:40 | #0303] BTC: $80036.05 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:37:50,080 [INFO] [00:07:50 | #0304] BTC: $80040.35 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:37:53,581 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:38:00,090 [INFO] [00:08:00 | #0305] BTC: $80021.25 | Dir: FLAT | Edge: -2.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:38:10,054 [INFO] [00:08:10 | #0306] BTC: $80033.55 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:38:20,074 [INFO] [00:08:20 | #0307] BTC: $80047.95 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:38:21,767 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:38:30,077 [INFO] [00:08:30 | #0308] BTC: $80047.85 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:38:40,055 [INFO] [00:08:40 | #0309] BTC: $80037.65 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:38:50,007 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:38:50,068 [INFO] [00:08:50 | #0310] BTC: $80044.05 | Dir: FLAT | Edge: -2.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:39:00,078 [INFO] [00:09:00 | #0311] BTC: $80055.85 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:39:10,072 [INFO] [00:09:10 | #0312] BTC: $80062.45 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:39:18,769 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:39:20,202 [INFO] [00:09:20 | #0313] BTC: $80091.45 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:39:30,052 [INFO] [00:09:30 | #0314] BTC: $80080.65 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:39:40,103 [INFO] [00:09:40 | #0315] BTC: $80117.95 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:39:49,066 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:39:50,085 [INFO] [00:09:50 | #0316] BTC: $80118.15 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:40:00,090 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-26 05:40:00,111 [INFO] [00:10:00 | #0317] BTC: $80112.95 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:40:10,077 [INFO] [00:10:10 | #0318] BTC: $80111.05 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:40:19,797 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:40:20,057 [INFO] [00:10:20 | #0319] BTC: $80125.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-26 05:40:30,070 [INFO] [00:10:30 | #0320] BTC: $80159.95 | Dir: LONG | Edge: +48.3 bps | Mode: PASSIVE_MAKER_SNIPER | FSM: RESTING_ENTRY_QUEUE | Pos: NONE
+2026-10-26 05:40:40,071 [INFO] [00:10:40 | #0321] BTC: $80161.95 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: +0.3 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:40:50,123 [INFO] [00:10:50 | #0322] BTC: $80145.75 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -1.8 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:40:50,589 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:41:00,183 [INFO] [00:11:00 | #0323] BTC: $80157.25 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -0.3 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:41:10,060 [INFO] [00:11:10 | #0324] BTC: $80176.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: +2.1 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:41:17,425 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:41:20,068 [INFO] [00:11:20 | #0325] BTC: $80157.45 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -0.3 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:41:30,056 [INFO] [00:11:30 | #0326] BTC: $80145.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -1.8 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:41:40,041 [INFO] [00:11:40 | #0327] BTC: $80123.95 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -4.5 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:41:47,518 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:41:50,082 [INFO] [00:11:50 | #0328] BTC: $80123.85 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -4.5 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:42:00,103 [INFO] [00:12:00 | #0329] BTC: $80185.35 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: +3.2 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:42:10,043 [INFO] [00:12:10 | #0330] BTC: $80179.35 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: +2.4 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:42:18,182 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:42:20,038 [INFO] [00:12:20 | #0331] BTC: $80155.65 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -0.5 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:42:30,049 [INFO] [00:12:30 | #0332] BTC: $80179.75 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: +2.5 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:42:40,104 [INFO] [00:12:40 | #0333] BTC: $80173.95 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: +1.8 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:42:48,077 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:42:50,035 [INFO] [00:12:50 | #0334] BTC: $80158.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -0.2 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:43:00,098 [INFO] [00:13:00 | #0335] BTC: $80185.55 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: +3.2 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:43:10,046 [INFO] [00:13:10 | #0336] BTC: $80158.15 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -0.2 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:43:18,940 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:43:20,050 [INFO] [00:13:20 | #0337] BTC: $80175.95 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: +2.0 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:43:30,066 [INFO] [00:13:30 | #0338] BTC: $80150.05 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -1.2 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:43:40,041 [INFO] [00:13:40 | #0339] BTC: $80165.85 | Dir: FLAT | Edge: -3.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: +0.7 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:43:47,304 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:43:50,045 [INFO] [00:13:50 | #0340] BTC: $80140.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -2.5 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:44:00,083 [INFO] [00:14:00 | #0341] BTC: $80127.15 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -4.1 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:44:10,042 [INFO] [00:14:10 | #0342] BTC: $80116.05 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -5.5 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:44:16,731 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:44:20,100 [INFO] [00:14:20 | #0343] BTC: $80133.05 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -3.3 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:44:30,037 [INFO] [00:14:30 | #0344] BTC: $80116.05 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -5.5 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:44:40,044 [INFO] [00:14:40 | #0345] BTC: $80114.75 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -5.6 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:44:45,010 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:44:50,043 [INFO] [00:14:50 | #0346] BTC: $80100.05 | Dir: SHORT | Edge: +43.3 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -7.5 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:45:00,081 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-26 05:45:00,104 [INFO] [00:15:00 | #0347] BTC: $80071.45 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -11.0 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:45:10,053 [INFO] [00:15:10 | #0348] BTC: $80112.45 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -5.9 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:45:14,518 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Max retries exceeded with url: /api/v2/doc/doc?query=bitcoin+OR+BTC+OR+cryptocurrency&mode=artlist&format=json&maxrecords=250&sort=datedesc&timespan=15min (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000002563083A210>, 'Connection to api.gdeltproject.org timed out. (connect timeout=10)'))
+2026-10-26 05:45:20,052 [INFO] [00:15:20 | #0349] BTC: $80131.65 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -3.5 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:45:30,053 [INFO] [00:15:30 | #0350] BTC: $80135.55 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -3.0 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:45:40,040 [INFO] [00:15:40 | #0351] BTC: $80107.25 | Dir: FLAT | Edge: -2.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -6.6 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:45:44,287 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:45:50,062 [INFO] [00:15:50 | #0352] BTC: $80092.35 | Dir: FLAT | Edge: -2.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -8.4 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:46:00,074 [INFO] [00:16:00 | #0353] BTC: $80104.05 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -7.0 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:46:10,057 [INFO] [00:16:10 | #0354] BTC: $80104.15 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -7.0 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:46:13,934 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:46:20,040 [INFO] [00:16:20 | #0355] BTC: $80109.25 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -6.3 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:46:30,043 [INFO] [00:16:30 | #0356] BTC: $80098.75 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -7.6 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:46:40,041 [INFO] [00:16:40 | #0357] BTC: $80127.45 | Dir: FLAT | Edge: -3.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -4.0 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:46:42,679 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:46:50,042 [INFO] [00:16:50 | #0358] BTC: $80118.15 | Dir: FLAT | Edge: -2.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -5.2 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:47:00,096 [INFO] [00:17:00 | #0359] BTC: $80088.45 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -8.9 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:47:10,072 [INFO] [00:17:10 | #0360] BTC: $80074.65 | Dir: FLAT | Edge: -3.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: BUY @ 80159.9 (Unreal: -10.6 bps, TP: 80599.9, SL: 79922.1)
+2026-10-26 05:47:10,072 [INFO] ================================================================================
+2026-10-26 05:47:10,073 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 60.0 min | Bars: 360)
+2026-10-26 05:47:10,073 [INFO] --- TRADING PERFORMANCE ---
+2026-10-26 05:47:10,074 [INFO]     Closed Trades: 3 | Wins: 3 | Win Rate: 100.0%
+2026-10-26 05:47:10,074 [INFO]     Total Net PnL: +11.45 bps | Avg PnL: +3.82 bps
+2026-10-26 05:47:10,074 [INFO]     Profit Factor: 999.00 | Total Fees Paid: 12.00 bps
+2026-10-26 05:47:10,074 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-26 05:47:10,074 [INFO]     Horizon 10s: Overall Acc:  85.5% (359 smp) | Active Excursion:  50.0% (2 sig) | Directional Sign Acc:  50.0% (2 sig)
+2026-10-26 05:47:10,074 [INFO]     Horizon 30s: Overall Acc:  72.5% (357 smp) | Active Excursion:  66.7% (3 sig) | Directional Sign Acc:  66.7% (3 sig)
+2026-10-26 05:47:10,075 [INFO]     Horizon 1m : Overall Acc:  62.4% (354 smp) | Active Excursion:  66.7% (3 sig) | Directional Sign Acc:  66.7% (3 sig)
+2026-10-26 05:47:10,075 [INFO]     Horizon 5m : Overall Acc:  47.9% (330 smp) | Active Excursion:  80.0% (5 sig) | Directional Sign Acc:  80.0% (5 sig)
+2026-10-26 05:47:10,075 [INFO]     Horizon 15m: Overall Acc:  78.2% (270 smp) | Active Excursion: 100.0% (4 sig) | Directional Sign Acc: 100.0% (4 sig)
+2026-10-26 05:47:10,075 [INFO]     Tier Accuracies -> Tactical(1m): 62.4% | Meso(15m): 78.2% | Macro(15m): 78.2%
+2026-10-26 05:47:10,075 [INFO] ================================================================================
+2026-10-26 05:47:12,540 [WARNING] GDELT poll failed: HTTPSConnectionPool(host='api.gdeltproject.org', port=443): Read timed out. (read timeout=10)
+2026-10-26 05:47:13,020 [INFO] Stopping WebSocket ingestor & REST companion poller...
+2026-10-26 05:47:13,569 [INFO] ================================================================================
+2026-10-26 05:47:13,569 [INFO] SESSION CONCLUDED SUCCESSFULLY
+2026-10-26 05:47:13,569 [INFO] Total Time: 60.0 min | Total Bars: 360 | Closed Trades: 3
+2026-10-26 05:47:13,569 [INFO] Win Rate: 100.0% | Total Net PnL: +11.45 bps
+2026-10-26 05:47:13,569 [INFO] Final Metrics Saved: D:\PrivateProjects\BTC Futures\scratch\live_session_final_metrics.json
+2026-10-26 05:47:13,569 [INFO] Ledger Saved: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_1h_ledger.jsonl
+2026-10-26 05:47:13,569 [INFO] ================================================================================
+2026-10-26 05:47:13,571 [INFO] 1-Hour session finished. Exiting process.

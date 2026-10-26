@@ -174,7 +174,7 @@ class HierarchicalSniperExecutionEngine:
         self.closed_trades: list[ClosedSwingTradeRecord] = []
         self.last_exit_ts_ms: int = 0
         self.last_exit_dir: int = 1
-        self.min_reentry_cooldown_ms: int = int(kwargs.get("min_reentry_cooldown_sec", 20) * 1000)
+        self.min_reentry_cooldown_ms: int = int(kwargs.get("min_reentry_cooldown_sec", 10) * 1000)
 
     def on_hierarchical_decision(
         self,
@@ -459,10 +459,13 @@ class HierarchicalSniperExecutionEngine:
                 )
                 return self.state
 
-            activation_hurdle_bps = min(self.trailing_act_frac * pos.take_profit_bps, 4.6)
+            activation_hurdle_bps = min(self.trailing_act_frac * pos.take_profit_bps, 4.30)
             if pos.peak_favorable_excursion_bps >= activation_hurdle_bps:
                 pos.trailing_maker_armed = True
-                lock_bps = max(5.05, 0.78 * pos.peak_favorable_excursion_bps)
+                if pos.peak_favorable_excursion_bps >= 5.20:
+                    lock_bps = max(5.05, 0.78 * pos.peak_favorable_excursion_bps)
+                else:
+                    lock_bps = max(4.30, 0.94 * pos.peak_favorable_excursion_bps)
                 if unrealized_bps <= lock_bps or unrealized_bps >= 9.2:
                     exit_gross_bps = max(lock_bps, unrealized_bps)
                     maker_exit_p = pos.entry_price * (1.0 + sign * exit_gross_bps * 1e-4)
@@ -520,8 +523,8 @@ class HierarchicalSniperExecutionEngine:
             )
             return
 
-        # 1. Macro/Meso violent reversal check (only after 180s minimum hold and outside the [-5.5, +5.2] bps fee deadzone)
-        if elapsed_sec >= 180.0 and (unrealized_bps >= 5.2 or unrealized_bps <= -5.5):
+        # 1. Macro/Meso violent reversal check (only after 120s minimum hold when in net profit >= 4.30 bps)
+        if elapsed_sec >= 120.0 and unrealized_bps >= 4.30:
             if (sign * d_meso) < -0.22 and (sign * d_tact) < -0.15 and (sign * d_micro) < -0.10:
                 maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
                 self._close_position(

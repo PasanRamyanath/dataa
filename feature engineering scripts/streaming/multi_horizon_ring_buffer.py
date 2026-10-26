@@ -141,6 +141,50 @@ class MultiHorizonLiveRingBuffer:
                 loaded += 1
             counts[tf] = loaded
 
+        # Pre-seed 10s ring buffer with 120 causal 10-second bars interpolated from the last 20 closed 1m bars
+        # so live trading sessions have full 20-minute (120-bar) 10s lookback immediately from Bar #1!
+        if len(self.klines_um["10s"]) == 0 and len(self.klines_um["1m"]) >= 20:
+            last20_1m = list(self.klines_um["1m"])[-20:]
+            for b1 in last20_1m:
+                o1, h1, l1, c1 = b1["open"], b1["high"], b1["low"], b1["close"]
+                v_step = b1["volume"] / 6.0
+                tb_step = b1["taker_buy_volume"] / 6.0
+                ts_step = b1["taker_sell_volume"] / 6.0
+                imb1 = b1["taker_imb"]
+                wp = [o1, 0.5*(o1+l1), l1, 0.5*(l1+h1), h1, c1] if c1 >= o1 else [o1, 0.5*(o1+h1), h1, 0.5*(h1+l1), l1, c1]
+                for s_i in range(6):
+                    p_s = wp[s_i]
+                    p_prev = o1 if s_i == 0 else wp[s_i - 1]
+                    t_open = b1["open_ts"] + s_i * 10000
+                    t_close = t_open + 10000
+                    self.klines_um["10s"].append({
+                        "open_ts": t_open,
+                        "close_ts": t_close,
+                        "open": p_prev,
+                        "high": max(p_prev, p_s),
+                        "low": min(p_prev, p_s),
+                        "close": p_s,
+                        "volume": v_step,
+                        "taker_buy_volume": tb_step,
+                        "taker_sell_volume": ts_step,
+                        "taker_imb": imb1,
+                        "best_bid": p_s - 0.05,
+                        "best_ask": p_s + 0.05,
+                        "bids_depth": 2.5,
+                        "asks_depth": 2.5,
+                        "depth_metrics": {},
+                        "funding_rate": 0.0001,
+                        "open_interest": 0.0,
+                        "basis_pct": 0.0,
+                        "toptrader_sum_ls_ratio": 1.0,
+                        "toptrader_count_ls_ratio": 1.0,
+                        "all_account_ls_ratio": 1.0,
+                        "taker_ls_vol_ratio": 1.0,
+                        "eth_imbalance": 0.0,
+                    })
+                    self.last_closed_ts_ms["10s"] = t_close
+            counts["10s_prewarmed"] = len(self.klines_um["10s"])
+
         # Refresh Macro, Meso, and Tactical cached probabilities immediately via trained models
         self.recompute_tier4_macro_state()
         self.recompute_tier3_meso_state()

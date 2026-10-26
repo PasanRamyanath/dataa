@@ -197,7 +197,7 @@ def poll_gdelt() -> list[dict]:
         resp.raise_for_status()
         payload = resp.json()
     except (requests.RequestException, ValueError) as e:
-        log.debug("GDELT poll skipped/rate-limited: %s", e)
+        log.warning("GDELT poll failed: %s", e)
         return []
 
     state = _StateStore("gdelt")

@@ -139,14 +139,7 @@ class LiveNewsEngineDaemon:
 
         try:
             from inference import news_feed, sentiment_scorer
-            now_m = time.monotonic()
-            last_g = getattr(self, "_last_gdelt_mono", 0.0)
-            skip_list = [] if config.get_whale_alert_api_key() else ["whale_alert"]
-            if (now_m - last_g) < 300.0:
-                skip_list.append("gdelt")
-            else:
-                self._last_gdelt_mono = now_m
-            news_feed.poll_all_once(skip=skip_list)
+            news_feed.poll_all_once(skip=["whale_alert"] if not config.get_whale_alert_api_key() else [])
             offsets = sentiment_scorer._load_offsets()
             sentiment_scorer.run_once(scorer.tier1 if hasattr(scorer, "tier1") else sentiment_scorer.load_scorer(), offsets)
         except Exception as exc:
