@@ -282,7 +282,7 @@ class HierarchicalSniperExecutionEngine:
         if decision.execution_mode == "URGENT_HYBRID":
             ep = bbo_ask if side == "BUY" else bbo_bid
             tp_bps = decision.take_profit_bps
-            sl_bps = min(decision.stop_loss_bps, 9.5)
+            sl_bps = decision.stop_loss_bps
             tp_p = ep * (1.0 + tp_bps * 1e-4) if side == "BUY" else ep * (1.0 - tp_bps * 1e-4)
             sl_p = ep * (1.0 - sl_bps * 1e-4) if side == "BUY" else ep * (1.0 + sl_bps * 1e-4)
             self.active_position = ActiveSwingPosition(
@@ -390,7 +390,7 @@ class HierarchicalSniperExecutionEngine:
 
             if filled:
                 tp_bps = self.stalking_decision.take_profit_bps
-                sl_bps = min(self.stalking_decision.stop_loss_bps, 9.5)
+                sl_bps = self.stalking_decision.stop_loss_bps
                 ep = self.resting_entry_price
                 if self.resting_entry_side == "BUY":
                     tp_p = ep * (1.0 + tp_bps * 1e-4)
@@ -535,24 +535,23 @@ class HierarchicalSniperExecutionEngine:
                 )
                 return
 
-        # 1B. Unseen-Session Opposite-Signal & Stagnant-Underwater Protection (prevents 26-minute lockups & deep drawdowns)
-        if pos.peak_favorable_excursion_bps < 4.30:
-            if (elapsed_sec >= 90.0 and unrealized_bps <= -2.0 and decision.primary_direction == opp_dir) or (elapsed_sec >= 300.0 and unrealized_bps <= -0.5):
-                maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
-                self._close_position(
-                    exit_price=maker_exit_p,
-                    exit_ts_ms=now_ms,
-                    exit_fee_bps=self.maker_fee_leg,
-                    reason="PASSIVE_MAKER_TIME_UNWIND",
-                )
-                return
+        # 1B. Profitable Time-Decay & Opposite-Wave Maker Lock (never force-closes underwater trades at a loss)
+        if elapsed_sec >= 300.0 and unrealized_bps >= 4.25 and ((sign * d_micro) <= 0.05 or decision.primary_direction == opp_dir):
+            maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
+            self._close_position(
+                exit_price=maker_exit_p,
+                exit_ts_ms=now_ms,
+                exit_fee_bps=self.maker_fee_leg,
+                reason="PASSIVE_MAKER_TIME_UNWIND",
+            )
+            return
 
         # 2. Enter PASSIVE_MAKER_UNWIND at 85% of target holding horizon
         if hold_frac >= self.unwind_start_frac and self.state == "FILLED_SWING_HOLDING":
             self.state = "PASSIVE_MAKER_UNWIND"
 
         if self.state == "PASSIVE_MAKER_UNWIND":
-            if (sign * d_micro) <= 0.05 or hold_frac >= 0.95:
+            if unrealized_bps >= 4.25 and ((sign * d_micro) <= 0.05 or hold_frac >= 0.95):
                 maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
                 self._close_position(
                     exit_price=maker_exit_p,

@@ -26,7 +26,7 @@ if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8")
 
 # 3. Path setup
-REPO_ROOT = Path("D:/PrivateProjects/BTC Futures").resolve()
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 FEAT_ENGINE_DIR = (REPO_ROOT / "feature engineering scripts").resolve()
 for p in [str(REPO_ROOT), str(FEAT_ENGINE_DIR)]:
     if p not in sys.path:
