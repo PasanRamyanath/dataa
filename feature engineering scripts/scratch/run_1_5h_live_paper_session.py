@@ -1,7 +1,7 @@
 """
 feature engineering scripts/scratch/run_1_5h_live_paper_session.py
 1.5-Hour Live Paper Trading Session Runner with Real-Time Telemetry and Accuracy Tracking.
-Tests updated hierarchical sniper execution engine (V3.5) and forward accuracy evaluator over 90 minutes (540 bars).
+Tests updated hierarchical sniper execution engine (V3.6) and forward accuracy evaluator over 90 minutes (540 bars).
 """
 import os
 import sys
@@ -124,7 +124,7 @@ class InstrumentedTestSession(LiveHierarchicalTradingSession):
 
 def main():
     log.info("=" * 80)
-    log.info("LAUNCHING 1.5-HOUR LIVE PAPER TRADING & ACCURACY EVALUATION SESSION (V3.5 UPDATED ENGINE)")
+    log.info("LAUNCHING 1.5-HOUR LIVE PAPER TRADING & ACCURACY EVALUATION SESSION (V3.5 PEAK ENGINE - ENHANCED INGESTION)")
     log.info("Symbol: BTCUSDT | Target Duration: 90.0 minutes (1.5 hours | 540 bars)")
     log.info("Checkpoints: %s", FEAT_ENGINE_DIR / "models_v3" / "checkpoints")
     log.info("Ledger Path: %s", LEDGER_PATH)

@@ -152,22 +152,26 @@ class BinanceLiveIngestor:
                 async with websockets.connect(
                     url,
                     open_timeout=8,
-                    ping_interval=None,  # Rely on server ping frames; eliminates 1011 keepalive ping timeouts
-                    ping_timeout=20,
+                    ping_interval=15,
+                    ping_timeout=15,
                     close_timeout=5,
                     max_size=10_000_000,
                 ) as ws:
                     log.info("[%s] WebSocket connected successfully.", label)
                     retry_delay = 1.0
+                    self.last_ws_msg_monotonic = time.monotonic()
                     while self.running:
                         try:
                             msg = await asyncio.wait_for(ws.recv(), timeout=2.0)
+                            self.last_ws_msg_monotonic = time.monotonic()
                             data = json.loads(msg)
                             with self._lock:
                                 self._process_stream_event(data.get("stream", ""), data.get("data", data))
                         except asyncio.TimeoutError:
                             with self._lock:
                                 self._check_and_flush_boundary()
+                            if (time.monotonic() - getattr(self, "last_ws_msg_monotonic", time.monotonic())) > 15.0:
+                                raise ConnectionError("WebSocket stream silent for >15.0s (half-open zombie socket); forcing immediate reconnect")
             except Exception as e:
                 if not self.running:
                     break
@@ -600,8 +604,25 @@ class BinanceLiveIngestor:
 
         depth_metrics = self.bar_data.get("depth_metrics") or self.latest_depth_metrics
 
-        # Strict genuine tick requirement: if no real trades occurred and no quotes arrived during interval, tag synthetic
-        is_synthetic_bar = bool(not had_real_trades and tot_vol == 0 and best_bid_cutoff == 0.0)
+        # Strict genuine tick requirement: if no real trades occurred and no new BBO quotes arrived during interval, tag synthetic
+        no_live_quotes_in_bar = bool(getattr(self, "last_bbo_update_ts", 0) < bar_ts_ms)
+        if not had_real_trades and no_live_quotes_in_bar and rest_metrics:
+            r_bid = float(rest_metrics.get("best_bid", 0.0) or 0.0)
+            r_ask = float(rest_metrics.get("best_ask", 0.0) or 0.0)
+            r_mark = float(rest_metrics.get("mark_price", 0.0) or 0.0)
+            if r_bid > 0.0 and r_ask >= r_bid:
+                best_bid_cutoff = r_bid
+                best_ask_cutoff = r_ask
+                self.latest_best_bid = r_bid
+                self.latest_best_ask = r_ask
+                prices = [round(0.5 * (r_bid + r_ask), 2)]
+                self.latest_close = prices[-1]
+            elif r_mark > 0.0:
+                best_bid_cutoff = round(r_mark - 0.05, 2)
+                best_ask_cutoff = round(r_mark + 0.05, 2)
+                prices = [round(r_mark, 2)]
+                self.latest_close = prices[-1]
+        is_synthetic_bar = bool(not had_real_trades and tot_vol == 0 and no_live_quotes_in_bar)
 
         completed_bar = {
             "ts": bar_ts_ms,

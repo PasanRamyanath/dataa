@@ -54,7 +54,7 @@ from orchestration.checkpoint_manager_v4 import (
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("models_v3.train_all_multi_horizon")
 
-DEFAULT_OUTPUT_ROOT = Path(__file__).resolve().parent / "checkpoints_v4"
+DEFAULT_OUTPUT_ROOT = Path(__file__).resolve().parent / "checkpoints"
 V3_CHECKPOINTS_ROOT = Path(__file__).resolve().parent / "checkpoints"
 
 RUN1_FAST_AND_MESO_MEMBERS: tuple[str, ...] = (

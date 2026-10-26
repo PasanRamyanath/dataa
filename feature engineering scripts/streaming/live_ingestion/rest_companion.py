@@ -94,10 +94,25 @@ class BinanceRestCompanionPoller:
                 ).json()
                 if isinstance(pi_resp, dict) and "lastFundingRate" in pi_resp:
                     updates["funding_rate"] = float(pi_resp["lastFundingRate"])
-                    if "markPrice" in pi_resp and "open_interest" in updates:
-                        updates["open_interest_value"] = updates["open_interest"] * float(pi_resp["markPrice"])
+                    if "markPrice" in pi_resp:
+                        updates["mark_price"] = float(pi_resp["markPrice"])
+                        if "open_interest" in updates:
+                            updates["open_interest_value"] = updates["open_interest"] * float(pi_resp["markPrice"])
+                    if "indexPrice" in pi_resp:
+                        updates["index_price"] = float(pi_resp["indexPrice"])
             except Exception as e:
                 log.debug("PremiumIndex REST poll failed: %s", e)
+
+            try:
+                bt_resp = session.get(
+                    f"https://fapi.binance.com/fapi/v1/ticker/bookTicker?symbol={self.symbol}",
+                    timeout=4
+                ).json()
+                if isinstance(bt_resp, dict) and "bidPrice" in bt_resp and "askPrice" in bt_resp:
+                    updates["best_bid"] = float(bt_resp["bidPrice"])
+                    updates["best_ask"] = float(bt_resp["askPrice"])
+            except Exception as e:
+                log.debug("BookTicker REST poll failed: %s", e)
 
             # 2. Global Long/Short Account Ratio
             try:

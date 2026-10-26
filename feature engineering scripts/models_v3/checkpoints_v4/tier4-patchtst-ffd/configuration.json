@@ -1,6 +1,0 @@
-{
-  "model": "PatchTST",
-  "input_size": 720,
-  "h": 90,
-  "freq": "10s"
-}

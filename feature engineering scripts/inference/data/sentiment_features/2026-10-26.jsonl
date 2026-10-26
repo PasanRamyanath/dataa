@@ -19,3 +19,4 @@
 {"ts": "2026-10-26T13:25:46.615799+00:00", "polarity": 0.0, "magnitude": 0.0, "confidence": 0.3, "mention_velocity": 5, "n_scored": 1, "scorer": "LexiconFallbackScorer"}
 {"ts": "2026-10-26T13:36:53.401431+00:00", "polarity": 0.0, "magnitude": 0.0, "confidence": 0.3, "mention_velocity": 4, "n_scored": 1, "scorer": "LexiconFallbackScorer"}
 {"ts": "2026-10-26T13:51:09.325958+00:00", "polarity": 0.0, "magnitude": 0.0, "confidence": 0.3, "mention_velocity": 2, "n_scored": 1, "scorer": "LexiconFallbackScorer"}
+{"ts": "2026-10-26T16:43:55.508173+00:00", "polarity": 0.0, "magnitude": 0.08, "confidence": 0.33999999999999997, "mention_velocity": 15, "n_scored": 15, "scorer": "LexiconFallbackScorer"}

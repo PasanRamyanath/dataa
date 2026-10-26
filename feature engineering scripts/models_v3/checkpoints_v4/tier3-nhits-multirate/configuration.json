@@ -1,6 +1,0 @@
-{
-  "model": "NHITS",
-  "input_size": 720,
-  "h": 90,
-  "freq": "10s"
-}
