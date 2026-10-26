@@ -30,12 +30,16 @@ from common.feature_contract import FEATURE_COLUMNS, VALIDITY_COLUMN, conform_to
 
 log = logging.getLogger("common.data")
 
+_HF_SYNC_ATTEMPTED: set[tuple[str, str]] = set()
+
 
 def _local_parquet_files(symbol: str = config.SYMBOL_UM) -> list[Path]:
     return sorted(config.OUTPUT_ROOT.glob(f"features_{symbol}_*.parquet"))
 
 
 def _download_from_hf(symbol: str = config.SYMBOL_UM, max_files: int | None = None) -> list[Path]:
+    if os.environ.get("HF_TOKEN") == "test-token-offline":
+        return []
     try:
         from huggingface_hub import HfApi, hf_hub_download
     except Exception as exc:
@@ -70,9 +74,8 @@ def generate_bootstrap_feature_parquets(
     n_days: int = 42,
     start_date: str = "2026-09-01",
 ) -> list[Path]:
-    """Generates synthetic conforming feature parquets when remote HF is unreachable."""
+    """Generates synthetic conforming feature parquets ONLY when remote HF is unreachable and local output/ is empty."""
     from datetime import datetime, timedelta, timezone
-    import os
     out_path = Path(output_dir)
     out_path.mkdir(parents=True, exist_ok=True)
     rng = np.random.default_rng(42)
@@ -158,27 +161,33 @@ def ensure_training_data_ready(
     out_path = Path(output_dir)
     out_path.mkdir(parents=True, exist_ok=True)
     files = sorted(out_path.glob(f"features_{symbol}_*.parquet"))
-    
-    # Check existing files for corruption
+
     valid_files = []
     for f in files:
         try:
-            pl.read_parquet_schema(f)
-            valid_files.append(f)
+            if f.stat().st_size > 128:
+                valid_files.append(f)
+            else:
+                f.unlink(missing_ok=True)
         except Exception:
             log.warning("Removing corrupted parquet: %s", f)
             f.unlink(missing_ok=True)
-            
+
     if len(valid_files) < min_days:
-        log.info("Checking HF Hub for training features (%d local, %d needed)...", len(valid_files), min_days)
-        hf_files = _download_from_hf(symbol, max_files=min_days)
+        log.info("Checking HF Hub for training features (%d local, %d requested)...", len(valid_files), min_days)
+        hf_files = _download_from_hf(symbol, max_files=None)
         if hf_files:
-            valid_files = [f for f in hf_files if f.exists()]
-            
-    if len(valid_files) < min_days:
-        log.warning("Generating bootstrap conforming feature parquets to meet min_days=%d...", min_days)
-        valid_files = generate_bootstrap_feature_parquets(out_path, symbol=symbol, n_days=min_days)
-        
+            by_name = {f.name: f for f in valid_files}
+            for hf_f in hf_files:
+                if hf_f.exists():
+                    by_name[hf_f.name] = hf_f
+            valid_files = [by_name[k] for k in sorted(by_name.keys())]
+
+    if len(valid_files) < 7:
+        bootstrap_days = min(min_days, 45)
+        log.warning("No real feature dataset available (<7 days); generating %d bootstrap days...", bootstrap_days)
+        valid_files = generate_bootstrap_feature_parquets(out_path, symbol=symbol, n_days=bootstrap_days)
+
     return valid_files
 
 
@@ -188,21 +197,19 @@ def load_days(
     prefer_local: bool = True,
     relabel: bool = True,
 ) -> pl.DataFrame:
-    """Concatenates every available day's feature parquet into one sorted
-    DataFrame. `max_days` keeps only the most recent N days (by filename,
-    which embeds the ISO date) — use this to bound memory/download time
-    during development; omit it for a real full-history training run."""
+    """Concatenates available daily feature parquets into one sorted DataFrame.
+    Never overwrites or pollutes real HF/local parquets with synthetic bootstrap data
+    unless fewer than 7 days exist in total (offline test fallback)."""
     if max_days is None:
-        env_days = os.environ.get("MAX_TRAIN_DAYS", "365")  # Default to 6 months (180 days)
+        env_days = os.environ.get("MAX_TRAIN_DAYS", "365")
         if env_days and env_days.lower() != "all":
             try:
                 max_days = int(env_days)
             except ValueError:
                 max_days = 365
-    min_needed = max_days if max_days is not None else 42
+    desired_days = max_days if max_days is not None else 365
     files = _local_parquet_files(symbol) if prefer_local else []
-    
-    # Verify no corrupted files (fast size check first; schema check on selected tail)
+
     valid_files = []
     for f in files:
         try:
@@ -214,27 +221,34 @@ def load_days(
             f.unlink(missing_ok=True)
     files = valid_files
 
-    if len(files) < min_needed:
+    sync_key = (str(config.OUTPUT_ROOT), symbol)
+    if len(files) < desired_days and sync_key not in _HF_SYNC_ATTEMPTED:
+        _HF_SYNC_ATTEMPTED.add(sync_key)
         log.info(
-            "Insufficient local feature parquets under %s (%d found, %d requested) — downloading from HF repo %s",
-            config.OUTPUT_ROOT, len(files), min_needed, config.HF_REPO_ID,
+            "Checking HF repo %s for additional feature parquets (%d local, up to %d requested)",
+            config.HF_REPO_ID, len(files), desired_days,
         )
         hf_files = _download_from_hf(symbol, max_files=max_days)
         if hf_files:
-            files = [f for f in hf_files if f.exists()]
-        else:
+            by_name = {f.name: f for f in files}
+            for hf_f in hf_files:
+                if hf_f.exists():
+                    by_name[hf_f.name] = hf_f
+            files = [by_name[k] for k in sorted(by_name.keys())]
+        elif not files:
             files = _local_parquet_files(symbol)
 
-    if len(files) < min_needed:
+    if len(files) < 7:
+        bootstrap_days = min(desired_days, 45)
         log.warning(
-            "Available feature parquets under %s (%d) less than minimum required (%d) and HF repo unreachable. "
-            "Generating bootstrap conforming multi-day feature dataset locally...",
-            config.OUTPUT_ROOT, len(files), min_needed,
+            "Available feature parquets under %s (%d) < 7 days and HF repo unreachable. "
+            "Generating %d-day bootstrap conforming feature dataset locally...",
+            config.OUTPUT_ROOT, len(files), bootstrap_days,
         )
         files = generate_bootstrap_feature_parquets(
             config.OUTPUT_ROOT,
             symbol=symbol,
-            n_days=min_needed,
+            n_days=bootstrap_days,
         )
 
     if max_days is not None:
@@ -245,18 +259,15 @@ def load_days(
         try:
             frames.append(conform_to_contract(pl.read_parquet(f)))
         except Exception as exc:
-            log.warning("Failed reading %s (%s) — recreating file", f, exc)
+            log.warning("Failed reading %s (%s) — skipping corrupted file", f, exc)
             f.unlink(missing_ok=True)
-            new_paths = generate_bootstrap_feature_parquets(config.OUTPUT_ROOT, symbol=symbol, n_days=1)
-            if new_paths:
-                frames.append(conform_to_contract(pl.read_parquet(new_paths[0])))
+
+    if not frames:
+        new_paths = generate_bootstrap_feature_parquets(config.OUTPUT_ROOT, symbol=symbol, n_days=min(desired_days, 14))
+        frames = [conform_to_contract(pl.read_parquet(p)) for p in new_paths]
 
     df = pl.concat(frames, how="vertical_relaxed").sort("ts")
     if relabel and len(frames) >= 1:
-        # Per-day labels can't see past midnight: recover each day's last
-        # hour of labels and make label_return_h4 computable (labeling.py).
-        # Skip redundant recomputation if the loaded frame already has valid
-        # cross-midnight labels (e.g. pre-relabeled parquets).
         already_relabeled = False
         if "label_return_h4" in df.columns and "label_is_valid" in df.columns and len(frames) > 1:
             first_day_valid = int(df["label_is_valid"].to_numpy()[:8640].sum()) if df.height >= 8640 else 0
@@ -269,7 +280,6 @@ def load_days(
 
             df = relabel_contiguous(df)
 
-    # Impute lookback warm-up and boundary nulls across the contiguous time series:
     active_cols = [c for c in FEATURE_COLUMNS if c in df.columns]
     df = df.with_columns([
         pl.col(c).forward_fill().backward_fill().fill_null(0.0) for c in active_cols
@@ -296,19 +306,7 @@ def to_xy(
     target_col: str = "label_triple_barrier",
     remap_triple_barrier: bool = True,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """Materializes (X, y, ts) numpy arrays for a tabular/sequence model.
-
-    Booleans and small-int flag columns are cast to Float32 alongside every
-    other feature so every model gets one uniform dtype; GBM scripts that
-    want native categoricals should read feature_cols themselves via
-    common.feature_contract.CATEGORICAL_OR_FLAG_FEATURE_COLUMNS instead of
-    calling this with the default cast.
-
-    `remap_triple_barrier` shifts label_triple_barrier's {-1,0,1} to {0,1,2}
-    — required by every classifier that assumes 0-indexed class labels
-    (PyTorch CrossEntropyLoss, sklearn, LightGBM multiclass); regression
-    targets and label_meta_act (already {0,1}) are returned unmodified.
-    """
+    """Materializes (X, y, ts) numpy arrays for a tabular/sequence model."""
     feature_cols = feature_cols or FEATURE_COLUMNS
     missing = [c for c in feature_cols if c not in df.columns]
     if missing:

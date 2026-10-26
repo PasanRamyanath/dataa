@@ -806,7 +806,7 @@ class LiveMultiHorizonV4ModelRegistry:
         p6_long = (
             n_c >= 45 and -5.5 <= ret_15m <= -1.5 and 0.6 <= ret_5m <= 2.5
             and 0.35 <= z_tact_dyn <= 1.15 and -0.25 <= z_meso <= 0.35
-            and dd_6m <= 2.2 and vel_10s >= 0.15 and vel_30s >= 0.20 and bnc_2m >= 0.5
+            and dd_6m <= 2.2 and vel_10s >= 0.35 and vel_30s >= 0.35 and bnc_2m >= 0.5
         )
         p7_long = (
             n_c >= 40 and 4.5 <= ret_15m <= 24.0 and 4.2 <= dd_6m <= 9.5
@@ -814,7 +814,7 @@ class LiveMultiHorizonV4ModelRegistry:
             and ret_1m >= 0.80 and vel_30s >= 0.60 and vel_10s >= 0.25
             and bnc_2m >= 1.2 and pb_2m <= 1.0
         )
-        r2_long = (
+        r2_long = False and (
             n_c >= 40 and -14.5 <= ret_15m <= -3.5 and ret_10m <= -8.2
             and -1.8 <= ret_5m <= 1.5 and -1.35 <= z_meso <= -0.55
             and ret_1m >= 0.65 and vel_30s >= 0.55 and vel_10s >= 0.25
@@ -823,7 +823,7 @@ class LiveMultiHorizonV4ModelRegistry:
         r4_long = (
             n_c >= 35 and pb_2m <= 0.05 and dd_6m <= 0.60 and -0.80 <= ret_5m <= 1.50
             and 2.20 <= ret_1m <= 5.38 and vel_30s >= 1.25 and vel_10s >= 1.25
-            and bnc_2m >= 3.00 and z_meso <= 0.95 and z_tact_dyn <= 2.05
+            and 3.00 <= bnc_2m <= 4.20 and vel_30s <= 3.50 and er_10m >= 0.05 and z_meso <= 0.95 and z_tact_dyn <= 1.85
         )
         r5_long = (
             n_c >= 35 and er_10m >= 0.48 and dd_6m <= 1.20 and pb_2m <= 0.15
@@ -834,13 +834,13 @@ class LiveMultiHorizonV4ModelRegistry:
         )
         r7_long = (
             dd_6m >= 9.50 and ret_5m <= -7.40 and z_meso <= -0.80
-            and vel_10s >= 1.00 and bnc_2m >= 1.00 and pos_15m <= 0.33
+            and vel_10s >= 1.00 and bnc_2m >= 1.00 and pos_15m <= 0.33 and pb_2m <= 1.50 and ret_1m >= -0.40
         )
         r9_long = (
             n_c >= 45 and 0.02 <= er_10m <= 0.30
             and 5.0 <= ret_15m <= 32.0 and 3.0 <= ret_10m <= 37.0
             and (dd_6m <= 13.55 or dd_6m >= 17.0)
-            and vel_10s >= 0.60 and bnc_2m >= 0.90
+            and vel_10s >= 0.60 and vel_30s >= 0.50 and ret_1m >= 0.50 and bnc_2m >= 0.90
             and (
                 (dd_6m >= 6.50 and ret_5m <= 10.50)
                 or (6.0 <= ret_15m <= 9.0 and ret_5m >= 2.5 and vel_30s >= 1.25 and vel_10s >= 1.25 and bnc_2m >= 3.50 and dd_6m <= 1.0)
@@ -864,7 +864,7 @@ class LiveMultiHorizonV4ModelRegistry:
             n_c >= 35 and z_tact_dyn <= -1.75 and 5.0 <= dd_6m <= 6.75
             and -10.2 <= ret_15m <= -4.0 and 0.20 <= vel_10s <= 0.90 and bnc_2m >= 0.25
         )
-        r14_long = (
+        r14_long = False and (
             n_c >= 100 and -0.05 <= z_meso <= 0.15 and 0.95 <= z_tact_dyn <= 1.35
             and 1.5 <= ret_15m <= 3.5 and -2.5 <= ret_10m <= -0.5
             and pb_2m == 0.0 and dd_6m <= 0.05 and vel_10s >= 2.50 and vel_30s >= 2.20
@@ -874,7 +874,7 @@ class LiveMultiHorizonV4ModelRegistry:
             and 15.0 <= ret_15m <= 17.5 and 5.0 <= ret_10m <= 7.5 and 1.2 <= ret_5m <= 2.5
             and pb_2m == 0.0 and dd_6m == 0.0 and vel_10s >= 0.50 and bnc_2m >= 2.50
         )
-        r16_long = (
+        r16_long = False and (
             n_c >= 100 and -1.55 <= z_meso <= -1.25 and -1.15 <= z_tact_dyn <= -0.80
             and -1.6 <= ret_15m <= -0.4 and -7.5 <= ret_10m <= -5.0 and -12.0 <= ret_5m <= -10.0
             and 13.0 <= dd_6m <= 14.5 and pb_2m == 0.0 and vel_10s >= 0.65 and vel_30s >= 0.65
@@ -941,14 +941,14 @@ class LiveMultiHorizonV4ModelRegistry:
             and (n_c < 65 or (5.25 <= ret_10m <= 16.50 and ret_20m <= 14.50))
             and (vel_10s <= -0.50 or vel_30s <= -0.50)
             and (vel_10s <= 0.0 or vel_30s <= -0.55)
-            and vel_30s <= 0.15 and pb_2m >= 0.8
+            and vel_30s <= -0.15 and vel_10s <= -0.15 and ret_1m <= 0.25 and pb_2m >= 1.10
         )
         r_modpeak_short = (
             n_c >= 40 and er_10m <= 0.32 and ret_20m <= 14.2
             and 0.85 <= z_meso <= 1.85 and 4.5 <= ret_15m <= 16.5
             and 1.5 <= ret_5m <= 10.5 and ret_1m <= -0.60
-            and vel_30s <= -0.50 and vel_10s <= -0.20
-            and pb_2m >= 1.00 and bnc_2m <= 0.75
+            and vel_30s <= -0.55 and vel_10s <= -0.35
+            and pb_2m >= 1.25 and bnc_2m <= 0.45 and dd_6m <= 4.50
         )
         r_midbreak_short = (
             n_c >= 45 and er_10m <= 0.15 and -6.5 <= ret_15m <= 4.5
@@ -966,24 +966,24 @@ class LiveMultiHorizonV4ModelRegistry:
         r6a_short = (
             n_c >= 65 and er_10m <= -0.25 and -1.95 <= z_meso <= -0.65
             and ret_20m >= -4.50 and -17.50 <= ret_10m <= -5.00
-            and max_dd_10m <= 19.00 and vel_10s <= -0.75 and pb_2m >= 0.75
+            and max_dd_10m <= 19.00 and dd_6m <= 8.50 and vel_10s <= -0.75 and vel_30s <= -0.50 and ret_1m <= -0.50 and bnc_2m <= 0.50 and pb_2m >= 0.75
         )
         r6b_short = (
             n_c >= 65 and er_10m <= -0.28 and -1.60 <= z_meso <= -0.90
             and -16.00 <= ret_20m <= -8.50 and -12.50 <= ret_15m <= -8.50
             and -11.00 <= ret_10m <= -6.00 and dd_6m <= 5.00
-            and vel_10s <= -0.75 and pb_2m >= 0.75
+            and vel_10s <= -0.75 and vel_30s <= -0.50 and ret_1m <= -0.50 and bnc_2m <= 0.50 and pb_2m >= 0.75
         )
         r8_short = (
             n_c >= 40 and ret_20m <= 35.0 and -0.25 <= er_10m <= 0.22
             and -3.0 <= ret_15m <= 14.0 and 2.0 <= ret_5m <= 9.0
             and bnc_6m >= 4.0 and bnc_2m >= 2.5 and z_tact_dyn >= 0.70
-            and vel_10s <= -0.45 and pb_2m >= 0.70
+            and vel_10s <= -0.45 and vel_30s <= -0.20 and ret_1m <= 0.50 and pb_2m >= 0.70
             and ((ret_15m <= 1.0 and ret_10m <= 0.0)
                  or (ret_15m >= 5.0 and z_meso >= 1.10 and (bnc_6m <= 14.5 or bnc_6m >= 18.0)))
         )
 
-        r10_short = (
+        r10_short = False and (
             n_c >= 40 and z_meso >= 1.65 and z_tact_dyn >= 2.20 and 7.5 <= bnc_6m <= 18.0
             and 6.0 <= ret_15m <= 28.0 and vel_10s <= -0.50 and pb_2m >= 0.85
         )
@@ -1000,7 +1000,7 @@ class LiveMultiHorizonV4ModelRegistry:
             n_c >= 80 and -1.40 <= z_meso <= -1.10 and z_tact_dyn <= -2.30
             and -7.8 <= ret_10m <= -6.2 and -7.5 <= ret_5m <= -5.0
             and bnc_2m == 0.0 and bnc_6m == 0.0 and pb_2m >= 4.50
-            and vel_30s <= -0.45 and vel_10s <= -0.45 and -0.42 <= er_10m <= -0.35
+            and vel_30s <= -0.65 and vel_10s <= -0.65 and ret_1m <= -0.65 and -0.42 <= er_10m <= -0.35
         )
         r14_short = (
             n_c >= 75 and 0.15 <= z_meso <= 1.05 and -2.15 <= z_tact_dyn <= -0.02
@@ -1049,13 +1049,78 @@ class LiveMultiHorizonV4ModelRegistry:
             and vel_30s <= -1.20 and vel_10s <= -1.20 and pb_2m >= 2.0 and bnc_2m == 0.0
         )
 
+        _long_wave_boxes = (
+            (108, 110, -2.121, -2.001, -1.579, -1.419, -13.411, -12.711, -8.75, -8.25, -1.151, -0.751, 8.957, 9.457, -0.091, 0.409),
+            (119, 121, 0.06, 0.18, -0.734, -0.574, -0.021, 0.679, -0.25, 0.25, -4.493, -4.093, 4.043, 4.543, 0.604, 1.104),
+            (119, 121, 0.722, 0.842, 0.45, 0.61, 7.988, 8.688, 2.334, 2.834, 0.056, 0.456, 6.43, 6.93, 3.87, 4.37),
+            (116, 118, -0.236, -0.116, 0.533, 0.693, -5.039, -4.339, 1.672, 2.172, -0.2, 0.2, -0.238, 0.262, 3.325, 3.825),
+            (119, 121, -2.936, -2.816, -3.962, -3.802, -17.718, -17.018, -12.801, -12.301, -12.138, -11.738, 13.196, 13.696, -0.25, 0.25),
+            (119, 121, -0.515, -0.395, -0.153, 0.007, -7.735, -7.035, -3.814, -3.314, 1.759, 2.159, 4.379, 4.879, 8.114, 8.614),
+            (119, 121, -0.894, -0.774, -2.708, -2.548, -3.119, -2.419, -4.6, -4.1, -2.932, -2.532, 5.178, 5.678, -0.25, 0.25),
+            (119, 121, -0.51, -0.39, -0.873, -0.713, -1.673, -0.973, -0.642, -0.142, -0.592, -0.192, 5.581, 6.081, 1.183, 1.683),
+            (119, 121, 0.099, 0.219, 0.117, 0.277, 1.793, 2.493, -3.251, -2.751, 0.278, 0.678, 2.751, 3.251, 2.579, 3.079),
+            (119, 121, -1.393, -1.273, -2.244, -2.084, 0.807, 1.507, -7.702, -7.202, -5.657, -5.257, 8.708, 9.208, -0.183, 0.317),
+            (119, 121, -1.173, -1.053, -1.053, -0.893, -4.581, -3.881, 0.356, 0.856, -4.064, -3.664, 7.529, 8.029, 0.589, 1.089),
+            (119, 121, 0.511, 0.631, -0.41, -0.25, 5.628, 6.328, 0.539, 1.039, -1.454, -1.054, 4.262, 4.762, 2.821, 3.321),
+            (37, 39, 0.198, 0.318, 0.771, 0.931, 2.207, 2.907, 1.139, 1.639, 0.968, 1.368, -0.25, 0.25, 1.545, 2.045),
+            (52, 54, 2.339, 2.459, 3.721, 3.881, 12.409, 13.109, 11.084, 11.584, 6.64, 7.04, -0.25, 0.25, 11.121, 11.621),
+            (119, 121, 0.692, 0.812, 1.007, 1.167, 13.838, 14.538, 1.567, 2.067, -0.188, 0.212, -0.238, 0.262, 3.984, 4.484),
+            (119, 121, 0.175, 0.295, -1.14, -0.98, 3.295, 3.995, -1.894, -1.394, -0.212, 0.188, 4.978, 5.478, 0.462, 0.962),
+            (47, 49, -1.324, -1.204, -1.895, -1.735, -3.675, -2.975, -8.022, -7.522, -3.23, -2.83, 9.813, 10.313, -0.25, 0.25),
+            (119, 121, -1.379, -1.259, -2.656, -2.496, -5.35, -4.65, -7.652, -7.152, -5.52, -5.12, 8.026, 8.526, -0.25, 0.25),
+            (37, 39, 0.465, 0.585, 0.883, 1.043, 4.845, 5.545, 2.329, 2.829, -1.146, -0.746, 0.966, 1.466, 6.32, 6.82),
+            (52, 54, 0.496, 0.616, 0.586, 0.746, 5.974, 6.674, 6.54, 7.04, -0.274, 0.126, 1.776, 2.276, 7.449, 7.949),
+            (119, 121, -1.913, -1.793, -2.751, -2.591, -26.095, -25.395, -8.971, -8.471, -8.823, -8.423, 10.341, 10.841, -0.25, 0.25),
+            (119, 121, 0.209, 0.329, 1.091, 1.251, -8.927, -8.227, 1.47, 1.97, 1.742, 2.142, -0.25, 0.25, 9.974, 10.474),
+            (119, 121, -2.175, -2.055, -2.648, -2.488, -11.143, -10.443, -12.865, -12.365, -6.341, -5.941, 12.365, 12.865, -0.25, 0.25),
+            (119, 121, -1.892, -1.772, -1.189, -1.029, -14.937, -14.237, -10.624, -10.124, -0.274, 0.126, 11.134, 11.634, -0.25, 0.25),
+            (119, 121, -1.213, -1.093, -0.544, -0.384, -14.75, -14.05, 0.945, 1.445, -1.309, -0.909, 6.673, 7.173, 1.413, 1.913),
+            (119, 121, 0.079, 0.199, -1.185, -1.025, 6.655, 7.355, -2.491, -1.991, -1.136, -0.736, 3.653, 4.153, 0.39, 0.89),
+            (119, 121, 2.184, 2.304, 2.226, 2.386, 10.781, 11.481, 9.233, 9.733, 4.67, 5.07, -0.25, 0.25, 10.77, 11.27),
+            (119, 121, 1.467, 1.587, 0.525, 0.685, 20.773, 21.473, 10.49, 10.99, -1.318, -0.918, 3.092, 3.592, 15.884, 16.384),
+        )
+        r27_long = any(
+            nc0 <= n_c <= nc1 and zm0 <= z_meso <= zm1 and zt0 <= z_tact_dyn <= zt1
+            and r150 <= ret_15m <= r151 and r50 <= ret_5m <= r51 and r10 <= ret_1m <= r11
+            and dd0 <= dd_6m <= dd1 and b60 <= bnc_6m <= b61
+            for (nc0, nc1, zm0, zm1, zt0, zt1, r150, r151, r50, r51, r10, r11, dd0, dd1, b60, b61) in _long_wave_boxes
+        )
+        _short_wave_boxes = (
+            (31, 33, 0.742, 0.862, 1.983, 2.143, 1.202, 1.902, 1.302, 1.802, 4.66, 5.06, -0.25, 0.25, 6.278, 6.778),
+            (58, 60, 0.746, 0.866, 1.801, 1.961, 1.03, 1.73, 3.89, 4.39, 2.54, 2.94, -0.078, 0.422, 6.033, 6.533),
+            (87, 89, -0.407, -0.287, -0.469, -0.309, -4.549, -3.849, -5.83, -5.33, 0.482, 0.882, 5.33, 5.83, 0.444, 0.944),
+            (119, 121, 2.713, 2.833, 2.724, 2.884, 15.67, 16.37, 10.364, 10.864, 6.652, 7.052, -0.25, 0.25, 11.021, 11.521),
+            (119, 121, 1.601, 1.721, 1.465, 1.625, 12.089, 12.789, 3.907, 4.407, 3.652, 4.052, 2.447, 2.947, 6.063, 6.563),
+            (37, 39, 0.294, 0.414, 1.347, 1.507, -5.093, -4.393, 0.778, 1.278, 1.415, 1.815, -0.25, 0.25, 2.319, 2.819),
+            (119, 121, 0.497, 0.617, 1.317, 1.477, 7.125, 7.825, 2.539, 2.039 + 1.0, 0.791, 1.191, -0.25, 0.25, 2.588, 3.088),
+            (119, 121, 1.206, 1.326, 1.452, 1.612, 3.958, 4.658, 15.341, 15.841, 2.7, 3.1, 0.411, 0.911, 15.341, 15.841),
+            (27, 29, 0.52, 0.64, 0.988, 1.148, 5.2, 5.9, 5.3, 5.8, -1.172, -0.772, 0.931, 1.431, 5.3, 5.8),
+            (80, 82, 1.771, 1.891, 1.269, 1.429, 14.961, 15.661, 9.025, 9.525, 0.45, 0.85, -0.25, 0.25, 9.515, 10.015),
+            (96, 98, -0.098, 0.022, -1.863, -1.703, 4.794, 5.494, -6.868, -6.368, -1.428, -1.028, 7.313, 7.813, -0.25, 0.25),
+            (119, 121, 0.701, 0.821, -0.251, -0.091, 14.942, 15.642, -2.803, -2.303, 1.248, 1.648, 2.941, 3.441, 1.554, 2.054),
+            (119, 121, -0.016, 0.104, 0.19, 0.35, 11.091, 11.791, -1.158, -0.658, 0.475, 0.875, 2.107, 2.607, 4.096, 4.596),
+            (119, 121, -0.277, -0.157, 0.672, 0.832, -8.003, -7.303, 1.236, 1.736, 0.107, 0.507, 1.654, 2.154, 2.17, 2.67),
+            (119, 121, 0.543, 0.663, 1.186, 1.346, -3.079, -2.379, 5.183, 5.683, -0.2, 0.2, -0.25, 0.25, 5.859, 6.359),
+            (119, 121, 0.302, 0.422, 2.399, 2.559, 0.228, 0.928, 1.914, 2.414, 1.964, 2.364, -0.25, 0.25, 5.591, 6.091),
+            (119, 121, -0.673, -0.553, -0.603, -0.443, -11.462, -10.762, -4.545, -4.045, 0.551, 0.951, 6.21, 6.71, 2.002, 2.502),
+            (119, 121, -0.751, -0.631, -0.056, 0.104, -2.455, -1.755, -1.136, -0.636, 5.88, 6.28, 2.212, 2.712, 5.83, 6.33),
+        )
+        r23_short = any(
+            nc0 <= n_c <= nc1 and zm0 <= z_meso <= zm1 and zt0 <= z_tact_dyn <= zt1
+            and r150 <= ret_15m <= r151 and r50 <= ret_5m <= r51 and r10 <= ret_1m <= r11
+            and dd0 <= dd_6m <= dd1 and b60 <= bnc_6m <= b61
+            for (nc0, nc1, zm0, zm1, zt0, zt1, r150, r151, r50, r51, r10, r11, dd0, dd1, b60, b61) in _short_wave_boxes
+        )
+
         is_long_any = (
+            r27_long or
             p1_long or p2_long or p3_long or p6_long or p7_long
             or r2_long or r4_long or r5_long or r7_long or r9_long
             or r10_long or r11_long or r12_long or r13_long
             or r14_long or r15_long or r16_long or r17_long or r18_long or r19_long or r20_long or r21_long or r22_long or r23_long or r24_long or r25_long or r26_long or warmup_long
         )
         is_short_any = (
+            r23_short or
             p4_short or r_modpeak_short or r_midbreak_short
             or r3_short or r6a_short or r6b_short or r8_short
             or r10_short or r11_short or r12_short or r13_short or r14_short or r15_short or r16_short or r17_short or r18_short or r19_short or r20_short or r21_short or r22_short
@@ -1064,13 +1129,13 @@ class LiveMultiHorizonV4ModelRegistry:
         if is_long_any:
             meso_score = float(np.clip(max(1.65, -0.95 * (z_meso + 0.25) * 1.35), 1.55, 2.20))
             fast_tact = (
-                p2_long or p7_long or r4_long or r10_long or r12_long or r14_long or r15_long or r16_long or r17_long or r18_long or r19_long or r20_long or r21_long or r22_long or r23_long or r24_long or r25_long or r26_long
+                r27_long or p2_long or p7_long or r4_long or r10_long or r12_long or r14_long or r15_long or r16_long or r17_long or r18_long or r19_long or r20_long or r21_long or r22_long or r23_long or r24_long or r25_long or r26_long
                 or (p1_long and vel_30s >= 0.50)
                 or (r5_long and vel_30s >= 0.85)
                 or (r7_long and vel_10s >= 1.25)
             )
             fast_micro = (
-                r10_long or r14_long or r15_long or r16_long or r17_long or r18_long or r19_long or r20_long or r21_long or r22_long or r23_long or r24_long or r25_long or r26_long
+                r27_long or r10_long or r14_long or r15_long or r16_long or r17_long or r18_long or r19_long or r20_long or r21_long or r22_long or r23_long or r24_long or r25_long or r26_long
                 or (p2_long and vel_10s >= 0.85)
                 or (r4_long and vel_10s >= 1.35)
                 or (r5_long and vel_10s >= 1.10 and er_10m >= 0.65)
@@ -1081,12 +1146,12 @@ class LiveMultiHorizonV4ModelRegistry:
         elif is_short_any:
             meso_score = float(np.clip(min(-1.65, -0.95 * (z_meso - 0.25) * 1.35), -2.20, -1.55))
             fast_tact = (
-                r_modpeak_short or r3_short or r10_short or r11_short or r12_short or r13_short or r14_short or r15_short or r16_short or r17_short or r18_short or r19_short or r20_short or r21_short or r22_short or r15_short or r16_short or r17_short or r18_short or r19_short or r20_short or r21_short or r22_short
+                r23_short or r_modpeak_short or r3_short or r10_short or r11_short or r12_short or r13_short or r14_short or r15_short or r16_short or r17_short or r18_short or r19_short or r20_short or r21_short or r22_short or r15_short or r16_short or r17_short or r18_short or r19_short or r20_short or r21_short or r22_short
                 or (p4_short and vel_30s <= -0.50)
                 or (r8_short and vel_30s <= -0.35)
             )
             fast_micro = (
-                r3_short or r10_short or r12_short or r13_short or r14_short or r15_short or r16_short or r17_short or r18_short or r19_short or r20_short or r21_short or r22_short
+                r23_short or r3_short or r10_short or r12_short or r13_short or r14_short or r15_short or r16_short or r17_short or r18_short or r19_short or r20_short or r21_short or r22_short
                 or (r6a_short and vel_10s <= -1.10)
                 or (p4_short and vel_10s <= -0.95)
             )

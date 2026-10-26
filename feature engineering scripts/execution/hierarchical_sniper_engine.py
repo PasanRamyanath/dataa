@@ -174,7 +174,7 @@ class HierarchicalSniperExecutionEngine:
         self.closed_trades: list[ClosedSwingTradeRecord] = []
         self.last_exit_ts_ms: int = 0
         self.last_exit_dir: int = 1
-        self.min_reentry_cooldown_ms: int = int(kwargs.get("min_reentry_cooldown_sec", 60) * 1000)
+        self.min_reentry_cooldown_ms: int = int(kwargs.get("min_reentry_cooldown_sec", 20) * 1000)
 
     def on_hierarchical_decision(
         self,
@@ -462,7 +462,7 @@ class HierarchicalSniperExecutionEngine:
             activation_hurdle_bps = min(self.trailing_act_frac * pos.take_profit_bps, 4.6)
             if pos.peak_favorable_excursion_bps >= activation_hurdle_bps:
                 pos.trailing_maker_armed = True
-                lock_bps = max(4.35, 0.74 * pos.peak_favorable_excursion_bps)
+                lock_bps = max(5.05, 0.78 * pos.peak_favorable_excursion_bps)
                 if unrealized_bps <= lock_bps or unrealized_bps >= 9.2:
                     exit_gross_bps = max(lock_bps, unrealized_bps)
                     maker_exit_p = pos.entry_price * (1.0 + sign * exit_gross_bps * 1e-4)
@@ -510,7 +510,7 @@ class HierarchicalSniperExecutionEngine:
         opp_dir = 0 if pos.side == "BUY" else 2
         # 0. Opposite-Band / Target Profit-Locking:
         # Lock in profit if unrealized_bps >= 11.5 bps OR if unrealized_bps >= 6.0 bps and signal flips to opposite band
-        if unrealized_bps >= 9.2 or (unrealized_bps >= 4.5 and decision.primary_direction in (0, 2)):
+        if unrealized_bps >= 9.2 or (unrealized_bps >= 5.05 and decision.primary_direction == opp_dir):
             maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
             self._close_position(
                 exit_price=maker_exit_p,

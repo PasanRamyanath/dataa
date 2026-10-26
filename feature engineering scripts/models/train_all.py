@@ -140,9 +140,11 @@ def _run(module: str, args: list[str], timeout: float | None = None) -> str:
     """Runs one member/fusion stage; returns "ok", "failed" or "timeout".
     The timeout keeps a single long member from running into Kaggle's hard
     kill — the SessionBudget check only happens between stages."""
-    cmd = [sys.executable, "-m", module, *args]
+    cmd = [sys.executable, "-u", "-m", module, *args]
     log.info("Running: %s%s", " ".join(cmd), f" (timeout {timeout / 3600:.2f}h)" if timeout else "")
-    proc = subprocess.Popen(cmd, start_new_session=(os.name == "posix"))
+    run_env = os.environ.copy()
+    run_env["PYTHONUNBUFFERED"] = "1"
+    proc = subprocess.Popen(cmd, env=run_env, start_new_session=(os.name == "posix"))
     try:
         rc = proc.wait(timeout=timeout)
     except subprocess.TimeoutExpired:

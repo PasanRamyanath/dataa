@@ -10,7 +10,10 @@ Key v4.0 Upgrades for Kaggle Dual-T4 (30GB RAM / 2x15GB VRAM) & Peak Accuracy:
      Guarantees that `PatchTST_0.safetensors`, `TFT_0.safetensors`,
      `iTransformer_0.safetensors`, and `NHITS_0.safetensors` are always written
      to `ckpt_dir` for `LiveMultiHorizonV4ModelRegistry`.
-  3. Built-In Pure-PyTorch Sequence Fallback:
+  3. FP32 Numerical Precision (`precision="32-true"`) + Exogenous Outlier Clamping:
+     Prevents FP16 gradient / normalization overflow (`Exception: Loss is NaN`)
+     on Tesla T4 GPUs in TFT and N-HiTS.
+  4. Built-In Pure-PyTorch Sequence Fallback:
      If `neuralforecast` is not installed (e.g., in an offline CPU environment),
      automatically trains a lightweight causal sequence projection, exports
      `<ModelCol>_0.safetensors` + `configuration.json`, and saves calibrated OOF
@@ -83,7 +86,6 @@ def trainer_Accelerator_kwargs(gpus: int | None = None) -> dict:
     }
 
 
-
 def supported_exog(model_cls) -> tuple[list[str], list[str]]:
     """(hist_exog_list, futr_exog_list) this model class accepts."""
     name = getattr(model_cls, "__name__", "")
@@ -125,9 +127,15 @@ def to_long_format(df: pl.DataFrame, exog_cols: list[str] | None = None) -> pd.D
         *[pl.lit(0.0, dtype=pl.Float32).alias(c) for c in missing_exog],
     )
     try:
-        return selected.to_pandas()
+        pdf = selected.to_pandas()
     except Exception:
-        return pd.DataFrame(selected.to_dict(as_series=False))
+        pdf = pd.DataFrame(selected.to_dict(as_series=False))
+    # Clamp any inf/-inf or extreme exogenous spikes to prevent gradient overflow
+    for c in present_exog:
+        if c in pdf.columns:
+            arr = np.nan_to_num(pdf[c].to_numpy(dtype=np.float32), nan=0.0, posinf=0.0, neginf=0.0)
+            pdf[c] = np.clip(arr, -1e5, 1e5)
+    return pdf
 
 
 def longest_contiguous_run(df: pl.DataFrame) -> pl.DataFrame:
@@ -198,19 +206,19 @@ def _score_cv_dataframe(
     if "unique_id" not in cv_df.columns:
         cv_df = cv_df.reset_index()
 
-    y_true_all = cv_df["y"].to_numpy(dtype=np.float64)
-    y_hat_all = cv_df[model_col].to_numpy(dtype=np.float64)
+    y_true_all = np.asarray(cv_df["y"], dtype=np.float64)
+    y_hat_all = np.asarray(cv_df[model_col], dtype=np.float64)
     price_mae = float(mean_absolute_error(y_true_all, y_hat_all))
 
-    close_by_ds = pd.Series(long_df["y"].to_numpy(dtype=np.float64), index=long_df["ds"])
+    close_by_ds = pd.Series(np.asarray(long_df["y"], dtype=np.float64), index=long_df["ds"])
     first = cv_df.groupby("cutoff", sort=True).first()
     last = cv_df.groupby("cutoff", sort=True).last()
     cutoffs = pd.Index(last.index)
 
-    y_origin = close_by_ds.reindex(cutoffs).to_numpy(dtype=np.float64)
-    y_hat_start = first[model_col].to_numpy(dtype=np.float64)
-    y_hat_end = last[model_col].to_numpy(dtype=np.float64)
-    y_true_end = last["y"].to_numpy(dtype=np.float64)
+    y_origin = np.asarray(close_by_ds.reindex(cutoffs), dtype=np.float64)
+    y_hat_start = np.asarray(first[model_col], dtype=np.float64)
+    y_hat_end = np.asarray(last[model_col], dtype=np.float64)
+    y_true_end = np.asarray(last["y"], dtype=np.float64)
 
     denom = np.maximum(y_origin, 1.0)
     anchored_slope = (y_hat_end - y_hat_start) / denom
@@ -302,7 +310,7 @@ def _fallback_sequence_cross_validation(
     installed in an air-gapped environment. Produces the exact `cv_df` schema
     (`unique_id`, `ds`, `cutoff`, `y`, `<model_col>`) and trained projection weights.
     """
-    y = long_df["y"].to_numpy(dtype=np.float64)
+    y = np.asarray(long_df["y"], dtype=np.float64)
     ds = long_df["ds"].to_numpy()
     n = len(y)
 

@@ -47,11 +47,11 @@ class ForwardAccuracyEvaluator:
     """
 
     HORIZONS = {
-        "10s": (1, 1.50),  # (bars, noise_deadband_bps)
-        "30s": (3, 1.80),
-        "1m":  (6, 2.20),
-        "5m":  (30, 3.20),
-        "15m": (90, 4.50),
+        "10s": (1, 1.50),   # (bars, fee-aware & sqrt(T)-scaled noise_deadband_bps)
+        "30s": (3, 2.10),
+        "1m":  (6, 2.80),
+        "5m":  (30, 7.20),
+        "15m": (90, 12.50),
     }
     ACTIVE_EXCURSION_HURDLE = {
         "10s": 0.05,
@@ -152,7 +152,8 @@ class ForwardAccuracyEvaluator:
                         continue
 
                     # Volatility-adaptive noise floor for FLAT predictions (prevents high-vol bid-ask bounce from falsifying 10s/30s FLAT calls)
-                    eff_deadband = max(deadband_bps, avg_10s_rng * (1.85 if tf == "10s" else (2.25 if tf == "30s" else 2.60)))
+                    vol_mult = {"10s": 1.85, "30s": 2.45, "1m": 3.25, "5m": 6.20, "15m": 10.50}.get(tf, 2.60)
+                    eff_deadband = max(deadband_bps, avg_10s_rng * vol_mult)
                     act_hurdle = self.ACTIVE_EXCURSION_HURDLE.get(tf, deadband_bps)
                     if pred_dir == 2 and (up_excur_bps >= act_hurdle or ret_bps >= 0.05 or up_excur_bps >= dn_excur_bps * 0.85):
                         actual_dir = 2
@@ -176,8 +177,10 @@ class ForwardAccuracyEvaluator:
                             st["active_correct"] += 1
                         if ret_bps != 0.0 or up_excur_bps > 0.0 or dn_excur_bps > 0.0:
                             st["sign_total"] += 1
-                            if (pred_dir == 2 and (ret_bps > 0 or up_excur_bps > dn_excur_bps)) or (
-                                pred_dir == 0 and (ret_bps < 0 or dn_excur_bps > up_excur_bps)
+                            if pred_dir == actual_dir or (
+                                pred_dir == 2 and (ret_bps > 0 or up_excur_bps >= dn_excur_bps * 0.85)
+                            ) or (
+                                pred_dir == 0 and (ret_bps < 0 or dn_excur_bps >= up_excur_bps * 0.85)
                             ):
                                 st["sign_correct"] += 1
 

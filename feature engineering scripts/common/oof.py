@@ -149,6 +149,6 @@ def oof_paths_for(member_name: str) -> list[Path]:
     """The OOF file(s) a member's train.py leaves in OOF_DIR — shipped to
     that member's HF repo under oof/ so a later Kaggle session (fresh disk)
     can restore them before the fusion stages read them."""
-    name = "regime_states" if member_name in ("hmm-regime", "tier4-hmm-macro") else member_name
+    name = "regime_states" if member_name in ("hmm-regime", "tier4-hmm-macro", "tier4-hmm-regime") else member_name
     path = OOF_DIR / f"{name}.parquet"
     return [path] if path.exists() else []

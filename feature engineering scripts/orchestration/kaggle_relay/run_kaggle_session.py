@@ -1,7 +1,8 @@
 """
-Kaggle-side training session: orchestrates both Project-IMPJR v4.0 Multi-Horizon
-Ensemble Training (`models_v3.train_all_multi_horizon`) and the 12-stage canonical
-ensemble (`models.train_all`) under a proactive SessionBudget.
+Kaggle-side training session: orchestrates Project-IMPJR v4.0 Multi-Horizon
+Ensemble Training (`models_v3.train_all_multi_horizon`) across the 3-Run Execution
+Architecture (`IMPJR_RUN_STAGE` in {'1', '2', '3', 'auto', 'all'}) and the
+12-stage canonical ensemble (`models.train_all`) under a proactive SessionBudget.
 """
 from __future__ import annotations
 
@@ -87,11 +88,19 @@ def decide_with_news(already_pulled: bool = False) -> bool:
 
 
 def main() -> None:
+    os.environ["PYTHONUNBUFFERED"] = "1"
     budget = SessionBudget(budget_hours=config.KAGGLE_SESSION_TIME_BUDGET_HOURS)
     ensure_hf_token()
     with_news = decide_with_news(already_pulled=refresh_news())
-    log.info("Kaggle session starting: %.1fh budget (safety margin %.0fs), with_news=%s, %d GPU(s)",
-              config.KAGGLE_SESSION_TIME_BUDGET_HOURS, budget.safety_margin_seconds, with_news, train_all._cuda_count())
+    run_stage = os.environ.get("IMPJR_RUN_STAGE", "auto")
+    log.info(
+        "Kaggle session starting: %.1fh budget (safety margin %.0fs), run_stage=%s, with_news=%s, %d GPU(s)",
+        config.KAGGLE_SESSION_TIME_BUDGET_HOURS,
+        budget.safety_margin_seconds,
+        run_stage,
+        with_news,
+        train_all._cuda_count(),
+    )
     skip = [s for s in os.environ.get("TRAIN_SKIP", "").split(",") if s]
     resume = os.environ.get("TRAIN_RESUME", "1").lower() not in ("0", "false", "no")
     force_retrain_env = os.environ.get("FORCE_RETRAIN", DEFAULT_V4_FORCE_RETRAIN)
@@ -112,13 +121,17 @@ def main() -> None:
     v4_results = {}
     try:
         from models_v3 import train_all_multi_horizon
-        log.info("Launching Project-IMPJR v4.0 Multi-Horizon Training Wave across all 4 tiers...")
-        v4_results = train_all_multi_horizon.run(budget=budget, force_retrain=force_retrain)
-        log.info("v4.0 Multi-Horizon Training Wave status: %s", v4_results)
+        log.info("Launching Project-IMPJR v4.0 Multi-Horizon Training Wave (stage=%s)...", run_stage)
+        v4_results = train_all_multi_horizon.run(
+            budget=budget,
+            force_retrain=force_retrain,
+            run_stage=run_stage,
+        )
+        log.info("v4.0 Multi-Horizon Training Wave status (stage=%s): %s", run_stage, v4_results)
     except Exception as e:
         log.exception("v4.0 Multi-Horizon Training encountered error: %s", e)
 
-    if os.environ.get("RUN_LEGACY_V1", "0") == "1" or v4_results.get("fusion-v4") not in ("completed", "skipped_completed_on_hf"):
+    if os.environ.get("RUN_LEGACY_V1", "0") == "1":
         results = train_all.run(
             val_days=config.VAL_DAYS, max_days=None, upload=True, skip=skip,
             members_only=False, gpus=None, resume=resume, budget=budget, with_news=with_news,
@@ -139,7 +152,7 @@ def main() -> None:
         except Exception:
             log.exception("Live streaming loop exited")
     else:
-        log.info("All training waves successfully completed. Finalizing session cleanly.")
+        log.info("All training waves for stage=%s successfully completed. Finalizing session cleanly.", run_stage)
 
 
 if __name__ == "__main__":

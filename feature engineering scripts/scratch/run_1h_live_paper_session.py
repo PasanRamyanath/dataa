@@ -1,6 +1,7 @@
 """
 feature engineering scripts/scratch/run_1h_live_paper_session.py
 1-Hour Live Paper Trading Session Runner with Real-Time Telemetry and Accuracy Tracking.
+Tests updated hierarchical sniper execution engine and forward accuracy evaluator.
 """
 import os
 import sys
@@ -32,7 +33,7 @@ for p in [str(REPO_ROOT), str(FEAT_ENGINE_DIR)]:
         sys.path.insert(0, p)
 
 # 4. Logging configuration
-LOG_FILE = REPO_ROOT / "scratch" / "live_paper_1h.log"
+LOG_FILE = REPO_ROOT / "scratch" / "live_paper_1h_updated.log"
 LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
 
 logging.basicConfig(
@@ -123,7 +124,7 @@ class InstrumentedTestSession(LiveHierarchicalTradingSession):
 
 def main():
     log.info("=" * 80)
-    log.info("LAUNCHING 1-HOUR LIVE PAPER TRADING & ACCURACY EVALUATION SESSION")
+    log.info("LAUNCHING 1-HOUR LIVE PAPER TRADING & ACCURACY EVALUATION SESSION (V3.1 UPDATED ENGINE)")
     log.info("Symbol: BTCUSDT | Target Duration: 60.0 minutes (1.0 hour)")
     log.info("Checkpoints: %s", FEAT_ENGINE_DIR / "models_v3" / "checkpoints")
     log.info("Ledger Path: %s", LEDGER_PATH)

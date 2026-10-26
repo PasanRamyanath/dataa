@@ -31,6 +31,19 @@ V4_MEMBER_ALIAS_MAP: dict[str, str] = {
     "stage5-hierarchical-stacker": "fusion-v4-hierarchical",
 }
 
+V4_LEGACY_OOF_ALIAS_MAP: dict[str, list[str]] = {
+    "tier4-hmm-regime": ["regime_states"],
+    "tier4-patchtst-ffd": ["patchtst"],
+    "tier4-tft-funding": ["tft"],
+    "tier4-kronos-macro": ["kronos-finetune"],
+    "tier3-lgbm-positioning": ["gbm-family"],
+    "tier3-itransformer-32": ["itransformer"],
+    "tier3-nhits-multirate": ["nhits"],
+    "tier2-mamba-s6": ["ssm-challenger"],
+    "tier2-crossasset-gat": ["sentiment-branch"],
+    "tier2-cryptobert-news": ["sentiment-branch"],
+}
+
 
 def canonical_v4_member_name(member_name: str) -> str:
     return V4_MEMBER_ALIAS_MAP.get(member_name, member_name)
@@ -303,10 +316,19 @@ def upload_member_checkpoint(
             dest = f"models/{canon}/{rel}" if use_models_prefix else rel
             _upload_with_retry(api, f, dest, target_repo, "model", f"Upload {canon} artifact: {rel}")
 
-        # Upload OOF predictions from common.oof.OOF_DIR if available
+        # Upload OOF predictions from common.oof.OOF_DIR if available (including legacy aliases)
         try:
-            from common.oof import oof_paths_for
-            for oof_p in oof_paths_for(canon) + (oof_paths_for(member_name) if member_name != canon else []):
+            from common.oof import OOF_DIR, oof_paths_for
+            oof_candidates = list(oof_paths_for(canon))
+            if member_name != canon:
+                for p in oof_paths_for(member_name):
+                    if p not in oof_candidates:
+                        oof_candidates.append(p)
+            for alias_stem in V4_LEGACY_OOF_ALIAS_MAP.get(canon, []):
+                alias_p = OOF_DIR / f"{alias_stem}.parquet"
+                if alias_p.exists() and alias_p not in oof_candidates:
+                    oof_candidates.append(alias_p)
+            for oof_p in oof_candidates:
                 if oof_p.exists() and oof_p.is_file():
                     _upload_with_retry(
                         api, oof_p, f"oof/{oof_p.name}", target_repo, "model",
@@ -374,6 +396,14 @@ def download_all_completed_members(
                     member = parts[1] if len(parts) >= 2 and parts[0] == "models" else parts[0]
                     if member not in completed:
                         completed.append(member)
+                    dest_metrics = target_path / member / "metrics.json"
+                    if not dest_metrics.exists():
+                        try:
+                            dest_metrics.parent.mkdir(parents=True, exist_ok=True)
+                            cached_m = hf_hub_download(repo_id=r_id, filename=f, repo_type="model", token=tok)
+                            shutil.copyfile(cached_m, dest_metrics)
+                        except Exception:
+                            pass
                 elif f.startswith("oof/") and f.endswith(".parquet"):
                     oof_name = f[len("oof/"):]
                     dest_oof = OOF_DIR / oof_name

@@ -3,22 +3,20 @@ Kronos (arxiv.org/abs/2508.02739) foundation model ensemble trainer (`kronos-fin
 `tier4-kronos-macro`, and `tier3-kronos-meso`).
 
 Option A "Train & Tournament" Architecture + v4.0 Peak Calibration:
-  1. Patches vendored Kronos (`_patch_kronos_repo`) for bounded `max_samples`,
+  1. Patches vendored Kronos (`_patch_kronos_repo`) for bounded `max_samples` (default 72,000),
      PyTorch FP16 Automatic Mixed Precision (`torch.amp.autocast('cuda', dtype=torch.float16)`),
      `GradScaler`, gradient accumulation (`batch_size=8, accum_steps=4`), and
      safe tokenizer path resolution.
   2. Writes the nested YAML config (`{EXP_NAME}_config.yaml`) required by
      `Kronos/finetune_csv/train_sequential.py` and safely maps `notional_volume`
      (or `quote_volume`) to `amount`.
-  3. Bounds input DataFrame to `260,000` rows (~30 days) so CSV export + DataLoader
-     workers stay well within Kaggle's 30 GB CPU RAM.
+  3. Bounds input DataFrame to stay well within Kaggle's 30 GB CPU RAM.
   4. Combines Step-0 Anchored Trajectory Return Extraction with
      `calibrate_regression_to_direction_proba` and writes `zs_oof.npz`,
      `model.safetensors`, and `metrics.json` (`v4_peak_calibrated=True`) to both
      `CHECKPOINT_DIR` and `--output-dir`.
-  5. Includes an automatic offline ridge/autoregressive trajectory fallback when
-     `git clone` or Hugging Face `NeoQuasar/Kronos-base` is unreachable (e.g. in
-     air-gapped test environments).
+  5. Uses `np.asarray(series.to_numpy(), dtype=np.float64)` for Polars 1.x compatibility
+     and unbuffered (`-u`, `PYTHONUNBUFFERED=1`) subprocess execution for live Kaggle telemetry.
 """
 from __future__ import annotations
 
@@ -61,6 +59,7 @@ TOKENIZER_REPO_ID = "NeoQuasar/Kronos-Tokenizer-base"
 PREDICTOR_REPO_ID = "NeoQuasar/Kronos-base"
 MAX_CONTEXT = 512
 MAX_KRONOS_ROWS = int(os.environ.get("MAX_KRONOS_ROWS", "1600000"))
+DEFAULT_MAX_SAMPLES = int(os.environ.get("TRAIN_KRONOS_MAX_SAMPLES", "72000"))
 EXP_NAME = f"{config.SYMBOL_UM}_{config.PRIMARY_INTERVAL}"
 
 
@@ -147,7 +146,7 @@ REPLACEMENT_TRAIN_MODEL = """def train_model(model, tokenizer, device, config, s
                           f"LR: {lr:.6f}, Loss: {unscaled_loss:.4f}")
                 logger.info(log_msg)
                 if rank == 0:
-                    print(log_msg)
+                    print(log_msg, flush=True)
 
             batch_idx_global += 1
 
@@ -191,7 +190,7 @@ REPLACEMENT_TRAIN_MODEL = """def train_model(model, tokenizer, device, config, s
                        f"Epoch Time: {epoch_time:.2f} seconds\\n")
         logger.info(epoch_summary)
         if rank == 0:
-            print(epoch_summary)
+            print(epoch_summary, flush=True)
 
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
@@ -201,7 +200,7 @@ REPLACEMENT_TRAIN_MODEL = """def train_model(model, tokenizer, device, config, s
                 (model.module if use_ddp else model).save_pretrained(model_save_path)
                 save_msg = f"Best model saved to: {model_save_path} (validation loss: {best_val_loss:.4f})"
                 logger.info(save_msg)
-                print(save_msg)
+                print(save_msg, flush=True)
 
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
@@ -261,7 +260,7 @@ def _patch_kronos_repo(vendor_dir: Path) -> None:
             content = content.replace(t5, r5, 1)
             dirty = True
 
-        if "target_global_accum" not in content:
+        if "target_global_accum" not in content or "flush=True" not in content:
             start_marker = "def train_model("
             end_marker = "return best_val_loss"
             if start_marker in content and end_marker in content:
@@ -359,12 +358,14 @@ def write_config(
     tokenizer_epochs: int,
     basemodel_epochs: int,
     batch_size: int = 8,
-    max_samples: int = 96000,
+    max_samples: int = DEFAULT_MAX_SAMPLES,
     predictor_lr: float = 4e-5,
     resume: bool = False,
     accumulation_steps: int = 4,
+    exp_name: str | None = None,
 ) -> Path:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
+    active_exp_name = exp_name or EXP_NAME
     cfg = {
         "data": {
             "data_path": str(csv_path),
@@ -395,7 +396,7 @@ def write_config(
         "model_paths": {
             "pretrained_tokenizer": str(tokenizer_path),
             "pretrained_predictor": str(predictor_path),
-            "exp_name": EXP_NAME,
+            "exp_name": active_exp_name,
             "base_path": str(FINETUNED_DIR),
             "base_save_path": "",
             "finetuned_tokenizer": str(tokenizer_path),
@@ -403,7 +404,7 @@ def write_config(
             "basemodel_save_name": "basemodel",
         },
         "experiment": {
-            "name": f"kronos_{EXP_NAME}",
+            "name": f"kronos_{active_exp_name}",
             "description": "Project-IMPJR ensemble member finetune",
             "use_comet": False,
             "train_tokenizer": tokenizer_epochs > 0,
@@ -413,7 +414,7 @@ def write_config(
         "device": {"use_cuda": True, "device_id": 0},
         "distributed": {"use_ddp": False, "backend": "nccl"},
     }
-    config_path = DATA_DIR / f"{EXP_NAME}_config.yaml"
+    config_path = DATA_DIR / f"{active_exp_name}_config.yaml"
     config_path.write_text(yaml.safe_dump(cfg, sort_keys=False), encoding="utf-8")
     return config_path
 
@@ -422,6 +423,7 @@ def run_finetune(vendor_dir: Path, config_path: Path, gpus: int | None = None) -
     import torch
 
     os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+    os.environ["PYTHONUNBUFFERED"] = "1"
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
 
@@ -430,14 +432,16 @@ def run_finetune(vendor_dir: Path, config_path: Path, gpus: int | None = None) -
 
     if gpus and gpus > 1:
         cmd = [
-            sys.executable, "-m", "torch.distributed.run",
+            sys.executable, "-u", "-m", "torch.distributed.run",
             "--standalone", "--nproc_per_node", str(gpus),
             "train_sequential.py", "--config", str(config_path),
         ]
     else:
-        cmd = [sys.executable, "train_sequential.py", "--config", str(config_path)]
+        cmd = [sys.executable, "-u", "train_sequential.py", "--config", str(config_path)]
     log.info("Running: %s (cwd=%s)", " ".join(cmd), vendor_dir / "finetune_csv")
-    subprocess.run(cmd, cwd=str(vendor_dir / "finetune_csv"), env=dict(os.environ), check=True)
+    run_env = dict(os.environ)
+    run_env["PYTHONUNBUFFERED"] = "1"
+    subprocess.run(cmd, cwd=str(vendor_dir / "finetune_csv"), env=run_env, check=True)
 
 
 def _load_raw_tokenizer(vendor_dir: Path, tokenizer_path: Path):
@@ -537,9 +541,10 @@ def evaluate_on_val(
             sample_count=sample_count,
         )
 
-        y_true = np.asarray(fut["close"], dtype=np.float64)
+        # Polars Series.to_numpy() does not accept dtype=...; use np.asarray(..., dtype=np.float64)
+        y_true = np.asarray(fut["close"].to_numpy(), dtype=np.float64)
         y_pred = np.asarray(pred_df["close"], dtype=np.float64)
-        last_known = float(np.asarray(ctx["close"], dtype=np.float64)[-1])
+        last_known = float(np.asarray(ctx["close"].to_numpy(), dtype=np.float64)[-1])
 
         maes.append(float(np.mean(np.abs(y_true - y_pred))))
         anchored_slope = float((y_pred[-1] - y_pred[0]) / max(last_known, 1.0))
@@ -574,9 +579,9 @@ def _offline_autoregressive_kronos_fallback(
     Causal multi-scale ridge/autoregressive trajectory estimator used when
     offline / air-gapped environments cannot clone github.com/shiyu-coder/Kronos.
     """
-    closes_tr = np.asarray(train_df["close"], dtype=np.float64)
-    closes_va = np.asarray(val_df["close"], dtype=np.float64)
-    ts_va = np.asarray(val_df["ts"])
+    closes_tr = np.asarray(train_df["close"].to_numpy(), dtype=np.float64)
+    closes_va = np.asarray(val_df["close"].to_numpy(), dtype=np.float64)
+    ts_va = val_df["ts"].to_numpy()
 
     def _build_lag_feats(c: np.ndarray, idxs: np.ndarray) -> np.ndarray:
         lags = [1, 3, 6, 12, 24, 48, 96, min(180, lookback_window // 2)]
@@ -633,7 +638,7 @@ def run(
     resume: bool = False,
     sample_count: int = 5,
     temperature: float = 0.6,
-    max_samples: int = 96000,
+    max_samples: int = DEFAULT_MAX_SAMPLES,
     predictor_lr: float = 4e-5,
     accumulation_steps: int = 4,
     step_size: int = 60,
@@ -659,8 +664,9 @@ def run(
     ckpt_dir.mkdir(parents=True, exist_ok=True)
     CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
 
-    zs_cache_file = CHECKPOINT_DIR / "zs_baseline_metrics.json"
-    zs_oof_file = CHECKPOINT_DIR / "zs_oof.npz"
+    active_exp_name = EXP_NAME if member_name == MEMBER_NAME else f"{EXP_NAME}_{member_name.replace('-', '_')}_h{predict_window}"
+    zs_cache_file = ckpt_dir / f"zs_baseline_metrics_h{predict_window}.json"
+    zs_oof_file = ckpt_dir / "zs_oof.npz"
 
     try:
         vendor_dir = ensure_repo()
@@ -699,8 +705,9 @@ def run(
                 predict_window, tokenizer_epochs=0, basemodel_epochs=basemodel_epochs,
                 batch_size=batch_size, max_samples=max_samples, predictor_lr=predictor_lr,
                 resume=resume, accumulation_steps=accumulation_steps,
+                exp_name=active_exp_name,
             )
-            tok_best = FINETUNED_DIR / EXP_NAME / "tokenizer" / "best_model"
+            tok_best = FINETUNED_DIR / active_exp_name / "tokenizer" / "best_model"
             tok_best.parent.mkdir(parents=True, exist_ok=True)
             if not tok_best.exists():
                 shutil.copytree(tokenizer_path, tok_best)
@@ -709,7 +716,7 @@ def run(
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
 
-            finetuned_predictor_path = FINETUNED_DIR / EXP_NAME / "basemodel" / "best_model"
+            finetuned_predictor_path = FINETUNED_DIR / active_exp_name / "basemodel" / "best_model"
             if not finetuned_predictor_path.exists():
                 finetuned_predictor_path = predictor_path
 
@@ -750,20 +757,30 @@ def run(
         np.savez_compressed(zs_oof_file, ts=chosen_oof_ts, returns=chosen_oof_return)
 
     if zs_oof_file.exists() and ckpt_dir.resolve() != CHECKPOINT_DIR.resolve():
-        shutil.copy2(zs_oof_file, ckpt_dir / "zs_oof.npz")
+        shutil.copy2(zs_oof_file, CHECKPOINT_DIR / "zs_oof.npz")
     elif not (ckpt_dir / "zs_oof.npz").exists():
         np.savez_compressed(ckpt_dir / "zs_oof.npz", ts=chosen_oof_ts, returns=chosen_oof_return)
 
     direction_proba, calib_info = calibrate_regression_to_direction_proba(chosen_oof_return)
     if len(chosen_oof_ts) > 0:
         save_oof(member_name, chosen_oof_ts, direction_proba)
-        for alias in ("kronos-finetune", "tier4-kronos-macro", "tier3-kronos-meso"):
-            if alias != member_name:
-                save_oof(alias, chosen_oof_ts, direction_proba)
+        if member_name == "tier4-kronos-macro":
+            save_oof("kronos-finetune", chosen_oof_ts, direction_proba)
+        elif member_name == "tier3-kronos-meso":
+            from common.oof import OOF_DIR
+            if not (OOF_DIR / "kronos-finetune.parquet").exists():
+                save_oof("kronos-finetune", chosen_oof_ts, direction_proba)
+        else:
+            for alias in ("tier4-kronos-macro", "tier3-kronos-meso"):
+                from common.oof import OOF_DIR
+                if not (OOF_DIR / f"{alias}.parquet").exists():
+                    save_oof(alias, chosen_oof_ts, direction_proba)
 
     summary_record = {
         "member": member_name,
         "winner": winner,
+        "predict_window": int(predict_window),
+        "max_samples": int(max_samples),
         "val_direction_acc": float(chosen_metrics.get("directional_accuracy", 0.5)),
         "val_return_mae": float(chosen_metrics.get("mae", 0.0)),
         "chosen_metrics": chosen_metrics,
@@ -804,7 +821,7 @@ def main() -> None:
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--step-size", type=int, default=60)
     parser.add_argument("--accumulation-steps", type=int, default=4)
-    parser.add_argument("--max-samples", type=int, default=32000)
+    parser.add_argument("--max-samples", type=int, default=DEFAULT_MAX_SAMPLES)
     parser.add_argument("--predictor-lr", type=float, default=4e-5)
     parser.add_argument("--sample-count", type=int, default=3)
     parser.add_argument("--temperature", type=float, default=0.6)

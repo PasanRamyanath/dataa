@@ -1,14 +1,23 @@
 """
 feature engineering scripts/models_v3/train_all_multi_horizon.py
-Master 5-Wave Multi-Horizon Ensemble Training Orchestrator across all 14 resolutions
+Master 3-Run / 5-Wave Multi-Horizon Ensemble Training Orchestrator across all 14 resolutions
 (1s, 10s, 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d) for Dual T4 GPUs + CPU.
 
-Trains and calibrates all 16 Project-IMPJR v4.0 models:
-  - Tier 4 Macro (4 models): tier4-hmm-regime, tier4-patchtst-ffd, tier4-tft-funding, tier4-kronos-macro
-  - Tier 3 Meso  (4 models): tier3-lgbm-positioning, tier3-itransformer-32, tier3-nhits-multirate, tier3-kronos-meso
-  - Tier 2 Tactical (4 models): tier2-mamba-s6, tier2-lgbm-bookdepth, tier2-crossasset-gat, tier2-cryptobert-news
-  - Tier 1 Micro (3 models): tier1-lgbm-micro-1s10s, tier1-spot1s-leadlag, tier1-queue-hazard
-  - Stage 5 Fusion (16th model): fusion-v4-hierarchical (SupervisedMultiHorizonOOFStacker)
+3-Run Execution Architecture (Completes well within Kaggle's 12-hour session limit):
+  - Run 1 (`--run-stage 1` / `IMPJR_RUN_STAGE=1`, ~3 to 4 hours):
+    Trains all 14 fast models across Tier 4, Tier 3, Tier 2, and Tier 1 (HMM, PatchTST,
+    TFT, N-HiTS, iTransformer, Mamba-S6, all LightGBM models, GAT, CryptoBERT) PLUS the
+    lighter Kronos Meso model (`tier3-kronos-meso`, 24-step trajectory, 72,000 samples).
+    Uploads all 14 base model weights, metrics.json, and oof/*.parquet predictions to HF.
+  - Run 2 (`--run-stage 2` / `IMPJR_RUN_STAGE=2`, ~8 to 10 hours):
+    Exclusively trains the heavy `tier4-kronos-macro` foundation model (48-step horizon,
+    72,000 samples, 3 epochs) with the entire Dual-T4 GPU hardware and full 12-hour Kaggle
+    session to itself. Commits tournament winner weights, metrics.json, and
+    oof/tier4-kronos-macro.parquet to HF.
+  - Run 3 (`--run-stage 3` / `IMPJR_RUN_STAGE=3`, ~20 to 30 minutes):
+    Exclusively trains the Stage 5 Hierarchical Stacker (`SupervisedMultiHorizonOOFStacker`,
+    symmetric ODIR Dirichlet calibrators, and expected-net-PnL LightGBM meta-labeler) after
+    downloading clean OOF parquets for all 15 completed upstream models from HF.
 """
 from __future__ import annotations
 
@@ -47,6 +56,29 @@ log = logging.getLogger("models_v3.train_all_multi_horizon")
 
 DEFAULT_OUTPUT_ROOT = Path(__file__).resolve().parent / "checkpoints_v4"
 V3_CHECKPOINTS_ROOT = Path(__file__).resolve().parent / "checkpoints"
+
+RUN1_FAST_AND_MESO_MEMBERS: tuple[str, ...] = (
+    "tier4-hmm-regime",
+    "tier4-patchtst-ffd",
+    "tier4-tft-funding",
+    "tier3-lgbm-positioning",
+    "tier3-itransformer-32",
+    "tier3-nhits-multirate",
+    "tier3-kronos-meso",
+    "tier2-mamba-s6",
+    "tier2-lgbm-bookdepth",
+    "tier2-crossasset-gat",
+    "tier2-cryptobert-news",
+    "tier1-lgbm-micro-1s10s",
+    "tier1-spot1s-leadlag",
+    "tier1-queue-hazard",
+)
+RUN2_KRONOS_MACRO_MEMBERS: tuple[str, ...] = (
+    "tier4-kronos-macro",
+)
+RUN3_STAGE5_FUSION_MEMBERS: tuple[str, ...] = (
+    "fusion-v4-hierarchical",
+)
 
 # Mapping from v4 multi-horizon member name (and aliases) to existing real training module
 MEMBER_TRAIN_MODULE_MAP: dict[str, tuple[str, Path]] = {
@@ -87,7 +119,20 @@ def _mirror_to_v3_registry_tree(member_name: str, source_dir: Path) -> None:
             shutil.copy2(item, dest_dir / item.name)
 
 
-def _default_member_command(member_name: str, device: str, output_root: Path) -> Callable[[str], dict[str, Any]]:
+def _detect_visible_gpus() -> int:
+    try:
+        import torch
+        return max(1, int(torch.cuda.device_count())) if torch.cuda.is_available() else 1
+    except Exception:
+        return 1
+
+
+def _default_member_command(
+    member_name: str,
+    device: str,
+    output_root: Path,
+    dedicated_dual_gpu: bool = False,
+) -> Callable[[str], dict[str, Any]]:
     def _runner(assigned_device: str) -> dict[str, Any]:
         canon_name = canonical_v4_member_name(member_name)
         member_dir = output_root / canon_name
@@ -110,9 +155,16 @@ def _default_member_command(member_name: str, device: str, output_root: Path) ->
         default_ckpt_dir = repo_root / default_ckpt_rel
 
         env = os.environ.copy()
-        if assigned_device.startswith("cuda:"):
-            gpu_id = assigned_device.split(":")[1]
-            env["CUDA_VISIBLE_DEVICES"] = gpu_id
+        env["PYTHONUNBUFFERED"] = "1"
+        if dedicated_dual_gpu and canon_name == "tier4-kronos-macro":
+            # Run 2 Dedicated Kronos Macro: expose all available T4 GPUs (Dual-T4 DDP)
+            env.pop("CUDA_VISIBLE_DEVICES", None)
+            kronos_gpu_count = str(_detect_visible_gpus())
+        else:
+            if assigned_device.startswith("cuda:"):
+                gpu_id = assigned_device.split(":")[1]
+                env["CUDA_VISIBLE_DEVICES"] = gpu_id
+            kronos_gpu_count = "1"
 
         # Tier-specific multi-regime historical training windows (180..365 days) & optimization budgets
         tier_default_days = {
@@ -135,9 +187,10 @@ def _default_member_command(member_name: str, device: str, output_root: Path) ->
         max_days = os.environ.get("TRAIN_MAX_DAYS", tier_default_days.get(canon_name, "240"))
         max_steps = os.environ.get("TRAIN_MAX_STEPS", "2500")
         ssm_epochs = os.environ.get("TRAIN_SSM_EPOCHS", "15")
-        kronos_samples = os.environ.get("TRAIN_KRONOS_MAX_SAMPLES", "96000")
+        kronos_samples = os.environ.get("TRAIN_KRONOS_MAX_SAMPLES", "72000")
         kronos_epochs = os.environ.get("TRAIN_KRONOS_EPOCHS", "3")
 
+        # Unbuffered (-u) subprocess invocation so Kaggle live log streams every step in real time
         cmd = [sys.executable, "-u", "-m", module_name, "--upload"]
 
         if canon_name in ("tier4-kronos-macro", "tier3-kronos-meso"):
@@ -147,7 +200,7 @@ def _default_member_command(member_name: str, device: str, output_root: Path) ->
                 "--predict-window", pred_win,
                 "--max-samples", kronos_samples,
                 "--basemodel-epochs", kronos_epochs,
-                "--gpus", "1",
+                "--gpus", kronos_gpu_count,
                 "--member-name", canon_name,
                 "--output-dir", str(member_dir),
             ]
@@ -237,32 +290,101 @@ def _default_member_command(member_name: str, device: str, output_root: Path) ->
     return _runner
 
 
-def build_wave_schedule(output_root: Path) -> list[tuple[str, list[tuple[str, Callable[[str], dict[str, Any]]]]]]:
-    return [
+def normalize_run_stage(run_stage: str | None) -> str:
+    raw = (run_stage or os.environ.get("IMPJR_RUN_STAGE", "all")).strip().lower()
+    if raw in ("1", "run1", "run_1", "fast", "fast_and_meso"):
+        return "1"
+    if raw in ("2", "run2", "run_2", "kronos_macro", "macro"):
+        return "2"
+    if raw in ("3", "run3", "run_3", "fusion", "stage5", "stage5_fusion"):
+        return "3"
+    if raw in ("auto",):
+        return "auto"
+    return "all"
+
+
+def resolve_auto_run_stage(
+    repo_id: str | None = None,
+    token: str | None = None,
+    force_set: set[str] | None = None,
+) -> str:
+    """
+    Determines which of the 3 Runs to execute when `run_stage='auto'`:
+      - If any of the 14 Run 1 fast/meso models are not yet completed on HF -> '1'
+      - Else if `tier4-kronos-macro` is not yet completed on HF -> '2'
+      - Else -> '3' (Stage 5 Hierarchical Fusion)
+    """
+    force_set = force_set or set()
+    force_all = "all" in force_set
+    for m in RUN1_FAST_AND_MESO_MEMBERS:
+        in_force = m in force_set or force_all
+        target_repo = repo_id or v4_tier_repo_id(m)
+        if not is_member_completed_on_hf(m, repo_id=target_repo, token=token, require_v4_peak=in_force):
+            return "1"
+    in_force_macro = "tier4-kronos-macro" in force_set or force_all
+    macro_repo = repo_id or v4_tier_repo_id("tier4-kronos-macro")
+    if not is_member_completed_on_hf("tier4-kronos-macro", repo_id=macro_repo, token=token, require_v4_peak=in_force_macro):
+        return "2"
+    return "3"
+
+
+def build_wave_schedule(
+    output_root: Path,
+    run_stage: str = "all",
+) -> list[tuple[str, list[tuple[str, Callable[[str], dict[str, Any]]]]]]:
+    """
+    Constructs the training wave schedule according to the 3-Run Architecture:
+      - Run 1 (`run_stage='1'`): 14 fast models + `tier3-kronos-meso` (24-step, 72k samples)
+      - Run 2 (`run_stage='2'`): Exclusively `tier4-kronos-macro` (48-step, 72k samples, 3 epochs)
+      - Run 3 (`run_stage='3'`): No base waves (exclusively Stage 5 Hierarchical Fusion)
+      - Full (`run_stage='all'`): Run 1 waves followed by dedicated Run 2 `tier4_kronos_macro` wave
+    """
+    stage = normalize_run_stage(run_stage)
+    run1_waves: list[tuple[str, list[tuple[str, Callable[[str], dict[str, Any]]]]]] = [
         ("tier4_macro", [
             ("tier4-hmm-regime", _default_member_command("tier4-hmm-regime", "cpu", output_root)),
             ("tier4-patchtst-ffd", _default_member_command("tier4-patchtst-ffd", "cuda:0", output_root)),
-            ("tier4-tft-funding", _default_member_command("tier4-tft-funding", "cuda:0", output_root)),
-            ("tier4-kronos-macro", _default_member_command("tier4-kronos-macro", "cuda:1", output_root)),
+            ("tier4-tft-funding", _default_member_command("tier4-tft-funding", "cuda:1", output_root)),
         ]),
         ("tier3_meso", [
             ("tier3-lgbm-positioning", _default_member_command("tier3-lgbm-positioning", "cpu", output_root)),
             ("tier3-itransformer-32", _default_member_command("tier3-itransformer-32", "cuda:0", output_root)),
-            ("tier3-nhits-multirate", _default_member_command("tier3-nhits-multirate", "cuda:1", output_root)),
+            ("tier3-nhits-multirate", _default_member_command("tier3-nhits-multirate", "cuda:0", output_root)),
             ("tier3-kronos-meso", _default_member_command("tier3-kronos-meso", "cuda:1", output_root)),
         ]),
         ("tier2_tactical", [
             ("tier2-mamba-s6", _default_member_command("tier2-mamba-s6", "cuda:0", output_root)),
             ("tier2-lgbm-bookdepth", _default_member_command("tier2-lgbm-bookdepth", "cpu", output_root)),
-            ("tier2-crossasset-gat", _default_member_command("tier2-crossasset-gat", "cpu", output_root)),
-            ("tier2-cryptobert-news", _default_member_command("tier2-cryptobert-news", "cpu", output_root)),
+            ("tier2-crossasset-gat", _default_member_command("tier2-crossasset-gat", "cuda:1", output_root)),
+            ("tier2-cryptobert-news", _default_member_command("tier2-cryptobert-news", "cuda:1", output_root)),
         ]),
         ("tier1_micro", [
             ("tier1-lgbm-micro-1s10s", _default_member_command("tier1-lgbm-micro-1s10s", "cpu", output_root)),
-            ("tier1-spot1s-leadlag", _default_member_command("tier1-spot1s-leadlag", "cpu", output_root)),
+            ("tier1-spot1s-leadlag", _default_member_command("tier1-spot1s-leadlag", "cuda:0", output_root)),
             ("tier1-queue-hazard", _default_member_command("tier1-queue-hazard", "cpu", output_root)),
         ]),
     ]
+    run2_waves: list[tuple[str, list[tuple[str, Callable[[str], dict[str, Any]]]]]] = [
+        ("tier4_kronos_macro", [
+            (
+                "tier4-kronos-macro",
+                _default_member_command(
+                    "tier4-kronos-macro",
+                    "cuda:0",
+                    output_root,
+                    dedicated_dual_gpu=True,
+                ),
+            ),
+        ]),
+    ]
+
+    if stage == "1":
+        return run1_waves
+    if stage == "2":
+        return run2_waves
+    if stage == "3":
+        return []
+    return run1_waves + run2_waves
 
 
 def _fit_supervised_stacker_from_real_oof(
@@ -350,7 +472,10 @@ def _fit_supervised_stacker_from_real_oof(
     net_long_bps = ret_bps - 1.5
     net_short_bps = -ret_bps - 1.5
 
-    return stacker.fit_on_purged_oof(X_meta, y_tb, net_long_bps, net_short_bps)
+    out_metrics = stacker.fit_on_purged_oof(X_meta, y_tb, net_long_bps, net_short_bps)
+    out_metrics["oof_members_used"] = sorted(oof_dict.keys())
+    out_metrics["oof_joined_rows"] = int(n)
+    return out_metrics
 
 
 def train_stage5_fusion(output_root: Path) -> dict[str, Any]:
@@ -365,10 +490,12 @@ def train_stage5_fusion(output_root: Path) -> dict[str, Any]:
     repo_root = Path(__file__).resolve().parent.parent
     if os.environ.get("DRY_RUN_SMOKE", "0") != "1":
         max_days = os.environ.get("TRAIN_MAX_DAYS", "240")
+        sub_env = os.environ.copy()
+        sub_env["PYTHONUNBUFFERED"] = "1"
         for mod in ("fusion.stacking_meta_learner", "fusion.calibration", "fusion.meta_labeling"):
-            cmd = [sys.executable, "-m", mod, "--upload", "--max-days", max_days]
+            cmd = [sys.executable, "-u", "-m", mod, "--upload", "--max-days", max_days]
             log.info("Running Stage 5 fusion sub-stage: %s", " ".join(cmd))
-            subprocess.run(cmd, cwd=str(repo_root), check=False)
+            subprocess.run(cmd, cwd=str(repo_root), env=sub_env, check=False)
 
     stacker = SupervisedMultiHorizonOOFStacker(c_reg=0.25, conformal_alpha=0.22)
     metrics = None
@@ -432,11 +559,12 @@ def train_stage5_fusion(output_root: Path) -> dict[str, Any]:
 
 def run(
     output_root: Path = DEFAULT_OUTPUT_ROOT,
-    max_hours: float = 8.5,
+    max_hours: float = 11.0,
     repo_id: str | None = None,
     token: str | None = None,
     budget: Any = None,
     force_retrain: list[str] | None = None,
+    run_stage: str | None = None,
 ) -> dict[str, str]:
     tok = resolve_hf_token(token)
     output_root.mkdir(parents=True, exist_ok=True)
@@ -461,12 +589,26 @@ def run(
 
     download_all_completed_members(output_root, repo_id=repo_id, token=tok)
 
+    requested_stage = normalize_run_stage(run_stage)
+    active_stage = (
+        resolve_auto_run_stage(repo_id=repo_id, token=tok, force_set=force_set)
+        if requested_stage == "auto"
+        else requested_stage
+    )
+    log.info(
+        "Project-IMPJR v4.0 Multi-Horizon Training Stage: requested=%s -> active=%s (kronos_samples=%s)",
+        requested_stage,
+        active_stage,
+        os.environ.get("TRAIN_KRONOS_MAX_SAMPLES", "72000"),
+    )
+
     overall_status: dict[str, str] = {}
-    for wave_name, tasks in build_wave_schedule(output_root):
+    for wave_name, tasks in build_wave_schedule(output_root, run_stage=active_stage):
         if v4_budget.should_soft_stop():
             log.warning("Soft-stop reached prior to wave %s; halting cleanly.", wave_name)
             break
-        wave_repo = repo_id or f"{config.HF_MODEL_ORG}/{config.HF_MODEL_REPO_PREFIX}-{wave_name}"
+        first_member = tasks[0][0] if tasks else wave_name
+        wave_repo = repo_id or v4_tier_repo_id(first_member) or f"{config.HF_MODEL_ORG}/{config.HF_MODEL_REPO_PREFIX}-{wave_name}"
         wave_res = execute_wave_parallel(
             wave_name=wave_name,
             tasks=tasks,
@@ -478,11 +620,15 @@ def run(
         )
         overall_status.update(wave_res)
 
-    if not v4_budget.should_soft_stop():
+    should_run_fusion = active_stage in ("3", "all") and not v4_budget.should_soft_stop()
+    if should_run_fusion:
+        if active_stage == "3":
+            # Ensure all 15 upstream OOF parquets are freshly synced before fitting Stage 5 Fusion
+            download_all_completed_members(output_root, repo_id=repo_id, token=tok)
         force_all = "all" in force_set
         req_v4 = "fusion-v4-hierarchical" in force_set or bool(force_set)
         fusion_repo = repo_id or v4_tier_repo_id("fusion-v4-hierarchical")
-        if not force_all and is_member_completed_on_hf(
+        if not force_all and active_stage != "3" and is_member_completed_on_hf(
             "fusion-v4-hierarchical", repo_id=fusion_repo, token=tok, require_v4_peak=req_v4
         ):
             overall_status["fusion-v4"] = "skipped_completed_on_hf"
@@ -503,13 +649,25 @@ def run(
 def main() -> None:
     parser = argparse.ArgumentParser(description="Project-IMPJR v4.0 Multi-Horizon Training Orchestrator")
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
-    parser.add_argument("--max-hours", type=float, default=8.5)
+    parser.add_argument("--max-hours", type=float, default=11.0)
     parser.add_argument("--repo-id", type=str, default=None)
     parser.add_argument("--force-retrain", type=str, default="")
+    parser.add_argument(
+        "--run-stage",
+        type=str,
+        default=os.environ.get("IMPJR_RUN_STAGE", "all"),
+        help="Training run stage: '1' (14 fast + Kronos Meso), '2' (Kronos Macro alone), '3' (Stage 5 Fusion), 'auto', or 'all'",
+    )
     args = parser.parse_args()
     force_list = [s.strip() for s in args.force_retrain.split(",") if s.strip()]
-    res = run(output_root=args.output_root, max_hours=args.max_hours, repo_id=args.repo_id, force_retrain=force_list)
-    log.info("Final v4 Training Session Status: %s", res)
+    res = run(
+        output_root=args.output_root,
+        max_hours=args.max_hours,
+        repo_id=args.repo_id,
+        force_retrain=force_list,
+        run_stage=args.run_stage,
+    )
+    log.info("Final v4 Training Session Status (stage=%s): %s", args.run_stage, res)
 
 
 if __name__ == "__main__":
