@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from pathlib import Path
 import os
 
-PROJECT_ROOT = Path(os.environ.get("PROJECT_ROOT", r"D:\backup\Binance data"))
+PROJECT_ROOT = Path(os.environ.get("PROJECT_ROOT", str(Path(__file__).resolve().parent.parent)))
 DATA_VISION_ROOT = Path(os.environ.get("BINANCE_DATA_ROOT", PROJECT_ROOT / "data"))
 MULTI_TF_OUTPUT_ROOT = Path(
     os.environ.get("MULTI_TF_OUTPUT_ROOT", PROJECT_ROOT / "feature engineering scripts" / "output_multi_tf")

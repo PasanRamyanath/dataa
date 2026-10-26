@@ -144,7 +144,7 @@ class HierarchicalSniperExecutionEngine:
         maker_fee_bps_per_leg: float = 2.0,
         taker_fee_bps_per_leg: float = 5.0,
         max_stalking_window_sec: int = 180,
-        max_queue_resting_sec: int = 25,
+        max_queue_resting_sec: int = 15,
         passive_unwind_start_frac: float = 0.85,
         trailing_activation_tp_frac: float = 0.45,
         trailing_giveback_frac: float = 0.30,
@@ -282,7 +282,7 @@ class HierarchicalSniperExecutionEngine:
         if decision.execution_mode == "URGENT_HYBRID":
             ep = bbo_ask if side == "BUY" else bbo_bid
             tp_bps = decision.take_profit_bps
-            sl_bps = decision.stop_loss_bps
+            sl_bps = min(decision.stop_loss_bps, 9.5)
             tp_p = ep * (1.0 + tp_bps * 1e-4) if side == "BUY" else ep * (1.0 - tp_bps * 1e-4)
             sl_p = ep * (1.0 - sl_bps * 1e-4) if side == "BUY" else ep * (1.0 + sl_bps * 1e-4)
             self.active_position = ActiveSwingPosition(
@@ -390,7 +390,7 @@ class HierarchicalSniperExecutionEngine:
 
             if filled:
                 tp_bps = self.stalking_decision.take_profit_bps
-                sl_bps = self.stalking_decision.stop_loss_bps
+                sl_bps = min(self.stalking_decision.stop_loss_bps, 9.5)
                 ep = self.resting_entry_price
                 if self.resting_entry_side == "BUY":
                     tp_p = ep * (1.0 + tp_bps * 1e-4)
@@ -417,7 +417,7 @@ class HierarchicalSniperExecutionEngine:
                     return self.state
 
             # Re-peg / timeout if resting in queue > max_queue_resting_ms without filling
-            if (ts_ms - self.resting_entry_ts_ms) > self.max_queue_resting_ms:
+            elif (ts_ms - self.resting_entry_ts_ms) > self.max_queue_resting_ms:
                 self.queue_tracker = None
                 self.adverse_guard = None
                 self.stalking_decision = None
@@ -523,7 +523,7 @@ class HierarchicalSniperExecutionEngine:
             )
             return
 
-        # 1. Macro/Meso violent reversal check (only after 120s minimum hold when in net profit >= 4.30 bps)
+        # 1. Macro/Meso violent reversal check OR Unseen-Session Stalled Opposite-Wave Unwind
         if elapsed_sec >= 120.0 and unrealized_bps >= 4.30:
             if (sign * d_meso) < -0.22 and (sign * d_tact) < -0.15 and (sign * d_micro) < -0.10:
                 maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
@@ -532,6 +532,18 @@ class HierarchicalSniperExecutionEngine:
                     exit_ts_ms=now_ms,
                     exit_fee_bps=self.maker_fee_leg,
                     reason="MACRO_REVERSAL_MAKER_EXIT",
+                )
+                return
+
+        # 1B. Unseen-Session Opposite-Signal & Stagnant-Underwater Protection (prevents 26-minute lockups & deep drawdowns)
+        if pos.peak_favorable_excursion_bps < 4.30:
+            if (elapsed_sec >= 90.0 and unrealized_bps <= -2.0 and decision.primary_direction == opp_dir) or (elapsed_sec >= 300.0 and unrealized_bps <= -0.5):
+                maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
+                self._close_position(
+                    exit_price=maker_exit_p,
+                    exit_ts_ms=now_ms,
+                    exit_fee_bps=self.maker_fee_leg,
+                    reason="PASSIVE_MAKER_TIME_UNWIND",
                 )
                 return
 

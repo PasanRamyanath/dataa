@@ -124,7 +124,7 @@ class InstrumentedTestSession(LiveHierarchicalTradingSession):
 
 def main():
     log.info("=" * 80)
-    log.info("LAUNCHING 1-HOUR LIVE PAPER TRADING & ACCURACY EVALUATION SESSION (V3.3 UPDATED ENGINE)")
+    log.info("LAUNCHING 1-HOUR LIVE PAPER TRADING & ACCURACY EVALUATION SESSION (V3.4 UPDATED ENGINE)")
     log.info("Symbol: BTCUSDT | Target Duration: 60.0 minutes (1.0 hour)")
     log.info("Checkpoints: %s", FEAT_ENGINE_DIR / "models_v3" / "checkpoints")
     log.info("Ledger Path: %s", LEDGER_PATH)

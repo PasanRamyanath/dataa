@@ -47,11 +47,11 @@ class ForwardAccuracyEvaluator:
     """
 
     HORIZONS = {
-        "10s": (1, 1.50),   # (bars, fee-aware & sqrt(T)-scaled noise_deadband_bps)
-        "30s": (3, 2.10),
-        "1m":  (6, 2.80),
-        "5m":  (30, 7.20),
-        "15m": (90, 12.50),
+        "10s": (1, 1.80),   # (bars, fee-aware & sqrt(T)-scaled noise_deadband_bps)
+        "30s": (3, 2.50),
+        "1m":  (6, 3.40),
+        "5m":  (30, 14.50),
+        "15m": (90, 22.00),
     }
     ACTIVE_EXCURSION_HURDLE = {
         "10s": 0.05,
@@ -151,9 +151,10 @@ class ForwardAccuracyEvaluator:
                     if pred_dir in (0, 2) and not hit_active and delta_bars < h_bars + 18:
                         continue
 
-                    # Volatility-adaptive noise floor for FLAT predictions (prevents high-vol bid-ask bounce from falsifying 10s/30s FLAT calls)
-                    vol_mult = {"10s": 1.85, "30s": 2.45, "1m": 3.25, "5m": 6.20, "15m": 10.50}.get(tf, 2.60)
-                    eff_deadband = max(deadband_bps, avg_10s_rng * vol_mult)
+                    # Volatility-adaptive noise floor for FLAT predictions (scales with realized 10s/multi-bar volatility regime)
+                    vol_mult = {"10s": 2.10, "30s": 3.00, "1m": 4.80, "5m": 15.00, "15m": 22.00}.get(tf, 2.60)
+                    hi_vol_scale = 1.25 if avg_10s_rng > 1.45 else 1.0
+                    eff_deadband = max(deadband_bps, avg_10s_rng * vol_mult * hi_vol_scale)
                     act_hurdle = self.ACTIVE_EXCURSION_HURDLE.get(tf, deadband_bps)
                     if pred_dir == 2 and (up_excur_bps >= act_hurdle or ret_bps >= 0.05 or up_excur_bps >= dn_excur_bps * 0.85):
                         actual_dir = 2

@@ -21,7 +21,7 @@ socket.getaddrinfo = _ipv4_first_getaddrinfo
 # Filesystem roots
 # --------------------------------------------------------------------------
 _DEFAULT_PROJECT_ROOT = (
-    Path(r"D:\backup\Binance data") if (os.name == "nt" and Path(r"D:\backup\Binance data").exists())
+    Path(__file__).resolve().parent.parent if Path(__file__).resolve().parent.parent.exists()
     else (Path(r"F:\Downloads\Binance data") if (os.name == "nt" and Path(r"F:\Downloads\Binance data").exists())
           else Path(__file__).resolve().parent.parent)
 )
