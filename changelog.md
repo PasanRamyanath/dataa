@@ -945,6 +945,42 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
     - **Challenger 5.4:** Champion + Conformal Shannon Negentropy Crest Harvester.
     - **Challenger 5.5:** Champion + Triple-Horizon Consensus Scalper (Tactical + Meso + Micro sign agreement).
 
+---
+
+### Cycle 25 (Universal Profitability Tournament Session: +30.68 bps Net Win) - COMPLETED
+- **Session Window:** 2026-10-28 02:04:35 – 2026-10-28 03:04:41 (60.05 min / 360 bars)
+- **Tournament Standings & Winner:**
+  - **🏆 CROWNED NEW CHAMPION:** **Challenger 2 (`Challenger2_SameSideRetraceScalper`)**
+  - **Net Realized Cash Profit:** **`+30.68 bps` NET CASH PROFIT**
+  - **Profit Factor:** **`24.60`**
+  - **Win Rate:** **`66.7%`** (2 Wins / 1 Loss across 3 trades)
+  - **Average Net Return per Trade:** **`+10.23 bps` net**
+  - **Key Victory Highlights:**
+    - *Trade 1:* BUY @ \$80,637.10 $\to$ Exit @ \$80,673.70 (**`+0.54 bps` Net Win**) via `PASSIVE_MAKER_TIME_UNWIND`
+    - *Trade 2:* BUY @ \$80,736.90 $\to$ Exit @ \$80,758.70 (**`-1.30 bps` Net Loss**) via `ADAPTIVE_DECAY_TIME_UNWIND`
+    - *Trade 3:* BUY @ \$80,699.90 $\to$ Exit @ \$80,985.90 via `RESTING_MAKER_TP` (**`+35.44 bps` gross / `+31.44 bps` NET CASH PROFIT**) — **PEAK HARVEST WIN**!
+  - **The Winning Innovation:** Challenger 2's **$15 pullback retrace requirement** completely suppressed the losing chop trade @ \$80,766.30 that afflicted all other competitors. It waited for price to reset to \$80,699.90 before catching the explosive upward impulse to \$80,985.90.
+- **Universal Profitability Across All 6 Competitors:**
+  - Rank 1: **Challenger 2** (Same-Side Retrace) — 3 trades, 2 wins (66.7% WR), **`+30.68 bps` net** (PF: `24.60`) — **Winner!**
+  - Rank 2: **Champion** (Adaptive Decay) — 4 trades, 2 wins (50.0% WR), **`+26.62 bps` net** (PF: `5.96`)
+  - Rank 3: **Challenger 4** (Conformal Negentropy) — 4 trades, 2 wins (50.0% WR), **`+26.62 bps` net** (PF: `5.96`)
+  - Rank 4: **Challenger 5** (Triple-Horizon Consensus) — 3 trades, 1 win (33.3% WR), **`+26.08 bps` net** (PF: `5.86`)
+  - Rank 5: **Challenger 3** (Fast 90s Decay) — 4 trades, 2 wins (50.0% WR), **`+24.43 bps` net** (PF: `4.23`)
+  - Rank 6: **Challenger 1** (Macro-Aligned Decay) — 5 trades, 2 wins (40.0% WR), **`+24.09 bps` net** (PF: `4.02`)
+- **Forward Prediction Accuracies Across Horizons (Outstanding Stability):**
+  - **Macro (15m):** **96.17%** overall, **89.23% Active Precision** (58/65 signals)
+  - **Meso (5m):** **95.93%** overall, **88.89% Active Precision** (80/90 signals)
+  - **Micro (10s):** **94.91%** overall (341/359 samples)
+  - **Tactical (1m):** **84.44%** overall, **69.77% Active Precision** (30/43 signals)
+- **Cycle 26 Tournament Roster:**
+  - **Reigning Champion:** `SameSideRetracePriceBarrierScalper` (Challenger 2, crowned with +30.68 bps net cash).
+  - **Challenger 2.1:** Champion + Dynamic ATR-Scaled Retrace Barrier ($0.8 \times \text{ATR}_{10s}$).
+  - **Challenger 2.2:** Champion + Multi-Stage Runner Expansion (trails by only 15% on >+20 bps moves).
+  - **Challenger 2.3:** Champion + Order-Flow Micro-Burst Confirmation (taker ratio >= 1.40).
+  - **Challenger 2.4:** Champion + Conformal Shannon Negentropy Crest Harvester.
+  - **Challenger 2.5:** Champion + Fast 90s Stalling Retrace Scalper.
+
+
 
 
 
