@@ -187,6 +187,10 @@ class HierarchicalSniperExecutionEngine:
         self.max_parabolic_surge_30s_bps: float = float(kwargs.get("max_parabolic_surge_30s_bps", 10.0))
         self.max_impulse_surge_180s_bps: float = float(kwargs.get("max_impulse_surge_180s_bps", 16.0))
         self.max_impulse_surge_300s_bps: float = float(kwargs.get("max_impulse_surge_300s_bps", 18.0))
+        self.min_trailing_activation_bps: float = float(kwargs.get("min_trailing_activation_bps", 4.50))
+        self.tier1_min_lock_bps: float = float(kwargs.get("tier1_min_lock_bps", 4.20))
+        self.model_harvest_min_bps: float = float(kwargs.get("model_harvest_min_bps", 4.80))
+        self.passive_unwind_min_bps: float = float(kwargs.get("passive_unwind_min_bps", 4.25))
 
     def on_hierarchical_decision(
         self,
@@ -549,21 +553,19 @@ class HierarchicalSniperExecutionEngine:
                 return self.state
 
             # B. Three-Tier Dynamic Trailing Maker Profit Shield
-            # Tier 1 (< 7.0 bps peak): locks peak - 1.0 bps, minimum 4.20 bps gross (+0.20 bps net)
-            # Tier 2 (< 10.0 bps peak): locks peak - 1.5 bps, minimum 5.20 bps gross (+1.20 bps net)
-            # Tier 3 (>= 10.0 bps peak): locks peak - 2.0 bps, minimum 7.50 bps gross (+3.50 bps net)
-            activation_hurdle_bps = min(self.trailing_act_frac * pos.take_profit_bps, 4.50)
+            # Configurable activation hurdle and tier-1 floor (defaulting to 4.50 bps and 4.20 bps)
+            activation_hurdle_bps = min(self.trailing_act_frac * pos.take_profit_bps, self.min_trailing_activation_bps)
             if pos.peak_favorable_excursion_bps >= activation_hurdle_bps:
                 pos.trailing_maker_armed = True
 
             if pos.trailing_maker_armed:
                 mfe = pos.peak_favorable_excursion_bps
                 if mfe < 7.00:
-                    lock_bps = max(4.20, mfe - 1.00)
+                    lock_bps = max(self.tier1_min_lock_bps, mfe - 1.00)
                 elif mfe < 10.00:
-                    lock_bps = max(5.20, mfe - 1.50)
+                    lock_bps = max(max(self.tier1_min_lock_bps, 5.20), mfe - 1.50)
                 else:
-                    lock_bps = max(7.50, mfe - 2.00)
+                    lock_bps = max(max(self.tier1_min_lock_bps, 7.50), mfe - 2.00)
 
                 if unrealized_bps <= lock_bps:
                     exit_gross_bps = max(lock_bps, unrealized_bps)
@@ -636,9 +638,9 @@ class HierarchicalSniperExecutionEngine:
             return
 
         # 0A. Active Neural Model Profit Harvest
-        # While in profit (>= 4.80 bps gross), if 10s micro-tick momentum stalls or turns against position,
+        # While in profit (>= model_harvest_min_bps gross), if 10s micro-tick momentum stalls or turns against position,
         # or if primary direction flips against the trade, exit immediately at BBO Maker to capture peak excursion!
-        if unrealized_bps >= 4.80:
+        if unrealized_bps >= self.model_harvest_min_bps:
             if (sign * d_micro) < -0.05 or decision.primary_direction == opp_dir:
                 maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
                 self._close_position(
@@ -678,7 +680,7 @@ class HierarchicalSniperExecutionEngine:
                 return
 
         # 1B. Profitable Time-Decay & Opposite-Wave Maker Lock (never force-closes underwater trades at a loss)
-        if elapsed_sec >= 300.0 and unrealized_bps >= 4.25 and ((sign * d_micro) <= 0.05 or decision.primary_direction == opp_dir):
+        if elapsed_sec >= 300.0 and unrealized_bps >= self.passive_unwind_min_bps and ((sign * d_micro) <= 0.05 or decision.primary_direction == opp_dir):
             maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
             self._close_position(
                 exit_price=maker_exit_p,
@@ -693,7 +695,7 @@ class HierarchicalSniperExecutionEngine:
             self.state = "PASSIVE_MAKER_UNWIND"
 
         if self.state == "PASSIVE_MAKER_UNWIND":
-            if unrealized_bps >= 4.25 and ((sign * d_micro) <= 0.05 or hold_frac >= 0.95):
+            if unrealized_bps >= self.passive_unwind_min_bps and ((sign * d_micro) <= 0.05 or hold_frac >= 0.95):
                 maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
                 self._close_position(
                     exit_price=maker_exit_p,
