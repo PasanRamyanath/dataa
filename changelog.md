@@ -1023,3 +1023,24 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
 
 
 
+
+### Cycle 27 (Champion-Challenger Tournament Session 5)
+- **Session Window:** 2026-10-28 04:09:11 - 2026-10-28 05:09:14 (60.00 min / 360 bars)
+- **Tournament Standings & Winner:**
+  - **👑 NEW CROWNED CHAMPION:** **Challenger 5 (`Fast90sStallingRetraceScalper`)**
+  - **Net Realized PnL:** **`-8.44 bps` Net PnL** across 5 trades (Outperformed Reigning Champion by **`+1.08 bps`**)
+  - **Trade Velocity:** **5 Trades in 60 minutes** (1 trade / 12 min)
+  - **Win Rate:** **`40.0%`** (2 Wins / 3 Losses)
+  - **Decisive Edge:** Challenger 5’s 90-second fast stall decay unwind exited Trade 5 at $80,900.70 (`+0.57 bps` gross) rather than waiting 120 seconds like the legacy Champion (which decayed down to $80,892.00, losing an extra 1.08 bps).
+- **Forward Prediction Accuracies Across Horizons:**
+  - **Macro (15m):** **`92.54%`** overall, **`81.13%` Active Precision** (86/106 signals)
+  - **Meso (5m):** **`84.55%`** overall, **`63.57%` Active Precision** (89/140 signals)
+  - **Micro (10s):** **`89.42%`** overall across 359 forward intervals
+  - **Tactical (1m):** **`81.36%`** overall, **`73.33%` Active Precision** (33/45 signals)
+- **Key Algorithmic Discovery - Micro-Profit Choking Root Cause:**
+  - Line-by-line inspection of `hierarchical_sniper_engine.py` revealed that `pos.trailing_maker_armed` triggers as low as `4.50 bps` gross excursion, locking the exit to `4.20 bps` gross.
+  - Normal BTC tick noise of 1.0 bps immediately triggers a close at `4.20 bps` gross, leaving only `+0.20 bps` net profit after 4.0 bps Maker fees!
+  - This choked winning trades in their infancy and prevented them from expanding into the true `+15 to +35 bps` trend moves.
+- **Cycle 28 Tournament Architecture:**
+  - **Reigning Champion:** `Fast90sStallingRetraceScalper` (Cycle 27 Winner).
+  - Mutate 5 new Challengers equipped with **Wide-Breathe Trailing** (activation $\ge 8.0\text{ bps}$ gross), **Adaptive Dynamic TP Expansion**, and **Predictive Crest Harvester**.
