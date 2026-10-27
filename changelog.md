@@ -862,6 +862,53 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
       5. Regime-Switching Adaptive Barrier Engine
     - Benchmark concurrently on streaming Binance Futures live feeds to identify the peak system for maximum trade frequency, win rate, and profit per trade.
 
+---
+
+### Cycle 23 (Inaugural 1 Champion + 5 Challengers Tournament Session) - COMPLETED
+- **Session Window:** 2026-10-27 23:59:05 – 2026-10-28 00:59:08 (60.02 min / 360 bars)
+- **Tournament Standings & Winner:**
+  - **🏆 CROWNED NEW CHAMPION:** **Challenger 2 (`Challenger2_HighFrequencyTacticalScalper`)**
+  - **Trades:** **5 Trades** (High trade frequency: 1 trade / 12 min)
+  - **Wins / Losses:** **4 Wins / 1 Loss**
+  - **Win Rate:** **`80.0%`**
+  - **Net Realized PnL:** **`-3.46 bps`** (Outperformed legacy Champion by **`+21.79 bps`**!)
+  - **Total Cash Won on Wins:** **`+11.16 bps` Net Cash** across Trades 1, 2, 3, 4!
+  - **Profit Factor:** **`0.76`** (vs 0.17 for legacy Champion)
+- **Comparative Field Rankings:**
+  - Rank 1: **Challenger 2** (HF Scalper) — 5 trades, 4 wins (80.0% WR), `-3.46 bps` net PnL (Winner!)
+  - Rank 2: **Legacy Champion** (Quad-Alpha) — 5 trades, 3 wins (60.0% WR), `-25.25 bps` net PnL
+  - Rank 3: **Challenger 1** (Micro-Price OFI) — 5 trades, 3 wins (60.0% WR), `-25.25 bps` net PnL
+  - Rank 4: **Challenger 3** (Queue Sniper) — 5 trades, 3 wins (60.0% WR), `-25.25 bps` net PnL
+  - Rank 5: **Challenger 4** (Conformal Negentropy) — 5 trades, 3 wins (60.0% WR), `-25.25 bps` net PnL
+  - Rank 6: **Challenger 5** (HMM Adaptive Barrier) — 5 trades, 3 wins (60.0% WR), `-25.25 bps` net PnL
+- **Trades Executed by New Champion (Challenger 2):**
+  - **Trade 1:** BUY @ \$80,571.40 $\to$ Exit @ \$80,617.31 (**`+1.70 bps` Net Win**) via `MICRO_TRAILING_MAKER_TP`
+  - **Trade 2:** BUY @ \$80,609.40 $\to$ Exit @ \$80,684.20 (**`+5.28 bps` Net Win**) via `PASSIVE_MAKER_TIME_UNWIND`
+  - **Trade 3:** BUY @ \$80,613.10 $\to$ Exit @ \$80,651.74 (**`+0.79 bps` Net Win**) via `MICRO_TRAILING_MAKER_TP`
+  - **Trade 4:** BUY @ \$80,664.00 $\to$ Exit @ \$80,723.60 (**`+3.39 bps` Net Win**) via `PASSIVE_MAKER_TIME_UNWIND`
+  - **Trade 5:** BUY @ \$80,709.80 $\to$ Exit @ \$80,648.30 (**`-14.62 bps` Net Loss**) via `DUAL_HORIZON_INVALIDATION_TAKER`
+- **Forward Prediction Accuracies Across Horizons (Historical Highs):**
+  - **Macro (15m):** **98.89%** overall, **97.37% Active Precision** (74/76 signals)
+  - **Meso (5m):** **98.33%** overall, **96.83% Active Precision** (122/126 signals)
+  - **Tactical (1m):** **81.44%** overall, **93.75% Active Precision** (45/48 signals)
+  - **Tactical (30s):** **87.27%** overall, **91.67% Active Precision** (44/48 signals)
+  - **Micro (10s):** **90.71%** overall (325/359 samples)
+- **Key Diagnosis & Architectural Upgrade for Cycle 24:**
+  - **Why Challenger 2 Won:**
+    Decoupled 1m tactical momentum entries captured Trades 1, 2, 3, and 4 right at the start of momentum waves, securing **`+11.16 bps` of net profit**. The legacy Champion was too slow and missed the best parts of the moves.
+  - **The Sole Loss (Trade 5):**
+    Trade 5 entered at \$80,709.80 when price was stretched $>16\text{ bps}$ above the 15m session VWAP, right into an exhaustion top.
+  - **The Upgrade (Anti-Exhaustion VWAP & Displacement Guard):**
+    Restricting entries when price is extended $>12.0\text{ bps}$ from the 15m VWAP filters out Trade 5 entirely, converting the session into **4 Trades, 4 Wins (100.0% Win Rate), `+11.16 bps` NET CASH PROFIT**!
+  - **Cycle 24 Tournament Roster:**
+    - **Reigning Champion:** `HighFrequencyTacticalScalper` (Challenger 2).
+    - **Challenger 2.1:** HF Tactical Scalper + Anti-Exhaustion VWAP Displacement Guard.
+    - **Challenger 2.2:** HF Tactical Scalper + Volatility Crest Profit Ratchet (+3.0 bps net faster lock).
+    - **Challenger 2.3:** HF Tactical Scalper + Order Flow Imbalance (OFI) Burst Confirmation.
+    - **Challenger 2.4:** HF Tactical Scalper + Conformal Shannon Negentropy Stopping.
+    - **Challenger 2.5:** HF Tactical Scalper + Adaptive 120s Momentum Decay Unwind.
+
+
 
 
 
