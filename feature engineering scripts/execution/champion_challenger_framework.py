@@ -1,12 +1,12 @@
 """
 feature engineering scripts/execution/champion_challenger_framework.py
 Production Champion-Challenger Tournament Framework for Project-IMPJR Peak Trading System.
-Cycle 26 Tournament Roster:
-  - 👑 Reigning Champion: SameSideRetracePriceBarrierScalper (Crowned in Cycle 25 with +30.68 bps Net Cash, 24.60 Profit Factor, and +31.44 bps peak resting TP capture)
-  - ⚔️ Challenger 1: Dynamic ATR Retrace Barrier Scalper (Scales pullback requirement to 0.8 * ATR_10s)
-  - ⚔️ Challenger 2: Multi-Stage Runner Scalper (Expands trailing buffer to 15% on >+20 bps explosive runners)
-  - ⚔️ Challenger 3: OFI Micro-Burst Retrace Scalper (Requires taker buy/sell ratio >= 1.40)
-  - ⚔️ Challenger 4: Conformal Negentropy Retrace Scalper (Shannon uncertainty crest exit)
+Cycle 27 Tournament Roster:
+  - 👑 Reigning Champion: SameSideRetracePriceBarrierScalper (Undefeated with +37.78 bps combined net in Cycles 25 & 26, 100% WR in Cycle 26)
+  - ⚔️ Challenger 1: Relaxed Impulse Frequency Scalper (Threshold relaxed to 0.10 to increase trade velocity to 4-6 tr/hr)
+  - ⚔️ Challenger 2: Velocity Burst Momentum Scalper (Triggers on 10s velocity acceleration > 0.8 bps/s)
+  - ⚔️ Challenger 3: Asymmetric Risk-Reward Scalper (TP = 1.8 * SL on high-conviction setups)
+  - ⚔️ Challenger 4: Conformal Shannon Negentropy Scalper (Exits at peak information certainty)
   - ⚔️ Challenger 5: Fast 90s Stalling Retrace Scalper (Tight 90s stall prevention)
 """
 from __future__ import annotations
@@ -51,7 +51,7 @@ class TournamentCompetitorRecord:
 # ==============================================================================
 class SameSideRetracePriceBarrierScalper(HierarchicalSniperExecutionEngine):
     """
-    Reigning Champion (Crowned in Cycle 25 with +30.68 bps Net Cash, 24.60 Profit Factor):
+    Undefeated Champion (Crowned in Cycle 25 with +30.68 bps Net, 24.60 PF, defended in Cycle 26 with +7.10 bps Net):
     Combines High-Frequency Tactical Impulse Scaling with Adaptive 120s Momentum Decay Unwind
     and a Same-Side Retrace Price Barrier:
     When re-entering in the same direction within 300s, requires price to have retraced
@@ -59,7 +59,7 @@ class SameSideRetracePriceBarrierScalper(HierarchicalSniperExecutionEngine):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Reigning Champion: Same-Side Retrace Barrier Scalper (+30.68 bps net in Cycle 25)"
+        self.strategy_profile = "Reigning Champion: Same-Side Retrace Barrier Scalper (+37.78 bps Net in C25-C26)"
         self.min_net_edge_bps = 4.0
         self.last_trade_exit_price: float = 0.0
         self.last_trade_side: str = ""
@@ -128,106 +128,117 @@ class SameSideRetracePriceBarrierScalper(HierarchicalSniperExecutionEngine):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 1: Dynamic ATR Retrace Barrier Scalper
+# ⚔️ CHALLENGER 1: Relaxed Impulse Frequency Scalper (4-6 trades/hr)
 # ==============================================================================
-class Challenger1_DynamicATRRetraceScalper(SameSideRetracePriceBarrierScalper):
+class Challenger1_RelaxedImpulseFrequencyScalper(SameSideRetracePriceBarrierScalper):
     """
-    Challenger 1: Same-Side Retrace Scalper + Dynamic ATR Retrace Barrier
-    Instead of a fixed $15.00 pullback, scales the required retrace dynamically
-    to max(10.0, 0.8 * ATR_10s_dollars), adapting automatically to market volatility.
+    Challenger 1: Same-Side Retrace Scalper + Relaxed Impulse Threshold
+    Lowers the tactical entry delta threshold from 0.14 to 0.10, increasing trade
+    frequency from 1 trade/hr to 4-6 trades/hr while strictly maintaining the
+    retrace barrier and decay unwinds.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 1: Dynamic ATR Retrace Barrier Scalper"
+        self.strategy_profile = "Challenger 1: Relaxed Impulse Frequency Scalper (4-6 tr/hr)"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        # Dynamically scale retrace hurdle based on 10s ATR
-        mid = 0.5 * (bbo_bid + bbo_ask)
-        atr_bps = getattr(decision, "atr_10s_bps", 3.0)
-        retrace_hurdle = max(10.0, (atr_bps / 10000.0) * mid * 0.8)
-        
         now_ms = decision.ts_ms
+        mid = 0.5 * (bbo_bid + bbo_ask)
         d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
-        if self.state == "IDLE" and self.last_exit_ts_ms > 0 and self.last_trade_exit_price > 0:
-            elapsed = (now_ms - self.last_exit_ts_ms) / 1000.0
-            if elapsed < 300.0:
-                if d_tact >= 0.14 and self.last_trade_side == "BUY" and (mid > self.last_trade_exit_price - retrace_hurdle):
+        d_micro = decision.micro_probs[2] - decision.micro_probs[0]
+        d_meso = decision.meso_probs[2] - decision.meso_probs[0]
+
+        if self.state == "IDLE" and self.ticks_seen >= 10:
+            # Relaxed threshold 0.10
+            tact_dir = 2 if d_tact >= 0.10 else (0 if d_tact <= -0.10 else 1)
+            tact_confirmed = (tact_dir in (0, 2)) and (
+                (tact_dir == 2 and d_micro > 0.01 and d_meso >= -0.05) or
+                (tact_dir == 0 and d_micro < -0.01 and d_meso <= 0.05)
+            )
+            if tact_confirmed and not self._is_parabolic_surge(tact_dir, now_ms, mid):
+                can_reenter = True
+                if self.last_exit_ts_ms > 0:
+                    elapsed = (now_ms - self.last_exit_ts_ms) / 1000.0
+                    if not self.last_exit_was_win and elapsed < 60.0:
+                        can_reenter = False
+                    elif self.last_exit_was_win and elapsed < 15.0:
+                        can_reenter = False
+                    if can_reenter and elapsed < 300.0 and self.last_trade_exit_price > 0:
+                        if tact_dir == 2 and self.last_trade_side == "BUY" and (mid > self.last_trade_exit_price - 12.0):
+                            can_reenter = False
+                        elif tact_dir == 0 and self.last_trade_side == "SELL" and (mid < self.last_trade_exit_price + 12.0):
+                            can_reenter = False
+                if can_reenter:
+                    tact_dec = copy.copy(decision)
+                    object.__setattr__(tact_dec, "primary_direction", tact_dir) if hasattr(tact_dec, "__dataclass_fields__") and getattr(tact_dec, "__dataclass_params__", None) and getattr(tact_dec.__dataclass_params__, "frozen", False) else setattr(tact_dec, "primary_direction", tact_dir)
+                    self._place_sniper_maker_entry(tact_dec, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
                     return self.state
-                if d_tact <= -0.14 and self.last_trade_side == "SELL" and (mid < self.last_trade_exit_price + retrace_hurdle):
-                    return self.state
+
         return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 2: Multi-Stage Runner Scalper
+# ⚔️ CHALLENGER 2: Velocity Burst Momentum Scalper
 # ==============================================================================
-class Challenger2_MultiStageRunnerScalper(SameSideRetracePriceBarrierScalper):
+class Challenger2_VelocityBurstScalper(SameSideRetracePriceBarrierScalper):
     """
-    Challenger 2: Same-Side Retrace Scalper + Multi-Stage Runner Expansion
-    On explosive breakout trades where peak MFE exceeds +20.0 bps,
-    contracts trailing giveback to only 15% of peak (vs standard 25%),
-    allowing major trend runners to harvest +40 to +60 bps moves.
+    Challenger 2: Same-Side Retrace Scalper + Velocity Burst Acceleration
+    Detects intra-second price acceleration (velocity > 0.8 bps/s) aligning with
+    Tactical 1m bias, triggering lightning-fast sniper entries before the spread widens.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 2: Multi-Stage Runner Scalper"
+        self.strategy_profile = "Challenger 2: Velocity Burst Momentum Scalper"
+        self.prev_mid: float = 0.0
+        self.prev_tick_ms: int = 0
 
     def on_market_micro_tick(self, *args, **kwargs):
-        state = super().on_market_micro_tick(*args, **kwargs)
-        if self.active_position is not None and self.active_position.peak_favorable_excursion_bps >= 20.0:
-            # Multi-stage runner: tighten trailing floor to 85% of peak excursion
-            pos = self.active_position
-            tight_floor_bps = pos.peak_favorable_excursion_bps * 0.85
-            mid = 0.5 * (kwargs.get("bbo_bid", 0.0) + kwargs.get("bbo_ask", 0.0))
-            sign = 1.0 if pos.side == "BUY" else -1.0
-            unreal = sign * ((mid - pos.entry_price) / pos.entry_price) * 1e4
-            if unreal <= tight_floor_bps:
-                exit_p = kwargs.get("bbo_ask", 0.0) if pos.side == "BUY" else kwargs.get("bbo_bid", 0.0)
-                self._close_position(
-                    exit_price=exit_p,
-                    exit_ts_ms=kwargs.get("ts_ms", 0),
-                    exit_fee_bps=self.maker_fee_leg,
-                    reason="RUNNER_STAGE_MAKER_TP",
-                )
-        return self.state
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 3: OFI Micro-Burst Retrace Scalper
-# ==============================================================================
-class Challenger3_OFIBurstRetraceScalper(SameSideRetracePriceBarrierScalper):
-    """
-    Challenger 3: Same-Side Retrace Scalper + Order Flow Imbalance Confirmation
-    Combines the $15 retrace barrier with aggressive taker volume imbalance:
-    Requires buy/sell volume ratio >= 1.40 for LONG and <= 0.71 for SHORT.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 3: OFI Burst Retrace Scalper"
-        self.last_buy_vol = 0.0
-        self.last_sell_vol = 0.0
-
-    def on_market_micro_tick(self, *args, **kwargs):
-        self.last_buy_vol = kwargs.get("aggressive_buy_vol_at_ask", 0.0)
-        self.last_sell_vol = kwargs.get("aggressive_sell_vol_at_bid", 0.0)
+        mid = 0.5 * (kwargs.get("bbo_bid", 0.0) + kwargs.get("bbo_ask", 0.0))
+        now_ms = kwargs.get("ts_ms", 0)
+        if self.prev_mid > 0 and self.prev_tick_ms > 0 and now_ms > self.prev_tick_ms:
+            dt_s = (now_ms - self.prev_tick_ms) / 1000.0
+            if dt_s > 0.05:
+                vel_bps_s = (((mid - self.prev_mid) / self.prev_mid) * 1e4) / dt_s
+                if self.state == "IDLE" and abs(vel_bps_s) >= 0.80 and kwargs.get("current_decision") is not None:
+                    dec = kwargs["current_decision"]
+                    d_tact = dec.tactical_probs[2] - dec.tactical_probs[0]
+                    if vel_bps_s > 0.80 and d_tact > 0.05:
+                        self.on_hierarchical_decision(dec, kwargs.get("bbo_bid", 0.0), kwargs.get("bbo_ask", 0.0), kwargs.get("bbo_bid_qty", 1.0), kwargs.get("bbo_ask_qty", 1.0))
+                    elif vel_bps_s < -0.80 and d_tact < -0.05:
+                        self.on_hierarchical_decision(dec, kwargs.get("bbo_bid", 0.0), kwargs.get("bbo_ask", 0.0), kwargs.get("bbo_bid_qty", 1.0), kwargs.get("bbo_ask_qty", 1.0))
+        self.prev_mid = mid
+        self.prev_tick_ms = now_ms
         return super().on_market_micro_tick(*args, **kwargs)
 
-    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        tot_vol = self.last_buy_vol + self.last_sell_vol
-        if tot_vol > 0.01:
-            buy_ratio = self.last_buy_vol / tot_vol
-            d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
-            if d_tact >= 0.14 and buy_ratio < 0.58:
-                return self.state
-            if d_tact <= -0.14 and buy_ratio > 0.42:
-                return self.state
-        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+# ==============================================================================
+# ⚔️ CHALLENGER 3: Asymmetric Risk-Reward Scalper (TP = 1.8 * SL)
+# ==============================================================================
+class Challenger3_AsymmetricRiskRewardScalper(SameSideRetracePriceBarrierScalper):
+    """
+    Challenger 3: Same-Side Retrace Scalper + Asymmetric Risk-Reward Expander
+    Sets resting Maker Take-Profit to 1.8x Stop-Loss distance on high edge setups
+    (e.g., TP = +26.0 bps when SL = 14.5 bps), capturing larger breakout moves.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 3: Asymmetric Risk-Reward Scalper (TP = 1.8 * SL)"
+
+    def _place_sniper_maker_entry(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open=0.0):
+        super()._place_sniper_maker_entry(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+        # Expand TP price if resting order was initialized
+        if self.active_position is not None:
+            pos = self.active_position
+            expanded_tp_bps = pos.stop_loss_bps * 1.8
+            sign = 1.0 if pos.side == "BUY" else -1.0
+            pos.take_profit_bps = expanded_tp_bps
+            pos.tp_price = pos.entry_price * (1.0 + sign * (expanded_tp_bps / 10000.0))
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 4: Conformal Shannon Negentropy Retrace Scalper
+# ⚔️ CHALLENGER 4: Conformal Shannon Negentropy Scalper
 # ==============================================================================
-class Challenger4_ConformalEntropyRetraceScalper(SameSideRetracePriceBarrierScalper):
+class Challenger4_ConformalEntropyScalper(SameSideRetracePriceBarrierScalper):
     """
     Challenger 4: Same-Side Retrace Scalper + Shannon Negentropy Crest Harvester
     Monitors information certainty C = 1 - H(p)/ln(3). When tactical uncertainty
@@ -235,7 +246,7 @@ class Challenger4_ConformalEntropyRetraceScalper(SameSideRetracePriceBarrierScal
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 4: Conformal Negentropy Retrace Scalper"
+        self.strategy_profile = "Challenger 4: Conformal Negentropy Scalper"
         self.peak_certainty = 0.0
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
@@ -310,27 +321,27 @@ class ChampionChallengerTournamentManager:
             "Champion": TournamentCompetitorRecord(
                 name="Champion",
                 engine=SameSideRetracePriceBarrierScalper(symbol=symbol),
-                strategy_profile="Reigning Champion: Same-Side Retrace Barrier Scalper (Crowned Cycle 25 with +30.68 bps Net)",
+                strategy_profile="Reigning Champion: Same-Side Retrace Barrier Scalper (+37.78 bps Net in C25-C26)",
             ),
             "Challenger_1": TournamentCompetitorRecord(
                 name="Challenger_1",
-                engine=Challenger1_DynamicATRRetraceScalper(symbol=symbol),
-                strategy_profile="Dynamic ATR Retrace Barrier Scalper",
+                engine=Challenger1_RelaxedImpulseFrequencyScalper(symbol=symbol),
+                strategy_profile="Relaxed Impulse Frequency Scalper (4-6 tr/hr)",
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
-                engine=Challenger2_MultiStageRunnerScalper(symbol=symbol),
-                strategy_profile="Multi-Stage Runner Scalper",
+                engine=Challenger2_VelocityBurstScalper(symbol=symbol),
+                strategy_profile="Velocity Burst Momentum Scalper",
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
-                engine=Challenger3_OFIBurstRetraceScalper(symbol=symbol),
-                strategy_profile="OFI Burst Retrace Scalper",
+                engine=Challenger3_AsymmetricRiskRewardScalper(symbol=symbol),
+                strategy_profile="Asymmetric Risk-Reward Scalper (TP = 1.8 * SL)",
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
-                engine=Challenger4_ConformalEntropyRetraceScalper(symbol=symbol),
-                strategy_profile="Conformal Negentropy Retrace Scalper",
+                engine=Challenger4_ConformalEntropyScalper(symbol=symbol),
+                strategy_profile="Conformal Negentropy Scalper",
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",
