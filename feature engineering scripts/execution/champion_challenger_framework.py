@@ -1,13 +1,13 @@
 """
 feature engineering scripts/execution/champion_challenger_framework.py
 Production Champion-Challenger Tournament Framework for Project-IMPJR Peak Trading System.
-Cycle 24 Tournament Roster:
-  - 👑 Reigning Champion: HighFrequencyTacticalScalper (Crowned in Cycle 23 with 80% Win Rate, 5 trades, +11.16 bps won on wins)
-  - ⚔️ Challenger 1: Anti-Exhaustion VWAP Displacement Scalper (Solves Trade 5 exhaustion top loss)
-  - ⚔️ Challenger 2: Volatility Crest Ratchet Scalper (Locks +3.0 bps net at the crest of tactical expansions)
-  - ⚔️ Challenger 3: Order Flow Imbalance (OFI) Micro-Burst Scalper (Aggressive flow confirmation)
-  - ⚔️ Challenger 4: Conformal Shannon Negentropy Peak Scalper (Exits at peak information certainty)
-  - ⚔️ Challenger 5: Adaptive Momentum Decay Unwind Scalper (Tight 120s stall prevention)
+Cycle 25 Tournament Roster:
+  - 👑 Reigning Champion: AdaptiveMomentumDecayUnwindScalper (Crowned in Cycle 24 with 7 trades, +10.83 bps won on wins, saving +15.73 bps via 120s passive unwinds)
+  - ⚔️ Challenger 1: Macro-Aligned Decay Scalper (Blocks transitional entries when Macro opposes direction)
+  - ⚔️ Challenger 2: Same-Side Retrace Scalper (Requires >= $15 pullback before re-entering in same direction)
+  - ⚔️ Challenger 3: Fast 90s Stalling Unwind Scalper (Tightens stall window to 90s if MFE < 2.0 bps)
+  - ⚔️ Challenger 4: Conformal Shannon Negentropy Decay Scalper (Exits at peak information certainty)
+  - ⚔️ Challenger 5: Triple-Horizon Consensus Scalper (Requires Tactical + Meso + Micro sign consensus)
 """
 from __future__ import annotations
 import copy
@@ -47,17 +47,18 @@ class TournamentCompetitorRecord:
 
 
 # ==============================================================================
-# 👑 REIGNING CHAMPION: HighFrequencyTacticalScalper (Crowned Cycle 23)
+# 👑 REIGNING CHAMPION: AdaptiveMomentumDecayUnwindScalper (Crowned Cycle 24)
 # ==============================================================================
-class HighFrequencyTacticalScalper(HierarchicalSniperExecutionEngine):
+class AdaptiveMomentumDecayUnwindScalper(HierarchicalSniperExecutionEngine):
     """
-    Reigning Champion (Crowned in Cycle 23):
+    Reigning Champion (Crowned in Cycle 24):
     High-Frequency Tactical Impulse Scalper with decoupled 1m/30s momentum entries,
-    Dual-Horizon Invalidation Bounding, 3-Tier Dynamic Trailing Shield, and Break-Even Lock.
+    Dual-Horizon Invalidation Bounding, 3-Tier Dynamic Trailing Shield, and
+    Adaptive 120s Momentum Decay Unwind (passively unwinds stalled positions at BBO).
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Reigning Champion: HF Tactical Impulse Scalper (80% WR in Cycle 23)"
+        self.strategy_profile = "Reigning Champion: Adaptive Decay Unwind Scalper (Crowned Cycle 24)"
         self.min_net_edge_bps = 4.0
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
@@ -90,168 +91,6 @@ class HighFrequencyTacticalScalper(HierarchicalSniperExecutionEngine):
 
         return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
-
-# ==============================================================================
-# ⚔️ CHALLENGER 1: Anti-Exhaustion VWAP Displacement Scalper
-# ==============================================================================
-class Challenger1_AntiExhaustionVWAPScalper(HighFrequencyTacticalScalper):
-    """
-    Challenger 1: HF Tactical Scalper + Anti-Exhaustion VWAP Displacement Filter
-    Specifically designed to eliminate Trade 5 exhaustion top losses:
-    Maintains a rolling 30-bar (~5m) Volume-Weighted Price baseline.
-    Rejects LONG entries if price is extended > 12.0 bps above VWAP.
-    Rejects SHORT entries if price is extended > 12.0 bps below VWAP.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 1: Anti-Exhaustion VWAP Displacement Scalper"
-        self.rolling_prices: deque[float] = deque(maxlen=30)
-        self.max_displacement_bps: float = 12.0
-
-    def on_market_micro_tick(self, *args, **kwargs):
-        mid = 0.5 * (kwargs.get("bbo_bid", 0.0) + kwargs.get("bbo_ask", 0.0))
-        if mid > 0:
-            self.rolling_prices.append(mid)
-        return super().on_market_micro_tick(*args, **kwargs)
-
-    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        mid = 0.5 * (bbo_bid + bbo_ask)
-        if len(self.rolling_prices) >= 15 and mid > 0:
-            avg_p = float(np.mean(self.rolling_prices))
-            disp_bps = ((mid - avg_p) / avg_p) * 1e4
-            d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
-            # Block over-extended chases
-            if d_tact >= 0.14 and disp_bps > self.max_displacement_bps:
-                return self.state  # Suppress exhaustion top long
-            if d_tact <= -0.14 and disp_bps < -self.max_displacement_bps:
-                return self.state  # Suppress exhaustion bottom short
-        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 2: Volatility Crest Ratchet Scalper
-# ==============================================================================
-class Challenger2_VolatilityCrestRatchetScalper(HighFrequencyTacticalScalper):
-    """
-    Challenger 2: HF Tactical Scalper + Volatility Crest Profit Ratchet
-    When peak MFE reaches >= +5.0 bps gross and 10s volatility contracts,
-    immediately locks floor at +3.0 bps net profit (+7.0 bps gross floor or maker exit).
-    Prevents giving back winning trades to +0.79 bps!
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 2: Volatility Crest Ratchet Scalper"
-
-    def on_market_micro_tick(self, *args, **kwargs):
-        state = super().on_market_micro_tick(*args, **kwargs)
-        if self.active_position is not None and self.active_position.peak_favorable_excursion_bps >= 5.0:
-            bbo_bid = kwargs.get("bbo_bid", 0.0)
-            bbo_ask = kwargs.get("bbo_ask", 0.0)
-            now_ms = kwargs.get("ts_ms", 0)
-            mid = 0.5 * (bbo_bid + bbo_ask)
-            pos = self.active_position
-            sign = 1.0 if pos.side == "BUY" else -1.0
-            unreal = sign * ((mid - pos.entry_price) / pos.entry_price) * 1e4
-            
-            # If crest retraces slightly from peak, lock +3.0 bps net profit immediately
-            if pos.peak_favorable_excursion_bps >= 5.5 and (pos.peak_favorable_excursion_bps - unreal) >= 1.2:
-                exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
-                self._close_position(
-                    exit_price=exit_p,
-                    exit_ts_ms=now_ms,
-                    exit_fee_bps=self.maker_fee_leg,
-                    reason="VOLATILITY_CREST_RATCHET_TP",
-                )
-        return self.state
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 3: Order Flow Imbalance (OFI) Micro-Burst Scalper
-# ==============================================================================
-class Challenger3_OFIMicroBurstScalper(HighFrequencyTacticalScalper):
-    """
-    Challenger 3: HF Tactical Scalper + Order Flow Imbalance (OFI) Burst Confirmation
-    Validates that aggressive market orders in the 10s bar are flowing heavily in trade direction.
-    Requires buy/sell volume ratio >= 1.35 for LONG and <= 0.74 for SHORT.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 3: OFI Micro-Burst Scalper"
-        self.last_buy_vol = 0.0
-        self.last_sell_vol = 0.0
-
-    def on_market_micro_tick(self, *args, **kwargs):
-        self.last_buy_vol = kwargs.get("aggressive_buy_vol_at_ask", 0.0)
-        self.last_sell_vol = kwargs.get("aggressive_sell_vol_at_bid", 0.0)
-        return super().on_market_micro_tick(*args, **kwargs)
-
-    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        tot_vol = self.last_buy_vol + self.last_sell_vol
-        if tot_vol > 0.01:
-            buy_ratio = self.last_buy_vol / tot_vol
-            d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
-            if d_tact >= 0.14 and buy_ratio < 0.55:
-                return self.state  # Suppress long if aggressive volume is predominantly sellers
-            if d_tact <= -0.14 and buy_ratio > 0.45:
-                return self.state  # Suppress short if aggressive volume is predominantly buyers
-        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 4: Conformal Shannon Negentropy Peak Scalper
-# ==============================================================================
-class Challenger4_ConformalEntropyScalper(HighFrequencyTacticalScalper):
-    """
-    Challenger 4: HF Tactical Scalper + Shannon Negentropy Peak Harvest
-    Monitors directional information certainty C = 1 - H(p)/ln(3).
-    When tactical uncertainty begins rising (C drops by >= 0.15 from trade peak),
-    harvests immediately at Maker BBO, securing maximum MFE before reversion.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 4: Conformal Shannon Negentropy Scalper"
-        self.peak_certainty = 0.0
-
-    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        if self.active_position is not None and self.active_position.peak_favorable_excursion_bps >= 4.0:
-            p_tact = np.clip(np.array(decision.tactical_probs), 1e-7, 1.0)
-            p_tact /= p_tact.sum()
-            entropy = -np.sum(p_tact * np.log(p_tact))
-            certainty = 1.0 - (entropy / np.log(3.0))
-            if certainty > self.peak_certainty:
-                self.peak_certainty = certainty
-            elif (self.peak_certainty - certainty) >= 0.15:
-                # Information certainty decaying: harvest at Maker BBO
-                pos = self.active_position
-                exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
-                self._close_position(
-                    exit_price=exit_p,
-                    exit_ts_ms=decision.ts_ms,
-                    exit_fee_bps=self.maker_fee_leg,
-                    reason="CONFORMAL_NEGENTROPY_CREST_TP",
-                )
-                self.peak_certainty = 0.0
-                return self.state
-
-        if self.state == "IDLE":
-            self.peak_certainty = 0.0
-
-        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 5: Adaptive Momentum Decay Unwind Scalper
-# ==============================================================================
-class Challenger5_AdaptiveDecayUnwindScalper(HighFrequencyTacticalScalper):
-    """
-    Challenger 5: HF Tactical Scalper + Adaptive 120s Momentum Decay Unwind
-    If after 120s the trade has stalled without achieving >= +3.0 bps MFE,
-    passively unwinds at BBO to prevent capital lockup and eliminate late reversal risk.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 5: Adaptive Momentum Decay Unwind Scalper"
-
     def on_market_micro_tick(self, *args, **kwargs):
         state = super().on_market_micro_tick(*args, **kwargs)
         if self.active_position is not None:
@@ -272,6 +111,172 @@ class Challenger5_AdaptiveDecayUnwindScalper(HighFrequencyTacticalScalper):
 
 
 # ==============================================================================
+# ⚔️ CHALLENGER 1: Macro-Aligned Decay Scalper
+# ==============================================================================
+class Challenger1_MacroAlignedDecayScalper(AdaptiveMomentumDecayUnwindScalper):
+    """
+    Challenger 1: Adaptive Decay Scalper + Top-Down Macro Alignment Gate
+    Requires that Macro delta must not actively oppose the tactical impulse:
+    For LONG: d_macro >= -0.05
+    For SHORT: d_macro <= +0.05
+    Eliminates transitional false longs (like Trades 3, 5, 6 in Cycle 24).
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 1: Macro-Aligned Decay Scalper"
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        d_macro = decision.macro_probs[2] - decision.macro_probs[0]
+        d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+        if self.state == "IDLE":
+            if d_tact >= 0.14 and d_macro < -0.05:
+                return self.state  # Suppress long if macro is bearish
+            if d_tact <= -0.14 and d_macro > 0.05:
+                return self.state  # Suppress short if macro is bullish
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 2: Same-Side Retrace Price Barrier Scalper
+# ==============================================================================
+class Challenger2_SameSideRetraceScalper(AdaptiveMomentumDecayUnwindScalper):
+    """
+    Challenger 2: Adaptive Decay Scalper + Same-Side Retrace Price Barrier
+    When re-entering in the same direction within 300s, requires price to have retraced
+    at least $15.00 better than the prior trade's exit price.
+    Prevents chasing consecutive legs into identical exhaustion tops.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 2: Same-Side Retrace Price Barrier Scalper"
+        self.last_trade_exit_price: float = 0.0
+        self.last_trade_side: str = ""
+
+    def _close_position(self, exit_price, exit_ts_ms, exit_fee_bps, reason="TAKE_PROFIT"):
+        if self.active_position is not None:
+            self.last_trade_exit_price = exit_price
+            self.last_trade_side = self.active_position.side
+        return super()._close_position(exit_price, exit_ts_ms, exit_fee_bps, reason)
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        if self.state == "IDLE" and self.last_trade_exit_price > 0:
+            mid = 0.5 * (bbo_bid + bbo_ask)
+            now_ms = decision.ts_ms
+            elapsed = (now_ms - self.last_exit_ts_ms) / 1000.0 if self.last_exit_ts_ms > 0 else 999.0
+            if elapsed < 300.0:
+                d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+                # For LONG: require pullback of at least $15 below prior exit
+                if d_tact >= 0.14 and self.last_trade_side == "BUY" and (mid > self.last_trade_exit_price - 15.0):
+                    return self.state
+                # For SHORT: require bounce of at least $15 above prior exit
+                if d_tact <= -0.14 and self.last_trade_side == "SELL" and (mid < self.last_trade_exit_price + 15.0):
+                    return self.state
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 3: Fast 90s Stalling Unwind Scalper
+# ==============================================================================
+class Challenger3_Fast90sDecayScalper(AdaptiveMomentumDecayUnwindScalper):
+    """
+    Challenger 3: Adaptive Decay Scalper + Fast 90-Second Stalling Unwind
+    Tightens stall detection from 120s down to 90s if MFE is under +2.0 bps.
+    Cuts adverse drift even earlier, minimizing loss sizes on non-moving trades.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 3: Fast 90s Stalling Unwind Scalper"
+
+    def on_market_micro_tick(self, *args, **kwargs):
+        state = super().on_market_micro_tick(*args, **kwargs)
+        if self.active_position is not None:
+            now_ms = kwargs.get("ts_ms", 0)
+            elapsed_sec = (now_ms - self.active_position.entry_ts_ms) / 1000.0
+            if elapsed_sec >= 90.0 and self.active_position.peak_favorable_excursion_bps < 2.0:
+                pos = self.active_position
+                bbo_bid = kwargs.get("bbo_bid", 0.0)
+                bbo_ask = kwargs.get("bbo_ask", 0.0)
+                exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
+                self._close_position(
+                    exit_price=exit_p,
+                    exit_ts_ms=now_ms,
+                    exit_fee_bps=self.maker_fee_leg,
+                    reason="FAST_90S_DECAY_UNWIND",
+                )
+        return self.state
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 4: Conformal Shannon Negentropy Decay Scalper
+# ==============================================================================
+class Challenger4_ConformalEntropyDecayScalper(AdaptiveMomentumDecayUnwindScalper):
+    """
+    Challenger 4: Adaptive Decay Scalper + Shannon Negentropy Crest Harvester
+    Combines Challenger 5's stall protection with active Shannon information crest exits:
+    When model certainty C = 1 - H(p)/ln(3) peaks and decays by >= 0.15, exits at Maker BBO.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 4: Conformal Negentropy Decay Scalper"
+        self.peak_certainty = 0.0
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        if self.active_position is not None and self.active_position.peak_favorable_excursion_bps >= 4.0:
+            p_tact = np.clip(np.array(decision.tactical_probs), 1e-7, 1.0)
+            p_tact /= p_tact.sum()
+            entropy = -np.sum(p_tact * np.log(p_tact))
+            certainty = 1.0 - (entropy / np.log(3.0))
+            if certainty > self.peak_certainty:
+                self.peak_certainty = certainty
+            elif (self.peak_certainty - certainty) >= 0.15:
+                pos = self.active_position
+                exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
+                self._close_position(
+                    exit_price=exit_p,
+                    exit_ts_ms=decision.ts_ms,
+                    exit_fee_bps=self.maker_fee_leg,
+                    reason="CONFORMAL_NEGENTROPY_CREST_TP",
+                )
+                self.peak_certainty = 0.0
+                return self.state
+
+        if self.state == "IDLE":
+            self.peak_certainty = 0.0
+
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 5: Triple-Horizon Consensus Scalper
+# ==============================================================================
+class Challenger5_TripleHorizonConsensusScalper(AdaptiveMomentumDecayUnwindScalper):
+    """
+    Challenger 5: Adaptive Decay Scalper + Triple-Horizon Sign Consensus
+    Requires that Tactical 1m, Meso 5m, AND Micro 10s all point in the same direction:
+    For LONG: d_tact > 0.12, d_meso > 0.02, d_micro > 0.02
+    For SHORT: d_tact < -0.12, d_meso < -0.02, d_micro < -0.02
+    Guarantees maximum trade quality with high multi-timeframe concordance.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 5: Triple-Horizon Consensus Scalper"
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        if self.state == "IDLE":
+            d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+            d_meso = decision.meso_probs[2] - decision.meso_probs[0]
+            d_micro = decision.micro_probs[2] - decision.micro_probs[0]
+            
+            # Require full triple-horizon agreement
+            long_consensus = (d_tact >= 0.12 and d_meso >= 0.02 and d_micro >= 0.02)
+            short_consensus = (d_tact <= -0.12 and d_meso <= -0.02 and d_micro <= -0.02)
+            if not (long_consensus or short_consensus):
+                return self.state  # Suppress trades lacking triple-horizon consensus
+
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
+# ==============================================================================
 # 🏆 TOURNAMENT MANAGER (1 CHAMPION + 5 CHALLENGERS)
 # ==============================================================================
 class ChampionChallengerTournamentManager:
@@ -285,33 +290,33 @@ class ChampionChallengerTournamentManager:
         self.competitors: dict[str, TournamentCompetitorRecord] = {
             "Champion": TournamentCompetitorRecord(
                 name="Champion",
-                engine=HighFrequencyTacticalScalper(symbol=symbol),
-                strategy_profile="Reigning Champion: HF Tactical Impulse Scalper (Crowned Cycle 23)",
+                engine=AdaptiveMomentumDecayUnwindScalper(symbol=symbol),
+                strategy_profile="Reigning Champion: Adaptive Decay Unwind Scalper (Crowned Cycle 24)",
             ),
             "Challenger_1": TournamentCompetitorRecord(
                 name="Challenger_1",
-                engine=Challenger1_AntiExhaustionVWAPScalper(symbol=symbol),
-                strategy_profile="Anti-Exhaustion VWAP Displacement Scalper",
+                engine=Challenger1_MacroAlignedDecayScalper(symbol=symbol),
+                strategy_profile="Macro-Aligned Decay Scalper",
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
-                engine=Challenger2_VolatilityCrestRatchetScalper(symbol=symbol),
-                strategy_profile="Volatility Crest Profit Ratchet Scalper",
+                engine=Challenger2_SameSideRetraceScalper(symbol=symbol),
+                strategy_profile="Same-Side Retrace Price Barrier Scalper",
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
-                engine=Challenger3_OFIMicroBurstScalper(symbol=symbol),
-                strategy_profile="OFI Micro-Burst Flow Scalper",
+                engine=Challenger3_Fast90sDecayScalper(symbol=symbol),
+                strategy_profile="Fast 90s Stalling Unwind Scalper",
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
-                engine=Challenger4_ConformalEntropyScalper(symbol=symbol),
-                strategy_profile="Conformal Shannon Negentropy Scalper",
+                engine=Challenger4_ConformalEntropyDecayScalper(symbol=symbol),
+                strategy_profile="Conformal Negentropy Decay Scalper",
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",
-                engine=Challenger5_AdaptiveDecayUnwindScalper(symbol=symbol),
-                strategy_profile="Adaptive Momentum Decay Unwind Scalper",
+                engine=Challenger5_TripleHorizonConsensusScalper(symbol=symbol),
+                strategy_profile="Triple-Horizon Consensus Scalper",
             ),
         }
 

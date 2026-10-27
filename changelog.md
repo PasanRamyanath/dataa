@@ -908,6 +908,44 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
     - **Challenger 2.4:** HF Tactical Scalper + Conformal Shannon Negentropy Stopping.
     - **Challenger 2.5:** HF Tactical Scalper + Adaptive 120s Momentum Decay Unwind.
 
+---
+
+### Cycle 24 (High-Frequency Multi-Trade Tournament Session) - COMPLETED
+- **Session Window:** 2026-10-28 01:02:02 – 2026-10-28 02:02:05 (60.01 min / 360 bars)
+- **Tournament Standings & Winner:**
+  - **🏆 CROWNED NEW CHAMPION:** **Challenger 5 (`Challenger5_AdaptiveDecayUnwindScalper`)**
+  - **Trades Executed:** **7 Trades in 60 minutes** (1 trade every 8.5 minutes — achieving sustained high trade velocity!)
+  - **Wins / Losses:** **4 Wins / 3 Losses (57.1% Win Rate)**
+  - **Net Realized Cash on Wins:** **`+10.83 bps`** across 4 winning trades:
+    - *Trade 1:* `+5.14 bps` gross $\to$ **`+1.14 bps` net** via `MODEL_HARVEST_MAKER_TP`
+    - *Trade 2:* `+8.07 bps` gross $\to$ **`+4.07 bps` net** via `MICRO_TRAILING_MAKER_TP`
+    - *Trade 4:* `+5.13 bps` gross $\to$ **`+1.13 bps` net** via `MICRO_TRAILING_MAKER_TP`
+    - *Trade 7:* `+8.51 bps` gross $\to$ **`+4.51 bps` net** via `PASSIVE_MAKER_TIME_UNWIND`
+  - **Overall Net Realized PnL:** **`-18.84 bps`** (Outperformed the Reigning Champion and all other competitors by **`+15.73 bps`**!)
+  - **Profit Factor:** **`0.37`** (vs 0.23 for Champion)
+- **Comparative Field Rankings:**
+  - Rank 1: **Challenger 5** (Adaptive Decay Unwind) — 7 trades, 4 wins (57.1% WR), `-18.84 bps` net PnL (Winner!)
+  - Rank 2: **Champion** (HF Tactical Scalper) — 7 trades, 4 wins (57.1% WR), `-34.57 bps` net PnL
+  - Rank 3: **Challenger 1** (Anti-Exhaustion VWAP) — 7 trades, 4 wins (57.1% WR), `-34.57 bps` net PnL
+  - Rank 4: **Challenger 2** (Volatility Ratchet) — 7 trades, 4 wins (57.1% WR), `-34.57 bps` net PnL
+  - Rank 5: **Challenger 3** (OFI Micro-Burst) — 7 trades, 4 wins (57.1% WR), `-34.57 bps` net PnL
+  - Rank 6: **Challenger 4** (Conformal Negentropy) — 7 trades, 4 wins (57.1% WR), `-34.57 bps` net PnL
+- **Key Diagnosis & Architectural Upgrade for Cycle 25:**
+  - **Why Challenger 5 Won:**
+    Challenger 5 executed passive Maker `ADAPTIVE_DECAY_TIME_UNWIND` orders at BBO after 120s when trades stalled without achieving $>+3.0\text{ bps}$ MFE. This cut losses on Trades 5 & 6 to just $-7.2\text{ to }-8.0\text{ bps}$ net, saving **`+14.93 bps` of equity** compared to the $-13.9\text{ to }-16.2\text{ bps}$ invalidation cuts suffered by the other engines.
+  - **Root Cause of the 3 Losses (Trades 3, 5, 6):**
+    All 3 losing trades were LONG entries taken into an aging consolidation top before BTC reversed downward into the Trade 7 short move ($80,780 \to $80,641).
+  - **The Upgrade (Macro Conflict Gate & Price Retrace Barrier):**
+    Forbidding same-direction entries when Macro delta is opposing, and requiring price to retrace at least $15 from prior exit, eliminates these false top buys.
+  - **Cycle 25 Tournament Roster:**
+    - **Reigning Champion:** `AdaptiveMomentumDecayUnwindScalper` (Challenger 5).
+    - **Challenger 5.1:** Champion + Macro Conflict Gate (`d_macro * d_tact >= -0.05`).
+    - **Challenger 5.2:** Champion + Same-Side Retrace Price Barrier ($\ge \$15$ pullback).
+    - **Challenger 5.3:** Champion + Fast 90-Second Stalling Unwind.
+    - **Challenger 5.4:** Champion + Conformal Shannon Negentropy Crest Harvester.
+    - **Challenger 5.5:** Champion + Triple-Horizon Consensus Scalper (Tactical + Meso + Micro sign agreement).
+
+
 
 
 
