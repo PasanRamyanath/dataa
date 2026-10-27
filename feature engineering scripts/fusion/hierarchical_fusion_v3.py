@@ -99,7 +99,7 @@ class HierarchicalMultiHorizonFusionEngine:
         self,
         maker_roundtrip_fee_bps: float = 4.0,
         hybrid_roundtrip_fee_bps: float = 7.5,
-        min_net_edge_buffer_bps: float = 6.0,
+        min_net_edge_buffer_bps: float = 5.0,
         min_meta_act_prob: float = 0.58,
         min_sniper_trigger_prob: float = 0.55,
         max_leverage_fraction: float = 1.0,
@@ -154,7 +154,7 @@ class HierarchicalMultiHorizonFusionEngine:
         d_micro = float(p_micro[2] - p_micro[0])
 
         # 2. Top-Down Gating + V-Reversal Responsiveness
-        macro_conflict = (d_macro * d_meso) < -0.05
+        macro_conflict = (d_macro * d_meso < -0.01) and (abs(d_macro) > 0.05 and abs(d_meso) > 0.05)
         macro_gate = 0.45 if macro_conflict else min(1.25, 1.0 + 0.50 * float(align_3_4[0]))
 
         # Combine Tier 4 (15%), Tier 3 (45%), Tier 2 (30%), Tier 1 (10%) for primary Swing Direction
@@ -200,10 +200,18 @@ class HierarchicalMultiHorizonFusionEngine:
         fast_impulse = 0.60 * d_tact + 0.40 * d_micro
         is_counter_impulse = (swing_edge_signed * fast_impulse) < -0.025 and abs(fast_impulse) > 0.10
 
-        if abs(swing_edge_signed) < 0.16 or p_fl > 0.44 or is_counter_impulse:
-            primary_dir = 1  # FLAT
-        else:
+        is_directional = (
+            abs(swing_edge_signed) >= 0.14
+            and p_fl <= 0.55
+            and not is_counter_impulse
+            and not macro_conflict
+            and (abs(d_meso) >= 0.08)
+            and ((swing_edge_signed * d_meso) > 0)
+        )
+        if is_directional:
             primary_dir = 2 if swing_edge_signed > 0 else 0
+        else:
+            primary_dir = 1  # FLAT
 
         # 3. Overall Cross-Horizon Alignment Score in [-1, +1]
         sign_target = 1.0 if primary_dir == 2 else (-1.0 if primary_dir == 0 else 0.0)
@@ -212,8 +220,8 @@ class HierarchicalMultiHorizonFusionEngine:
 
         # 4. Dynamic Horizon & Volatility-Scaled Barrier Calculation (Anchored to Meso 15m/1h ATR!)
         effective_swing_atr_bps = max(15.0, 0.60 * atr_15m_bps + 0.40 * (atr_1h_bps / 2.0))
-        tp_bps = float(np.clip(1.85 * effective_swing_atr_bps * (0.85 + 0.30 * max(0.0, cross_alignment)), 24.0, 180.0))
-        sl_bps = float(np.clip(1.15 * effective_swing_atr_bps, 14.0, 95.0))
+        tp_bps = float(np.clip(1.85 * effective_swing_atr_bps * (0.85 + 0.30 * max(0.0, cross_alignment)), 20.0, 180.0))
+        sl_bps = float(np.clip(1.15 * effective_swing_atr_bps, 8.5, 14.5))
 
         # Expected gross move scales with conviction * TP barrier vs SL risk
         meta_logit = -0.32 + 4.35 * swing_conviction + 1.15 * cross_alignment
@@ -249,7 +257,8 @@ class HierarchicalMultiHorizonFusionEngine:
         b_payoff_ratio = max(0.5, (tp_bps - self.maker_fee_bps) / max(1.0, sl_bps + self.maker_fee_bps))
         q_loss = 1.0 - meta_act_prob
         raw_kelly = max(0.0, (meta_act_prob * b_payoff_ratio - q_loss) / b_payoff_ratio)
-        half_kelly = 0.50 * raw_kelly * regime_vol_multiplier * max(0.25, 0.5 + 0.5 * cross_alignment)
+        vol_mult = float(np.mean(regime_vol_multiplier)) if isinstance(regime_vol_multiplier, (np.ndarray, list)) else float(regime_vol_multiplier)
+        half_kelly = float(0.50 * raw_kelly * vol_mult * max(0.25, 0.5 + 0.5 * cross_alignment))
 
         # Gate execution authorization
         is_swing_valid = (
