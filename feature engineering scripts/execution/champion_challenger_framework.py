@@ -288,50 +288,103 @@ Challenger2_QuadHorizonOFIScalper = QuadHorizonOFIScalper
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 1: Quad-Horizon OFI Dynamic Threshold Scalper
+# ⚔️ CHALLENGER 1: Directional Dominance OFI Scalper
 # ==============================================================================
-class Challenger1_QuadHorizonOFIDynamicThresholdScalper(QuadHorizonOFIScalper):
+class Challenger1_DirectionalDominanceOFIScalper(QuadHorizonOFIScalper):
     """
-    Challenger 1: Quad-Horizon OFI Dynamic Threshold Scalper
-    Dynamically scales the required OFI depth threshold with expected net edge:
-    When expected_net_edge_bps >= 10.0 bps, relaxes OFI threshold to 1.00 / 1.00 (neutral book depth
-    is accepted when model momentum is overwhelming), capturing high-probability continuations.
-    When expected_net_edge_bps < 10.0 bps, enforces strict 1.05 / 0.95 protective threshold.
+    Challenger 1: Directional Dominance OFI Scalper
+    Vetoes entries when the model is confident in chop:
+    Requires that the directional probability exceeds the FLAT probability in either Tactical or Meso:
+      max(p_down, p_up) >= p_flat (in Tactical or Meso)
+    Directly eliminates the false breakout traps of Cycle 41.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 1: Quad-Horizon OFI Dynamic Threshold Scalper"
+        self.strategy_profile = "Challenger 1: Directional Dominance OFI Scalper"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
-        d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
-
-        long_thresh = 1.00 if decision.expected_net_edge_bps >= 10.0 else 1.05
-        short_thresh = 1.00 if decision.expected_net_edge_bps >= 10.0 else 0.95
-
-        if d_tact > 0 and imbalance_ratio < long_thresh:
-            return self.state
-        elif d_tact < 0 and imbalance_ratio > short_thresh:
+        tact_dir_max = max(decision.tactical_probs[0], decision.tactical_probs[2])
+        meso_dir_max = max(decision.meso_probs[0], decision.meso_probs[2])
+        if tact_dir_max < decision.tactical_probs[1] and meso_dir_max < decision.meso_probs[1]:
             return self.state
 
         return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 2: Quad-Horizon OFI Stepped Ratchet Scalper
+# ⚔️ CHALLENGER 2: Flash-Spike Exhaustion OFI Scalper
 # ==============================================================================
-class Challenger2_QuadHorizonOFISteppedRatchetScalper(QuadHorizonOFIScalper):
+class Challenger2_FlashSpikeExhaustionOFIScalper(QuadHorizonOFIScalper):
     """
-    Challenger 2: Quad-Horizon OFI Stepped Ratchet Scalper
+    Challenger 2: Flash-Spike Exhaustion OFI Scalper
+    Enforces a tight 10-second intra-bar spike guard:
+    Vetoes entry if the last 10s bar moved > 3.5 bps in the direction of the trade,
+    preventing entering at the absolute tip of sudden wicks.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 2: Flash-Spike Exhaustion OFI Scalper"
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        if len(self.recent_mid_prices) >= 2:
+            current_mid = 0.5 * (bbo_bid + bbo_ask)
+            prev_mid = self.recent_mid_prices[-2][1]
+            dir_mult = 1.0 if decision.primary_direction == 2 else -1.0
+            surge_10s = dir_mult * ((current_mid - prev_mid) / prev_mid * 1e4)
+            if surge_10s > 3.5:
+                return self.state
+
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 3: Pullback OFI Reversion Scalper
+# ==============================================================================
+class Challenger3_PullbackOFIReversionScalper(QuadHorizonOFIScalper):
+    """
+    Challenger 3: Pullback OFI Reversion Scalper
+    Combines OFI depth guard with passive limit pullback entry quoting:
+    Places resting maker entries 1 tick ($0.50) deeper into the book on confirmed signals.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 3: Pullback OFI Reversion Scalper"
+
+    def _place_sniper_maker_entry(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open):
+        dir_val = decision.primary_direction
+        pos_side = "BUY" if dir_val == 2 else "SELL"
+        limit_p = (bbo_bid - 0.50) if pos_side == "BUY" else (bbo_ask + 0.50)
+        notional = max(100.0, equity_usdt * max(0.10, decision.kelly_position_fraction))
+        qty = round(notional / limit_p, 3)
+        if qty <= 0:
+            qty = 0.001
+        self.resting_entry_side = pos_side
+        self.resting_entry_price = limit_p
+        self.resting_entry_qty = qty
+        self.resting_entry_ts_ms = now_ms
+        self.queue_tracker = QueuePriorityTracker(initial_queue_ahead=bbo_bid_qty if pos_side == "BUY" else bbo_ask_qty)
+        self.adverse_guard = AdverseSelectionGuard(
+            initial_supporting_depth=bbo_bid_qty if pos_side == "BUY" else bbo_ask_qty,
+            depth_deterioration_threshold=0.45,
+            max_adverse_microprice_bps=1.8,
+        )
+        self.state = "RESTING_ENTRY_QUEUE"
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 4: Stepped Ratchet OFI Scalper
+# ==============================================================================
+class Challenger4_SteppedRatchetOFIScalper(QuadHorizonOFIScalper):
+    """
+    Challenger 4: Stepped Ratchet OFI Scalper
     Combines OFI depth guard with aggressive stepped profit ratchet:
       - MFE >= 6.00 bps  -> locks +2.00 bps net floor (+6.00 bps gross)
       - MFE >= 10.00 bps -> locks +4.50 bps net floor (+8.50 bps gross)
       - MFE >= 15.00 bps -> locks +8.50 bps net floor (+12.50 bps gross)
-    Secures larger profit per trade while maintaining 100% win rate.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 2: Quad-Horizon OFI Stepped Ratchet Scalper"
+        self.strategy_profile = "Challenger 4: Stepped Ratchet OFI Scalper"
 
     def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, *args, **kwargs):
         if self.state in ("FILLED_SWING_HOLDING", "PASSIVE_MAKER_UNWIND") and self.active_position is not None:
@@ -365,73 +418,32 @@ class Challenger2_QuadHorizonOFISteppedRatchetScalper(QuadHorizonOFIScalper):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 3: Quad-Horizon OFI Multi-Level Depth Scalper
+# ⚔️ CHALLENGER 5: Combined Directional Dominance Scalper
 # ==============================================================================
-class Challenger3_QuadHorizonOFIMultiLevelDepthScalper(QuadHorizonOFIScalper):
+class Challenger5_CombinedDirectionalDominanceScalper(QuadHorizonOFIScalper):
     """
-    Challenger 3: Quad-Horizon OFI Multi-Level Depth Scalper
-    Enforces deeper multi-level queue support verification:
-    Requires depth deterioration threshold <= 0.40 and adverse micro-price drift <= 1.5 bps.
-    Filters out spoofed liquidity walls at the touch.
+    Challenger 5: Combined Directional Dominance Scalper
+    Synthesizes Directional Dominance + Flash-Spike Guard + OFI Depth Guard into a single unified high-precision engine.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 3: Quad-Horizon OFI Multi-Level Depth Scalper"
-
-    def _place_sniper_maker_entry(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open):
-        super()._place_sniper_maker_entry(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
-        if self.adverse_guard:
-            self.adverse_guard.depth_deterioration_threshold = 0.40
-            self.adverse_guard.max_adverse_microprice_bps = 1.5
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 4: Quad-Horizon OFI Volatility Band Scalper
-# ==============================================================================
-class Challenger4_QuadHorizonOFIVolatilityBandScalper(QuadHorizonOFIScalper):
-    """
-    Challenger 4: Quad-Horizon OFI Volatility Band Scalper
-    Dynamically modulates Kelly position sizing and minimum expected edge with ATR:
-    When ATR expands, scales Kelly fraction up to capture outsized trending moves.
-    Maintains full 15s cooldown and $10 same-side barrier to eliminate over-trading.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 4: Quad-Horizon OFI Volatility Band Scalper"
+        self.strategy_profile = "Challenger 5: Combined Directional Dominance Scalper"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        if decision.atr_15m_bps >= 12.0:
-            self.min_net_edge_bps = 3.5
-        else:
-            self.min_net_edge_bps = 4.0
-        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 5: Quad-Horizon OFI Cross-Asset Lead-Lag Scalper
-# ==============================================================================
-class Challenger5_QuadHorizonOFICrossAssetScalper(QuadHorizonOFIScalper):
-    """
-    Challenger 5: Quad-Horizon OFI Cross-Asset Lead-Lag Scalper
-    Combines Quad-Horizon agreement + OFI depth guard + ETH cross-asset lead-lag filter:
-    Requires ETH 1s return to not oppose the trade (ETH ret >= -1.5 bps on BUY, <= +1.5 bps on SELL).
-    Filters out trades where ETH is leading a sharp market-wide reversal.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 5: Quad-Horizon OFI Cross-Asset Lead-Lag Scalper"
-        self.last_eth_ret_bps: float = 0.0
-
-    def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, aggressive_sell_vol_at_bid: float = 0.0, aggressive_buy_vol_at_ask: float = 0.0, eth_1s_ret_bps: float = 0.0, *args, **kwargs):
-        self.last_eth_ret_bps = eth_1s_ret_bps
-        return super().on_market_micro_tick(ts_ms=ts_ms, bbo_bid=bbo_bid, bbo_ask=bbo_ask, bbo_bid_qty=bbo_bid_qty, bbo_ask_qty=bbo_ask_qty, aggressive_sell_vol_at_bid=aggressive_sell_vol_at_bid, aggressive_buy_vol_at_ask=aggressive_buy_vol_at_ask, eth_1s_ret_bps=eth_1s_ret_bps, *args, **kwargs)
-
-    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
-        if d_tact > 0 and self.last_eth_ret_bps < -1.5:
+        # 1. Directional Dominance check
+        tact_dir_max = max(decision.tactical_probs[0], decision.tactical_probs[2])
+        meso_dir_max = max(decision.meso_probs[0], decision.meso_probs[2])
+        if tact_dir_max < decision.tactical_probs[1] and meso_dir_max < decision.meso_probs[1]:
             return self.state
-        elif d_tact < 0 and self.last_eth_ret_bps > 1.5:
-            return self.state
+
+        # 2. 10s Flash-Spike check
+        if len(self.recent_mid_prices) >= 2:
+            current_mid = 0.5 * (bbo_bid + bbo_ask)
+            prev_mid = self.recent_mid_prices[-2][1]
+            dir_mult = 1.0 if decision.primary_direction == 2 else -1.0
+            surge_10s = dir_mult * ((current_mid - prev_mid) / prev_mid * 1e4)
+            if surge_10s > 3.5:
+                return self.state
 
         return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
@@ -456,28 +468,28 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_1": TournamentCompetitorRecord(
                 name="Challenger_1",
-                engine=Challenger1_QuadHorizonOFIDynamicThresholdScalper(symbol=symbol),
-                strategy_profile="Challenger 1: Quad-Horizon OFI Dynamic Threshold Scalper",
+                engine=Challenger1_DirectionalDominanceOFIScalper(symbol=symbol),
+                strategy_profile="Challenger 1: Directional Dominance OFI Scalper",
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
-                engine=Challenger2_QuadHorizonOFISteppedRatchetScalper(symbol=symbol),
-                strategy_profile="Challenger 2: Quad-Horizon OFI Stepped Ratchet Scalper",
+                engine=Challenger2_FlashSpikeExhaustionOFIScalper(symbol=symbol),
+                strategy_profile="Challenger 2: Flash-Spike Exhaustion OFI Scalper",
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
-                engine=Challenger3_QuadHorizonOFIMultiLevelDepthScalper(symbol=symbol),
-                strategy_profile="Challenger 3: Quad-Horizon OFI Multi-Level Depth Scalper",
+                engine=Challenger3_PullbackOFIReversionScalper(symbol=symbol),
+                strategy_profile="Challenger 3: Pullback OFI Reversion Scalper",
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
-                engine=Challenger4_QuadHorizonOFIVolatilityBandScalper(symbol=symbol),
-                strategy_profile="Challenger 4: Quad-Horizon OFI Volatility Band Scalper",
+                engine=Challenger4_SteppedRatchetOFIScalper(symbol=symbol),
+                strategy_profile="Challenger 4: Stepped Ratchet OFI Scalper",
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",
-                engine=Challenger5_QuadHorizonOFICrossAssetScalper(symbol=symbol),
-                strategy_profile="Challenger 5: Quad-Horizon OFI Cross-Asset Lead-Lag Scalper",
+                engine=Challenger5_CombinedDirectionalDominanceScalper(symbol=symbol),
+                strategy_profile="Challenger 5: Combined Directional Dominance Scalper",
             ),
         }
 
