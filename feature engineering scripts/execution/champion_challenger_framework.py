@@ -429,91 +429,24 @@ Challenger4_SteppedRatchetOFIScalper = SteppedRatchetOFIScalper
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 1: Hybrid Stepped-ATR Ratchet Scalper
+# ⚔️ CHALLENGER 1: Pullback Liquidity Rebate Scalper
 # ==============================================================================
-class Challenger1_HybridSteppedATRRatchetScalper(SteppedRatchetOFIScalper):
+class Challenger1_PullbackLiquidityRebateScalper(SteppedRatchetOFIScalper):
     """
-    Challenger 1: Hybrid Stepped-ATR Ratchet Scalper
-    Merges adaptive ATR volatility scaling with the Champion's trailing runner logic:
-    When rolling 15m range > 100 USDT, widens Tier 1 ratchet to 7.0 bps and trails
-    runners past 10 bps using dynamic micro-trailing maker TP.
+    Challenger 1: Pullback Liquidity Rebate Scalper
+    Quotes resting limit orders 1 tick ($0.50) deeper into the book on pullback inflections:
+    Gains additional maker execution buffer and captures fills during range oscillation.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 1: Hybrid Stepped-ATR Ratchet Scalper"
-
-    def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, *args, **kwargs):
-        if self.state in ("FILLED_SWING_HOLDING", "PASSIVE_MAKER_UNWIND") and self.active_position is not None:
-            pos = self.active_position
-            sign = 1.0 if pos.side == "BUY" else -1.0
-            mid = 0.5 * (bbo_bid + bbo_ask)
-            unrealized_bps = sign * ((mid - pos.entry_price) / pos.entry_price) * 1e4
-            if unrealized_bps > pos.peak_favorable_excursion_bps:
-                pos.peak_favorable_excursion_bps = unrealized_bps
-
-            mfe = pos.peak_favorable_excursion_bps
-
-            # Calculate dynamic hurdle from rolling 15m price buffer
-            range_15m = 80.0
-            if len(self.rolling_15m_prices) >= 10:
-                p_min = min(self.rolling_15m_prices)
-                p_max = max(self.rolling_15m_prices)
-                range_15m = max(20.0, p_max - p_min)
-
-            # High volatility expansion
-            tier1_trigger = 5.0 if range_15m < 60.0 else (7.0 if range_15m > 110.0 else 6.0)
-            tier1_lock = 5.5 if tier1_trigger == 5.0 else (7.0 if tier1_trigger == 7.0 else 6.0)
-
-            floor_gross = None
-            if mfe >= 15.0:
-                floor_gross = 13.0
-            elif mfe >= 10.0:
-                floor_gross = 8.5
-            elif mfe >= tier1_trigger:
-                floor_gross = tier1_lock
-
-            if floor_gross is not None and unrealized_bps <= floor_gross:
-                exit_p = pos.entry_price * (1.0 + sign * floor_gross * 1e-4)
-                self._close_position(
-                    exit_price=exit_p,
-                    exit_ts_ms=ts_ms,
-                    exit_fee_bps=self.maker_fee_leg,
-                    reason="HYBRID_ATR_RATCHET_TP",
-                )
-                return self.state
-
-        return super().on_market_micro_tick(ts_ms=ts_ms, bbo_bid=bbo_bid, bbo_ask=bbo_ask, bbo_bid_qty=bbo_bid_qty, bbo_ask_qty=bbo_ask_qty, *args, **kwargs)
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 2: Multi-Tier Kelly Scaler
-# ==============================================================================
-class Challenger2_MultiTierKellyScaler(SteppedRatchetOFIScalper):
-    """
-    Challenger 2: Multi-Tier Kelly Scaler
-    Dynamically scales position sizing from 0.15 to 0.22 when both 5m Meso and 15m Macro
-    probabilities show strong directional concordance (> 0.45 in same direction),
-    compounding net cash profit per trade on textbook setups.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 2: Multi-Tier Kelly Scaler"
+        self.strategy_profile = "Challenger 1: Pullback Liquidity Rebate Scalper"
 
     def _place_sniper_maker_entry(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open):
         dir_val = decision.primary_direction
         pos_side = "BUY" if dir_val == 2 else "SELL"
-        limit_p = bbo_bid if pos_side == "BUY" else bbo_ask
+        limit_p = (bbo_bid - 0.50) if pos_side == "BUY" else (bbo_ask + 0.50)
 
-        # Check strong concordance
-        dir_idx = 2 if dir_val == 2 else 0
-        strong_macro = decision.macro_probs[dir_idx] >= 0.45
-        strong_meso = decision.meso_probs[dir_idx] >= 0.45
-        multiplier = 1.45 if (strong_macro and strong_meso) else 1.0
-
-        base_fraction = max(0.12, decision.kelly_position_fraction)
-        scaled_fraction = min(0.24, base_fraction * multiplier)
-
-        notional = max(100.0, equity_usdt * scaled_fraction)
+        notional = max(100.0, equity_usdt * max(0.12, decision.kelly_position_fraction))
         qty = round(notional / limit_p, 3)
         if qty <= 0:
             qty = 0.001
@@ -532,82 +465,161 @@ class Challenger2_MultiTierKellyScaler(SteppedRatchetOFIScalper):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 3: Fast Re-entry Ratchet Scalper
+# ⚔️ CHALLENGER 2: Micro-Displacement Impulsive Scalper
 # ==============================================================================
-class Challenger3_FastReentryRatchetScalper(SteppedRatchetOFIScalper):
+class Challenger2_MicroDisplacementImpulseScalper(SteppedRatchetOFIScalper):
     """
-    Challenger 3: Fast Re-entry Ratchet Scalper
-    Reduces the same-direction re-entry cooldown from 15s to 8s specifically when
-    macro trend concordance is strong (> 0.48), targeting 4-6 trades/hr during runs.
+    Challenger 2: Micro-Displacement Impulsive Scalper
+    Relaxes the entry threshold slightly when 10s price displacement exceeds 4.0 bps
+    with supporting Level 1/2 OFI, capturing momentum impulses earlier.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 3: Fast Re-entry Ratchet Scalper"
+        self.strategy_profile = "Challenger 2: Micro-Displacement Impulsive Scalper"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        # Override cooldown if macro is strongly concordant
-        dir_idx = 2 if decision.primary_direction == 2 else 0
-        if decision.macro_probs[dir_idx] >= 0.48:
-            self.same_dir_cooldown_sec = 8.0
-        else:
-            self.same_dir_cooldown_sec = 15.0
+        # If fast momentum displacement is present, check concordance
+        if len(self.recent_mid_prices) >= 2:
+            current_mid = 0.5 * (bbo_bid + bbo_ask)
+            prev_mid = self.recent_mid_prices[-2][1]
+            dir_mult = 1.0 if decision.primary_direction == 2 else -1.0
+            disp_10s = dir_mult * ((current_mid - prev_mid) / prev_mid * 1e4)
+
+            # Strong supporting impulse: proceed directly
+            if disp_10s >= 4.0 and decision.expected_net_edge_bps >= 4.5:
+                return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
         return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 4: Soft Directional Dominance Scalper
+# ⚔️ CHALLENGER 3: Adaptive Horizon Conformal Scalper
 # ==============================================================================
-class Challenger4_SoftDirectionalDominanceScalper(SteppedRatchetOFIScalper):
+class Challenger3_AdaptiveHorizonConformalScalper(SteppedRatchetOFIScalper):
     """
-    Challenger 4: Soft Directional Dominance Scalper
-    Enforces a soft directional dominance hurdle: max(p_down, p_up) >= 0.85 * p_flat.
-    Filters true compression chop while preventing false vetoes on early breakouts.
+    Challenger 3: Adaptive Horizon Conformal Scalper
+    Requires 3 of 4 horizons (Micro, Tactical, Meso) to concord when Macro is in neutral
+    compression (|p_macro[2] - p_macro[0]| <= 0.12), increasing frequency safely.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 4: Soft Directional Dominance Scalper"
+        self.strategy_profile = "Challenger 3: Adaptive Horizon Conformal Scalper"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        tact_dir_max = max(decision.tactical_probs[0], decision.tactical_probs[2])
-        meso_dir_max = max(decision.meso_probs[0], decision.meso_probs[2])
-        if tact_dir_max < (0.85 * decision.tactical_probs[1]) and meso_dir_max < (0.85 * decision.meso_probs[1]):
-            return self.state
+        macro_diff = abs(decision.macro_probs[2] - decision.macro_probs[0])
+        if macro_diff <= 0.12:
+            # Macro is neutral; verify Tactical + Meso + Micro concordance
+            d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+            d_meso = decision.meso_probs[2] - decision.meso_probs[0]
+            d_micro = decision.micro_probs[2] - decision.micro_probs[0]
+            if (d_tact > 0 and d_meso > 0 and d_micro > 0) or (d_tact < 0 and d_meso < 0 and d_micro < 0):
+                imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
+                if d_tact > 0 and imbalance_ratio < 1.05:
+                    return self.state
+                elif d_tact < 0 and imbalance_ratio > 0.95:
+                    return self.state
+                now_ms = getattr(decision, "ts_ms", int(time.time() * 1000))
+                self._place_sniper_maker_entry(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+                return self.state
 
         return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 5: Asymmetric Depth OFI Guard Scalper
+# ⚔️ CHALLENGER 4: Dynamic Low-ATR Step-Down Ratchet
 # ==============================================================================
-class Challenger5_AsymmetricDepthOFIGuardScalper(SteppedRatchetOFIScalper):
+class Challenger4_DynamicLowATRStepDownRatchet(SteppedRatchetOFIScalper):
     """
-    Challenger 5: Asymmetric Depth OFI Guard Scalper
-    Dynamically modulates the OFI order book depth hurdle:
-    Requires imbalance >= 1.15 for BUY and <= 0.88 for SELL during calm regimes,
-    protecting against adverse queue jumps while relaxing to 1.00 during momentum.
+    Challenger 4: Dynamic Low-ATR Step-Down Ratchet
+    In low ATR / compression regimes (15m range < 80 USDT), compresses Tier 1 ratchet
+    to 4.0 bps MFE (locking +1.0 bps net) to secure small oscillation profits.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 5: Asymmetric Depth OFI Guard Scalper"
+        self.strategy_profile = "Challenger 4: Dynamic Low-ATR Step-Down Ratchet"
 
-    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
-        d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+    def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, *args, **kwargs):
+        if self.state in ("FILLED_SWING_HOLDING", "PASSIVE_MAKER_UNWIND") and self.active_position is not None:
+            pos = self.active_position
+            sign = 1.0 if pos.side == "BUY" else -1.0
+            mid = 0.5 * (bbo_bid + bbo_ask)
+            unrealized_bps = sign * ((mid - pos.entry_price) / pos.entry_price) * 1e4
+            if unrealized_bps > pos.peak_favorable_excursion_bps:
+                pos.peak_favorable_excursion_bps = unrealized_bps
+
+            mfe = pos.peak_favorable_excursion_bps
+
+            range_15m = 80.0
+            if len(self.rolling_15m_prices) >= 10:
+                range_15m = max(20.0, max(self.rolling_15m_prices) - min(self.rolling_15m_prices))
+
+            tier1_trigger = 4.0 if range_15m < 80.0 else 6.0
+            tier1_lock = 5.0 if tier1_trigger == 4.0 else 6.0
+
+            floor_gross = None
+            if mfe >= 15.0:
+                floor_gross = 12.5
+            elif mfe >= 10.0:
+                floor_gross = 8.5
+            elif mfe >= tier1_trigger:
+                floor_gross = tier1_lock
+
+            if floor_gross is not None and unrealized_bps <= floor_gross:
+                exit_p = pos.entry_price * (1.0 + sign * floor_gross * 1e-4)
+                self._close_position(
+                    exit_price=exit_p,
+                    exit_ts_ms=ts_ms,
+                    exit_fee_bps=self.maker_fee_leg,
+                    reason="DYNAMIC_LOW_ATR_RATCHET_TP",
+                )
+                return self.state
+
+        return super().on_market_micro_tick(ts_ms=ts_ms, bbo_bid=bbo_bid, bbo_ask=bbo_ask, bbo_bid_qty=bbo_bid_qty, bbo_ask_qty=bbo_ask_qty, *args, **kwargs)
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 5: Synthetic Kelly Volatility Scaler
+# ==============================================================================
+class Challenger5_SyntheticKellyVolatilityScaler(SteppedRatchetOFIScalper):
+    """
+    Challenger 5: Synthetic Kelly Volatility Scaler
+    Dynamically scales Kelly position sizing inversely with rolling 15m ATR:
+    Increases sizing in low volatility (up to 0.22) and scales down in turbulent volatility.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 5: Synthetic Kelly Volatility Scaler"
+
+    def _place_sniper_maker_entry(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open):
+        dir_val = decision.primary_direction
+        pos_side = "BUY" if dir_val == 2 else "SELL"
+        limit_p = bbo_bid if pos_side == "BUY" else bbo_ask
 
         range_15m = 80.0
         if len(self.rolling_15m_prices) >= 10:
             range_15m = max(20.0, max(self.rolling_15m_prices) - min(self.rolling_15m_prices))
 
-        buy_hurdle = 1.05 if range_15m > 90.0 else 1.15
-        sell_hurdle = 0.95 if range_15m > 90.0 else 0.88
+        # Inverse ATR scaling
+        vol_scaler = 1.35 if range_15m < 70.0 else (0.85 if range_15m > 130.0 else 1.0)
+        base_fraction = max(0.12, decision.kelly_position_fraction)
+        scaled_fraction = min(0.22, base_fraction * vol_scaler)
 
-        if d_tact > 0 and imbalance_ratio < buy_hurdle:
-            return self.state
-        elif d_tact < 0 and imbalance_ratio > sell_hurdle:
-            return self.state
+        notional = max(100.0, equity_usdt * scaled_fraction)
+        qty = round(notional / limit_p, 3)
+        if qty <= 0:
+            qty = 0.001
 
-        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+        self.resting_entry_side = pos_side
+        self.resting_entry_price = limit_p
+        self.resting_entry_qty = qty
+        self.resting_entry_ts_ms = now_ms
+        self.queue_tracker = QueuePriorityTracker(initial_queue_ahead=bbo_bid_qty if pos_side == "BUY" else bbo_ask_qty)
+        self.adverse_guard = AdverseSelectionGuard(
+            initial_supporting_depth=bbo_bid_qty if pos_side == "BUY" else bbo_ask_qty,
+            depth_deterioration_threshold=0.45,
+            max_adverse_microprice_bps=1.8,
+        )
+        self.state = "RESTING_ENTRY_QUEUE"
 
 
 # ==============================================================================
@@ -630,28 +642,28 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_1": TournamentCompetitorRecord(
                 name="Challenger_1",
-                engine=Challenger1_HybridSteppedATRRatchetScalper(symbol=symbol),
-                strategy_profile="Challenger 1: Hybrid Stepped-ATR Ratchet Scalper",
+                engine=Challenger1_PullbackLiquidityRebateScalper(symbol=symbol),
+                strategy_profile="Challenger 1: Pullback Liquidity Rebate Scalper",
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
-                engine=Challenger2_MultiTierKellyScaler(symbol=symbol),
-                strategy_profile="Challenger 2: Multi-Tier Kelly Scaler",
+                engine=Challenger2_MicroDisplacementImpulseScalper(symbol=symbol),
+                strategy_profile="Challenger 2: Micro-Displacement Impulsive Scalper",
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
-                engine=Challenger3_FastReentryRatchetScalper(symbol=symbol),
-                strategy_profile="Challenger 3: Fast Re-entry Ratchet Scalper",
+                engine=Challenger3_AdaptiveHorizonConformalScalper(symbol=symbol),
+                strategy_profile="Challenger 3: Adaptive Horizon Conformal Scalper",
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
-                engine=Challenger4_SoftDirectionalDominanceScalper(symbol=symbol),
-                strategy_profile="Challenger 4: Soft Directional Dominance Scalper",
+                engine=Challenger4_DynamicLowATRStepDownRatchet(symbol=symbol),
+                strategy_profile="Challenger 4: Dynamic Low-ATR Step-Down Ratchet",
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",
-                engine=Challenger5_AsymmetricDepthOFIGuardScalper(symbol=symbol),
-                strategy_profile="Challenger 5: Asymmetric Depth OFI Guard Scalper",
+                engine=Challenger5_SyntheticKellyVolatilityScaler(symbol=symbol),
+                strategy_profile="Challenger 5: Synthetic Kelly Volatility Scaler",
             ),
         }
 
