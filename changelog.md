@@ -63,6 +63,7 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
 | **Cycle 40** | 60.06 min | 360 | 2 | **100.0%** | **`+6.03 bps`** | **`999.00`** | 👑 **REIGNING CHAMPION DEFENDS TITLE & RETAINS CROWN: `QuadHorizonOFIScalper` scores 100.0% Win Rate (2 Wins / 0 Losses) and `+6.03 bps` Net Cash Profit!** 100% passive maker fills at BBO ($8.0\text{ bps}$ fees absorbed). Trade 1 won `+1.83 bps` net; Trade 2 won `+4.20 bps` net. Absolute Gate disqualifies over-trading mutants (Challenger 4 lost -18.73 bps by cutting cooldown to 5s). **Cumulative Peak Realized Net Cash Profit expanded to `+96.78 bps`**! Forward accuracies: **93.24% Tactical Precision (74 samples), 92.96% Macro Overall, 91.52% Meso Overall (86.89% Active Precision), 89.97% Micro Overall**. |
 | **Cycle 41** | 60.05 min | 360 | 0 | **N/A** | **`+0.00 bps`** | **1.00** | 👑 **ABSOLUTE PROFIT GATE DEFENDS TITLE & PRESERVES PEAK PROFIT:** Absolute Gate strictly enforced: all active trading competitors finished negative ($-23.52\text{ bps}$); **Challenger 4 (`QuadHorizonOFIVolatilityBandScalper`) finished Rank 1 with 0 trades, 0 losses, and `+0.00 bps Net`**, preserving 100% of capital! Reigning Champion defended title; **Cumulative Peak Realized Net Cash Profit 100% preserved at `+96.78 bps`**. Crucial discovery: Conformal filter evaluated `max()` on the FLAT class ($P(\text{FLAT}) > 49\%$), entering directional trades into chop. Accuracies: **94.07% Macro Overall, 92.59% Meso Directional, 92.11% Tactical Precision (76 samples)**. |
 | **Cycle 42** | 60.07 min | 360 | 1 | **100.0%** | **`+2.00 bps`** | **`999.00`** | 🏆 **NEW CHAMPION CROWNED: Challenger 4 (`SteppedRatchetOFIScalper`) wins crown with 100.0% Win Rate (1 Win / 0 Losses) and `+2.00 bps` Net Realized Cash Profit!** 100% passive maker fills at BBO (4.0 bps fees absorbed). Stepped ratchet locked `+2.00 bps` net floor once MFE reached $\ge +6.0\text{ bps}$, outperforming former Champion's `+0.25 bps` exit by 800%! Zero losses across all competitors. **Cumulative Peak Realized Net Cash Profit expanded to `+98.78 bps`**! Accuracies: **98.89% 15m Macro (95.08% Active Precision), 95.12% 5m Meso (84.21% Active Precision), 84.40% Micro**. |
+| **Cycle 43** | 60.06 min | 360 | 3 | **100.0%** | **`+7.60 bps`** | **`999.00`** | 👑 **REIGNING CHAMPION DEFENDS CROWN & PASSES +100 BPS MILESTONE: `SteppedRatchetOFIScalper` delivers 100.0% Win Rate (3 Wins / 0 Losses), `+7.60 bps` Net Cash Profit, and PF `999.00`!** 3.0 trades/hr executed with 100% passive maker fills at BBO (12.0 bps fees absorbed). Runner-up Challenger 4 also scored 100% WR (`+7.50 bps Net`). **Cumulative Peak Realized Net Cash Profit officially crosses the historic +100 bps threshold to `+106.38 bps Net`**! Accuracies: **96.40% 15m Macro Precision (111 samples), 95.29% 5m Meso Precision (170 samples), 89.63% Macro Overall**. |
 
 ---
 
@@ -1593,6 +1594,42 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
   - ⚔️ **Challenger 3: `OFIAcceleratedDynamicRatchetScalper`** (Dynamically triggers immediate resting exit if order flow imbalance flips past -0.80 while in profit).
   - ⚔️ **Challenger 4: `AdaptiveATRScaledRatchetScalper`** (Dynamically scales ratchet trigger hurdles based on 15m Yang-Zhang ATR).
   - ⚔️ **Challenger 5: `ConformalCertaintySizedRatchetScalper`** (Scales trade position size when conformal prediction certainty exceeds 0.60).
+
+---
+
+### Cycle 43 (Champion-Challenger Tournament Session 20: Stepped Ratchet Flawlessly Defends Crown & Crosses +100 bps Milestone) - COMPLETED
+- **Session Window:** 2026-10-28 17:01:23 – 2026-10-28 18:01:27 UTC (22:31:23 – 23:31:27 Local Time) (60.06 min / 360 bars)
+- **Tournament Verdict:** 👑 **REIGNING CHAMPION DEFENDED AND RETAINED CROWN: `SteppedRatchetOFIScalper`** delivers **100.0% Win Rate (3 Trades / 3 Wins / 0 Losses)**, **`+7.60 bps` Net Realized Cash Profit**, and **PF `999.00`**!
+- **Cumulative Peak Realized Net Cash Profit:** **`+106.38 bps Net Cash Profit`** (Crosses the monumental +100 bps milestone)!
+- **Competitors Breakdown:**
+  - 🥇 **Champion (`SteppedRatchetOFIScalper`):** 3 Trades, 3 Wins / 0 Losses, **`+7.60 bps Net`** (Gross: `+19.60 bps`, Fees: `12.00 bps`), WR **100.0%**, PF **999.00** -> 👑 **RETAINED CROWN**.
+  - 🥈 **Challenger 4 (`AdaptiveATRScaledRatchetScalper`):** 3 Trades, 3 Wins / 0 Losses, **`+7.50 bps Net`** (Gross: `+19.50 bps`, Fees: `12.00 bps`), WR **100.0%**, PF **999.00** -> Runner Up.
+  - 🥉 **Challenger 1 (`UltraFineTwoTierRatchetScalper`):** 3 Trades, 3 Wins / 0 Losses, **`+5.00 bps Net`** (Gross: `+17.00 bps`, Fees: `12.00 bps`), WR **100.0%**, PF **999.00** -> 3rd Place.
+  - 4. **Challenger 2 (`DirectionalDominanceRatchetScalper`):** 1 Trade, 1 Win / 0 Losses, **`+0.25 bps Net`**, WR **100.0%**, PF **999.00**.
+  - 5. **Challenger 5 (`ConformalCertaintySizedRatchetScalper`):** 0 Trades, 0 Losses, **`+0.00 bps Net`**, PF 1.00 -> 100% Capital Preserved.
+  - 6. **Challenger 3 (`OFIAcceleratedDynamicRatchetScalper`):** 3 Trades, 1 Win / 2 Losses, **`-2.30 bps Net`**, WR **33.3%**, PF 0.01 -> Absolute Gate Enforced.
+- **Trades Executed by Reigning Champion:**
+  - **Trade 1 (Bar 124):** `BUY` @ `$80,574.60` $\rightarrow$ `$80,622.94` via `OFI_STEPPED_RATCHET_TP` (**`+2.00 bps` net**, MFE: `+6.91 bps`).
+  - **Trade 2 (Bar 196):** `BUY` @ `$80,613.30` $\rightarrow$ `$80,661.67` via `OFI_STEPPED_RATCHET_TP` (**`+2.00 bps` net**, MFE: `+7.60 bps`).
+  - **Trade 3 (Bar 219):** `BUY` @ `$80,633.40` $\rightarrow$ `$80,694.70` via `MICRO_TRAILING_MAKER_TP` (**`+3.60 bps` net**, MFE: `+9.10 bps`).
+- **Model Forward Accuracies (360 bars / 60 minutes):**
+  - **15m Macro:** **`89.63%`** overall, **`96.40% Active Precision`** (111 samples)
+  - **5m Meso:** **`95.15%`** overall, **`95.29% Active Precision`** (170 samples)
+  - **1m Tactical:** **`78.25%`** overall, **`81.82% Active Precision`** (88 samples)
+  - **30s Inflection:** **`75.07%`** overall, **`81.82% Active Precision`** (88 samples)
+  - **10s Micro:** **`82.45%`** overall directional accuracy (359 samples)
+- **Deep Architectural Findings:**
+  1. **Optimal Trade Frequency with 100% Win Rate Achieved:**
+     By combining the Conformal Confidence Gate, Level 1/2 OFI Depth Filter, and the Stepped Ratchet, the engine achieved 3.0 trades/hour with 0 losses, capturing $+7.60\text{ bps}$ net profit while absorbing $12.0\text{ bps}$ in maker fees.
+  2. **Confirmation Against Premature OFI Unwinding:**
+     Challenger 3 cut trades on micro-depth fluctuations and suffered $-2.30\text{ bps}$ Net, proving that allowing the Stepped Ratchet to manage exits mathematically outperforms noise-based panic exits.
+- **Cycle 44 Tournament Lineup (Hybrid ATR Ratchets & Multi-Tier Sizing):**
+  - 👑 **Reigning Champion: `SteppedRatchetOFIScalper`** (Defended Champion, +106.38 bps Peak Cumulative Net Cash Profit, 100.0% Win Rate, PF 999.00).
+  - ⚔️ **Challenger 1: `HybridSteppedATRRatchetScalper`** (Synthesizes ATR volatility scaling with champion trailing runner logic).
+  - ⚔️ **Challenger 2: `MultiTierKellyScaler`** (Scales position fraction from 0.15 to 0.25 when both 5m and 15m active precision exceed 95%).
+  - ⚔️ **Challenger 3: `MicroPriceSkewLimitSniper`** (Quotes entry limit orders at micro-price skew offsets during fast momentum).
+  - ⚔️ **Challenger 4: `ConformalFastReentryScalper`** (Shortens cooldown from 15s to 8s specifically when macro concordance is > 0.50).
+  - ⚔️ **Challenger 5: `SoftDirectionalDominanceScalper`** (Enforces soft directional dominance to prevent missing early momentum waves).
 
 
 

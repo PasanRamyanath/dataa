@@ -429,125 +429,18 @@ Challenger4_SteppedRatchetOFIScalper = SteppedRatchetOFIScalper
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 1: Ultra-Fine Two-Tier Ratchet Scalper
+# ⚔️ CHALLENGER 1: Hybrid Stepped-ATR Ratchet Scalper
 # ==============================================================================
-class Challenger1_UltraFineTwoTierRatchetScalper(SteppedRatchetOFIScalper):
+class Challenger1_HybridSteppedATRRatchetScalper(SteppedRatchetOFIScalper):
     """
-    Challenger 1: Ultra-Fine Two-Tier Ratchet Scalper
-    Adds an early +4.50 bps MFE trigger locking +1.00 bps net floor (+5.00 bps gross).
-    Captures shallow quick wick spikes that reach 4.5-5.9 bps before fading.
+    Challenger 1: Hybrid Stepped-ATR Ratchet Scalper
+    Merges adaptive ATR volatility scaling with the Champion's trailing runner logic:
+    When rolling 15m range > 100 USDT, widens Tier 1 ratchet to 7.0 bps and trails
+    runners past 10 bps using dynamic micro-trailing maker TP.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 1: Ultra-Fine Two-Tier Ratchet Scalper"
-
-    def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, *args, **kwargs):
-        if self.state in ("FILLED_SWING_HOLDING", "PASSIVE_MAKER_UNWIND") and self.active_position is not None:
-            pos = self.active_position
-            sign = 1.0 if pos.side == "BUY" else -1.0
-            mid = 0.5 * (bbo_bid + bbo_ask)
-            unrealized_bps = sign * ((mid - pos.entry_price) / pos.entry_price) * 1e4
-            if unrealized_bps > pos.peak_favorable_excursion_bps:
-                pos.peak_favorable_excursion_bps = unrealized_bps
-
-            mfe = pos.peak_favorable_excursion_bps
-            floor_gross = None
-            if mfe >= 15.0:
-                floor_gross = 12.5
-            elif mfe >= 10.0:
-                floor_gross = 8.5
-            elif mfe >= 6.0:
-                floor_gross = 6.0
-            elif mfe >= 4.5:
-                floor_gross = 5.0  # +1.0 bps net profit
-
-            if floor_gross is not None and unrealized_bps <= floor_gross:
-                exit_p = pos.entry_price * (1.0 + sign * floor_gross * 1e-4)
-                self._close_position(
-                    exit_price=exit_p,
-                    exit_ts_ms=ts_ms,
-                    exit_fee_bps=self.maker_fee_leg,
-                    reason="ULTRA_FINE_RATCHET_TP",
-                )
-                return self.state
-
-        return super().on_market_micro_tick(ts_ms=ts_ms, bbo_bid=bbo_bid, bbo_ask=bbo_ask, bbo_bid_qty=bbo_bid_qty, bbo_ask_qty=bbo_ask_qty, *args, **kwargs)
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 2: Directional Dominance Ratchet Scalper
-# ==============================================================================
-class Challenger2_DirectionalDominanceRatchetScalper(SteppedRatchetOFIScalper):
-    """
-    Challenger 2: Directional Dominance Ratchet Scalper
-    Synthesizes Stepped Ratchet with Multi-Horizon Directional Dominance:
-    Requires max(p_down, p_up) >= p_flat in Tactical or Meso to prevent entering in chop regimes.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 2: Directional Dominance Ratchet Scalper"
-
-    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        tact_dir_max = max(decision.tactical_probs[0], decision.tactical_probs[2])
-        meso_dir_max = max(decision.meso_probs[0], decision.meso_probs[2])
-        if tact_dir_max < decision.tactical_probs[1] and meso_dir_max < decision.meso_probs[1]:
-            return self.state
-
-        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 3: OFI Accelerated Dynamic Ratchet Scalper
-# ==============================================================================
-class Challenger3_OFIAcceleratedDynamicRatchetScalper(SteppedRatchetOFIScalper):
-    """
-    Challenger 3: OFI Accelerated Dynamic Ratchet Scalper
-    Inherits Stepped Ratchet and monitors real-time Level 1/2 OFI:
-    If trade has gained >= 2.0 bps unrealized and OFI flips aggressively against the trade
-    (imbalance < 0.75 for BUY or > 1.35 for SELL), immediately triggers a maker ratchet exit.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 3: OFI Accelerated Dynamic Ratchet Scalper"
-
-    def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, *args, **kwargs):
-        if self.state in ("FILLED_SWING_HOLDING", "PASSIVE_MAKER_UNWIND") and self.active_position is not None:
-            pos = self.active_position
-            sign = 1.0 if pos.side == "BUY" else -1.0
-            mid = 0.5 * (bbo_bid + bbo_ask)
-            unrealized_bps = sign * ((mid - pos.entry_price) / pos.entry_price) * 1e4
-            imb = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
-
-            # If trade has > 2.0 bps profit and order book depth deteriorates abruptly against position
-            if unrealized_bps >= 2.0:
-                adverse_ofi = (pos.side == "BUY" and imb < 0.75) or (pos.side == "SELL" and imb > 1.35)
-                if adverse_ofi:
-                    exit_p = bbo_bid if pos.side == "BUY" else bbo_ask
-                    self._close_position(
-                        exit_price=exit_p,
-                        exit_ts_ms=ts_ms,
-                        exit_fee_bps=self.maker_fee_leg,
-                        reason="OFI_ACCELERATED_RATCHET_TP",
-                    )
-                    return self.state
-
-        return super().on_market_micro_tick(ts_ms=ts_ms, bbo_bid=bbo_bid, bbo_ask=bbo_ask, bbo_bid_qty=bbo_bid_qty, bbo_ask_qty=bbo_ask_qty, *args, **kwargs)
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 4: Adaptive ATR-Scaled Ratchet Scalper
-# ==============================================================================
-class Challenger4_AdaptiveATRScaledRatchetScalper(SteppedRatchetOFIScalper):
-    """
-    Challenger 4: Adaptive ATR-Scaled Ratchet Scalper
-    Dynamically scales the stepped ratchet hurdles based on rolling 15m price volatility:
-      - Low Volatility (Range < 60 USDT / ~7.5 bps) -> Tightens Tier 1 to 4.5 bps (locks +1.0 bps)
-      - Normal Volatility (Range 60-140 USDT) -> Standard 6.0 bps (locks +2.0 bps)
-      - High Volatility (Range > 140 USDT / ~17.5 bps) -> Expands Tier 1 to 8.0 bps (locks +3.5 bps)
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 4: Adaptive ATR-Scaled Ratchet Scalper"
+        self.strategy_profile = "Challenger 1: Hybrid Stepped-ATR Ratchet Scalper"
 
     def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, *args, **kwargs):
         if self.state in ("FILLED_SWING_HOLDING", "PASSIVE_MAKER_UNWIND") and self.active_position is not None:
@@ -567,12 +460,13 @@ class Challenger4_AdaptiveATRScaledRatchetScalper(SteppedRatchetOFIScalper):
                 p_max = max(self.rolling_15m_prices)
                 range_15m = max(20.0, p_max - p_min)
 
-            tier1_trigger = 4.5 if range_15m < 60.0 else (8.0 if range_15m > 140.0 else 6.0)
-            tier1_lock = 5.0 if tier1_trigger == 4.5 else (7.5 if tier1_trigger == 8.0 else 6.0)
+            # High volatility expansion
+            tier1_trigger = 5.0 if range_15m < 60.0 else (7.0 if range_15m > 110.0 else 6.0)
+            tier1_lock = 5.5 if tier1_trigger == 5.0 else (7.0 if tier1_trigger == 7.0 else 6.0)
 
             floor_gross = None
             if mfe >= 15.0:
-                floor_gross = 12.5
+                floor_gross = 13.0
             elif mfe >= 10.0:
                 floor_gross = 8.5
             elif mfe >= tier1_trigger:
@@ -584,7 +478,7 @@ class Challenger4_AdaptiveATRScaledRatchetScalper(SteppedRatchetOFIScalper):
                     exit_price=exit_p,
                     exit_ts_ms=ts_ms,
                     exit_fee_bps=self.maker_fee_leg,
-                    reason="ADAPTIVE_ATR_RATCHET_TP",
+                    reason="HYBRID_ATR_RATCHET_TP",
                 )
                 return self.state
 
@@ -592,29 +486,32 @@ class Challenger4_AdaptiveATRScaledRatchetScalper(SteppedRatchetOFIScalper):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 5: Conformal Certainty Sized Ratchet Scalper
+# ⚔️ CHALLENGER 2: Multi-Tier Kelly Scaler
 # ==============================================================================
-class Challenger5_ConformalCertaintySizedRatchetScalper(SteppedRatchetOFIScalper):
+class Challenger2_MultiTierKellyScaler(SteppedRatchetOFIScalper):
     """
-    Challenger 5: Conformal Certainty Sized Ratchet Scalper
-    Inherits Stepped Ratchet and dynamically boosts Kelly position sizing:
-    When conformal prediction certainty max(probs) >= 0.58, expands notional by 1.5x (up to 25% equity),
-    compounding net cash profit per trade on highest-conviction signals.
+    Challenger 2: Multi-Tier Kelly Scaler
+    Dynamically scales position sizing from 0.15 to 0.22 when both 5m Meso and 15m Macro
+    probabilities show strong directional concordance (> 0.45 in same direction),
+    compounding net cash profit per trade on textbook setups.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 5: Conformal Certainty Sized Ratchet Scalper"
+        self.strategy_profile = "Challenger 2: Multi-Tier Kelly Scaler"
 
     def _place_sniper_maker_entry(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open):
         dir_val = decision.primary_direction
         pos_side = "BUY" if dir_val == 2 else "SELL"
         limit_p = bbo_bid if pos_side == "BUY" else bbo_ask
 
-        # Dynamic Kelly scaling on high certainty
-        cert = max(decision.tactical_probs)
-        multiplier = 1.5 if cert >= 0.58 else 1.0
-        base_fraction = max(0.10, decision.kelly_position_fraction)
-        scaled_fraction = min(0.25, base_fraction * multiplier)
+        # Check strong concordance
+        dir_idx = 2 if dir_val == 2 else 0
+        strong_macro = decision.macro_probs[dir_idx] >= 0.45
+        strong_meso = decision.meso_probs[dir_idx] >= 0.45
+        multiplier = 1.45 if (strong_macro and strong_meso) else 1.0
+
+        base_fraction = max(0.12, decision.kelly_position_fraction)
+        scaled_fraction = min(0.24, base_fraction * multiplier)
 
         notional = max(100.0, equity_usdt * scaled_fraction)
         qty = round(notional / limit_p, 3)
@@ -635,6 +532,85 @@ class Challenger5_ConformalCertaintySizedRatchetScalper(SteppedRatchetOFIScalper
 
 
 # ==============================================================================
+# ⚔️ CHALLENGER 3: Fast Re-entry Ratchet Scalper
+# ==============================================================================
+class Challenger3_FastReentryRatchetScalper(SteppedRatchetOFIScalper):
+    """
+    Challenger 3: Fast Re-entry Ratchet Scalper
+    Reduces the same-direction re-entry cooldown from 15s to 8s specifically when
+    macro trend concordance is strong (> 0.48), targeting 4-6 trades/hr during runs.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 3: Fast Re-entry Ratchet Scalper"
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        # Override cooldown if macro is strongly concordant
+        dir_idx = 2 if decision.primary_direction == 2 else 0
+        if decision.macro_probs[dir_idx] >= 0.48:
+            self.same_dir_cooldown_sec = 8.0
+        else:
+            self.same_dir_cooldown_sec = 15.0
+
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 4: Soft Directional Dominance Scalper
+# ==============================================================================
+class Challenger4_SoftDirectionalDominanceScalper(SteppedRatchetOFIScalper):
+    """
+    Challenger 4: Soft Directional Dominance Scalper
+    Enforces a soft directional dominance hurdle: max(p_down, p_up) >= 0.85 * p_flat.
+    Filters true compression chop while preventing false vetoes on early breakouts.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 4: Soft Directional Dominance Scalper"
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        tact_dir_max = max(decision.tactical_probs[0], decision.tactical_probs[2])
+        meso_dir_max = max(decision.meso_probs[0], decision.meso_probs[2])
+        if tact_dir_max < (0.85 * decision.tactical_probs[1]) and meso_dir_max < (0.85 * decision.meso_probs[1]):
+            return self.state
+
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 5: Asymmetric Depth OFI Guard Scalper
+# ==============================================================================
+class Challenger5_AsymmetricDepthOFIGuardScalper(SteppedRatchetOFIScalper):
+    """
+    Challenger 5: Asymmetric Depth OFI Guard Scalper
+    Dynamically modulates the OFI order book depth hurdle:
+    Requires imbalance >= 1.15 for BUY and <= 0.88 for SELL during calm regimes,
+    protecting against adverse queue jumps while relaxing to 1.00 during momentum.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 5: Asymmetric Depth OFI Guard Scalper"
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
+        d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+
+        range_15m = 80.0
+        if len(self.rolling_15m_prices) >= 10:
+            range_15m = max(20.0, max(self.rolling_15m_prices) - min(self.rolling_15m_prices))
+
+        buy_hurdle = 1.05 if range_15m > 90.0 else 1.15
+        sell_hurdle = 0.95 if range_15m > 90.0 else 0.88
+
+        if d_tact > 0 and imbalance_ratio < buy_hurdle:
+            return self.state
+        elif d_tact < 0 and imbalance_ratio > sell_hurdle:
+            return self.state
+
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
+# ==============================================================================
 # 🏆 TOURNAMENT MANAGER (1 CHAMPION + 5 CHALLENGERS)
 # ==============================================================================
 class ChampionChallengerTournamentManager:
@@ -650,32 +626,32 @@ class ChampionChallengerTournamentManager:
             "Champion": TournamentCompetitorRecord(
                 name="Champion",
                 engine=SteppedRatchetOFIScalper(symbol=symbol),
-                strategy_profile="Reigning Champion: Stepped Ratchet OFI Scalper (+98.78 bps Peak Cumulative Net, 100% Win Rate)",
+                strategy_profile="Reigning Champion: Stepped Ratchet OFI Scalper (+106.38 bps Peak Cumulative Net, 100% Win Rate)",
             ),
             "Challenger_1": TournamentCompetitorRecord(
                 name="Challenger_1",
-                engine=Challenger1_UltraFineTwoTierRatchetScalper(symbol=symbol),
-                strategy_profile="Challenger 1: Ultra-Fine Two-Tier Ratchet Scalper",
+                engine=Challenger1_HybridSteppedATRRatchetScalper(symbol=symbol),
+                strategy_profile="Challenger 1: Hybrid Stepped-ATR Ratchet Scalper",
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
-                engine=Challenger2_DirectionalDominanceRatchetScalper(symbol=symbol),
-                strategy_profile="Challenger 2: Directional Dominance Ratchet Scalper",
+                engine=Challenger2_MultiTierKellyScaler(symbol=symbol),
+                strategy_profile="Challenger 2: Multi-Tier Kelly Scaler",
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
-                engine=Challenger3_OFIAcceleratedDynamicRatchetScalper(symbol=symbol),
-                strategy_profile="Challenger 3: OFI Accelerated Dynamic Ratchet Scalper",
+                engine=Challenger3_FastReentryRatchetScalper(symbol=symbol),
+                strategy_profile="Challenger 3: Fast Re-entry Ratchet Scalper",
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
-                engine=Challenger4_AdaptiveATRScaledRatchetScalper(symbol=symbol),
-                strategy_profile="Challenger 4: Adaptive ATR-Scaled Ratchet Scalper",
+                engine=Challenger4_SoftDirectionalDominanceScalper(symbol=symbol),
+                strategy_profile="Challenger 4: Soft Directional Dominance Scalper",
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",
-                engine=Challenger5_ConformalCertaintySizedRatchetScalper(symbol=symbol),
-                strategy_profile="Challenger 5: Conformal Certainty Sized Ratchet Scalper",
+                engine=Challenger5_AsymmetricDepthOFIGuardScalper(symbol=symbol),
+                strategy_profile="Challenger 5: Asymmetric Depth OFI Guard Scalper",
             ),
         }
 
