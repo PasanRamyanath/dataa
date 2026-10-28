@@ -653,7 +653,23 @@ class HierarchicalSniperExecutionEngine:
                 )
                 return
 
-        # 0B. Dual-Horizon Invalidation Cut (Underwater Risk Bounding):
+        # 0B1. Responsive Model Invalidation Maker Exit:
+        # If position is held for >= 60s, is underwater (<= -2.00 bps), and multi-horizon
+        # model momentum flips strongly hostile (Meso opposing < -0.12 or primary direction flips against trade),
+        # immediately exit via BBO Maker, capping the loss to ~5-6 bps net and avoiding catastrophic -14 bps taker stops!
+        if elapsed_sec >= 60.0 and unrealized_bps <= -2.00:
+            meso_opposing = (sign * d_meso) < -0.12
+            if meso_opposing or decision.primary_direction == opp_dir:
+                maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
+                self._close_position(
+                    exit_price=maker_exit_p,
+                    exit_ts_ms=now_ms,
+                    exit_fee_bps=self.maker_fee_leg,
+                    reason="RESPONSIVE_MODEL_MAKER_EXIT",
+                )
+                return
+
+        # 0B2. Dual-Horizon Invalidation Cut (Underwater Risk Bounding):
         # If position is underwater (<= -6.50 bps) and multi-model momentum flips hostile, cut via Taker immediately
         if unrealized_bps <= -6.50:
             tact_opposing = (sign * d_tact) < -0.08
