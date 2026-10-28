@@ -477,31 +477,33 @@ class Challenger1_DualTierSteppedRatchetScalper(SteppedRatchetOFIScalper):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 2: Micro-Displacement Velocity Sniper
+# ⚔️ CHALLENGER 2: Micro-Pullback Inflection Scalper
 # ==============================================================================
-class Challenger2_MicroDisplacementVelocitySniper(SteppedRatchetOFIScalper):
+class Challenger2_MicroPullbackInflectionScalper(SteppedRatchetOFIScalper):
     """
-    Challenger 2: Micro-Displacement Velocity Sniper
-    When 10s price displacement exceeds 3.5 bps with supporting OFI, tightens resting entry
-    queue timeout from 15s to 8s. If not filled immediately in fast tape, cancels cleanly
-    and re-quotes at updated BBO on subsequent bar instead of waiting for stale fills.
+    Challenger 2: Micro-Pullback Inflection Scalper
+    Detects shallow micro-pullbacks (-1.0 to -4.0 bps 10s displacement) during confirmed
+    bullish 5m Meso / 15m Macro regimes with supporting Level 1/2 OFI.
+    Places resting limit orders at BBO to capture the inflection fill at favorable price.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 2: Micro-Displacement Velocity Sniper"
+        self.strategy_profile = "Challenger 2: Micro-Pullback Inflection Scalper"
 
-    def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, *args, **kwargs):
-        if self.state == "RESTING_ENTRY_QUEUE" and self.resting_entry_ts_ms > 0:
-            elapsed_sec = (ts_ms - self.resting_entry_ts_ms) / 1000.0
-            if elapsed_sec > 8.0:
-                self.state = "IDLE"
-                self.resting_entry_side = None
-                self.resting_entry_price = 0.0
-                self.resting_entry_qty = 0.0
-                self.resting_entry_ts_ms = 0
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        if len(self.recent_mid_prices) >= 2:
+            current_mid = 0.5 * (bbo_bid + bbo_ask)
+            prev_mid = self.recent_mid_prices[-2][1]
+            disp_10s = (current_mid - prev_mid) / prev_mid * 1e4
+            imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
+
+            # Pullback into bullish meso:
+            if -4.0 <= disp_10s <= -1.0 and decision.meso_probs[2] > 0.40 and imbalance_ratio >= 1.05:
+                now_ms = getattr(decision, "ts_ms", int(time.time() * 1000))
+                self._place_sniper_maker_entry(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
                 return self.state
 
-        return super().on_market_micro_tick(ts_ms=ts_ms, bbo_bid=bbo_bid, bbo_ask=bbo_ask, bbo_bid_qty=bbo_bid_qty, bbo_ask_qty=bbo_ask_qty, *args, **kwargs)
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
 
 # ==============================================================================
@@ -590,23 +592,23 @@ class Challenger4_DynamicLowATRStepDownRatchet(SteppedRatchetOFIScalper):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 5: Asymmetric Book Depth Momentum Scalper
+# ⚔️ CHALLENGER 5: Orderbook Liquidity Imbalance Scalper
 # ==============================================================================
-class Challenger5_AsymmetricBookDepthMomentumScalper(SteppedRatchetOFIScalper):
+class Challenger5_OrderbookLiquidityImbalanceScalper(SteppedRatchetOFIScalper):
     """
-    Challenger 5: Asymmetric Book Depth Momentum Scalper
+    Challenger 5: Orderbook Liquidity Imbalance Scalper
     Prioritizes resting maker entries when Level 1/2 book depth displays strong directional
-    imbalance (ratio >= 1.35 for BUY or <= 0.74 for SELL) with tactical edge >= 6.0 bps.
+    imbalance (ratio >= 1.25 for BUY or <= 0.80 for SELL) with tactical edge >= 5.0 bps.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 5: Asymmetric Book Depth Momentum Scalper"
+        self.strategy_profile = "Challenger 5: Orderbook Liquidity Imbalance Scalper"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
         imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
         dir_val = decision.primary_direction
-        if (dir_val == 2 and imbalance_ratio >= 1.35) or (dir_val == 0 and imbalance_ratio <= 0.74):
-            if decision.expected_net_edge_bps >= 6.0:
+        if (dir_val == 2 and imbalance_ratio >= 1.25) or (dir_val == 0 and imbalance_ratio <= 0.80):
+            if decision.expected_net_edge_bps >= 5.0:
                 now_ms = getattr(decision, "ts_ms", int(time.time() * 1000))
                 self._place_sniper_maker_entry(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
                 return self.state
@@ -639,8 +641,8 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
-                engine=Challenger2_MicroDisplacementVelocitySniper(symbol=symbol),
-                strategy_profile="Challenger 2: Micro-Displacement Velocity Sniper",
+                engine=Challenger2_MicroPullbackInflectionScalper(symbol=symbol),
+                strategy_profile="Challenger 2: Micro-Pullback Inflection Scalper",
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
@@ -654,8 +656,8 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",
-                engine=Challenger5_AsymmetricBookDepthMomentumScalper(symbol=symbol),
-                strategy_profile="Challenger 5: Asymmetric Book Depth Momentum Scalper",
+                engine=Challenger5_OrderbookLiquidityImbalanceScalper(symbol=symbol),
+                strategy_profile="Challenger 5: Orderbook Liquidity Imbalance Scalper",
             ),
         }
 
