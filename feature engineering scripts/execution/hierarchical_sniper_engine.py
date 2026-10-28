@@ -184,6 +184,8 @@ class HierarchicalSniperExecutionEngine:
         self.min_reentry_retrace_bps: float = float(kwargs.get("min_reentry_retrace_bps", 15.0))
         self.min_net_edge_bps: float = float(kwargs.get("min_net_edge_bps", 5.0))
         self.recent_mid_prices: deque[tuple[int, float]] = deque(maxlen=36) # 36 bars = 360s (6.0 minutes)
+        self.rolling_15m_prices: deque[float] = deque(maxlen=90) # 90 bars * 10s = 900s (15.0 minutes)
+        self.range_boundary_buffer_dollars: float = float(kwargs.get("range_boundary_buffer_dollars", 12.0))
         self.max_parabolic_surge_30s_bps: float = float(kwargs.get("max_parabolic_surge_30s_bps", 10.0))
         self.max_impulse_surge_180s_bps: float = float(kwargs.get("max_impulse_surge_180s_bps", 16.0))
         self.max_impulse_surge_300s_bps: float = float(kwargs.get("max_impulse_surge_300s_bps", 18.0))
@@ -214,6 +216,7 @@ class HierarchicalSniperExecutionEngine:
 
         mid = 0.5 * (bbo_bid + bbo_ask)
         self.recent_mid_prices.append((now_ms, mid))
+        self.rolling_15m_prices.append(mid)
 
         # CASE 1: Engine is IDLE -> Check if Macro + Meso + Tactical authorize a new Swing Setup
         if self.state == "IDLE":
@@ -251,12 +254,14 @@ class HierarchicalSniperExecutionEngine:
                         return self.state
             if decision.execution_mode in ("PASSIVE_MAKER_SNIPER", "URGENT_HYBRID", "WAIT_FOR_MICRO_SNIPER"):
                 if decision.primary_direction in (0, 2) and decision.expected_net_edge_bps >= self.min_net_edge_bps:
+                    if self._is_range_boundary_violation(decision.primary_direction, mid):
+                        return self.state
                     self.stalking_decision = decision
                     self.stalking_start_ts_ms = now_ms
                     self.state = "SNIPER_ENTRY_STALKING"
                     # Immediately evaluate if current 1s/10s tick already triggers placement
                     if decision.execution_mode in ("PASSIVE_MAKER_SNIPER", "URGENT_HYBRID"):
-                        if not self._is_parabolic_surge(decision.primary_direction, now_ms, mid):
+                        if not self._is_parabolic_surge(decision.primary_direction, now_ms, mid) and not self._is_range_boundary_violation(decision.primary_direction, mid):
                             self._place_sniper_maker_entry(
                                 decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open
                             )
@@ -283,23 +288,24 @@ class HierarchicalSniperExecutionEngine:
 
             # If 1s/10s Microstructure Sniper triggers now, place GTX BBO limit order!
             if decision.micro_sniper_trigger_prob >= 0.55:
-                if not self._is_parabolic_surge(decision.primary_direction, now_ms, mid):
+                if not self._is_parabolic_surge(decision.primary_direction, now_ms, mid) and not self._is_range_boundary_violation(decision.primary_direction, mid):
                     self._place_sniper_maker_entry(
                         self.stalking_decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open
                     )
             return self.state
 
-        # CASE 2B: Resting in L1/L2 FIFO Queue -> Cancel with 0.0 bps fee if signal flips to opposite direction
+        # CASE 2B: Resting in L1/L2 FIFO Queue -> Cancel with 0.0 bps fee if signal flips or becomes flat, or if age > max_queue_resting_ms
         if self.state == "RESTING_ENTRY_QUEUE":
-            opp_dir = 0 if self.resting_entry_side == "BUY" else 2
-            if decision.primary_direction == opp_dir:
+            expected_dir = 2 if self.resting_entry_side == "BUY" else 0
+            resting_age_ms = (now_ms - self.resting_entry_ts_ms) if self.resting_entry_ts_ms > 0 else 0
+            d_meso_val = abs(decision.meso_probs[2] - decision.meso_probs[0])
+            if decision.primary_direction != expected_dir or resting_age_ms > self.max_queue_resting_ms or d_meso_val < 0.03:
                 self.queue_tracker = None
                 self.adverse_guard = None
                 self.stalking_decision = None
                 self.state = "IDLE"
                 return self.state
-            if decision.primary_direction != 1:
-                self.stalking_decision = decision
+            self.stalking_decision = decision
             return self.state
 
         # CASE 3: Holding an active Swing Position -> Evaluate Microstructure Profit-Locking & Macro Reversal
@@ -347,6 +353,23 @@ class HierarchicalSniperExecutionEngine:
             if surge_300s > self.max_impulse_surge_300s_bps:
                 return True
 
+        return False
+
+    def _is_range_boundary_violation(self, primary_direction: int, mid: float) -> bool:
+        """
+        15-Minute Range Boundary Envelope Filter:
+        Empirically proven to prevent oscillating range top-buying and bottom-selling.
+        - Blocks BUY if entry price is within range_boundary_buffer_dollars of the 15-minute rolling high.
+        - Blocks SELL if entry price is within range_boundary_buffer_dollars of the 15-minute rolling low.
+        """
+        if len(self.rolling_15m_prices) < 18 or self.range_boundary_buffer_dollars <= 0.0:
+            return False
+        sess_high = max(self.rolling_15m_prices)
+        sess_low = min(self.rolling_15m_prices)
+        if primary_direction == 2 and (mid >= sess_high - self.range_boundary_buffer_dollars):
+            return True
+        if primary_direction == 0 and (mid <= sess_low + self.range_boundary_buffer_dollars):
+            return True
         return False
 
     def _place_sniper_maker_entry(
@@ -434,15 +457,24 @@ class HierarchicalSniperExecutionEngine:
             assert self.resting_entry_side is not None
             assert self.stalking_decision is not None
 
-            # A0. If current multi-horizon decision flipped to the opposite direction, cancel with 0.0 bps fee!
+            # A0. If current multi-horizon decision flipped or became flat, or age > max_queue_resting_ms, cancel with 0.0 bps fee!
             if current_decision is not None:
-                opp_dir = 0 if self.resting_entry_side == "BUY" else 2
-                if current_decision.primary_direction == opp_dir:
+                expected_dir = 2 if self.resting_entry_side == "BUY" else 0
+                d_meso_val = abs(current_decision.meso_probs[2] - current_decision.meso_probs[0])
+                if current_decision.primary_direction != expected_dir or d_meso_val < 0.03:
                     self.queue_tracker = None
                     self.adverse_guard = None
                     self.stalking_decision = None
                     self.state = "IDLE"
                     return self.state
+
+            resting_age_ms = (ts_ms - self.resting_entry_ts_ms) if self.resting_entry_ts_ms > 0 else 0
+            if resting_age_ms > self.max_queue_resting_ms:
+                self.queue_tracker = None
+                self.adverse_guard = None
+                self.stalking_decision = None
+                self.state = "IDLE"
+                return self.state
 
             # A. Check Adverse Selection Guard FIRST (L1/L2 depth collapse, >1.8 bps adverse sweep, or ETH 1s shock)
             supp_depth = bbo_bid_qty if self.resting_entry_side == "BUY" else bbo_ask_qty
@@ -465,18 +497,17 @@ class HierarchicalSniperExecutionEngine:
                 return self.state
 
             # B. Process intra-bar trade-through or aggressive volume executing at our resting BBO level
-            is_10s_bar_mode = (bar_high > 0.0 and bar_low > 0.0)
             if self.resting_entry_side == "BUY":
-                if eff_low < self.resting_entry_price or (is_10s_bar_mode and eff_low <= self.resting_entry_price * 1.0012):
+                if eff_low <= self.resting_entry_price:
                     filled = True
-                elif eff_low <= self.resting_entry_price or bbo_bid <= self.resting_entry_price:
+                elif bbo_bid <= self.resting_entry_price:
                     filled = self.queue_tracker.process_trade(aggressive_sell_vol_at_bid)
                 else:
                     filled = False
             else:
-                if eff_high > self.resting_entry_price or (is_10s_bar_mode and eff_high >= self.resting_entry_price * 0.9988):
+                if eff_high >= self.resting_entry_price:
                     filled = True
-                elif eff_high >= self.resting_entry_price or bbo_ask >= self.resting_entry_price:
+                elif bbo_ask >= self.resting_entry_price:
                     filled = self.queue_tracker.process_trade(aggressive_buy_vol_at_ask)
                 else:
                     filled = False
@@ -715,7 +746,8 @@ class HierarchicalSniperExecutionEngine:
             self.state = "PASSIVE_MAKER_UNWIND"
 
         if self.state == "PASSIVE_MAKER_UNWIND":
-            if unrealized_bps >= self.passive_unwind_min_bps and ((sign * d_micro) <= 0.05 or hold_frac >= 0.95):
+            # If in profit (>= passive_unwind_min_bps, or positive at target deadline), exit with Maker order at BBO
+            if (unrealized_bps >= self.passive_unwind_min_bps and ((sign * d_micro) <= 0.05 or hold_frac >= 0.95)) or (hold_frac >= 1.0 and unrealized_bps > 0.0):
                 maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
                 self._close_position(
                     exit_price=maker_exit_p,
@@ -725,14 +757,16 @@ class HierarchicalSniperExecutionEngine:
                 )
                 return
 
-        # 3. Hard 100% deadline safety fallback
-        if hold_frac >= 1.05:
-            taker_exit_p = bbo_bid if pos.side == "BUY" else bbo_ask
+        # 3. Maximum holding duration guard:
+        # Never dump underwater positions with taker fee on time alone (V3.5 iron discipline).
+        # At 10 minutes (600s), unwind via Maker order at BBO.
+        if elapsed_sec >= 600.0:
+            maker_exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
             self._close_position(
-                exit_price=taker_exit_p,
+                exit_price=maker_exit_p,
                 exit_ts_ms=now_ms,
-                exit_fee_bps=self.taker_fee_leg,
-                reason="HARD_DEADLINE_TAKER",
+                exit_fee_bps=self.maker_fee_leg,
+                reason="PASSIVE_MAKER_TIME_UNWIND",
             )
 
     def _close_position(

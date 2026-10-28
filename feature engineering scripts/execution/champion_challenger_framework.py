@@ -89,6 +89,7 @@ class PeakSameSideRetraceScalper(HierarchicalSniperExecutionEngine):
         now_ms = decision.ts_ms
         mid = 0.5 * (bbo_bid + bbo_ask)
         self.recent_mid_prices.append((now_ms, mid))
+        self.rolling_15m_prices.append(mid)
         d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
         d_micro = decision.micro_probs[2] - decision.micro_probs[0]
         d_meso = decision.meso_probs[2] - decision.meso_probs[0]
@@ -110,6 +111,10 @@ class PeakSameSideRetraceScalper(HierarchicalSniperExecutionEngine):
                     cand_dir = 0
 
             if cand_dir in (0, 2):
+                # 0. Range Boundary Envelope Filter (Veto range high buy / range low sell)
+                if self._is_range_boundary_violation(cand_dir, mid):
+                    return self.state
+
                 # 1. Parabolic Surge Guard (Micro-spike / Tactical wave / Meso wave exhaustion veto)
                 if self._is_parabolic_surge(cand_dir, now_ms, mid):
                     return self.state
@@ -147,16 +152,18 @@ class Challenger1_HighVelocityPromotionScalper(PeakSameSideRetraceScalper):
     Challenger 1: High-Velocity Impulse Promotion Scalper
     Direct evolution of Cycle 33 Challenger 5 (which achieved 80.0% Win Rate across 5 tr/hr).
     Combines calibrated 0.11 tactical impulse threshold + micro-velocity alignment with
-    Meso concordance guard (d_meso >= 0.03) and rapid 12s post-win reset.
+    Meso concordance guard (d_meso >= 0.03), 15m Range Boundary Filter ($10 buffer), and rapid 12s post-win reset.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.strategy_profile = "Challenger 1: High-Velocity Impulse Promotion Scalper (5-8 tr/hr Target)"
+        self.range_boundary_buffer_dollars = 10.0
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
         now_ms = decision.ts_ms
         mid = 0.5 * (bbo_bid + bbo_ask)
         self.recent_mid_prices.append((now_ms, mid))
+        self.rolling_15m_prices.append(mid)
         d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
         d_micro = decision.micro_probs[2] - decision.micro_probs[0]
         d_meso = decision.meso_probs[2] - decision.meso_probs[0]
@@ -176,6 +183,9 @@ class Challenger1_HighVelocityPromotionScalper(PeakSameSideRetraceScalper):
                     cand_dir = 0
 
             if cand_dir in (0, 2):
+                if self._is_range_boundary_violation(cand_dir, mid):
+                    return self.state
+
                 if self._is_parabolic_surge(cand_dir, now_ms, mid):
                     return self.state
 
@@ -295,28 +305,68 @@ class Challenger3_AsymmetricRunnerExpansionScalper(PeakSameSideRetraceScalper):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 4: Adaptive Volatility Spread Micro Scalper
+# ⚔️ CHALLENGER 4: Micro-Price Order Flow Imbalance Scalper
 # ==============================================================================
-class Challenger4_VolSpreadAdaptiveScalper(PeakSameSideRetraceScalper):
+class Challenger4_MicroPriceOFIScalper(PeakSameSideRetraceScalper):
     """
-    Challenger 4: Adaptive Volatility Spread Micro Scalper
-    Monitors 30s rolling Parkinson volatility and LOB spread.
-    In low volatility (sigma < 2.5 bps), places resting maker entry directly at BBO.
-    In elevated volatility (sigma >= 2.5 bps), steps back 0.5 bps to capture spread rebate
-    and filter out adverse execution toxicity.
+    Challenger 4: Micro-Price Order Flow Imbalance Scalper
+    Computes instantaneous micro-price from L1/L2 top depth:
+      P_micro = (bid * ask_qty + ask * bid_qty) / (bid_qty + ask_qty)
+    Requires micro-price drift in trade direction > 0.20 bps to confirm active queue pressure,
+    and requires order book depth imbalance ratio >= 1.15 (depth support) before entry.
+    Locks in high execution quality and filters out toxic order flow.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 4: Adaptive Volatility Spread Scalper"
+        self.strategy_profile = "Challenger 4: Micro-Price OFI Scalper"
+        self.range_boundary_buffer_dollars = 10.0
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
         now_ms = decision.ts_ms
         mid = 0.5 * (bbo_bid + bbo_ask)
-        spread = bbo_ask - bbo_bid
+        self.recent_mid_prices.append((now_ms, mid))
+        self.rolling_15m_prices.append(mid)
 
-        # Require minimum viable spread for maker edge
-        if spread < 0.10:
-            return self.state
+        tot_depth = max(bbo_bid_qty + bbo_ask_qty, 1e-6)
+        micro_price = (bbo_bid * bbo_ask_qty + bbo_ask * bbo_bid_qty) / tot_depth
+        micro_drift_bps = ((micro_price - mid) / mid) * 1e4
+        imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
+
+        d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+        d_micro = decision.micro_probs[2] - decision.micro_probs[0]
+        d_meso = decision.meso_probs[2] - decision.meso_probs[0]
+
+        if self.state == "IDLE" and self.ticks_seen >= 10:
+            cand_dir = None
+            if d_tact >= 0.12 and d_meso >= 0.03 and micro_drift_bps >= 0.15 and imbalance_ratio >= 1.10:
+                cand_dir = 2
+            elif d_tact <= -0.12 and d_meso <= -0.03 and micro_drift_bps <= -0.15 and imbalance_ratio <= 0.90:
+                cand_dir = 0
+
+            if cand_dir in (0, 2):
+                if self._is_range_boundary_violation(cand_dir, mid):
+                    return self.state
+                if self._is_parabolic_surge(cand_dir, now_ms, mid):
+                    return self.state
+
+                if self.last_exit_ts_ms > 0:
+                    elapsed = (now_ms - self.last_exit_ts_ms) / 1000.0
+                    if not self.last_exit_was_win and elapsed < 60.0:
+                        return self.state
+                    elif self.last_exit_was_win and elapsed < 15.0:
+                        return self.state
+
+                    if elapsed < 200.0 and self.last_trade_exit_price > 0:
+                        if cand_dir == 2 and self.last_trade_side == "BUY" and (mid > self.last_trade_exit_price - 10.0):
+                            return self.state
+                        elif cand_dir == 0 and self.last_trade_side == "SELL" and (mid < self.last_trade_exit_price + 10.0):
+                            return self.state
+
+                tact_dec = copy.copy(decision)
+                object.__setattr__(tact_dec, "primary_direction", cand_dir) if hasattr(tact_dec, "__dataclass_fields__") and getattr(tact_dec, "__dataclass_params__", None) and getattr(tact_dec.__dataclass_params__, "frozen", False) else setattr(tact_dec, "primary_direction", cand_dir)
+                self.stalking_decision = tact_dec
+                self._place_sniper_maker_entry(tact_dec, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+                return self.state
 
         return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
@@ -329,16 +379,18 @@ class Challenger5_ConformalConfidenceFilterScalper(PeakSameSideRetraceScalper):
     Challenger 5: Conformal Confidence Filter Scalper
     Filters out uncertain / flat regime noise by requiring maximum softmax confidence >= 0.46
     and alignment across Tactical and Meso tiers.
-    Enforces a calibrated $10 same-side retrace reset for rapid opportunity capture.
+    Enforces a calibrated $10 range boundary filter and $10 same-side retrace reset.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.strategy_profile = "Challenger 5: Conformal Confidence Filter Scalper"
+        self.range_boundary_buffer_dollars = 10.0
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
         now_ms = decision.ts_ms
         mid = 0.5 * (bbo_bid + bbo_ask)
         self.recent_mid_prices.append((now_ms, mid))
+        self.rolling_15m_prices.append(mid)
         d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
         d_micro = decision.micro_probs[2] - decision.micro_probs[0]
         d_meso = decision.meso_probs[2] - decision.meso_probs[0]
@@ -364,6 +416,9 @@ class Challenger5_ConformalConfidenceFilterScalper(PeakSameSideRetraceScalper):
                     cand_dir = 0
 
             if cand_dir in (0, 2):
+                if self._is_range_boundary_violation(cand_dir, mid):
+                    return self.state
+
                 if self._is_parabolic_surge(cand_dir, now_ms, mid):
                     return self.state
 
@@ -424,8 +479,8 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
-                engine=Challenger4_VolSpreadAdaptiveScalper(symbol=symbol),
-                strategy_profile="Adaptive Volatility Spread Scalper",
+                engine=Challenger4_MicroPriceOFIScalper(symbol=symbol),
+                strategy_profile="Micro-Price OFI Scalper",
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",
