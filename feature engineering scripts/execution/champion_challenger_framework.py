@@ -477,31 +477,36 @@ class Challenger1_DualTierSteppedRatchetScalper(SteppedRatchetOFIScalper):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 2: Micro-Pullback Inflection Scalper
+# ⚔️ CHALLENGER 2: Micro-Breakout Momentum Scalper
 # ==============================================================================
-class Challenger2_MicroPullbackInflectionScalper(SteppedRatchetOFIScalper):
+class Challenger2_MicroBreakoutMomentumScalper(SteppedRatchetOFIScalper):
     """
-    Challenger 2: Micro-Pullback Inflection Scalper
-    Detects shallow micro-pullbacks (-1.0 to -4.0 bps 10s displacement) during confirmed
-    bullish 5m Meso / 15m Macro regimes with supporting Level 1/2 OFI.
-    Places resting limit orders at BBO to capture the inflection fill at favorable price.
+    Challenger 2: Micro-Breakout Momentum Scalper
+    Detects confirmed multi-tier micro momentum: 1m Tactical, 30s Tactical, and 10s Micro
+    all concordant with 5m Meso with expected net edge >= 5.5 bps and OFI support.
+    Places resting limit orders at BBO to capture emerging micro-breakouts early.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 2: Micro-Pullback Inflection Scalper"
+        self.strategy_profile = "Challenger 2: Micro-Breakout Momentum Scalper"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        if len(self.recent_mid_prices) >= 2:
-            current_mid = 0.5 * (bbo_bid + bbo_ask)
-            prev_mid = self.recent_mid_prices[-2][1]
-            disp_10s = (current_mid - prev_mid) / prev_mid * 1e4
-            imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
+        d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+        d_meso = decision.meso_probs[2] - decision.meso_probs[0]
+        d_micro = decision.micro_probs[2] - decision.micro_probs[0]
 
-            # Pullback into bullish meso:
-            if -4.0 <= disp_10s <= -1.0 and decision.meso_probs[2] > 0.40 and imbalance_ratio >= 1.05:
-                now_ms = getattr(decision, "ts_ms", int(time.time() * 1000))
-                self._place_sniper_maker_entry(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+        is_bullish_aligned = (d_tact > 0.05 and d_meso > 0.05 and d_micro > 0.05)
+        is_bearish_aligned = (d_tact < -0.05 and d_meso < -0.05 and d_micro < -0.05)
+
+        if (is_bullish_aligned or is_bearish_aligned) and decision.expected_net_edge_bps >= 5.5:
+            imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
+            if is_bullish_aligned and imbalance_ratio < 1.05:
                 return self.state
+            elif is_bearish_aligned and imbalance_ratio > 0.95:
+                return self.state
+            now_ms = getattr(decision, "ts_ms", int(time.time() * 1000))
+            self._place_sniper_maker_entry(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+            return self.state
 
         return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
@@ -641,8 +646,8 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
-                engine=Challenger2_MicroPullbackInflectionScalper(symbol=symbol),
-                strategy_profile="Challenger 2: Micro-Pullback Inflection Scalper",
+                engine=Challenger2_MicroBreakoutMomentumScalper(symbol=symbol),
+                strategy_profile="Challenger 2: Micro-Breakout Momentum Scalper",
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
