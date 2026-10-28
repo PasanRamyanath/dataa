@@ -71,6 +71,43 @@ class ChampionChallengerTradingSession(LiveHierarchicalTradingSession):
         self.tournament_mgr = ChampionChallengerTournamentManager(symbol=self.symbol)
         self.last_heartbeat_bar = 0
 
+    def start(self) -> None:
+        log.info("Bootstrapping multi-horizon ring buffer from Binance REST...")
+        stats = self.ring_buffer.bootstrap_from_binance_rest(limit=100)
+        log.info("Bootstrap complete across all 14 timeframes: %s", stats)
+
+        # Pre-seed rolling 15m price buffer for all competitor engines to prevent cold-start boundary distortion
+        if "1m" in self.ring_buffer.klines_um and len(self.ring_buffer.klines_um["1m"]) >= 15:
+            recent_1m = list(self.ring_buffer.klines_um["1m"])[-15:]
+            seed_prices = [float(k["close"]) for k in recent_1m]
+            for c in self.tournament_mgr.competitors.values():
+                for sp in seed_prices:
+                    c.engine.rolling_15m_prices.append(sp)
+            log.info("Pre-seeded %d 15m price points to all competitor engines (15m Range: $%.2f - $%.2f)",
+                     len(seed_prices), min(seed_prices), max(seed_prices))
+
+        log.info("Starting real-time Binance WebSocket stream, REST companion poller & Live News Engine...")
+        self.running = True
+        if getattr(self.ring_buffer.model_registry, "news_daemon", None) is not None:
+            self.ring_buffer.model_registry.news_daemon.start_in_background()
+        self.rest_poller.start_in_background()
+        self.ws_ingestor.start_in_background()
+
+        self.start_time = time.time()
+        log.info("=" * 80)
+        log.info("LIVE HIERARCHICAL TRADING & MONITORING SESSION STARTED (%s)", self.symbol)
+        log.info("Target Duration: %.1f minutes (%.1f hours)", self.duration_seconds / 60.0, self.duration_seconds / 3600.0)
+        log.info("Ledger Output: %s", self.ledger_path)
+        log.info("=" * 80)
+
+        try:
+            while (time.time() - self.start_time) < self.duration_seconds:
+                time.sleep(1.0)
+        except KeyboardInterrupt:
+            log.info("Session interrupted by user.")
+        finally:
+            self.stop()
+
     def on_bar_completed(self, bar_dict: dict) -> None:
         if not self.running:
             return
