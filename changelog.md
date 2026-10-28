@@ -1044,3 +1044,25 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
 - **Cycle 28 Tournament Architecture:**
   - **Reigning Champion:** `Fast90sStallingRetraceScalper` (Cycle 27 Winner).
   - Mutate 5 new Challengers equipped with **Wide-Breathe Trailing** (activation $\ge 8.0\text{ bps}$ gross), **Adaptive Dynamic TP Expansion**, and **Predictive Crest Harvester**.
+
+### Cycle 28 (Champion-Challenger Tournament Session 6)
+- **Session Window:** 2026-10-28 05:15:02 - 2026-10-28 06:15:07 (60.02 min / 360 bars)
+- **Tournament Standings & Winner:**
+  - **👑 NEW CROWNED CHAMPION:** **Challenger 1 (`WideBreatheTrailingScalper`)**
+  - **Net Realized PnL:** **`-29.29 bps` Net PnL** across 4 trades (Outperformed Reigning Champion by **`+2.44 bps`**)
+  - **Trade Velocity:** **4 Trades in 60 minutes** (1 trade / 15 min)
+  - **Win Rate:** **`25.0%`** (1 Win / 3 Losses)
+  - **Decisive Edge Verified:** On Trade 3 (BUY @ $80,731.40), Challenger 1 let the trade breathe and exited at $80,792.60 via `PASSIVE_MAKER_TIME_UNWIND`, capturing **`+7.58 bps` gross / `+3.58 bps` NET CASH PROFIT** — **more than 2.2x the net profit of the Champion** (+3.58 bps vs +1.61 bps, an extra +1.97 bps)!
+- **Forward Prediction Accuracies Across Horizons:**
+  - **Macro (15m):** **`97.74%`** overall, **`96.30%` Active Precision** (130/135 signals)
+  - **Meso (5m):** **`93.64%`** overall, **`86.88%` Active Precision** (139/160 signals)
+  - **Micro (10s):** **`89.69%`** overall across 359 forward intervals
+  - **Tactical (30s):** **`81.41%`** overall, **`70.91%` Active Precision** (39/55 signals)
+  - **Tactical (1m):** **`80.97%`** overall, **`69.09%` Active Precision** (38/55 signals)
+- **Key Algorithmic Discovery - Meso Non-Concordance Vulnerability:**
+  - Audit of Bar 272-273 revealed Trade 4 entered BUY while 5m Meso order flow was distinctly bearish (`d_meso = -0.0333`).
+  - Because existing rule allowed `d_meso >= -0.05`, the trade entered against the higher-timeframe order flow, resulting in a -13.95 bps cut.
+  - Enforcing strict positive Meso concordance (`d_meso >= +0.02` for BUY) completely prevents these counter-trend trades.
+- **Cycle 29 Tournament Architecture:**
+  - **Reigning Champion:** `WideBreatheTrailingScalper` (Cycle 28 Winner).
+  - Mutate 5 new Challengers with **Strict Meso Concordance Guard** (`d_meso >= +0.02`), **Extended Post-Cut Retrace Barrier** ($25.00), and **Adaptive Micro-Momentum Entry Sniping**.
