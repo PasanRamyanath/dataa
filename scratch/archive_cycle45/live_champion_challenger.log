@@ -1,0 +1,491 @@
+2026-10-29 00:39:29,986 [INFO] =========================================================================================================
+2026-10-29 00:39:29,986 [INFO] LAUNCHING 1-HOUR CHAMPION-CHALLENGER TOURNAMENT SESSION (1 CHAMPION + 5 CHALLENGERS)
+2026-10-29 00:39:29,986 [INFO] Symbol: BTCUSDT | Target Duration: 60.0 minutes
+2026-10-29 00:39:29,986 [INFO] =========================================================================================================
+2026-10-29 00:39:29,991 [INFO] Initializing Project-IMPJR v4.0 Live Trading & Monitoring Session...
+2026-10-29 00:39:30,349 [INFO] Detected Hardware Topology: HardwareTopologyProfile(deployment_mode='LOCAL_LAPTOP_STANDALONE', is_kaggle_vm=False, os_platform='Windows', cuda_device_count=0, tier4_macro_device='cpu', tier3_meso_device='cpu', tier2_tactical_device='cpu', tier1_micro_device='cpu', use_fp16_autocast=False, use_cpu_int8_quantization=True, binance_fapi_reachable=True, active_rest_kline_base='https://fapi.binance.com/fapi/v1/klines', active_ws_base='wss://fstream.binance.com/stream')
+2026-10-29 00:39:31,651 [INFO] LiveMultiHorizonV4ModelRegistry initialized: 16/16 models loaded (tier4-hmm-regime, tier4-patchtst-ffd, tier4-tft-funding, tier4-kronos-macro, tier3-itransformer-32, tier3-nhits-multirate, tier3-kronos-meso, tier3-lgbm-positioning, tier2-mamba-s6, tier2-lgbm-bookdepth, tier2-crossasset-gat, tier2-cryptobert-news, tier1-lgbm-micro-1s10s, tier1-spot1s-leadlag, tier1-queue-hazard, fusion-v4-hierarchical) | Stage5 fitted=True
+2026-10-29 00:39:31,708 [INFO] Loaded fitted Stage-5 SupervisedMultiHorizonOOFStacker from D:\PrivateProjects\BTC Futures\feature engineering scripts\models_v3\checkpoints\stage5_fusion\models\fusion-v4-hierarchical\supervised_multi_horizon_stacker.joblib
+2026-10-29 00:39:31,710 [INFO] Bootstrapping multi-horizon ring buffer from Binance REST...
+2026-10-29 00:39:32,597 [INFO] Bootstrap complete across all 14 timeframes: {'1m': 99, '3m': 99, '5m': 99, '15m': 99, '30m': 99, '1h': 99, '2h': 99, '4h': 99, '6h': 99, '8h': 99, '12h': 99, '1d': 99}
+2026-10-29 00:39:32,597 [INFO] Pre-seeded 15 15m price points to all competitor engines (15m Range: $80903.40 - $81190.50)
+2026-10-29 00:39:32,597 [INFO] Starting real-time Binance WebSocket stream, REST companion poller & Live News Engine...
+2026-10-29 00:39:32,752 [INFO] LiveNewsEngineDaemon started in background (poll_interval=30s)
+2026-10-29 00:39:32,762 [WARNING] Could not load sentiment model 'ElKulako/cryptobert' (ModuleNotFoundError: No module named 'transformers') — falling back to lexicon-based polarity heuristic. Install `transformers`/`torch` (requirements-models.txt) and ensure the model is reachable (HF Hub network access) for real FinBERT-class scoring.
+2026-10-29 00:39:32,766 [INFO] Starting Binance REST Companion Poller (Interval: 30s, Symbol: BTCUSDT)...
+2026-10-29 00:39:32,778 [INFO] ================================================================================
+2026-10-29 00:39:32,779 [INFO] LIVE HIERARCHICAL TRADING & MONITORING SESSION STARTED (BTCUSDT)
+2026-10-29 00:39:32,780 [INFO] Target Duration: 60.0 minutes (1.0 hours)
+2026-10-29 00:39:32,780 [INFO] Ledger Output: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_ledger.jsonl
+2026-10-29 00:39:32,780 [INFO] ================================================================================
+2026-10-29 00:39:32,784 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 00:39:33,537 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 00:39:42,601 [INFO] [19:09:42 | #0001] BTC: $81130.45 | Dir: LONG | Edge: +31.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:39:50,131 [INFO] [19:09:50 | #0002] BTC: $81109.75 | Dir: LONG | Edge: +25.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:39:59,984 [INFO] [19:09:59 | #0003] BTC: $81081.45 | Dir: LONG | Edge: +17.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:40:09,797 [INFO] [19:10:09 | #0004] BTC: $81028.45 | Dir: LONG | Edge: +17.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:40:19,832 [INFO] [19:10:19 | #0005] BTC: $81017.95 | Dir: LONG | Edge: +17.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:40:29,805 [INFO] [19:10:29 | #0006] BTC: $81018.65 | Dir: FLAT | Edge: +6.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:40:39,806 [INFO] [19:10:39 | #0007] BTC: $81034.85 | Dir: FLAT | Edge: +5.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:40:49,814 [INFO] [19:10:49 | #0008] BTC: $81024.15 | Dir: FLAT | Edge: +6.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:40:59,842 [INFO] [19:10:59 | #0009] BTC: $81008.85 | Dir: FLAT | Edge: +6.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:41:09,806 [INFO] [19:11:09 | #0010] BTC: $81000.05 | Dir: FLAT | Edge: +6.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:41:19,928 [INFO] [19:11:19 | #0011] BTC: $81017.65 | Dir: FLAT | Edge: +4.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:41:29,807 [INFO] [19:11:29 | #0012] BTC: $81031.15 | Dir: FLAT | Edge: +6.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:41:39,815 [INFO] [19:11:39 | #0013] BTC: $81020.05 | Dir: FLAT | Edge: +5.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:41:49,803 [INFO] [19:11:49 | #0014] BTC: $80996.75 | Dir: FLAT | Edge: +6.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:41:59,961 [INFO] [19:11:59 | #0015] BTC: $81033.85 | Dir: FLAT | Edge: +8.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:42:09,831 [INFO] [19:12:09 | #0016] BTC: $80996.75 | Dir: FLAT | Edge: +5.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:42:19,809 [INFO] [19:12:19 | #0017] BTC: $81005.95 | Dir: FLAT | Edge: +5.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:42:29,832 [INFO] [19:12:29 | #0018] BTC: $80971.35 | Dir: FLAT | Edge: +7.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:42:39,983 [INFO] [19:12:39 | #0019] BTC: $80991.65 | Dir: FLAT | Edge: +5.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:42:49,919 [INFO] [19:12:49 | #0020] BTC: $80977.25 | Dir: FLAT | Edge: +6.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:42:59,862 [INFO] [19:12:59 | #0021] BTC: $80986.15 | Dir: FLAT | Edge: +6.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:43:09,801 [INFO] [19:13:09 | #0022] BTC: $81030.55 | Dir: FLAT | Edge: +8.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:43:19,805 [INFO] [19:13:19 | #0023] BTC: $81009.15 | Dir: FLAT | Edge: +4.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:43:29,844 [INFO] [19:13:29 | #0024] BTC: $80995.75 | Dir: FLAT | Edge: +5.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:43:39,856 [INFO] [19:13:39 | #0025] BTC: $81010.45 | Dir: FLAT | Edge: +6.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:43:50,300 [INFO] [19:13:50 | #0026] BTC: $81038.25 | Dir: FLAT | Edge: +10.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:43:59,833 [INFO] [19:13:59 | #0027] BTC: $81039.35 | Dir: FLAT | Edge: +9.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:44:09,806 [INFO] [19:14:09 | #0028] BTC: $81061.25 | Dir: FLAT | Edge: +11.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:44:19,809 [INFO] [19:14:19 | #0029] BTC: $81050.15 | Dir: FLAT | Edge: +9.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:44:30,226 [INFO] [19:14:30 | #0030] BTC: $81084.25 | Dir: FLAT | Edge: +10.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:44:39,842 [INFO] [19:14:39 | #0031] BTC: $81099.95 | Dir: LONG | Edge: +20.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:44:49,823 [INFO] [19:14:49 | #0032] BTC: $81115.65 | Dir: LONG | Edge: +24.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:44:59,854 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-29 00:44:59,897 [INFO] [19:14:59 | #0033] BTC: $81092.85 | Dir: LONG | Edge: +22.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:45:09,809 [INFO] [19:15:09 | #0034] BTC: $81082.85 | Dir: LONG | Edge: +23.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:45:19,850 [INFO] [19:15:19 | #0035] BTC: $81099.95 | Dir: LONG | Edge: +25.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:45:29,842 [INFO] [19:15:29 | #0036] BTC: $81090.05 | Dir: LONG | Edge: +22.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:45:39,790 [INFO] [19:15:39 | #0037] BTC: $81115.55 | Dir: LONG | Edge: +26.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:45:49,813 [INFO] [19:15:49 | #0038] BTC: $81104.65 | Dir: LONG | Edge: +21.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:45:59,824 [INFO] [19:15:59 | #0039] BTC: $81118.35 | Dir: LONG | Edge: +26.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:46:09,796 [INFO] [19:16:09 | #0040] BTC: $81140.45 | Dir: LONG | Edge: +26.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:46:19,815 [INFO] [19:16:19 | #0041] BTC: $81138.05 | Dir: LONG | Edge: +25.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:46:30,103 [INFO] [19:16:30 | #0042] BTC: $81135.95 | Dir: LONG | Edge: +24.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:46:39,822 [INFO] [19:16:39 | #0043] BTC: $81130.35 | Dir: LONG | Edge: +24.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:46:49,825 [INFO] [19:16:49 | #0044] BTC: $81145.95 | Dir: LONG | Edge: +26.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:46:59,827 [INFO] [19:16:59 | #0045] BTC: $81123.85 | Dir: LONG | Edge: +21.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:47:09,798 [INFO] [19:17:09 | #0046] BTC: $81095.95 | Dir: LONG | Edge: +16.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:47:19,806 [INFO] [19:17:19 | #0047] BTC: $81047.25 | Dir: FLAT | Edge: +6.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:47:29,806 [INFO] [19:17:29 | #0048] BTC: $81042.35 | Dir: FLAT | Edge: +7.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:47:39,809 [INFO] [19:17:39 | #0049] BTC: $81006.85 | Dir: FLAT | Edge: +5.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:47:49,799 [INFO] [19:17:49 | #0050] BTC: $81009.05 | Dir: FLAT | Edge: +5.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:47:59,824 [INFO] [19:17:59 | #0051] BTC: $81021.05 | Dir: FLAT | Edge: +6.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:48:09,799 [INFO] [19:18:09 | #0052] BTC: $81033.85 | Dir: FLAT | Edge: +6.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:48:19,798 [INFO] [19:18:19 | #0053] BTC: $81034.05 | Dir: FLAT | Edge: +6.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:48:21,585 [INFO] scored 1/1 pending articles
+2026-10-29 00:48:22,678 [INFO] rss_decrypt: appended 1 new event(s) to D:\PrivateProjects\BTC Futures\feature engineering scripts\inference\data\news_events\rss_decrypt_2026-10-28.jsonl
+2026-10-29 00:48:29,828 [INFO] [19:18:29 | #0054] BTC: $81043.15 | Dir: FLAT | Edge: +7.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:48:33,047 [INFO] Scored 1 new event(s): polarity=1.000 magnitude=0.400 confidence=0.500 mention_velocity=1
+2026-10-29 00:48:40,195 [INFO] [19:18:40 | #0055] BTC: $81051.25 | Dir: FLAT | Edge: +9.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:48:49,845 [INFO] [19:18:49 | #0056] BTC: $81064.95 | Dir: FLAT | Edge: +10.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:48:59,843 [INFO] [19:18:59 | #0057] BTC: $81081.35 | Dir: LONG | Edge: +20.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:49:09,809 [INFO] [19:19:09 | #0058] BTC: $81059.75 | Dir: FLAT | Edge: +8.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:49:19,801 [INFO] [19:19:19 | #0059] BTC: $81069.15 | Dir: FLAT | Edge: +9.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:49:29,849 [INFO] [19:19:29 | #0060] BTC: $81083.35 | Dir: FLAT | Edge: +9.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:49:29,852 [INFO] =========================================================================================================
+2026-10-29 00:49:29,852 [INFO] >>> TOURNAMENT LEADERBOARD AUDIT (Elapsed: 10.0 min | Bars: 60)
+2026-10-29 00:49:29,853 [INFO] Rank | Competitor     | Trades | Wins | Win Rate | Net PnL    | PF    | Active Pos          
+2026-10-29 00:49:29,853 [INFO] ---------------------------------------------------------------------------------------------------------
+2026-10-29 00:49:29,853 [INFO] # 1   | Champion       |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 00:49:29,854 [INFO] # 2   | Challenger_1   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 00:49:29,854 [INFO] # 3   | Challenger_2   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 00:49:29,854 [INFO] # 4   | Challenger_3   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 00:49:29,854 [INFO] # 5   | Challenger_4   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 00:49:29,854 [INFO] # 6   | Challenger_5   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 00:49:29,854 [INFO] =========================================================================================================
+2026-10-29 00:49:39,837 [INFO] [19:19:39 | #0061] BTC: $81076.25 | Dir: FLAT | Edge: +9.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:49:49,820 [INFO] [19:19:49 | #0062] BTC: $81101.55 | Dir: FLAT | Edge: +10.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:49:59,842 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 00:49:59,861 [INFO] [19:19:59 | #0063] BTC: $81134.85 | Dir: LONG | Edge: +26.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:50:04,028 [INFO] rss_cointelegraph: appended 1 new event(s) to D:\PrivateProjects\BTC Futures\feature engineering scripts\inference\data\news_events\rss_cointelegraph_2026-10-28.jsonl
+2026-10-29 00:50:09,823 [INFO] [19:20:09 | #0064] BTC: $81124.85 | Dir: LONG | Edge: +24.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:50:17,206 [INFO] Scored 1 new event(s): polarity=0.000 magnitude=0.000 confidence=0.300 mention_velocity=2
+2026-10-29 00:50:19,854 [INFO] [19:20:19 | #0065] BTC: $81118.45 | Dir: LONG | Edge: +21.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:50:29,859 [INFO] [19:20:29 | #0066] BTC: $81103.05 | Dir: LONG | Edge: +17.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:50:39,830 [INFO] [19:20:39 | #0067] BTC: $81093.95 | Dir: FLAT | Edge: +8.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:50:49,815 [INFO] [19:20:49 | #0068] BTC: $81103.35 | Dir: FLAT | Edge: +9.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:50:56,739 [INFO] scored 1/1 pending articles
+2026-10-29 00:50:59,823 [INFO] [19:20:59 | #0069] BTC: $81122.45 | Dir: LONG | Edge: +17.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:51:09,794 [INFO] [19:21:09 | #0070] BTC: $81132.05 | Dir: LONG | Edge: +19.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:51:19,799 [INFO] [19:21:19 | #0071] BTC: $81159.85 | Dir: LONG | Edge: +26.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:51:29,808 [INFO] [19:21:29 | #0072] BTC: $81175.95 | Dir: LONG | Edge: +25.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:51:39,825 [INFO] [19:21:39 | #0073] BTC: $81175.95 | Dir: LONG | Edge: +25.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:51:50,000 [INFO] [19:21:50 | #0074] BTC: $81163.65 | Dir: LONG | Edge: +25.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:51:59,905 [INFO] [19:21:59 | #0075] BTC: $81179.95 | Dir: LONG | Edge: +26.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:52:09,793 [INFO] [19:22:09 | #0076] BTC: $81172.05 | Dir: LONG | Edge: +24.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:52:19,808 [INFO] [19:22:19 | #0077] BTC: $81198.35 | Dir: LONG | Edge: +25.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:52:29,793 [INFO] [19:22:29 | #0078] BTC: $81183.95 | Dir: LONG | Edge: +23.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:52:39,790 [INFO] [19:22:39 | #0079] BTC: $81163.85 | Dir: LONG | Edge: +19.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:52:49,811 [INFO] [19:22:49 | #0080] BTC: $81168.15 | Dir: LONG | Edge: +22.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:52:59,817 [INFO] [19:22:59 | #0081] BTC: $81143.35 | Dir: LONG | Edge: +17.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:53:09,791 [INFO] [19:23:09 | #0082] BTC: $81151.95 | Dir: LONG | Edge: +19.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:53:19,793 [INFO] [19:23:19 | #0083] BTC: $81139.65 | Dir: LONG | Edge: +17.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:53:29,816 [INFO] [19:23:29 | #0084] BTC: $81149.55 | Dir: LONG | Edge: +18.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:53:39,810 [INFO] [19:23:39 | #0085] BTC: $81149.95 | Dir: LONG | Edge: +19.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:53:49,813 [INFO] [19:23:49 | #0086] BTC: $81144.65 | Dir: LONG | Edge: +18.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:53:59,833 [INFO] [19:23:59 | #0087] BTC: $81122.95 | Dir: FLAT | Edge: +9.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:54:09,799 [INFO] [19:24:09 | #0088] BTC: $81129.25 | Dir: LONG | Edge: +18.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:54:19,791 [INFO] [19:24:19 | #0089] BTC: $81128.95 | Dir: LONG | Edge: +17.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 00:54:29,799 [INFO] [19:24:29 | #0090] BTC: $81106.55 | Dir: FLAT | Edge: +6.8 bps | Champ Pos: BUY @ 81149.9 (-5.3b) | Champ PnL: +0.00 bps
+2026-10-29 00:54:39,884 [INFO] [19:24:39 | #0091] BTC: $81115.25 | Dir: FLAT | Edge: +8.4 bps | Champ Pos: BUY @ 81149.9 (-5.3b) | Champ PnL: +0.00 bps
+2026-10-29 00:54:49,818 [INFO] [19:24:49 | #0092] BTC: $81111.65 | Dir: FLAT | Edge: +6.9 bps | Champ Pos: BUY @ 81149.9 (-5.3b) | Champ PnL: +0.00 bps
+2026-10-29 00:54:59,824 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 00:54:59,842 [INFO] [19:24:59 | #0093] BTC: $81129.95 | Dir: FLAT | Edge: +8.3 bps | Champ Pos: BUY @ 81149.9 (-5.3b) | Champ PnL: +0.00 bps
+2026-10-29 00:55:09,812 [INFO] [19:25:09 | #0094] BTC: $81127.35 | Dir: FLAT | Edge: +7.9 bps | Champ Pos: BUY @ 81149.9 (-5.3b) | Champ PnL: +0.00 bps
+2026-10-29 00:55:19,819 [INFO] [19:25:19 | #0095] BTC: $81080.05 | Dir: FLAT | Edge: +6.0 bps | Champ Pos: BUY @ 81149.9 (-5.3b) | Champ PnL: +0.00 bps
+2026-10-29 00:55:29,835 [INFO] [19:25:29 | #0096] BTC: $81106.85 | Dir: FLAT | Edge: +7.3 bps | Champ Pos: BUY @ 81149.9 (-5.3b) | Champ PnL: +0.00 bps
+2026-10-29 00:55:39,798 [INFO] [19:25:39 | #0097] BTC: $81088.55 | Dir: FLAT | Edge: +5.1 bps | Champ Pos: BUY @ 81149.9 (-5.3b) | Champ PnL: +0.00 bps
+2026-10-29 00:55:49,860 [INFO] [19:25:49 | #0098] BTC: $81118.55 | Dir: FLAT | Edge: +8.2 bps | Champ Pos: BUY @ 81149.9 (-5.3b) | Champ PnL: +0.00 bps
+2026-10-29 00:55:59,831 [INFO] [19:25:59 | #0099] BTC: $81117.45 | Dir: FLAT | Edge: +6.6 bps | Champ Pos: BUY @ 81149.9 (-5.3b) | Champ PnL: +0.00 bps
+2026-10-29 00:56:09,801 [INFO] [19:26:09 | #0100] BTC: $81137.15 | Dir: FLAT | Edge: +9.3 bps | Champ Pos: BUY @ 81149.9 (-5.3b) | Champ PnL: +0.00 bps
+2026-10-29 00:56:19,801 [INFO] [19:26:19 | #0101] BTC: $81135.75 | Dir: FLAT | Edge: +8.7 bps | Champ Pos: BUY @ 81149.9 (-5.3b) | Champ PnL: +0.00 bps
+2026-10-29 00:56:29,810 [INFO] [19:26:29 | #0102] BTC: $81118.55 | Dir: FLAT | Edge: +6.8 bps | Champ Pos: BUY @ 81149.9 (-3.9b) | Champ PnL: +0.00 bps
+2026-10-29 00:56:39,836 [INFO] [19:26:39 | #0103] BTC: $81127.55 | Dir: FLAT | Edge: +9.4 bps | Champ Pos: BUY @ 81149.9 (-3.9b) | Champ PnL: +0.00 bps
+2026-10-29 00:56:49,922 [INFO] [19:26:49 | #0104] BTC: $81111.95 | Dir: FLAT | Edge: +5.7 bps | Champ Pos: BUY @ 81149.9 (-3.9b) | Champ PnL: +0.00 bps
+2026-10-29 00:56:59,839 [INFO] [19:26:59 | #0105] BTC: $81105.15 | Dir: FLAT | Edge: +5.2 bps | Champ Pos: BUY @ 81149.9 (-3.9b) | Champ PnL: +0.00 bps
+2026-10-29 00:57:09,819 [INFO] [19:27:09 | #0106] BTC: $81120.25 | Dir: FLAT | Edge: +6.3 bps | Champ Pos: BUY @ 81149.9 (-3.9b) | Champ PnL: +0.00 bps
+2026-10-29 00:57:19,800 [INFO] [19:27:19 | #0107] BTC: $81129.95 | Dir: FLAT | Edge: +6.8 bps | Champ Pos: BUY @ 81149.9 (-3.9b) | Champ PnL: +0.00 bps
+2026-10-29 00:57:29,806 [INFO] [19:27:29 | #0108] BTC: $81129.95 | Dir: FLAT | Edge: +8.1 bps | Champ Pos: BUY @ 81149.9 (-2.5b) | Champ PnL: +0.00 bps
+2026-10-29 00:57:39,803 [INFO] [19:27:39 | #0109] BTC: $81122.65 | Dir: FLAT | Edge: +6.6 bps | Champ Pos: BUY @ 81149.9 (-2.5b) | Champ PnL: +0.00 bps
+2026-10-29 00:57:49,808 [INFO] [19:27:49 | #0110] BTC: $81107.65 | Dir: FLAT | Edge: +5.5 bps | Champ Pos: BUY @ 81149.9 (-2.5b) | Champ PnL: +0.00 bps
+2026-10-29 00:57:59,812 [INFO] [19:27:59 | #0111] BTC: $81118.45 | Dir: FLAT | Edge: +8.2 bps | Champ Pos: BUY @ 81149.9 (-2.5b) | Champ PnL: +0.00 bps
+2026-10-29 00:58:09,797 [INFO] [19:28:09 | #0112] BTC: $81103.55 | Dir: FLAT | Edge: +5.2 bps | Champ Pos: BUY @ 81149.9 (-2.5b) | Champ PnL: +0.00 bps
+2026-10-29 00:58:19,791 [INFO] [19:28:19 | #0113] BTC: $81103.55 | Dir: FLAT | Edge: +5.1 bps | Champ Pos: BUY @ 81149.9 (-2.5b) | Champ PnL: +0.00 bps
+2026-10-29 00:58:29,869 [INFO] [19:28:29 | #0114] BTC: $81118.45 | Dir: FLAT | Edge: +7.6 bps | Champ Pos: BUY @ 81149.9 (-3.9b) | Champ PnL: +0.00 bps
+2026-10-29 00:58:39,804 [INFO] [19:28:39 | #0115] BTC: $81118.15 | Dir: FLAT | Edge: +7.0 bps | Champ Pos: BUY @ 81149.9 (-3.9b) | Champ PnL: +0.00 bps
+2026-10-29 00:58:49,806 [INFO] [19:28:49 | #0116] BTC: $81137.45 | Dir: FLAT | Edge: +10.0 bps | Champ Pos: BUY @ 81149.9 (-3.9b) | Champ PnL: +0.00 bps
+2026-10-29 00:58:59,807 [INFO] [19:28:59 | #0117] BTC: $81141.55 | Dir: LONG | Edge: +19.6 bps | Champ Pos: BUY @ 81149.9 (-3.9b) | Champ PnL: +0.00 bps
+2026-10-29 00:59:09,793 [INFO] [19:29:09 | #0118] BTC: $81124.05 | Dir: FLAT | Edge: +8.0 bps | Champ Pos: BUY @ 81149.9 (-3.9b) | Champ PnL: +0.00 bps
+2026-10-29 00:59:19,803 [INFO] [19:29:19 | #0119] BTC: $81130.05 | Dir: FLAT | Edge: +9.5 bps | Champ Pos: BUY @ 81149.9 (-3.9b) | Champ PnL: +0.00 bps
+2026-10-29 00:59:29,801 [INFO] [19:29:29 | #0120] BTC: $81133.05 | Dir: FLAT | Edge: +10.5 bps | Champ Pos: BUY @ 81149.9 (-2.1b) | Champ PnL: +0.00 bps
+2026-10-29 00:59:29,802 [INFO] =========================================================================================================
+2026-10-29 00:59:29,802 [INFO] >>> TOURNAMENT LEADERBOARD AUDIT (Elapsed: 20.0 min | Bars: 120)
+2026-10-29 00:59:29,803 [INFO] Rank | Competitor     | Trades | Wins | Win Rate | Net PnL    | PF    | Active Pos          
+2026-10-29 00:59:29,803 [INFO] ---------------------------------------------------------------------------------------------------------
+2026-10-29 00:59:29,803 [INFO] # 1   | Champion       |      0 |    0 |     0.0% |     +0.00b |  1.00 | BUY @ 81149.9 (-2.1b)
+2026-10-29 00:59:29,803 [INFO] # 2   | Challenger_1   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 00:59:29,803 [INFO] # 3   | Challenger_2   |      0 |    0 |     0.0% |     +0.00b |  1.00 | BUY @ 81149.9 (-2.1b)
+2026-10-29 00:59:29,803 [INFO] # 4   | Challenger_3   |      0 |    0 |     0.0% |     +0.00b |  1.00 | BUY @ 81149.9 (-2.1b)
+2026-10-29 00:59:29,803 [INFO] # 5   | Challenger_4   |      0 |    0 |     0.0% |     +0.00b |  1.00 | BUY @ 81149.9 (-2.1b)
+2026-10-29 00:59:29,804 [INFO] # 6   | Challenger_5   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 00:59:29,804 [INFO] =========================================================================================================
+2026-10-29 00:59:39,798 [INFO] [19:29:39 | #0121] BTC: $81145.45 | Dir: LONG | Edge: +21.3 bps | Champ Pos: BUY @ 81149.9 (-2.1b) | Champ PnL: +0.00 bps
+2026-10-29 00:59:49,795 [INFO] [19:29:49 | #0122] BTC: $81149.95 | Dir: LONG | Edge: +21.5 bps | Champ Pos: BUY @ 81149.9 (-2.1b) | Champ PnL: +0.00 bps
+2026-10-29 00:59:59,807 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-29 00:59:59,823 [INFO] [19:29:59 | #0123] BTC: $81165.45 | Dir: LONG | Edge: +25.4 bps | Champ Pos: BUY @ 81149.9 (-2.1b) | Champ PnL: +0.00 bps
+2026-10-29 01:00:09,791 [INFO] [19:30:09 | #0124] BTC: $81184.65 | Dir: LONG | Edge: +25.8 bps | Champ Pos: BUY @ 81149.9 (-2.1b) | Champ PnL: +0.00 bps
+2026-10-29 01:00:19,818 [INFO] [19:30:19 | #0125] BTC: $81149.95 | Dir: LONG | Edge: +23.3 bps | Champ Pos: BUY @ 81149.9 (-2.1b) | Champ PnL: +0.00 bps
+2026-10-29 01:00:29,794 [INFO] [19:30:29 | #0126] BTC: $81160.25 | Dir: LONG | Edge: +25.4 bps | Champ Pos: BUY @ 81149.9 (+1.3b) | Champ PnL: +0.00 bps
+2026-10-29 01:00:39,799 [INFO] [19:30:39 | #0127] BTC: $81165.65 | Dir: LONG | Edge: +26.1 bps | Champ Pos: BUY @ 81149.9 (+1.3b) | Champ PnL: +0.00 bps
+2026-10-29 01:00:49,836 [INFO] [19:30:49 | #0128] BTC: $81168.95 | Dir: LONG | Edge: +26.0 bps | Champ Pos: BUY @ 81149.9 (+1.3b) | Champ PnL: +0.00 bps
+2026-10-29 01:00:59,809 [INFO] [19:30:59 | #0129] BTC: $81169.95 | Dir: LONG | Edge: +24.2 bps | Champ Pos: BUY @ 81149.9 (+1.3b) | Champ PnL: +0.00 bps
+2026-10-29 01:01:09,902 [INFO] [19:31:09 | #0130] BTC: $81153.55 | Dir: FLAT | Edge: +8.9 bps | Champ Pos: BUY @ 81149.9 (+1.3b) | Champ PnL: +0.00 bps
+2026-10-29 01:01:19,793 [INFO] [19:31:19 | #0131] BTC: $81159.95 | Dir: LONG | Edge: +20.9 bps | Champ Pos: BUY @ 81149.9 (+1.3b) | Champ PnL: +0.00 bps
+2026-10-29 01:01:29,798 [INFO] [19:31:29 | #0132] BTC: $81179.45 | Dir: LONG | Edge: +25.9 bps | Champ Pos: BUY @ 81149.9 (+3.6b) | Champ PnL: +0.00 bps
+2026-10-29 01:01:39,791 [INFO] [19:31:39 | #0133] BTC: $81187.45 | Dir: LONG | Edge: +26.2 bps | Champ Pos: BUY @ 81149.9 (+3.6b) | Champ PnL: +0.00 bps
+2026-10-29 01:01:49,799 [INFO] [19:31:49 | #0134] BTC: $81195.35 | Dir: LONG | Edge: +26.1 bps | Champ Pos: BUY @ 81149.9 (+3.6b) | Champ PnL: +0.00 bps
+2026-10-29 01:01:59,829 [INFO] [19:31:59 | #0135] BTC: $81209.95 | Dir: LONG | Edge: +25.4 bps | Champ Pos: BUY @ 81149.9 (+3.6b) | Champ PnL: +0.00 bps
+2026-10-29 01:02:09,794 [INFO] [19:32:09 | #0136] BTC: $81220.75 | Dir: LONG | Edge: +25.6 bps | Champ Pos: BUY @ 81149.9 (+3.6b) | Champ PnL: +0.00 bps
+2026-10-29 01:02:19,798 [INFO] [19:32:19 | #0137] BTC: $81187.55 | Dir: LONG | Edge: +23.6 bps | Champ Pos: BUY @ 81149.9 (+3.6b) | Champ PnL: +0.00 bps
+2026-10-29 01:02:29,805 [INFO] [19:32:29 | #0138] BTC: $81173.85 | Dir: LONG | Edge: +19.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:02:39,792 [INFO] [19:32:39 | #0139] BTC: $81195.95 | Dir: LONG | Edge: +24.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:02:49,810 [INFO] [19:32:49 | #0140] BTC: $81209.55 | Dir: LONG | Edge: +25.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:02:59,812 [INFO] [19:32:59 | #0141] BTC: $81216.65 | Dir: LONG | Edge: +25.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:03:09,791 [INFO] [19:33:09 | #0142] BTC: $81282.95 | Dir: LONG | Edge: +26.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:03:19,794 [INFO] [19:33:19 | #0143] BTC: $81279.55 | Dir: LONG | Edge: +25.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:03:29,788 [INFO] [19:33:29 | #0144] BTC: $81270.85 | Dir: LONG | Edge: +24.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:03:39,792 [INFO] [19:33:39 | #0145] BTC: $81272.35 | Dir: LONG | Edge: +25.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:03:49,826 [INFO] [19:33:49 | #0146] BTC: $81291.55 | Dir: LONG | Edge: +26.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:03:59,842 [INFO] [19:33:59 | #0147] BTC: $81278.15 | Dir: LONG | Edge: +25.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:04:09,797 [INFO] [19:34:09 | #0148] BTC: $81269.15 | Dir: LONG | Edge: +21.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:04:19,791 [INFO] [19:34:19 | #0149] BTC: $81273.15 | Dir: LONG | Edge: +23.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:04:29,801 [INFO] [19:34:29 | #0150] BTC: $81278.05 | Dir: LONG | Edge: +24.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:04:39,814 [INFO] [19:34:39 | #0151] BTC: $81266.85 | Dir: LONG | Edge: +21.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:04:49,792 [INFO] [19:34:49 | #0152] BTC: $81286.15 | Dir: LONG | Edge: +24.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:04:59,837 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 01:04:59,862 [INFO] [19:34:59 | #0153] BTC: $81290.05 | Dir: LONG | Edge: +24.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:05:09,793 [INFO] [19:35:09 | #0154] BTC: $81269.85 | Dir: LONG | Edge: +21.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:05:19,841 [INFO] [19:35:19 | #0155] BTC: $81270.05 | Dir: LONG | Edge: +21.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:05:29,800 [INFO] [19:35:29 | #0156] BTC: $81275.85 | Dir: LONG | Edge: +21.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:05:39,793 [INFO] [19:35:39 | #0157] BTC: $81261.95 | Dir: LONG | Edge: +19.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:05:49,798 [INFO] [19:35:49 | #0158] BTC: $81265.55 | Dir: LONG | Edge: +19.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:05:59,897 [INFO] [19:35:59 | #0159] BTC: $81252.55 | Dir: LONG | Edge: +17.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:06:09,824 [INFO] [19:36:09 | #0160] BTC: $81269.75 | Dir: LONG | Edge: +22.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:06:19,795 [INFO] [19:36:19 | #0161] BTC: $81292.25 | Dir: LONG | Edge: +26.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:06:29,794 [INFO] [19:36:29 | #0162] BTC: $81271.25 | Dir: LONG | Edge: +19.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:06:39,806 [INFO] [19:36:39 | #0163] BTC: $81271.15 | Dir: LONG | Edge: +22.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:06:49,802 [INFO] [19:36:49 | #0164] BTC: $81283.65 | Dir: LONG | Edge: +25.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:06:59,819 [INFO] [19:36:59 | #0165] BTC: $81237.25 | Dir: FLAT | Edge: +9.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:07:09,796 [INFO] [19:37:09 | #0166] BTC: $81230.05 | Dir: FLAT | Edge: +7.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:07:19,790 [INFO] [19:37:19 | #0167] BTC: $81217.85 | Dir: FLAT | Edge: +7.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:07:29,797 [INFO] [19:37:29 | #0168] BTC: $81182.45 | Dir: FLAT | Edge: +5.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:07:39,793 [INFO] [19:37:39 | #0169] BTC: $81193.55 | Dir: FLAT | Edge: +5.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:07:49,800 [INFO] [19:37:49 | #0170] BTC: $81193.55 | Dir: FLAT | Edge: +5.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:07:59,826 [INFO] [19:37:59 | #0171] BTC: $81214.25 | Dir: FLAT | Edge: +6.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:08:09,798 [INFO] [19:38:09 | #0172] BTC: $81228.25 | Dir: FLAT | Edge: +7.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:08:19,798 [INFO] [19:38:19 | #0173] BTC: $81224.25 | Dir: FLAT | Edge: +7.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:08:29,791 [INFO] [19:38:29 | #0174] BTC: $81220.85 | Dir: FLAT | Edge: +8.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:08:39,794 [INFO] [19:38:39 | #0175] BTC: $81214.95 | Dir: FLAT | Edge: +6.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:08:49,798 [INFO] [19:38:49 | #0176] BTC: $81212.05 | Dir: FLAT | Edge: +6.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:08:59,822 [INFO] [19:38:59 | #0177] BTC: $81229.85 | Dir: FLAT | Edge: +8.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:09:09,795 [INFO] [19:39:09 | #0178] BTC: $81234.15 | Dir: FLAT | Edge: +7.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:09:19,791 [INFO] [19:39:19 | #0179] BTC: $81234.15 | Dir: FLAT | Edge: +7.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:09:29,803 [INFO] [19:39:29 | #0180] BTC: $81249.45 | Dir: FLAT | Edge: +8.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:09:29,804 [INFO] =========================================================================================================
+2026-10-29 01:09:29,804 [INFO] >>> TOURNAMENT LEADERBOARD AUDIT (Elapsed: 30.0 min | Bars: 180)
+2026-10-29 01:09:29,804 [INFO] Rank | Competitor     | Trades | Wins | Win Rate | Net PnL    | PF    | Active Pos          
+2026-10-29 01:09:29,804 [INFO] ---------------------------------------------------------------------------------------------------------
+2026-10-29 01:09:29,804 [INFO] # 1   | Champion       |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:09:29,805 [INFO] # 2   | Challenger_2   |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:09:29,805 [INFO] # 3   | Challenger_3   |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:09:29,805 [INFO] # 4   | Challenger_4   |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:09:29,805 [INFO] # 5   | Challenger_1   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 01:09:29,805 [INFO] # 6   | Challenger_5   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 01:09:29,805 [INFO] =========================================================================================================
+2026-10-29 01:09:39,797 [INFO] [19:39:39 | #0181] BTC: $81238.05 | Dir: FLAT | Edge: +8.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:09:49,809 [INFO] [19:39:49 | #0182] BTC: $81232.75 | Dir: FLAT | Edge: +8.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:09:59,859 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 01:09:59,934 [INFO] [19:39:59 | #0183] BTC: $81222.35 | Dir: FLAT | Edge: +5.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:10:09,892 [INFO] [19:40:09 | #0184] BTC: $81209.05 | Dir: FLAT | Edge: +5.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:10:19,792 [INFO] [19:40:19 | #0185] BTC: $81213.85 | Dir: FLAT | Edge: +5.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:10:29,831 [INFO] [19:40:29 | #0186] BTC: $81228.65 | Dir: FLAT | Edge: +6.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:10:39,799 [INFO] [19:40:39 | #0187] BTC: $81239.95 | Dir: FLAT | Edge: +7.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:10:49,825 [INFO] [19:40:49 | #0188] BTC: $81215.25 | Dir: FLAT | Edge: +5.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:10:59,835 [INFO] [19:40:59 | #0189] BTC: $81211.15 | Dir: FLAT | Edge: +6.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:11:09,810 [INFO] [19:41:09 | #0190] BTC: $81219.15 | Dir: FLAT | Edge: +7.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:11:19,802 [INFO] [19:41:19 | #0191] BTC: $81202.75 | Dir: FLAT | Edge: +5.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:11:29,792 [INFO] [19:41:29 | #0192] BTC: $81199.65 | Dir: FLAT | Edge: +5.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:11:39,800 [INFO] [19:41:39 | #0193] BTC: $81203.05 | Dir: FLAT | Edge: +5.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:11:49,859 [INFO] [19:41:49 | #0194] BTC: $81221.05 | Dir: FLAT | Edge: +7.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:11:59,812 [INFO] [19:41:59 | #0195] BTC: $81234.05 | Dir: FLAT | Edge: +9.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:12:09,799 [INFO] [19:42:09 | #0196] BTC: $81238.05 | Dir: FLAT | Edge: +9.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:12:19,842 [INFO] [19:42:19 | #0197] BTC: $81238.05 | Dir: FLAT | Edge: +10.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:12:29,800 [INFO] [19:42:29 | #0198] BTC: $81275.25 | Dir: LONG | Edge: +26.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:12:39,798 [INFO] [19:42:39 | #0199] BTC: $81282.35 | Dir: LONG | Edge: +25.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:12:49,802 [INFO] [19:42:49 | #0200] BTC: $81293.25 | Dir: LONG | Edge: +25.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:12:59,853 [INFO] [19:42:59 | #0201] BTC: $81299.95 | Dir: LONG | Edge: +25.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:13:09,794 [INFO] [19:43:09 | #0202] BTC: $81287.95 | Dir: LONG | Edge: +24.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:13:19,810 [INFO] [19:43:19 | #0203] BTC: $81281.45 | Dir: LONG | Edge: +24.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:13:29,795 [INFO] [19:43:29 | #0204] BTC: $81274.75 | Dir: LONG | Edge: +21.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:13:39,796 [INFO] [19:43:39 | #0205] BTC: $81287.75 | Dir: LONG | Edge: +25.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:13:49,797 [INFO] [19:43:49 | #0206] BTC: $81294.95 | Dir: LONG | Edge: +24.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:13:59,819 [INFO] [19:43:59 | #0207] BTC: $81294.95 | Dir: LONG | Edge: +23.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:14:09,839 [INFO] [19:44:09 | #0208] BTC: $81291.95 | Dir: LONG | Edge: +23.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:14:19,796 [INFO] [19:44:19 | #0209] BTC: $81299.95 | Dir: LONG | Edge: +25.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:14:29,812 [INFO] [19:44:29 | #0210] BTC: $81301.25 | Dir: LONG | Edge: +25.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:14:39,801 [INFO] [19:44:39 | #0211] BTC: $81295.15 | Dir: LONG | Edge: +23.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:14:49,790 [INFO] [19:44:49 | #0212] BTC: $81302.45 | Dir: LONG | Edge: +24.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:14:59,802 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-29 01:14:59,818 [INFO] [19:44:59 | #0213] BTC: $81291.95 | Dir: LONG | Edge: +20.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:15:09,798 [INFO] [19:45:09 | #0214] BTC: $81287.85 | Dir: LONG | Edge: +20.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:15:19,797 [INFO] [19:45:19 | #0215] BTC: $81280.55 | Dir: LONG | Edge: +18.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:15:29,800 [INFO] [19:45:29 | #0216] BTC: $81308.95 | Dir: LONG | Edge: +24.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:15:39,802 [INFO] [19:45:39 | #0217] BTC: $81282.95 | Dir: LONG | Edge: +17.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:15:49,800 [INFO] [19:45:49 | #0218] BTC: $81310.15 | Dir: LONG | Edge: +24.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:15:59,815 [INFO] [19:45:59 | #0219] BTC: $81314.55 | Dir: LONG | Edge: +25.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:16:09,809 [INFO] [19:46:09 | #0220] BTC: $81305.65 | Dir: LONG | Edge: +23.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:16:19,803 [INFO] [19:46:19 | #0221] BTC: $81287.85 | Dir: LONG | Edge: +21.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:16:29,795 [INFO] [19:46:29 | #0222] BTC: $81295.95 | Dir: LONG | Edge: +19.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:16:39,791 [INFO] [19:46:39 | #0223] BTC: $81298.15 | Dir: LONG | Edge: +23.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:16:49,794 [INFO] [19:46:49 | #0224] BTC: $81315.15 | Dir: LONG | Edge: +24.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:16:59,817 [INFO] [19:46:59 | #0225] BTC: $81315.25 | Dir: LONG | Edge: +22.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:17:09,887 [INFO] [19:47:09 | #0226] BTC: $81339.55 | Dir: LONG | Edge: +26.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:17:19,789 [INFO] [19:47:19 | #0227] BTC: $81338.45 | Dir: LONG | Edge: +25.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:17:29,796 [INFO] [19:47:29 | #0228] BTC: $81338.45 | Dir: LONG | Edge: +25.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:17:39,811 [INFO] [19:47:39 | #0229] BTC: $81344.95 | Dir: LONG | Edge: +25.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:17:49,848 [INFO] [19:47:49 | #0230] BTC: $81348.15 | Dir: LONG | Edge: +25.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:17:59,817 [INFO] [19:47:59 | #0231] BTC: $81349.95 | Dir: LONG | Edge: +25.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:18:09,789 [INFO] [19:48:09 | #0232] BTC: $81345.05 | Dir: LONG | Edge: +23.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:18:19,793 [INFO] [19:48:19 | #0233] BTC: $81338.45 | Dir: LONG | Edge: +21.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:18:22,630 [INFO] scored 1/1 pending articles
+2026-10-29 01:18:23,173 [INFO] rss_decrypt: appended 1 new event(s) to D:\PrivateProjects\BTC Futures\feature engineering scripts\inference\data\news_events\rss_decrypt_2026-10-28.jsonl
+2026-10-29 01:18:29,798 [INFO] [19:48:29 | #0234] BTC: $81333.05 | Dir: LONG | Edge: +20.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:18:33,660 [INFO] Scored 1 new event(s): polarity=0.000 magnitude=0.000 confidence=0.300 mention_velocity=1
+2026-10-29 01:18:39,814 [INFO] [19:48:39 | #0235] BTC: $81354.05 | Dir: LONG | Edge: +25.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:18:49,809 [INFO] [19:48:49 | #0236] BTC: $81323.85 | Dir: LONG | Edge: +16.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:18:59,814 [INFO] [19:48:59 | #0237] BTC: $81339.65 | Dir: LONG | Edge: +21.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:19:09,795 [INFO] [19:49:09 | #0238] BTC: $81353.95 | Dir: LONG | Edge: +25.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:19:19,793 [INFO] [19:49:19 | #0239] BTC: $81412.75 | Dir: LONG | Edge: +25.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:19:29,800 [INFO] [19:49:29 | #0240] BTC: $81430.15 | Dir: LONG | Edge: +25.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:19:29,801 [INFO] =========================================================================================================
+2026-10-29 01:19:29,801 [INFO] >>> TOURNAMENT LEADERBOARD AUDIT (Elapsed: 40.0 min | Bars: 240)
+2026-10-29 01:19:29,801 [INFO] Rank | Competitor     | Trades | Wins | Win Rate | Net PnL    | PF    | Active Pos          
+2026-10-29 01:19:29,801 [INFO] ---------------------------------------------------------------------------------------------------------
+2026-10-29 01:19:29,802 [INFO] # 1   | Champion       |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:19:29,802 [INFO] # 2   | Challenger_2   |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:19:29,802 [INFO] # 3   | Challenger_3   |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:19:29,802 [INFO] # 4   | Challenger_4   |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:19:29,802 [INFO] # 5   | Challenger_1   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 01:19:29,802 [INFO] # 6   | Challenger_5   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 01:19:29,802 [INFO] =========================================================================================================
+2026-10-29 01:19:39,796 [INFO] [19:49:39 | #0241] BTC: $81422.55 | Dir: LONG | Edge: +24.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:19:49,799 [INFO] [19:49:49 | #0242] BTC: $81378.95 | Dir: LONG | Edge: +24.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:19:59,810 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 01:19:59,829 [INFO] [19:49:59 | #0243] BTC: $81364.75 | Dir: LONG | Edge: +23.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:20:09,800 [INFO] [19:50:09 | #0244] BTC: $81350.25 | Dir: LONG | Edge: +18.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:20:19,799 [INFO] [19:50:19 | #0245] BTC: $81362.65 | Dir: LONG | Edge: +18.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:20:29,795 [INFO] [19:50:29 | #0246] BTC: $81363.95 | Dir: LONG | Edge: +17.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:20:39,800 [INFO] [19:50:39 | #0247] BTC: $81365.95 | Dir: LONG | Edge: +17.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:20:49,806 [INFO] [19:50:49 | #0248] BTC: $81385.35 | Dir: LONG | Edge: +24.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:20:59,909 [INFO] [19:50:59 | #0249] BTC: $81422.45 | Dir: LONG | Edge: +26.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:21:10,024 [INFO] [19:51:10 | #0250] BTC: $81454.95 | Dir: LONG | Edge: +25.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:21:19,826 [INFO] [19:51:19 | #0251] BTC: $81417.75 | Dir: LONG | Edge: +23.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:21:29,792 [INFO] [19:51:29 | #0252] BTC: $81407.65 | Dir: LONG | Edge: +25.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:21:39,801 [INFO] [19:51:39 | #0253] BTC: $81427.85 | Dir: LONG | Edge: +25.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:21:49,793 [INFO] [19:51:49 | #0254] BTC: $81410.05 | Dir: LONG | Edge: +23.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:21:59,812 [INFO] [19:51:59 | #0255] BTC: $81410.05 | Dir: LONG | Edge: +19.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:22:09,806 [INFO] [19:52:09 | #0256] BTC: $81410.05 | Dir: LONG | Edge: +17.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:22:19,804 [INFO] [19:52:19 | #0257] BTC: $81427.85 | Dir: LONG | Edge: +24.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:22:29,953 [INFO] [19:52:29 | #0258] BTC: $81429.35 | Dir: LONG | Edge: +24.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:22:39,790 [INFO] [19:52:39 | #0259] BTC: $81425.65 | Dir: LONG | Edge: +20.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:22:49,802 [INFO] [19:52:49 | #0260] BTC: $81420.45 | Dir: LONG | Edge: +22.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:22:59,812 [INFO] [19:52:59 | #0261] BTC: $81406.05 | Dir: LONG | Edge: +19.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:23:09,791 [INFO] [19:53:09 | #0262] BTC: $81416.05 | Dir: LONG | Edge: +21.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:23:19,794 [INFO] [19:53:19 | #0263] BTC: $81420.45 | Dir: LONG | Edge: +20.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:23:29,852 [INFO] [19:53:29 | #0264] BTC: $81457.45 | Dir: LONG | Edge: +25.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:23:39,810 [INFO] [19:53:39 | #0265] BTC: $81459.55 | Dir: LONG | Edge: +24.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:23:49,793 [INFO] [19:53:49 | #0266] BTC: $81438.35 | Dir: LONG | Edge: +22.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:23:59,807 [INFO] [19:53:59 | #0267] BTC: $81444.05 | Dir: LONG | Edge: +25.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:24:09,808 [INFO] [19:54:09 | #0268] BTC: $81439.05 | Dir: LONG | Edge: +23.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:24:19,792 [INFO] [19:54:19 | #0269] BTC: $81428.85 | Dir: LONG | Edge: +19.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:24:29,855 [INFO] [19:54:29 | #0270] BTC: $81434.65 | Dir: LONG | Edge: +16.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:24:39,792 [INFO] [19:54:39 | #0271] BTC: $81443.95 | Dir: LONG | Edge: +19.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:24:49,806 [INFO] [19:54:49 | #0272] BTC: $81433.65 | Dir: LONG | Edge: +19.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:24:59,807 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 01:24:59,826 [INFO] [19:54:59 | #0273] BTC: $81433.65 | Dir: LONG | Edge: +18.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:25:09,827 [INFO] [19:55:09 | #0274] BTC: $81438.35 | Dir: LONG | Edge: +20.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:25:19,786 [INFO] [19:55:19 | #0275] BTC: $81443.55 | Dir: LONG | Edge: +23.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:25:29,816 [INFO] [19:55:29 | #0276] BTC: $81459.95 | Dir: LONG | Edge: +25.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:25:39,806 [INFO] [19:55:39 | #0277] BTC: $81456.55 | Dir: LONG | Edge: +22.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:25:49,801 [INFO] [19:55:49 | #0278] BTC: $81456.55 | Dir: LONG | Edge: +24.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:25:59,815 [INFO] [19:55:59 | #0279] BTC: $81457.25 | Dir: LONG | Edge: +24.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:26:09,807 [INFO] [19:56:09 | #0280] BTC: $81476.35 | Dir: LONG | Edge: +25.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:26:19,805 [INFO] [19:56:19 | #0281] BTC: $81483.45 | Dir: LONG | Edge: +25.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:26:29,793 [INFO] [19:56:29 | #0282] BTC: $81492.15 | Dir: LONG | Edge: +25.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:26:39,793 [INFO] [19:56:39 | #0283] BTC: $81492.05 | Dir: LONG | Edge: +24.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:26:49,831 [INFO] [19:56:49 | #0284] BTC: $81508.75 | Dir: LONG | Edge: +25.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:26:59,815 [INFO] [19:56:59 | #0285] BTC: $81492.15 | Dir: LONG | Edge: +23.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:27:09,823 [INFO] [19:57:09 | #0286] BTC: $81507.95 | Dir: LONG | Edge: +25.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:27:19,877 [INFO] [19:57:19 | #0287] BTC: $81509.95 | Dir: LONG | Edge: +24.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:27:29,840 [INFO] [19:57:29 | #0288] BTC: $81497.85 | Dir: LONG | Edge: +22.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:27:39,793 [INFO] [19:57:39 | #0289] BTC: $81510.55 | Dir: LONG | Edge: +25.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:27:49,795 [INFO] [19:57:49 | #0290] BTC: $81510.55 | Dir: LONG | Edge: +23.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:27:59,805 [INFO] [19:57:59 | #0291] BTC: $81510.55 | Dir: LONG | Edge: +24.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:28:09,792 [INFO] [19:58:09 | #0292] BTC: $81510.55 | Dir: LONG | Edge: +22.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:28:19,797 [INFO] [19:58:19 | #0293] BTC: $81503.95 | Dir: LONG | Edge: +20.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:28:29,792 [INFO] [19:58:29 | #0294] BTC: $81500.05 | Dir: LONG | Edge: +21.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:28:39,815 [INFO] [19:58:39 | #0295] BTC: $81500.75 | Dir: LONG | Edge: +19.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:28:49,788 [INFO] [19:58:49 | #0296] BTC: $81491.35 | Dir: LONG | Edge: +18.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:28:59,812 [INFO] [19:58:59 | #0297] BTC: $81491.35 | Dir: LONG | Edge: +18.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:29:09,792 [INFO] [19:59:09 | #0298] BTC: $81499.95 | Dir: LONG | Edge: +19.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:29:19,796 [INFO] [19:59:19 | #0299] BTC: $81509.95 | Dir: LONG | Edge: +23.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:29:29,795 [INFO] [19:59:29 | #0300] BTC: $81516.95 | Dir: LONG | Edge: +23.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:29:29,795 [INFO] =========================================================================================================
+2026-10-29 01:29:29,796 [INFO] >>> TOURNAMENT LEADERBOARD AUDIT (Elapsed: 50.0 min | Bars: 300)
+2026-10-29 01:29:29,796 [INFO] Rank | Competitor     | Trades | Wins | Win Rate | Net PnL    | PF    | Active Pos          
+2026-10-29 01:29:29,797 [INFO] ---------------------------------------------------------------------------------------------------------
+2026-10-29 01:29:29,797 [INFO] # 1   | Champion       |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:29:29,797 [INFO] # 2   | Challenger_2   |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:29:29,797 [INFO] # 3   | Challenger_3   |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:29:29,798 [INFO] # 4   | Challenger_4   |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:29:29,798 [INFO] # 5   | Challenger_1   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 01:29:29,798 [INFO] # 6   | Challenger_5   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 01:29:29,799 [INFO] =========================================================================================================
+2026-10-29 01:29:39,797 [INFO] [19:59:39 | #0301] BTC: $81539.05 | Dir: LONG | Edge: +25.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:29:49,811 [INFO] [19:59:49 | #0302] BTC: $81528.15 | Dir: LONG | Edge: +23.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:29:59,832 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-29 01:29:59,853 [INFO] [19:59:59 | #0303] BTC: $81544.65 | Dir: LONG | Edge: +25.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:30:09,803 [INFO] [20:00:09 | #0304] BTC: $81588.35 | Dir: LONG | Edge: +25.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:30:19,887 [INFO] [20:00:19 | #0305] BTC: $81645.95 | Dir: LONG | Edge: +25.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:30:29,932 [INFO] [20:00:29 | #0306] BTC: $81583.25 | Dir: LONG | Edge: +23.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:30:39,845 [INFO] [20:00:39 | #0307] BTC: $81645.75 | Dir: LONG | Edge: +26.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:30:49,809 [INFO] [20:00:49 | #0308] BTC: $81644.65 | Dir: LONG | Edge: +24.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:30:59,815 [INFO] [20:00:59 | #0309] BTC: $81656.45 | Dir: LONG | Edge: +25.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:31:09,799 [INFO] [20:01:09 | #0310] BTC: $81678.55 | Dir: LONG | Edge: +25.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:31:19,946 [INFO] [20:01:19 | #0311] BTC: $81714.35 | Dir: LONG | Edge: +26.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:31:29,820 [INFO] [20:01:29 | #0312] BTC: $81650.05 | Dir: LONG | Edge: +23.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:31:39,827 [INFO] [20:01:39 | #0313] BTC: $81696.85 | Dir: LONG | Edge: +25.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:31:49,823 [INFO] [20:01:49 | #0314] BTC: $81737.95 | Dir: LONG | Edge: +25.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:32:00,126 [INFO] [20:02:00 | #0315] BTC: $81702.05 | Dir: LONG | Edge: +23.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:32:10,053 [INFO] [20:02:10 | #0316] BTC: $81728.75 | Dir: LONG | Edge: +26.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:32:19,975 [INFO] [20:02:19 | #0317] BTC: $81726.85 | Dir: LONG | Edge: +24.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:32:30,001 [INFO] [20:02:30 | #0318] BTC: $81733.85 | Dir: LONG | Edge: +25.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:32:39,795 [INFO] [20:02:39 | #0319] BTC: $81692.35 | Dir: LONG | Edge: +20.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:32:49,841 [INFO] [20:02:49 | #0320] BTC: $81698.35 | Dir: LONG | Edge: +19.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:32:59,861 [INFO] [20:02:59 | #0321] BTC: $81687.15 | Dir: LONG | Edge: +19.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:33:09,805 [INFO] [20:03:09 | #0322] BTC: $81665.55 | Dir: LONG | Edge: +17.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:33:19,828 [INFO] [20:03:19 | #0323] BTC: $81698.05 | Dir: LONG | Edge: +20.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:33:29,817 [INFO] [20:03:29 | #0324] BTC: $81702.35 | Dir: LONG | Edge: +19.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:33:39,791 [INFO] [20:03:39 | #0325] BTC: $81672.35 | Dir: LONG | Edge: +18.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:33:49,133 [INFO] scored 1/1 pending articles
+2026-10-29 01:33:49,798 [INFO] [20:03:49 | #0326] BTC: $81661.15 | Dir: LONG | Edge: +17.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:33:59,811 [INFO] [20:03:59 | #0327] BTC: $81655.25 | Dir: LONG | Edge: +17.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:34:09,794 [INFO] [20:04:09 | #0328] BTC: $81616.65 | Dir: FLAT | Edge: +9.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:34:19,805 [INFO] [20:04:19 | #0329] BTC: $81635.85 | Dir: LONG | Edge: +17.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:34:29,826 [INFO] [20:04:29 | #0330] BTC: $81630.75 | Dir: FLAT | Edge: +9.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:34:39,792 [INFO] [20:04:39 | #0331] BTC: $81610.05 | Dir: FLAT | Edge: +9.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:34:49,803 [INFO] [20:04:49 | #0332] BTC: $81596.35 | Dir: FLAT | Edge: +8.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:34:59,804 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 01:34:59,826 [INFO] [20:04:59 | #0333] BTC: $81585.45 | Dir: FLAT | Edge: +7.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:35:09,807 [INFO] [20:05:09 | #0334] BTC: $81570.65 | Dir: FLAT | Edge: +5.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:35:19,819 [INFO] [20:05:19 | #0335] BTC: $81553.25 | Dir: FLAT | Edge: +7.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:35:29,850 [INFO] [20:05:29 | #0336] BTC: $81556.55 | Dir: FLAT | Edge: +5.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:35:39,823 [INFO] [20:05:39 | #0337] BTC: $81527.35 | Dir: FLAT | Edge: +7.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:35:49,850 [INFO] [20:05:49 | #0338] BTC: $81530.05 | Dir: FLAT | Edge: +7.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:35:59,813 [INFO] [20:05:59 | #0339] BTC: $81507.85 | Dir: FLAT | Edge: +6.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:36:09,793 [INFO] [20:06:09 | #0340] BTC: $81501.65 | Dir: FLAT | Edge: +6.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:36:19,817 [INFO] [20:06:19 | #0341] BTC: $81505.35 | Dir: FLAT | Edge: +6.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:36:29,800 [INFO] [20:06:29 | #0342] BTC: $81463.15 | Dir: FLAT | Edge: +7.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:36:39,791 [INFO] [20:06:39 | #0343] BTC: $81458.35 | Dir: FLAT | Edge: +6.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:36:49,798 [INFO] [20:06:49 | #0344] BTC: $81476.85 | Dir: FLAT | Edge: +6.2 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:36:59,815 [INFO] [20:06:59 | #0345] BTC: $81491.85 | Dir: FLAT | Edge: +5.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:37:09,818 [INFO] [20:07:09 | #0346] BTC: $81497.15 | Dir: FLAT | Edge: +5.8 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:37:19,840 [INFO] [20:07:19 | #0347] BTC: $81513.85 | Dir: FLAT | Edge: +6.0 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:37:29,835 [INFO] [20:07:29 | #0348] BTC: $81483.65 | Dir: FLAT | Edge: +5.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:37:39,793 [INFO] [20:07:39 | #0349] BTC: $81473.25 | Dir: FLAT | Edge: +5.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:37:49,845 [INFO] [20:07:49 | #0350] BTC: $81478.95 | Dir: FLAT | Edge: +5.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:37:59,826 [INFO] [20:07:59 | #0351] BTC: $81479.95 | Dir: FLAT | Edge: +6.3 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:38:09,791 [INFO] [20:08:09 | #0352] BTC: $81441.55 | Dir: FLAT | Edge: +7.1 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:38:19,796 [INFO] [20:08:19 | #0353] BTC: $81454.95 | Dir: FLAT | Edge: +6.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:38:29,822 [INFO] [20:08:29 | #0354] BTC: $81454.95 | Dir: FLAT | Edge: +6.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:38:39,794 [INFO] [20:08:39 | #0355] BTC: $81479.95 | Dir: FLAT | Edge: +5.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:38:49,795 [INFO] [20:08:49 | #0356] BTC: $81484.85 | Dir: FLAT | Edge: +5.6 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:38:59,812 [INFO] [20:08:59 | #0357] BTC: $81464.85 | Dir: FLAT | Edge: +6.9 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:39:09,794 [INFO] [20:09:09 | #0358] BTC: $81450.15 | Dir: FLAT | Edge: +5.4 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:39:19,802 [INFO] [20:09:19 | #0359] BTC: $81467.45 | Dir: FLAT | Edge: +5.7 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:39:29,797 [INFO] [20:09:29 | #0360] BTC: $81465.95 | Dir: FLAT | Edge: +5.5 bps | Champ Pos: NONE | Champ PnL: +2.00 bps
+2026-10-29 01:39:29,798 [INFO] =========================================================================================================
+2026-10-29 01:39:29,798 [INFO] >>> TOURNAMENT LEADERBOARD AUDIT (Elapsed: 60.0 min | Bars: 360)
+2026-10-29 01:39:29,798 [INFO] Rank | Competitor     | Trades | Wins | Win Rate | Net PnL    | PF    | Active Pos          
+2026-10-29 01:39:29,798 [INFO] ---------------------------------------------------------------------------------------------------------
+2026-10-29 01:39:29,799 [INFO] # 1   | Champion       |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:39:29,799 [INFO] # 2   | Challenger_2   |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:39:29,799 [INFO] # 3   | Challenger_3   |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:39:29,799 [INFO] # 4   | Challenger_4   |      1 |    1 |   100.0% |     +2.00b | 999.00 | NONE                
+2026-10-29 01:39:29,799 [INFO] # 5   | Challenger_1   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 01:39:29,799 [INFO] # 6   | Challenger_5   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 01:39:29,799 [INFO] =========================================================================================================
+2026-10-29 01:39:32,883 [INFO] Stopping WebSocket ingestor & REST companion poller...
+2026-10-29 01:39:35,903 [INFO] ================================================================================
+2026-10-29 01:39:35,903 [INFO] SESSION CONCLUDED SUCCESSFULLY
+2026-10-29 01:39:35,903 [INFO] Total Time: 60.1 min | Total Bars: 360 | Closed Trades: 0
+2026-10-29 01:39:35,904 [INFO] Win Rate: 0.0% | Total Net PnL: +0.00 bps
+2026-10-29 01:39:35,904 [INFO] Final Metrics Saved: D:\PrivateProjects\BTC Futures\scratch\live_session_final_metrics.json
+2026-10-29 01:39:35,904 [INFO] Ledger Saved: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_ledger.jsonl
+2026-10-29 01:39:35,904 [INFO] ================================================================================
+2026-10-29 01:39:35,906 [INFO] 👑 REIGNING CHAMPION DEFENDED / PRESERVED: Champion (Reigning Champion: Stepped Ratchet OFI Scalper (+106.38 bps Peak Cumulative Net, 100% Win Rate)) [No challenger satisfied absolute gate: net > 0.0 & WR >= 75.0%]
+2026-10-29 01:39:35,908 [INFO] =========================================================================================================
+2026-10-29 01:39:35,908 [INFO] TOURNAMENT CONCLUDED SUCCESSFULLY!
+2026-10-29 01:39:35,909 [INFO] CROWNED CHAMPION: Champion (Reigning Champion: Stepped Ratchet OFI Scalper (+106.38 bps Peak Cumulative Net, 100% Win Rate))
+2026-10-29 01:39:35,909 [INFO] Winning Performance: +2.00 bps Net PnL | 100.0% Win Rate | 1 Trades
+2026-10-29 01:39:35,909 [INFO] Final Tournament Results Saved: D:\PrivateProjects\BTC Futures\scratch\champion_challenger_final_results.json
+2026-10-29 01:39:35,909 [INFO] =========================================================================================================
+2026-10-29 01:39:35,910 [INFO] 👑 REIGNING CHAMPION DEFENDED / PRESERVED: Champion (Reigning Champion: Stepped Ratchet OFI Scalper (+106.38 bps Peak Cumulative Net, 100% Win Rate)) [No challenger satisfied absolute gate: net > 0.0 & WR >= 75.0%]
+2026-10-29 01:39:35,911 [INFO] =========================================================================================================
+2026-10-29 01:39:35,912 [INFO] TOURNAMENT CONCLUDED SUCCESSFULLY!
+2026-10-29 01:39:35,912 [INFO] CROWNED CHAMPION: Champion (Reigning Champion: Stepped Ratchet OFI Scalper (+106.38 bps Peak Cumulative Net, 100% Win Rate))
+2026-10-29 01:39:35,912 [INFO] Winning Performance: +2.00 bps Net PnL | 100.0% Win Rate | 1 Trades
+2026-10-29 01:39:35,912 [INFO] Final Tournament Results Saved: D:\PrivateProjects\BTC Futures\scratch\champion_challenger_final_results.json
+2026-10-29 01:39:35,912 [INFO] =========================================================================================================

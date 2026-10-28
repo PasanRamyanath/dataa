@@ -1,0 +1,177 @@
+{
+  "session_duration_minutes": 60.05,
+  "bars_evaluated": 360,
+  "tournament_winner": "Champion",
+  "winner_profile": "Reigning Champion: Stepped Ratchet OFI Scalper (+106.38 bps Peak Cumulative Net, 100% Win Rate)",
+  "winner_net_pnl_bps": 2.0,
+  "winner_win_rate_pct": 100.0,
+  "winner_trades": 1,
+  "final_leaderboard": [
+    {
+      "rank": 1,
+      "name": "Champion",
+      "strategy_profile": "Reigning Champion: Stepped Ratchet OFI Scalper (+106.38 bps Peak Cumulative Net, 100% Win Rate)",
+      "trades": 1,
+      "wins": 1,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 2.0,
+      "profit_factor": 999.0,
+      "avg_trade_bps": 2.0,
+      "avg_duration_sec": 520.0,
+      "active_pos": "NONE",
+      "fitness_score": 6.93
+    },
+    {
+      "rank": 2,
+      "name": "Challenger_2",
+      "strategy_profile": "Challenger 2: Micro-Displacement Impulsive Scalper",
+      "trades": 1,
+      "wins": 1,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 2.0,
+      "profit_factor": 999.0,
+      "avg_trade_bps": 2.0,
+      "avg_duration_sec": 520.0,
+      "active_pos": "NONE",
+      "fitness_score": 6.93
+    },
+    {
+      "rank": 3,
+      "name": "Challenger_3",
+      "strategy_profile": "Challenger 3: Adaptive Horizon Conformal Scalper",
+      "trades": 1,
+      "wins": 1,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 2.0,
+      "profit_factor": 999.0,
+      "avg_trade_bps": 2.0,
+      "avg_duration_sec": 520.0,
+      "active_pos": "NONE",
+      "fitness_score": 6.93
+    },
+    {
+      "rank": 4,
+      "name": "Challenger_4",
+      "strategy_profile": "Challenger 4: Dynamic Low-ATR Step-Down Ratchet",
+      "trades": 1,
+      "wins": 1,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 2.0,
+      "profit_factor": 999.0,
+      "avg_trade_bps": 2.0,
+      "avg_duration_sec": 520.0,
+      "active_pos": "NONE",
+      "fitness_score": 6.93
+    },
+    {
+      "rank": 5,
+      "name": "Challenger_1",
+      "strategy_profile": "Challenger 1: Pullback Liquidity Rebate Scalper",
+      "trades": 0,
+      "wins": 0,
+      "losses": 0,
+      "win_rate_pct": 0.0,
+      "net_pnl_bps": 0,
+      "profit_factor": 1.0,
+      "avg_trade_bps": 0.0,
+      "avg_duration_sec": 0.0,
+      "active_pos": "NONE",
+      "fitness_score": 0.0
+    },
+    {
+      "rank": 6,
+      "name": "Challenger_5",
+      "strategy_profile": "Challenger 5: Synthetic Kelly Volatility Scaler",
+      "trades": 0,
+      "wins": 0,
+      "losses": 0,
+      "win_rate_pct": 0.0,
+      "net_pnl_bps": 0,
+      "profit_factor": 1.0,
+      "avg_trade_bps": 0.0,
+      "avg_duration_sec": 0.0,
+      "active_pos": "NONE",
+      "fitness_score": 0.0
+    }
+  ],
+  "competitor_trade_ledgers": {
+    "Champion": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 81149.9,
+        "exit_price": 81198.58993999999,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793215420000,
+        "exit_ts_ms": 1793215940000,
+        "holding_duration_sec": 520.0,
+        "gross_return_bps": 6.0,
+        "total_fee_bps": 4.0,
+        "net_return_bps": 2.0,
+        "peak_mfe_bps": 8.7369,
+        "max_mae_bps": -8.6137,
+        "exit_reason": "OFI_STEPPED_RATCHET_TP"
+      }
+    ],
+    "Challenger_1": [],
+    "Challenger_2": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 81149.9,
+        "exit_price": 81198.58993999999,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793215420000,
+        "exit_ts_ms": 1793215940000,
+        "holding_duration_sec": 520.0,
+        "gross_return_bps": 6.0,
+        "total_fee_bps": 4.0,
+        "net_return_bps": 2.0,
+        "peak_mfe_bps": 8.7369,
+        "max_mae_bps": -8.6137,
+        "exit_reason": "OFI_STEPPED_RATCHET_TP"
+      }
+    ],
+    "Challenger_3": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 81149.9,
+        "exit_price": 81198.58993999999,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793215420000,
+        "exit_ts_ms": 1793215940000,
+        "holding_duration_sec": 520.0,
+        "gross_return_bps": 6.0,
+        "total_fee_bps": 4.0,
+        "net_return_bps": 2.0,
+        "peak_mfe_bps": 8.7369,
+        "max_mae_bps": -8.6137,
+        "exit_reason": "OFI_STEPPED_RATCHET_TP"
+      }
+    ],
+    "Challenger_4": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 81149.9,
+        "exit_price": 81198.58993999999,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793215420000,
+        "exit_ts_ms": 1793215940000,
+        "holding_duration_sec": 520.0,
+        "gross_return_bps": 6.0,
+        "total_fee_bps": 4.0,
+        "net_return_bps": 2.0,
+        "peak_mfe_bps": 8.7369,
+        "max_mae_bps": -8.6137,
+        "exit_reason": "DYNAMIC_LOW_ATR_RATCHET_TP"
+      }
+    ],
+    "Challenger_5": []
+  }
+}
