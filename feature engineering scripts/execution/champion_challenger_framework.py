@@ -372,76 +372,28 @@ class Challenger3_PullbackOFIReversionScalper(QuadHorizonOFIScalper):
 
 
 # ==============================================================================
-# 👑 REIGNING CHAMPION: Stepped Ratchet OFI Scalper (Cycle 42 Undefeated Winner)
+# 👑 REIGNING CHAMPION: Dual-Tier Stepped Ratchet Scalper (Cycle 48 Undefeated Winner)
 # ==============================================================================
 class SteppedRatchetOFIScalper(QuadHorizonOFIScalper):
     """
-    👑 REIGNING CHAMPION: Stepped Ratchet Quad-Horizon OFI Scalper (+108.38 bps Peak Cumulative Net)
-    Winner of Cycle 42 Tournament, Defended in Cycle 43 & Cycle 45.
-    Session Performance: 100.0% Win Rate, Profit Factor 999.00, Zero Drawdowns.
+    👑 REIGNING CHAMPION: Dual-Tier Stepped Ratchet Quad-Horizon OFI Scalper (+109.63 bps Peak Cumulative Net)
+    Winner of Cycle 48 Tournament: 100.0% Win Rate (1 Win / 0 Losses), +1.25 bps Net Realized Cash Profit, PF 999.00.
+    Outperformed former Champion by +363% on net profit via intermediate Tier 0.5 ratchet.
     1. Multi-tier directional concordance across Micro (10s), Tactical (1m), Meso (5m), Macro (15m).
     2. Conformal confidence filter: max(p_tactical) >= 0.45 and max(p_meso) >= 0.45.
     3. Order Flow Imbalance (OFI) Depth Guard:
        imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
        Vetoes BUY if imbalance < 1.05; Vetoes SELL if imbalance > 0.95.
     4. 100% Passive Maker Fills @ BBO (4.0 bps roundtrip maker fee model).
-    5. Dynamic Stepped Profit Ratchet:
-       - MFE >= 6.00 bps  -> locks +2.00 bps net floor (+6.00 bps gross)
-       - MFE >= 10.00 bps -> locks +4.50 bps net floor (+8.50 bps gross)
-       - MFE >= 15.00 bps -> locks +8.50 bps net floor (+12.50 bps gross)
+    5. Dual-Tier Stepped Profit Ratchet:
+       - MFE >= 4.50 bps  -> locks +1.25 bps net floor (+5.25 bps gross) [Tier 0.5 Breakthrough]
+       - MFE >= 6.00 bps  -> locks +2.00 bps net floor (+6.00 bps gross) [Tier 1.0]
+       - MFE >= 10.00 bps -> locks +4.50 bps net floor (+8.50 bps gross) [Tier 2.0]
+       - MFE >= 15.00 bps -> locks +8.50 bps net floor (+12.50 bps gross) [Tier 3.0]
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Reigning Champion: Stepped Ratchet OFI Scalper (+108.38 bps Peak Cumulative Net, 100% Win Rate)"
-
-    def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, *args, **kwargs):
-        if self.state in ("FILLED_SWING_HOLDING", "PASSIVE_MAKER_UNWIND") and self.active_position is not None:
-            pos = self.active_position
-            sign = 1.0 if pos.side == "BUY" else -1.0
-            mid = 0.5 * (bbo_bid + bbo_ask)
-            unrealized_bps = sign * ((mid - pos.entry_price) / pos.entry_price) * 1e4
-            if unrealized_bps > pos.peak_favorable_excursion_bps:
-                pos.peak_favorable_excursion_bps = unrealized_bps
-
-            mfe = pos.peak_favorable_excursion_bps
-            floor_gross = None
-            if mfe >= 15.0:
-                floor_gross = 12.5
-            elif mfe >= 10.0:
-                floor_gross = 8.5
-            elif mfe >= 6.0:
-                floor_gross = 6.0
-
-            if floor_gross is not None and unrealized_bps <= floor_gross:
-                exit_p = pos.entry_price * (1.0 + sign * floor_gross * 1e-4)
-                self._close_position(
-                    exit_price=exit_p,
-                    exit_ts_ms=ts_ms,
-                    exit_fee_bps=self.maker_fee_leg,
-                    reason="OFI_STEPPED_RATCHET_TP",
-                )
-                return self.state
-
-        return super().on_market_micro_tick(ts_ms=ts_ms, bbo_bid=bbo_bid, bbo_ask=bbo_ask, bbo_bid_qty=bbo_bid_qty, bbo_ask_qty=bbo_ask_qty, *args, **kwargs)
-
-
-# Backward compatibility aliases
-Challenger4_SteppedRatchetOFIScalper = SteppedRatchetOFIScalper
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 1: Dual-Tier Stepped Ratchet Scalper
-# ==============================================================================
-class Challenger1_DualTierSteppedRatchetScalper(SteppedRatchetOFIScalper):
-    """
-    Challenger 1: Dual-Tier Stepped Ratchet Scalper
-    Introduces an intermediate Tier 0.5 ratchet at MFE >= 4.50 bps locking a +1.25 bps net floor
-    (+5.25 bps gross). This captures fast micro-bursts that reverse before the standard 6.0 bps threshold,
-    while leaving higher tiers (10.0 bps, 15.0 bps) open for larger swing expansions.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 1: Dual-Tier Stepped Ratchet Scalper"
+        self.strategy_profile = "Reigning Champion: Dual-Tier Stepped Ratchet Scalper (+109.63 bps Peak Cumulative Net, 100% Win Rate)"
 
     def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, *args, **kwargs):
         if self.state in ("FILLED_SWING_HOLDING", "PASSIVE_MAKER_UNWIND") and self.active_position is not None:
@@ -470,6 +422,67 @@ class Challenger1_DualTierSteppedRatchetScalper(SteppedRatchetOFIScalper):
                     exit_ts_ms=ts_ms,
                     exit_fee_bps=self.maker_fee_leg,
                     reason="DUAL_TIER_RATCHET_TP",
+                )
+                return self.state
+
+        return super().on_market_micro_tick(ts_ms=ts_ms, bbo_bid=bbo_bid, bbo_ask=bbo_ask, bbo_bid_qty=bbo_bid_qty, bbo_ask_qty=bbo_ask_qty, *args, **kwargs)
+
+
+# Backward compatibility aliases
+DualTierSteppedRatchetScalper = SteppedRatchetOFIScalper
+Challenger1_DualTierSteppedRatchetScalper = SteppedRatchetOFIScalper
+Challenger4_SteppedRatchetOFIScalper = SteppedRatchetOFIScalper
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 1: Dynamic Volatility Ratchet Scalper
+# ==============================================================================
+class Challenger1_DynamicVolatilityRatchetScalper(SteppedRatchetOFIScalper):
+    """
+    Challenger 1: Dynamic Volatility Ratchet Scalper
+    Dynamically scales the Tier 0.5 ratchet trigger based on rolling 15m ATR:
+    In low ATR (< 70 USDT), compresses Tier 0.5 trigger to 3.8 bps (locking +1.0 bps net)
+    to monetize micro-oscillations before exhaustion.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 1: Dynamic Volatility Ratchet Scalper"
+
+    def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, *args, **kwargs):
+        if self.state in ("FILLED_SWING_HOLDING", "PASSIVE_MAKER_UNWIND") and self.active_position is not None:
+            pos = self.active_position
+            sign = 1.0 if pos.side == "BUY" else -1.0
+            mid = 0.5 * (bbo_bid + bbo_ask)
+            unrealized_bps = sign * ((mid - pos.entry_price) / pos.entry_price) * 1e4
+            if unrealized_bps > pos.peak_favorable_excursion_bps:
+                pos.peak_favorable_excursion_bps = unrealized_bps
+
+            mfe = pos.peak_favorable_excursion_bps
+
+            range_15m = 80.0
+            if len(self.rolling_15m_prices) >= 10:
+                range_15m = max(20.0, max(self.rolling_15m_prices) - min(self.rolling_15m_prices))
+
+            tier05_trigger = 3.8 if range_15m < 70.0 else 4.5
+            tier05_lock = 5.0 if tier05_trigger == 3.8 else 5.25
+
+            floor_gross = None
+            if mfe >= 15.0:
+                floor_gross = 12.5
+            elif mfe >= 10.0:
+                floor_gross = 8.5
+            elif mfe >= 6.0:
+                floor_gross = 6.0
+            elif mfe >= tier05_trigger:
+                floor_gross = tier05_lock
+
+            if floor_gross is not None and unrealized_bps <= floor_gross:
+                exit_p = pos.entry_price * (1.0 + sign * floor_gross * 1e-4)
+                self._close_position(
+                    exit_price=exit_p,
+                    exit_ts_ms=ts_ms,
+                    exit_fee_bps=self.maker_fee_leg,
+                    reason="VOLATILITY_RATCHET_TP",
                 )
                 return self.state
 
@@ -545,17 +558,16 @@ class Challenger3_AdaptiveHorizonConformalScalper(SteppedRatchetOFIScalper):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 4: Dynamic Low-ATR Step-Down Ratchet
+# ⚔️ CHALLENGER 4: Multi-Stage Ratchet Scalper
 # ==============================================================================
-class Challenger4_DynamicLowATRStepDownRatchet(SteppedRatchetOFIScalper):
+class Challenger4_MultiStageRatchetScalper(SteppedRatchetOFIScalper):
     """
-    Challenger 4: Dynamic Low-ATR Step-Down Ratchet
-    In low ATR / compression regimes (15m range < 80 USDT), compresses Tier 1 ratchet
-    to 4.0 bps MFE (locking +1.0 bps net) to secure small oscillation profits.
+    Challenger 4: Multi-Stage Ratchet Scalper
+    Adds an aggressive trailing runner above 20.0 bps MFE to maximize large trending expansions.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 4: Dynamic Low-ATR Step-Down Ratchet"
+        self.strategy_profile = "Challenger 4: Multi-Stage Ratchet Scalper"
 
     def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, *args, **kwargs):
         if self.state in ("FILLED_SWING_HOLDING", "PASSIVE_MAKER_UNWIND") and self.active_position is not None:
@@ -567,21 +579,17 @@ class Challenger4_DynamicLowATRStepDownRatchet(SteppedRatchetOFIScalper):
                 pos.peak_favorable_excursion_bps = unrealized_bps
 
             mfe = pos.peak_favorable_excursion_bps
-
-            range_15m = 80.0
-            if len(self.rolling_15m_prices) >= 10:
-                range_15m = max(20.0, max(self.rolling_15m_prices) - min(self.rolling_15m_prices))
-
-            tier1_trigger = 4.0 if range_15m < 80.0 else 6.0
-            tier1_lock = 5.0 if tier1_trigger == 4.0 else 6.0
-
             floor_gross = None
-            if mfe >= 15.0:
+            if mfe >= 20.0:
+                floor_gross = mfe - 2.5
+            elif mfe >= 15.0:
                 floor_gross = 12.5
             elif mfe >= 10.0:
                 floor_gross = 8.5
-            elif mfe >= tier1_trigger:
-                floor_gross = tier1_lock
+            elif mfe >= 6.0:
+                floor_gross = 6.0
+            elif mfe >= 4.5:
+                floor_gross = 5.25
 
             if floor_gross is not None and unrealized_bps <= floor_gross:
                 exit_p = pos.entry_price * (1.0 + sign * floor_gross * 1e-4)
@@ -589,7 +597,7 @@ class Challenger4_DynamicLowATRStepDownRatchet(SteppedRatchetOFIScalper):
                     exit_price=exit_p,
                     exit_ts_ms=ts_ms,
                     exit_fee_bps=self.maker_fee_leg,
-                    reason="DYNAMIC_LOW_ATR_RATCHET_TP",
+                    reason="MULTI_STAGE_RATCHET_TP",
                 )
                 return self.state
 
@@ -637,12 +645,12 @@ class ChampionChallengerTournamentManager:
             "Champion": TournamentCompetitorRecord(
                 name="Champion",
                 engine=SteppedRatchetOFIScalper(symbol=symbol),
-                strategy_profile="Reigning Champion: Stepped Ratchet OFI Scalper (+108.38 bps Peak Cumulative Net, 100% Win Rate)",
+                strategy_profile="Reigning Champion: Dual-Tier Stepped Ratchet Scalper (+109.63 bps Peak Cumulative Net, 100% Win Rate)",
             ),
             "Challenger_1": TournamentCompetitorRecord(
                 name="Challenger_1",
-                engine=Challenger1_DualTierSteppedRatchetScalper(symbol=symbol),
-                strategy_profile="Challenger 1: Dual-Tier Stepped Ratchet Scalper",
+                engine=Challenger1_DynamicVolatilityRatchetScalper(symbol=symbol),
+                strategy_profile="Challenger 1: Dynamic Volatility Ratchet Scalper",
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
@@ -656,8 +664,8 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
-                engine=Challenger4_DynamicLowATRStepDownRatchet(symbol=symbol),
-                strategy_profile="Challenger 4: Dynamic Low-ATR Step-Down Ratchet",
+                engine=Challenger4_MultiStageRatchetScalper(symbol=symbol),
+                strategy_profile="Challenger 4: Multi-Stage Ratchet Scalper",
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",
