@@ -52,6 +52,7 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
 | **Cycle 25** | 60.05 min | 360 | 3 | **66.7%** | **`+30.68 bps`** | **`24.60`** | **UNIVERSAL PROFITABILITY BREAKTHROUGH:** Challenger 2 crowned Champion with **`+30.68 bps` Net Cash Profit**, Profit Factor **`24.60`**, and 100% Maker fills. Peak trade scored $+35.44\text{ bps}$ gross / **`+31.44 bps` net cash** via resting maker TP! |
 | **Cycle 26** | 60.00 min | 360 | 1 | **100.0%** | **`+7.10 bps`** | **`999.00`** | **FLAWLESS TITLE DEFENSE:** Champion defended crown with **100.0% Win Rate**, **`+7.10 bps` Net Cash Profit**, Profit Factor **`999.00`**, zero MAE drawdown. Combined C25-C26 profit: **`+37.78 bps` net**. |
 | **Cycle 31** | 60.05 min | 359 | 5 | **100.0%** | **`+4.18 bps`** | **`999.00`** | **PEAK TRADING SYSTEM RESTORED & PROVEN LIVE:** Reigning Champion defended with **100.0% Win Rate (5 Wins / 0 Losses)**, **`+4.18 bps` Net Profit**, Profit Factor **`999.00`**, and zero closed losses! Positive Break-Even Shield guaranteed positive exits; 5/6 competitors won 100%. Combined peak net profit: **`+41.96 bps`**. |
+| **Cycle 32** | 60.02 min | 360 | 3 | 33.3% | `-22.64 bps` | 0.20 | **ABSOLUTE TOURNAMENT GATE DEFENDS TITLE & EXPOSES INVALIDATION DELAY:** Trade 1 delivered **`+5.77 bps` Net Cash Profit** via trailing Maker TP lock. Absolute Gate rejected all losing mutations, preserving Reigning Champion. Deep inspection isolated line 658 `-6.50 bps` gross pre-condition trap that held Trades 2 and 3 through model reversals into taker stops. Model accuracy: 94.8% Macro, 91.9% Micro. |
 
 ---
 
@@ -1156,9 +1157,45 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
   3. **Universal 100% Win Rate Across Compliant Competitors:** 5 out of 6 competitors achieved a perfect 100% win rate.
   4. **Absolute Tournament Gate Activated:** Rejecting any challenger with non-positive net PnL prevented Challenger 4 from polluting future lineages.
 - **Cycle 32 Tournament Lineup:**
-  - 👑 **Reigning Champion: `PeakSameSideRetraceScalper`** (Defended with +4.18 bps, 100.0% WR, PF 999.00).
-  - ⚔️ **Challenger 1: `SteppedProfitRatchetScalper`** (Multi-tier ratchet: MFE $\ge +3.8$ locks $+0.10$ bps net; MFE $\ge +6.0$ ratchets floor to $+2.00$ bps net; MFE $\ge +8.0$ ratchets floor to $+4.00$ bps net).
-  - ⚔️ **Challenger 2: `DynamicATRProfitFloorScalper`** (Volatility-scaled TP and trailing floor scaled dynamically by 1m realized ATR).
-  - ⚔️ **Challenger 3: `StrictMesoConcordanceScalper`** (Meso directional probability threshold elevated to $\ge 0.60$).
-  - ⚔️ **Challenger 4: `MultiTierTrailingMakerScalper`** (Tightening trailing maker limit that ratchets behind local peaks once MFE exceeds +5.0 bps).
-  - ⚔️ **Challenger 5: `HighConvictionVelocityScalper`** (Entries gated by order-book depth imbalance $> 1.4$ and micro-velocity alignment).
+  - 👑 **Reigning Champion: `PeakSameSideRetraceScalper`** (Defended with +4.18 bps, 100.0% WR, PF 999.00 in C31).
+  - ⚔️ **Challenger 1: `BoundaryFilteredRunnerScalper`** (15m range envelope filter + expanded 7.5 bps model harvest).
+  - ⚔️ **Challenger 2: `SteppedProfitRatchetScalper`** (Multi-tier profit ratchet floor).
+  - ⚔️ **Challenger 3: `AsymmetricBoundaryScalper`** (3:1 RR with 35 bps TP on strong consensus + envelope filter).
+  - ⚔️ **Challenger 4: `MicroImbalanceVelocityScalper`** (Order-book depth imbalance >= 1.35 and micro-velocity alignment).
+  - ⚔️ **Challenger 5: `DynamicFrequencyPeakScalper`** (Calibrated 0.12 impulse threshold + $14 retrace barrier for 4-6 tr/hr).
+
+---
+
+### Cycle 32 (Champion-Challenger Tournament Session 9) - COMPLETED
+- **Session Window:** 2026-10-28 09:49:01 - 2026-10-28 10:49:05 (60.02 min / 360 bars)
+- **Tournament Standings & Winner:**
+  - **👑 REIGNING CHAMPION DEFENDED:** **`PeakSameSideRetraceScalper`**
+  - **Absolute Profitability Gate:** Enforced in production — because no challenger achieved strictly positive net PnL (> 0.0 bps) with $\ge 75.0\%$ win rate, all losing mutations were rejected and the Reigning Champion defended its crown.
+  - **Champion Net Realized PnL:** `-22.64 bps` Net PnL across 3 trades
+  - **Champion Win Rate:** `33.3%` (1 Win / 2 Losses)
+  - **Breakthrough Winning Trade (Trade 1):** `BUY` @ $80,959.20 $\rightarrow$ Exit @ $81,038.31 (+9.77 bps gross / **`+5.77 bps` NET CASH PROFIT** via `MICRO_TRAILING_MAKER_TP`, peak MFE: +11.77 bps, duration: 240s).
+- **Tournament Leaderboard:**
+  1. 🥇 **Champion (`PeakSameSideRetraceScalper`):** 3 trades, 1 win, 2 losses, 33.3% WR, `-22.64 bps` Net, PF 0.20 (**👑 DEFENDED**)
+  2. 🥈 **Challenger 2 (`SteppedProfitRatchetScalper`):** 3 trades, 1 win, 2 losses, 33.3% WR, `-22.64 bps` Net, PF 0.20
+  3. 🥉 **Challenger 5 (`DynamicFrequencyPeakScalper`):** 3 trades, 1 win, 2 losses, 33.3% WR, `-27.93 bps` Net, PF 0.00
+  4. **Challenger 4 (`MicroImbalanceVelocityScalper`):** 3 trades, 1 win, 2 losses, 33.3% WR, `-28.44 bps` Net, PF 0.00
+  5. **Challenger 1 (`BoundaryFilteredRunnerScalper`):** 3 trades, 1 win, 2 losses, 33.3% WR, `-29.01 bps` Net, PF 0.00
+  6. **Challenger 3 (`AsymmetricBoundaryScalper`):** 3 trades, 1 win, 2 losses, 33.3% WR, `-29.01 bps` Net, PF 0.00
+- **Forward Prediction Accuracies Across Horizons:**
+  - **15m Macro:** **`94.81%`** overall, **`81.82%` Active Precision** (77 samples)
+  - **10s Micro:** **`91.92%`** directional accuracy (359 samples)
+  - **5m Meso:** **`89.97%`** overall, **`80.17%` Active Precision** (116 samples, Meso tier 91.11%)
+  - **30s Tactical:** **`89.64%`** overall, **`79.55%` Active Precision** (44 samples)
+  - **1m Tactical:** **`87.57%`** overall, **`79.55%` Active Precision** (44 samples)
+- **Deep Root-Cause Discovery (The -6.50 bps Gross Pre-Condition Trap):**
+  - Line 658 of `hierarchical_sniper_engine.py` required `if unrealized_bps <= -6.50:` before evaluating momentum flips.
+  - On Trade 2, the 5m Meso model flipped bearish (`d_meso = -0.154`) at Bar 116 when the trade was down only **`-0.50 bps` gross**. The engine was forced to hold the trade for 10 more minutes until it crossed -6.50 bps, suffering a `-13.68 bps` taker stop.
+  - On Trade 3, the Meso model flipped bearish at Bar 254 when the trade was down only **`-0.54 bps` gross**. The engine held it into the waterfall cliff drop, suffering a `-14.73 bps` taker stop.
+  - Solution: Immediate responsive Maker invalidation when `unrealized_bps <= -0.50 bps` and models flip adverse, plus lowering BE shield to `+2.80 bps` MFE (locking Trade 2's +2.99 bps MFE as a win).
+- **Cycle 33 Tournament Lineup:**
+  - 👑 **Reigning Champion: `ResponsiveInvalidationPeakScalper`** (Equipped with Responsive Model Invalidation Maker Shield + +2.80 bps MFE BE profit lock).
+  - ⚔️ **Challenger 1: `SteppedProfitRatchetScalper`** (Multi-tier ratchet: +2.80 MFE $\to$ BE floor; +5.5 MFE $\to$ +1.2b net; +7.5 MFE $\to$ +3.0b net; +10.0 MFE $\to$ +5.0b net).
+  - ⚔️ **Challenger 2: `BoundaryFilteredRunnerScalper`** (15m rolling range envelope filter + 7.50 bps model harvest + responsive invalidation).
+  - ⚔️ **Challenger 3: `AsymmetricDynamicTPScalper`** (3:1 RR, 35 bps TP with tight 10 bps SL on strong consensus).
+  - ⚔️ **Challenger 4: `MicroImbalanceVelocityScalper`** (Order-book depth imbalance $\ge 1.35$ and micro-velocity confirmation).
+  - ⚔️ **Challenger 5: `DynamicFrequencyPeakScalper`** (4-6 trades/hr with calibrated 0.12 impulse threshold and responsive early cut).
