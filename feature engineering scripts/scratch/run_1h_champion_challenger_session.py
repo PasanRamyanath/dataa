@@ -160,9 +160,34 @@ class ChampionChallengerTradingSession(LiveHierarchicalTradingSession):
             tactical_probs=decision.tactical_probs,
             micro_probs=decision.micro_probs,
         )
-        self.evaluator.evaluate_forward_returns(now_ms, bbo_mid)
+        self.evaluator.update_evaluations(self.bars_evaluated, bbo_mid, h_price, l_price)
 
-        # 7. Update Leaderboard & Heartbeat every 6 bars (1 minute)
+        # 7. Write to Champion Ledger
+        champ_comp = self.tournament_mgr.competitors["Champion"]
+        champ_engine = champ_comp.engine
+        record = {
+            "bar_idx": self.bars_evaluated,
+            "ts_ms": now_ms,
+            "datetime": datetime.now(timezone.utc).isoformat(),
+            "bbo_mid": bbo_mid,
+            "bbo_bid": bbo_bid,
+            "bbo_ask": bbo_ask,
+            "macro_probs": [round(float(x), 4) for x in decision.macro_probs],
+            "meso_probs": [round(float(x), 4) for x in decision.meso_probs],
+            "tactical_probs": [round(float(x), 4) for x in decision.tactical_probs],
+            "micro_probs": [round(float(x), 4) for x in decision.micro_probs],
+            "primary_direction": decision.primary_direction,
+            "expected_net_edge_bps": round(decision.expected_net_edge_bps, 2),
+            "execution_mode": decision.execution_mode,
+            "fsm_state": str(getattr(champ_engine, "state", "IDLE")),
+            "active_position": champ_engine.active_position.__dict__ if champ_engine.active_position else None,
+            "closed_trades_count": len(champ_engine.closed_trades),
+            "cumulative_realized_pnl_bps": round(champ_comp.net_pnl_bps, 2),
+        }
+        with open(LEDGER_PATH, "a", encoding="utf-8") as f:
+            f.write(json.dumps(record) + "\n")
+
+        # 8. Update Leaderboard & Heartbeat every 6 bars (1 minute)
         if self.bars_evaluated - self.last_heartbeat_bar >= 6:
             self.last_heartbeat_bar = self.bars_evaluated
             self._write_tournament_telemetry(bbo_mid)
@@ -244,7 +269,7 @@ class ChampionChallengerTradingSession(LiveHierarchicalTradingSession):
         super().stop()
         # Save final tournament results
         final_leaderboard = self.tournament_mgr.update_metrics(self.evaluator.last_eval_price)
-        crown_winner = final_leaderboard[0]
+        crown_winner = self.tournament_mgr.determine_tournament_winner(reigning_champ_name="Champion")
         results = {
             "session_duration_minutes": round((time.time() - self.start_time) / 60.0, 2),
             "bars_evaluated": self.bars_evaluated,

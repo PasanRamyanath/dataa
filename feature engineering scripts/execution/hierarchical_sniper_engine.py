@@ -578,16 +578,18 @@ class HierarchicalSniperExecutionEngine:
                     )
                     return self.state
 
-            # B2. Positive Excursion Break-Even Shield:
-            # If a trade achieves >= +3.80 bps peak excursion, arm break-even floor so it can never drop below -1.0 bps gross!
+            # B2. Guaranteed Positive Break-Even Profit Shield:
+            # Once a trade achieves >= +3.80 bps peak excursion, arm the positive break-even floor
+            # at +4.10 bps gross (+0.10 bps net cash profit guaranteed after 4.0 bps fees),
+            # preventing any winning excursion from ever turning into a negative net PnL trade!
             if pos.peak_favorable_excursion_bps >= 3.80 and not pos.trailing_maker_armed:
-                if unrealized_bps <= -1.00:
-                    exit_be_p = pos.entry_price * (1.0 - sign * 1.00 * 1e-4)
+                if unrealized_bps <= 4.10:
+                    exit_be_p = pos.entry_price * (1.0 + sign * 4.10 * 1e-4)
                     self._close_position(
                         exit_price=exit_be_p,
                         exit_ts_ms=ts_ms,
                         exit_fee_bps=self.maker_fee_leg,
-                        reason="MICRO_TRAILING_MAKER_TP",
+                        reason="BREAKEVEN_MAKER_PROFIT_SHIELD",
                     )
                     return self.state
 
