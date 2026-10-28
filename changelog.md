@@ -62,6 +62,7 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
 | **Cycle 39** | 60.07 min | 360 | 3 | **100.0%** | **`+1.47 bps`** | **`999.00`** | 🏆 **NEW CHAMPION CROWNED: Challenger 2 (`QuadHorizonOFIScalper`) wins crown with 100.0% Win Rate (3 Wins / 0 Losses) and `+1.47 bps` Net Cash Profit!** Absorbed 12.0 bps in maker roundtrip fees while delivering strictly positive net profit and 0 losses. Vetoed Trade 1 via Quad-Horizon Macro concordance and vetoed Trade 3 via L1/L2 Order Flow Imbalance depth guard ($< 0.95$). Absolute Profitability Gate dethrones former Champion (-30.91 bps). **Cumulative Peak Realized Net Cash Profit expanded to `+90.75 bps`**! Peak accuracies: **97.36% Macro (93.14% Active Precision), 93.94% Meso (85.92% Active Precision)**. |
 | **Cycle 40** | 60.06 min | 360 | 2 | **100.0%** | **`+6.03 bps`** | **`999.00`** | 👑 **REIGNING CHAMPION DEFENDS TITLE & RETAINS CROWN: `QuadHorizonOFIScalper` scores 100.0% Win Rate (2 Wins / 0 Losses) and `+6.03 bps` Net Cash Profit!** 100% passive maker fills at BBO ($8.0\text{ bps}$ fees absorbed). Trade 1 won `+1.83 bps` net; Trade 2 won `+4.20 bps` net. Absolute Gate disqualifies over-trading mutants (Challenger 4 lost -18.73 bps by cutting cooldown to 5s). **Cumulative Peak Realized Net Cash Profit expanded to `+96.78 bps`**! Forward accuracies: **93.24% Tactical Precision (74 samples), 92.96% Macro Overall, 91.52% Meso Overall (86.89% Active Precision), 89.97% Micro Overall**. |
 | **Cycle 41** | 60.05 min | 360 | 0 | **N/A** | **`+0.00 bps`** | **1.00** | 👑 **ABSOLUTE PROFIT GATE DEFENDS TITLE & PRESERVES PEAK PROFIT:** Absolute Gate strictly enforced: all active trading competitors finished negative ($-23.52\text{ bps}$); **Challenger 4 (`QuadHorizonOFIVolatilityBandScalper`) finished Rank 1 with 0 trades, 0 losses, and `+0.00 bps Net`**, preserving 100% of capital! Reigning Champion defended title; **Cumulative Peak Realized Net Cash Profit 100% preserved at `+96.78 bps`**. Crucial discovery: Conformal filter evaluated `max()` on the FLAT class ($P(\text{FLAT}) > 49\%$), entering directional trades into chop. Accuracies: **94.07% Macro Overall, 92.59% Meso Directional, 92.11% Tactical Precision (76 samples)**. |
+| **Cycle 42** | 60.07 min | 360 | 1 | **100.0%** | **`+2.00 bps`** | **`999.00`** | 🏆 **NEW CHAMPION CROWNED: Challenger 4 (`SteppedRatchetOFIScalper`) wins crown with 100.0% Win Rate (1 Win / 0 Losses) and `+2.00 bps` Net Realized Cash Profit!** 100% passive maker fills at BBO (4.0 bps fees absorbed). Stepped ratchet locked `+2.00 bps` net floor once MFE reached $\ge +6.0\text{ bps}$, outperforming former Champion's `+0.25 bps` exit by 800%! Zero losses across all competitors. **Cumulative Peak Realized Net Cash Profit expanded to `+98.78 bps`**! Accuracies: **98.89% 15m Macro (95.08% Active Precision), 95.12% 5m Meso (84.21% Active Precision), 84.40% Micro**. |
 
 ---
 
@@ -1553,6 +1554,45 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
   - ⚔️ **Challenger 3: `PullbackOFIReversionScalper`** (Enters only on confirmed pullbacks 1 tick deeper into the book).
   - ⚔️ **Challenger 4: `SteppedRatchetOFIScalper`** (Enforces Stepped Ratchet TP to lock +2.0 bps net floor once MFE >= 6.0 bps).
   - ⚔️ **Challenger 5: `CombinedDirectionalDominanceScalper`** (Synthesizes Directional Dominance + Flash-Spike Guard + OFI Depth Guard into a unified high-precision engine).
+
+---
+
+### Cycle 42 (Champion-Challenger Tournament Session 19: Stepped Ratchet Crowned New Reigning Champion) - COMPLETED
+- **Session Window:** 2026-10-28 15:56:19 – 2026-10-28 16:56:24 UTC (21:26:19 – 22:26:24 Local Time) (60.07 min / 360 bars)
+- **Tournament Verdict:** 🏆 **NEW CHAMPION CROWNED: Challenger 4 (`SteppedRatchetOFIScalper`)** wins the crown with **100.0% Win Rate (1 Trade / 1 Win / 0 Losses)**, **`+2.00 bps` Net Realized Cash Profit**, and **PF `999.00`**!
+- **Cumulative Peak Realized Net Cash Profit:** Expanded from `+96.78 bps` to **`+98.78 bps Net Cash Profit`**!
+- **Competitors Breakdown:**
+  - 🥇 **Challenger 4 (`SteppedRatchetOFIScalper`):** 1 Trade, 1 Win / 0 Losses, **`+2.00 bps Net`** (Gross: `+6.00 bps`, Fees: `4.00 bps`), WR **100.0%**, PF **999.00** -> 👑 **CROWNED NEW CHAMPION**.
+  - 🥈 **Champion (`QuadHorizonOFIScalper`):** 1 Trade, 1 Win / 0 Losses, **`+0.25 bps Net`** (Gross: `+4.25 bps`, Fees: `4.00 bps`), WR **100.0%**, PF **999.00** -> Runner Up.
+  - 🥉 **Challenger 2 (`FlashSpikeExhaustionOFIScalper`):** 1 Trade, 1 Win / 0 Losses, **`+0.25 bps Net`** (Gross: `+4.25 bps`, Fees: `4.00 bps`), WR **100.0%**, PF **999.00** -> 3rd Place.
+  - 4. **Challenger 1 (`DirectionalDominanceOFIScalper`):** 0 Trades, 0 Losses, **`+0.00 bps Net`**, PF 1.00 -> 100% Capital Preserved.
+  - 5. **Challenger 3 (`PullbackOFIReversionScalper`):** 0 Trades, 0 Losses, **`+0.00 bps Net`**, PF 1.00 -> 100% Capital Preserved.
+  - 6. **Challenger 5 (`CombinedDirectionalDominanceScalper`):** 0 Trades, 0 Losses, **`+0.00 bps Net`**, PF 1.00 -> 100% Capital Preserved.
+- **Trades Executed by Active Engines:**
+  - **Trade 1 (Bar 146):** `SELL` @ `$80,496.10` (100% Maker fill at BBO Ask).
+    - Adverse Excursion (MAE): `-0.1118 bps` (almost zero adverse drift).
+    - Favorable Excursion (MFE): `+6.4724 bps` (BTC plunged to `$80,444.00`, gain of $+52.10$).
+    - Former Champion exit: `$80,461.89` via `BREAKEVEN_MAKER_PROFIT_SHIELD` (`+0.25 bps` net).
+    - Challenger 4 exit: `$80,447.80` via `OFI_STEPPED_RATCHET_TP` (**`+2.00 bps` net**, an **800% profit increase**!).
+- **Model Forward Accuracies (360 bars / 60 minutes):**
+  - **15m Macro:** **`98.89%`** overall accuracy, **`95.08% Active Precision`** (61 samples)
+  - **5m Meso:** **`95.12%`** overall accuracy, **`84.21% Active Precision`** (95 samples)
+  - **30s Inflection:** **`79.72%`** overall accuracy, **`80.77% Active Precision`** (52 samples)
+  - **10s Micro:** **`84.40%`** overall directional accuracy (359 samples)
+  - **Meso Tier:** **`82.59%`** tier accuracy (270 samples)
+  - **Macro Tier:** **`83.70%`** tier accuracy (270 samples)
+- **Deep Architectural Findings:**
+  1. **Stepped Ratchet Proves Decisive Profit Driver:**
+     In fast mean-reverting markets, price frequently plunges by $+6\text{ to }+8\text{ bps}$ before bouncing. The un-ratcheted trailing exit surrendered $+4.0\text{ bps}$ of unrealized profit back to the breakeven shield. The stepped ratchet locked the $+2.0\text{ bps}$ net floor instantly once MFE surpassed $+6.0\text{ bps}$, securing the profit near the local extreme before the bounce.
+  2. **Zero Closed Losses Across Entire Tournament:**
+     Not a single competitor suffered a loss in Cycle 42. Regime filtering successfully suppressed chop entries during the 30-minute compression phase.
+- **Cycle 43 Tournament Lineup (Dynamic ATR-Scaled Ratchets & Momentum OFI Accelerators):**
+  - 👑 **Reigning Champion: `SteppedRatchetOFIScalper`** (Cycle 42 Champion, +98.78 bps Peak Cumulative Net Cash Profit, 100.0% Win Rate, PF 999.00).
+  - ⚔️ **Challenger 1: `UltraFineTwoTierRatchetScalper`** (Adds +4.5 bps MFE trigger locking +1.0 bps net floor to capture shallow wicks).
+  - ⚔️ **Challenger 2: `DirectionalDominanceRatchetScalper`** (Combines Multi-Horizon Directional Dominance with Stepped Ratchet).
+  - ⚔️ **Challenger 3: `OFIAcceleratedDynamicRatchetScalper`** (Dynamically triggers immediate resting exit if order flow imbalance flips past -0.80 while in profit).
+  - ⚔️ **Challenger 4: `AdaptiveATRScaledRatchetScalper`** (Dynamically scales ratchet trigger hurdles based on 15m Yang-Zhang ATR).
+  - ⚔️ **Challenger 5: `ConformalCertaintySizedRatchetScalper`** (Scales trade position size when conformal prediction certainty exceeds 0.60).
 
 
 

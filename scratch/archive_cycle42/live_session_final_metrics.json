@@ -1,0 +1,70 @@
+{
+  "session_duration_minutes": 60.06,
+  "bars_evaluated": 360,
+  "total_trades": 0,
+  "winning_trades": 0,
+  "win_rate_pct": 0.0,
+  "total_net_pnl_bps": 0,
+  "avg_net_pnl_bps": 0.0,
+  "accuracy_summary": {
+    "10s": {
+      "evaluated_samples": 359,
+      "overall_accuracy_pct": 84.4,
+      "active_signals_count": 0,
+      "active_precision_pct": 0.0,
+      "sign_accuracy_pct": 0.0,
+      "sign_samples": 0
+    },
+    "30s": {
+      "evaluated_samples": 355,
+      "overall_accuracy_pct": 79.72,
+      "active_signals_count": 52,
+      "active_precision_pct": 80.77,
+      "sign_accuracy_pct": 80.77,
+      "sign_samples": 52
+    },
+    "1m": {
+      "evaluated_samples": 353,
+      "overall_accuracy_pct": 76.2,
+      "active_signals_count": 50,
+      "active_precision_pct": 70.0,
+      "sign_accuracy_pct": 70.0,
+      "sign_samples": 50
+    },
+    "5m": {
+      "evaluated_samples": 328,
+      "overall_accuracy_pct": 95.12,
+      "active_signals_count": 95,
+      "active_precision_pct": 84.21,
+      "sign_accuracy_pct": 84.21,
+      "sign_samples": 95
+    },
+    "15m": {
+      "evaluated_samples": 270,
+      "overall_accuracy_pct": 98.89,
+      "active_signals_count": 61,
+      "active_precision_pct": 95.08,
+      "sign_accuracy_pct": 95.08,
+      "sign_samples": 61
+    },
+    "tiers": {
+      "macro": {
+        "evaluated": 270,
+        "accuracy_pct": 83.7
+      },
+      "meso": {
+        "evaluated": 270,
+        "accuracy_pct": 82.59
+      },
+      "tactical": {
+        "evaluated": 353,
+        "accuracy_pct": 76.2
+      },
+      "micro": {
+        "evaluated": 359,
+        "accuracy_pct": 84.4
+      }
+    }
+  },
+  "closed_trades": []
+}
