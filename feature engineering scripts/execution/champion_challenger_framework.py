@@ -2,13 +2,13 @@
 feature engineering scripts/execution/champion_challenger_framework.py
 Production Champion-Challenger Tournament Framework for Project-IMPJR Peak Trading System.
 
-Cycle 29 Tournament Lineup:
-  - 👑 Reigning Champion: WideBreatheTrailingScalper (Crowned Cycle 28 Winner: captured +3.58 bps net on Trade 3, 2.2x over legacy champion)
-  - ⚔️ Challenger 1: StrictMesoConcordanceScalper (Requires d_meso >= +0.02 for BUY, eliminating hostile counter-trend cuts)
-  - ⚔️ Challenger 2: PostCutRetraceExpansionScalper (Expands re-entry barrier to $25 after any stop cut)
-  - ⚔️ Challenger 3: AsymmetricTrendExpansionScalper (TP = 2.0x SL + Strict Meso Concordance)
-  - ⚔️ Challenger 4: DualVelocityFlowScalper (Requires 10s micro velocity > 0.3 bps/s + tactical momentum)
-  - ⚔️ Challenger 5: DynamicHybridHighYieldScalper (Strict Meso + Wide-Breathe + 0.12 tactical impulse threshold for 4-6 tr/hr)
+Cycle 30 Tournament Lineup:
+  - 👑 Reigning Champion: WideBreatheTrailingScalper (Defended Cycle 29: produced +6.91 bps net cash gain on Trade 5)
+  - ⚔️ Challenger 1: Patient180sStallBreathingScalper (Extends stall unwind from 90s to 180s, allowing 5m trends time to develop)
+  - ⚔️ Challenger 2: ExtremeRangeBoundaryFilterScalper (Blocks SELL near session lows and BUY near session highs)
+  - ⚔️ Challenger 3: AsymmetricWaveExpanderScalper (180s stall + 2.0x SL TP expansion on multi-horizon consensus)
+  - ⚔️ Challenger 4: DualHorizonMomentumConfirmationScalper (Requires strict concordant tactical + meso alignment)
+  - ⚔️ Challenger 5: DynamicHybridHighYieldPeakScalper (Combines 180s stall, range-boundary filter, wide-breathe trailing, and 0.12 threshold)
 """
 from __future__ import annotations
 import copy
@@ -48,11 +48,11 @@ class TournamentCompetitorRecord:
 
 
 # ==============================================================================
-# 👑 REIGNING CHAMPION: WideBreatheTrailingScalper (Crowned Cycle 28 Winner)
+# 👑 REIGNING CHAMPION: WideBreatheTrailingScalper (Cycle 28 & 29 Champion)
 # ==============================================================================
 class WideBreatheTrailingScalper(HierarchicalSniperExecutionEngine):
     """
-    Reigning Champion (Crowned in Cycle 28):
+    Reigning Champion (Crowned in Cycle 28, Defended in Cycle 29):
     Combines:
     1. Wide-Breathe Trailing Shield: arms at >= 8.0 bps gross, locks min 5.5 bps gross (+1.5 bps net).
     2. Fast 90s Stalling Unwind: unwinds passive at BBO if MFE < 2.0 bps at 90s.
@@ -60,7 +60,7 @@ class WideBreatheTrailingScalper(HierarchicalSniperExecutionEngine):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Reigning Champion: Wide-Breathe Trailing Scalper (Cycle 28 Winner)"
+        self.strategy_profile = "Reigning Champion: Wide-Breathe Trailing Scalper"
         self.min_trailing_activation_bps = 8.00
         self.tier1_min_lock_bps = 5.50
         self.model_harvest_min_bps = 7.50
@@ -132,19 +132,116 @@ class WideBreatheTrailingScalper(HierarchicalSniperExecutionEngine):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 1: Strict Meso Concordance Scalper (Anti-Hostile Flow)
+# ⚔️ CHALLENGER 1: Patient 180s Stall Breathing Scalper
 # ==============================================================================
-class Challenger1_StrictMesoConcordanceScalper(WideBreatheTrailingScalper):
+class Challenger1_Patient180sStallBreathingScalper(WideBreatheTrailingScalper):
     """
-    Challenger 1: Wide-Breathe + Strict Meso Concordance Guard
-    Directly addresses the discovery from Cycle 28 Trade 4:
-    Never takes a BUY trade when 5m Meso order flow is negative (requires d_meso >= +0.02).
-    Never takes a SELL trade when 5m Meso order flow is positive (requires d_meso <= -0.02).
-    Completely eliminates hostile counter-trend trades.
+    Challenger 1: Patient 180s Stall Breathing Scalper
+    Directly addresses the 90s stall bottleneck:
+    Extends the stall unwind threshold from 90s to 180s (3 minutes) before initiating
+    passive unwind, giving developing 5m Meso trends time to clear initial liquidity walls.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 1: Strict Meso Concordance Scalper (Anti-Hostile Flow)"
+        self.strategy_profile = "Challenger 1: Patient 180s Stall Breathing Scalper"
+
+    def on_market_micro_tick(self, *args, **kwargs):
+        state = super().on_market_micro_tick(*args, **kwargs)
+        if self.active_position is not None:
+            now_ms = kwargs.get("ts_ms", 0)
+            elapsed_sec = (now_ms - self.active_position.entry_ts_ms) / 1000.0
+            # 180s patient stall timer (instead of 90s)
+            if elapsed_sec >= 180.0 and self.active_position.peak_favorable_excursion_bps < 2.0:
+                pos = self.active_position
+                bbo_bid = kwargs.get("bbo_bid", 0.0)
+                bbo_ask = kwargs.get("bbo_ask", 0.0)
+                exit_p = bbo_ask if pos.side == "BUY" else bbo_bid
+                self._close_position(
+                    exit_price=exit_p,
+                    exit_ts_ms=now_ms,
+                    exit_fee_bps=self.maker_fee_leg,
+                    reason="PATIENT_180S_DECAY_UNWIND",
+                )
+        return self.state
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 2: Extreme Range Boundary Filter Scalper
+# ==============================================================================
+class Challenger2_ExtremeRangeBoundaryFilterScalper(Challenger1_Patient180sStallBreathingScalper):
+    """
+    Challenger 2: Extreme Range Boundary Filter Scalper
+    Tracks the rolling 15-minute price range.
+    Blocks SELL orders when price is within $15.00 of the 15m session low (anti-bottom-selling).
+    Blocks BUY orders when price is within $15.00 of the 15m session high (anti-top-buying).
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 2: Extreme Range Boundary Filter Scalper"
+        self.rolling_15m_prices: deque[tuple[int, float]] = deque(maxlen=90)
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        now_ms = decision.ts_ms
+        mid = 0.5 * (bbo_bid + bbo_ask)
+        self.rolling_15m_prices.append((now_ms, mid))
+
+        if len(self.rolling_15m_prices) >= 18: # at least 3 minutes of history
+            session_high = max(p for _, p in self.rolling_15m_prices)
+            session_low = min(p for _, p in self.rolling_15m_prices)
+            d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+
+            # Range boundary filters
+            if d_tact <= -0.14 and (mid <= session_low + 15.0):
+                # Price is at the floor: do not sell into support
+                return self.state
+            elif d_tact >= 0.14 and (mid >= session_high - 15.0):
+                # Price is at the ceiling: do not buy into resistance
+                return self.state
+
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 3: Asymmetric Wave Expander Scalper (180s Stall + 2.0x SL TP)
+# ==============================================================================
+class Challenger3_AsymmetricWaveExpanderScalper(Challenger1_Patient180sStallBreathingScalper):
+    """
+    Challenger 3: Asymmetric Wave Expander Scalper
+    Combines 180s patient stall timer with Take-Profit expansion:
+    When Macro prob > 0.40 and Meso prob > 0.45, sets resting Maker TP to 2.0x SL (+29.0 bps).
+    Uses Wide-Breathe Trailing (>= 8.0 bps) to protect banked gains.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 3: Asymmetric Wave Expander Scalper (2.0x TP)"
+
+    def _place_sniper_maker_entry(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open=0.0):
+        super()._place_sniper_maker_entry(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+        if self.active_position is not None:
+            pos = self.active_position
+            p_macro = decision.macro_probs[2] if pos.side == "BUY" else decision.macro_probs[0]
+            p_meso = decision.meso_probs[2] if pos.side == "BUY" else decision.meso_probs[0]
+            if p_macro > 0.40 and p_meso > 0.45:
+                expanded_tp_bps = pos.stop_loss_bps * 2.0
+                sign = 1.0 if pos.side == "BUY" else -1.0
+                pos.take_profit_bps = expanded_tp_bps
+                pos.tp_price = pos.entry_price * (1.0 + sign * (expanded_tp_bps / 10000.0))
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 4: Dual-Horizon Momentum Confirmation Scalper
+# ==============================================================================
+class Challenger4_DualHorizonMomentumConfirmationScalper(Challenger1_Patient180sStallBreathingScalper):
+    """
+    Challenger 4: Dual-Horizon Momentum Confirmation Scalper
+    Requires concordant alignment between 1m Tactical AND 5m Meso before entering:
+    - BUY: d_tact >= 0.14 AND d_meso >= 0.05
+    - SELL: d_tact <= -0.14 AND d_meso <= -0.05
+    Eliminates all single-timeframe noise and ensures trades ride multi-tier order flow.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 4: Dual-Horizon Momentum Confirmation Scalper"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
         now_ms = decision.ts_ms
@@ -155,10 +252,10 @@ class Challenger1_StrictMesoConcordanceScalper(WideBreatheTrailingScalper):
 
         if self.state == "IDLE" and self.ticks_seen >= 10:
             tact_dir = 2 if d_tact >= 0.14 else (0 if d_tact <= -0.14 else 1)
-            # Strict Meso concordance: positive Meso required for BUY, negative for SELL
+            # Dual-horizon confirmation: tactical + meso must agree strongly
             tact_confirmed = (tact_dir in (0, 2)) and (
-                (tact_dir == 2 and d_micro > 0.02 and d_meso >= 0.02) or
-                (tact_dir == 0 and d_micro < -0.02 and d_meso <= -0.02)
+                (tact_dir == 2 and d_micro > 0.02 and d_meso >= 0.05) or
+                (tact_dir == 0 and d_micro < -0.02 and d_meso <= -0.05)
             )
             
             if tact_confirmed and not self._is_parabolic_surge(tact_dir, now_ms, mid):
@@ -186,136 +283,20 @@ class Challenger1_StrictMesoConcordanceScalper(WideBreatheTrailingScalper):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 2: Post-Cut Retrace Expansion Scalper ($25 barrier)
+# ⚔️ CHALLENGER 5: Dynamic Hybrid High-Yield Peak Scalper
 # ==============================================================================
-class Challenger2_PostCutRetraceExpansionScalper(WideBreatheTrailingScalper):
+class Challenger5_DynamicHybridHighYieldPeakScalper(Challenger2_ExtremeRangeBoundaryFilterScalper):
     """
-    Challenger 2: Post-Cut Retrace Expansion Scalper
-    Following an invalidation cut or loss trade, expands the required same-side
-    retrace barrier from $15.00 to $25.00 for 300 seconds.
-    Prevents catching falling knives during prolonged post-cut liquidation cascades.
+    Challenger 5: Dynamic Hybrid High-Yield Peak Scalper
+    Integrates all four peak discoveries:
+    1. Patient 180s stall timer
+    2. Extreme range-boundary support/resistance filter
+    3. Wide-Breathe Trailing (>= 8.0 bps activation, 5.5 bps min lock)
+    4. Calibrated 0.12 tactical impulse threshold for 4-6 trades/hr velocity
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 2: Post-Cut Retrace Expansion Scalper ($25 barrier)"
-
-    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        now_ms = decision.ts_ms
-        mid = 0.5 * (bbo_bid + bbo_ask)
-        d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
-        d_micro = decision.micro_probs[2] - decision.micro_probs[0]
-        d_meso = decision.meso_probs[2] - decision.meso_probs[0]
-
-        if self.state == "IDLE" and self.ticks_seen >= 10:
-            tact_dir = 2 if d_tact >= 0.14 else (0 if d_tact <= -0.14 else 1)
-            tact_confirmed = (tact_dir in (0, 2)) and (
-                (tact_dir == 2 and d_micro > 0.02 and d_meso >= 0.00) or
-                (tact_dir == 0 and d_micro < -0.02 and d_meso <= 0.00)
-            )
-            
-            if tact_confirmed and not self._is_parabolic_surge(tact_dir, now_ms, mid):
-                can_reenter = True
-                if self.last_exit_ts_ms > 0:
-                    elapsed = (now_ms - self.last_exit_ts_ms) / 1000.0
-                    barrier_usd = 25.0 if not self.last_exit_was_win else 15.0
-                    if not self.last_exit_was_win and elapsed < 90.0:
-                        can_reenter = False
-                    elif self.last_exit_was_win and elapsed < 20.0:
-                        can_reenter = False
-                    
-                    if can_reenter and elapsed < 300.0 and self.last_trade_exit_price > 0:
-                        if tact_dir == 2 and self.last_trade_side == "BUY" and (mid > self.last_trade_exit_price - barrier_usd):
-                            can_reenter = False
-                        elif tact_dir == 0 and self.last_trade_side == "SELL" and (mid < self.last_trade_exit_price + barrier_usd):
-                            can_reenter = False
-
-                if can_reenter:
-                    tact_dec = copy.copy(decision)
-                    object.__setattr__(tact_dec, "primary_direction", tact_dir) if hasattr(tact_dec, "__dataclass_fields__") and getattr(tact_dec, "__dataclass_params__", None) and getattr(tact_dec.__dataclass_params__, "frozen", False) else setattr(tact_dec, "primary_direction", tact_dir)
-                    self._place_sniper_maker_entry(tact_dec, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
-                    return self.state
-
-        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 3: Asymmetric Trend-Expansion Scalper (2.0x SL TP + Strict Meso)
-# ==============================================================================
-class Challenger3_AsymmetricTrendExpansionScalper(Challenger1_StrictMesoConcordanceScalper):
-    """
-    Challenger 3: Asymmetric Trend-Expansion Scalper
-    Combines Strict Meso Concordance with Take-Profit expansion:
-    When Macro prob > 0.40 and Meso prob > 0.45, sets resting Maker TP to 2.0x SL (+29.0 bps).
-    Uses Wide-Breathe Trailing (>= 8.0 bps) to protect banked gains.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 3: Asymmetric Trend-Expansion Scalper (2.0x TP + Strict Meso)"
-
-    def _place_sniper_maker_entry(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open=0.0):
-        super()._place_sniper_maker_entry(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
-        if self.active_position is not None:
-            pos = self.active_position
-            p_macro = decision.macro_probs[2] if pos.side == "BUY" else decision.macro_probs[0]
-            p_meso = decision.meso_probs[2] if pos.side == "BUY" else decision.meso_probs[0]
-            if p_macro > 0.40 and p_meso > 0.45:
-                expanded_tp_bps = pos.stop_loss_bps * 2.0
-                sign = 1.0 if pos.side == "BUY" else -1.0
-                pos.take_profit_bps = expanded_tp_bps
-                pos.tp_price = pos.entry_price * (1.0 + sign * (expanded_tp_bps / 10000.0))
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 4: Dual-Velocity Flow Scalper
-# ==============================================================================
-class Challenger4_DualVelocityFlowScalper(Challenger1_StrictMesoConcordanceScalper):
-    """
-    Challenger 4: Strict Meso + Dual-Velocity Flow Guard
-    Requires intra-second micro velocity to exceed 0.3 bps/s in the signal direction
-    at the time of tactical entry. Ensures orders are only placed when order books
-    are exhibiting active directional liquidity consumption.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 4: Dual-Velocity Flow Scalper"
-        self.prev_mid: float = 0.0
-        self.prev_tick_ms: int = 0
-        self.last_velocity_bps_s: float = 0.0
-
-    def on_market_micro_tick(self, *args, **kwargs):
-        mid = 0.5 * (kwargs.get("bbo_bid", 0.0) + kwargs.get("bbo_ask", 0.0))
-        now_ms = kwargs.get("ts_ms", 0)
-        if self.prev_mid > 0 and self.prev_tick_ms > 0 and now_ms > self.prev_tick_ms:
-            dt_s = (now_ms - self.prev_tick_ms) / 1000.0
-            if dt_s > 0.05:
-                self.last_velocity_bps_s = (((mid - self.prev_mid) / self.prev_mid) * 1e4) / dt_s
-        self.prev_mid = mid
-        self.prev_tick_ms = now_ms
-        return super().on_market_micro_tick(*args, **kwargs)
-
-    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
-        # Require micro velocity to not oppose tactical direction
-        if d_tact >= 0.14 and self.last_velocity_bps_s < -0.20:
-            return self.state
-        elif d_tact <= -0.14 and self.last_velocity_bps_s > 0.20:
-            return self.state
-        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 5: Dynamic Hybrid High-Yield Scalper (4-6 trades/hr)
-# ==============================================================================
-class Challenger5_DynamicHybridHighYieldScalper(Challenger1_StrictMesoConcordanceScalper):
-    """
-    Challenger 5: Dynamic Hybrid High-Yield Scalper
-    Combines Strict Meso Concordance with a calibrated 0.12 tactical impulse
-    threshold to target 4-6 trades/hour with expanded profit margins and zero
-    counter-trend exposure.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 5: Dynamic Hybrid High-Yield Scalper (4-6 tr/hr)"
+        self.strategy_profile = "Challenger 5: Dynamic Hybrid High-Yield Peak Scalper"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
         now_ms = decision.ts_ms
@@ -328,8 +309,8 @@ class Challenger5_DynamicHybridHighYieldScalper(Challenger1_StrictMesoConcordanc
             # Calibrated 0.12 threshold
             tact_dir = 2 if d_tact >= 0.12 else (0 if d_tact <= -0.12 else 1)
             tact_confirmed = (tact_dir in (0, 2)) and (
-                (tact_dir == 2 and d_micro > 0.015 and d_meso >= 0.02) or
-                (tact_dir == 0 and d_micro < -0.015 and d_meso <= -0.02)
+                (tact_dir == 2 and d_micro > 0.015 and d_meso >= 0.00) or
+                (tact_dir == 0 and d_micro < -0.015 and d_meso <= 0.00)
             )
             
             if tact_confirmed and not self._is_parabolic_surge(tact_dir, now_ms, mid):
@@ -371,32 +352,32 @@ class ChampionChallengerTournamentManager:
             "Champion": TournamentCompetitorRecord(
                 name="Champion",
                 engine=WideBreatheTrailingScalper(symbol=symbol),
-                strategy_profile="Reigning Champion: Wide-Breathe Trailing Scalper (Cycle 28 Winner)",
+                strategy_profile="Reigning Champion: Wide-Breathe Trailing Scalper",
             ),
             "Challenger_1": TournamentCompetitorRecord(
                 name="Challenger_1",
-                engine=Challenger1_StrictMesoConcordanceScalper(symbol=symbol),
-                strategy_profile="Strict Meso Concordance Scalper (Anti-Hostile Flow)",
+                engine=Challenger1_Patient180sStallBreathingScalper(symbol=symbol),
+                strategy_profile="Patient 180s Stall Breathing Scalper",
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
-                engine=Challenger2_PostCutRetraceExpansionScalper(symbol=symbol),
-                strategy_profile="Post-Cut Retrace Expansion Scalper ($25 barrier)",
+                engine=Challenger2_ExtremeRangeBoundaryFilterScalper(symbol=symbol),
+                strategy_profile="Extreme Range Boundary Filter Scalper",
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
-                engine=Challenger3_AsymmetricTrendExpansionScalper(symbol=symbol),
-                strategy_profile="Asymmetric Trend-Expansion Scalper (2.0x TP + Strict Meso)",
+                engine=Challenger3_AsymmetricWaveExpanderScalper(symbol=symbol),
+                strategy_profile="Asymmetric Wave Expander Scalper (2.0x TP)",
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
-                engine=Challenger4_DualVelocityFlowScalper(symbol=symbol),
-                strategy_profile="Dual-Velocity Flow Scalper",
+                engine=Challenger4_DualHorizonMomentumConfirmationScalper(symbol=symbol),
+                strategy_profile="Dual-Horizon Momentum Confirmation Scalper",
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",
-                engine=Challenger5_DynamicHybridHighYieldScalper(symbol=symbol),
-                strategy_profile="Dynamic Hybrid High-Yield Scalper (4-6 tr/hr)",
+                engine=Challenger5_DynamicHybridHighYieldPeakScalper(symbol=symbol),
+                strategy_profile="Dynamic Hybrid High-Yield Peak Scalper",
             ),
         }
 
