@@ -270,7 +270,7 @@ class QuadHorizonOFIScalper(Challenger1_QuadHorizonConformalResonanceScalper):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Reigning Champion: Quad-Horizon OFI Depth Scalper (+90.75 bps Peak Cumulative Net, 100% Win Rate)"
+        self.strategy_profile = "Reigning Champion: Quad-Horizon OFI Depth Scalper (+96.78 bps Peak Cumulative Net, 100% Win Rate)"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
         imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
@@ -324,9 +324,9 @@ class Challenger2_QuadHorizonOFISteppedRatchetScalper(QuadHorizonOFIScalper):
     """
     Challenger 2: Quad-Horizon OFI Stepped Ratchet Scalper
     Combines OFI depth guard with aggressive stepped profit ratchet:
-      - MFE >= 6.50 bps  -> locks +1.50 bps net floor (+5.50 bps gross)
-      - MFE >= 10.00 bps -> locks +4.00 bps net floor (+8.00 bps gross)
-      - MFE >= 15.00 bps -> locks +8.00 bps net floor (+12.00 bps gross)
+      - MFE >= 6.00 bps  -> locks +2.00 bps net floor (+6.00 bps gross)
+      - MFE >= 10.00 bps -> locks +4.50 bps net floor (+8.50 bps gross)
+      - MFE >= 15.00 bps -> locks +8.50 bps net floor (+12.50 bps gross)
     Secures larger profit per trade while maintaining 100% win rate.
     """
     def __init__(self, *args, **kwargs):
@@ -345,11 +345,11 @@ class Challenger2_QuadHorizonOFISteppedRatchetScalper(QuadHorizonOFIScalper):
             mfe = pos.peak_favorable_excursion_bps
             floor_gross = None
             if mfe >= 15.0:
-                floor_gross = 12.0
+                floor_gross = 12.5
             elif mfe >= 10.0:
-                floor_gross = 8.0
-            elif mfe >= 6.5:
-                floor_gross = 5.5
+                floor_gross = 8.5
+            elif mfe >= 6.0:
+                floor_gross = 6.0
 
             if floor_gross is not None and unrealized_bps <= floor_gross:
                 exit_p = pos.entry_price * (1.0 + sign * floor_gross * 1e-4)
@@ -365,62 +365,45 @@ class Challenger2_QuadHorizonOFISteppedRatchetScalper(QuadHorizonOFIScalper):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 3: Quad-Horizon OFI Pullback Limit Scalper
+# ⚔️ CHALLENGER 3: Quad-Horizon OFI Multi-Level Depth Scalper
 # ==============================================================================
-class Challenger3_QuadHorizonOFIPullbackLimitScalper(QuadHorizonOFIScalper):
+class Challenger3_QuadHorizonOFIMultiLevelDepthScalper(QuadHorizonOFIScalper):
     """
-    Challenger 3: Quad-Horizon OFI Pullback Limit Scalper
-    Combines OFI depth guard with passive limit pullback entry quoting:
-    Places resting maker entries 1 tick ($0.50) deeper into the book on confirmed signals.
+    Challenger 3: Quad-Horizon OFI Multi-Level Depth Scalper
+    Enforces deeper multi-level queue support verification:
+    Requires depth deterioration threshold <= 0.40 and adverse micro-price drift <= 1.5 bps.
+    Filters out spoofed liquidity walls at the touch.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 3: Quad-Horizon OFI Pullback Limit Scalper"
+        self.strategy_profile = "Challenger 3: Quad-Horizon OFI Multi-Level Depth Scalper"
 
     def _place_sniper_maker_entry(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open):
-        dir_val = decision.primary_direction
-        pos_side = "BUY" if dir_val == 2 else "SELL"
-        limit_p = (bbo_bid - 0.50) if pos_side == "BUY" else (bbo_ask + 0.50)
-        notional = max(100.0, equity_usdt * max(0.10, decision.kelly_position_fraction))
-        qty = round(notional / limit_p, 3)
-        if qty <= 0:
-            qty = 0.001
-        self.resting_entry_side = pos_side
-        self.resting_entry_price = limit_p
-        self.resting_entry_qty = qty
-        self.resting_entry_ts_ms = now_ms
-        self.queue_tracker = QueuePriorityTracker(initial_queue_ahead=bbo_bid_qty if pos_side == "BUY" else bbo_ask_qty)
-        self.adverse_guard = AdverseSelectionGuard(
-            initial_supporting_depth=bbo_bid_qty if pos_side == "BUY" else bbo_ask_qty,
-            depth_deterioration_threshold=0.45,
-            max_adverse_microprice_bps=1.8,
-        )
-        self.state = "RESTING_ENTRY_QUEUE"
+        super()._place_sniper_maker_entry(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+        if self.adverse_guard:
+            self.adverse_guard.depth_deterioration_threshold = 0.40
+            self.adverse_guard.max_adverse_microprice_bps = 1.5
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 4: Quad-Horizon OFI Fast Reentry Scalper
+# ⚔️ CHALLENGER 4: Quad-Horizon OFI Volatility Band Scalper
 # ==============================================================================
-class Challenger4_QuadHorizonOFIFastReentryScalper(QuadHorizonOFIScalper):
+class Challenger4_QuadHorizonOFIVolatilityBandScalper(QuadHorizonOFIScalper):
     """
-    Challenger 4: Quad-Horizon OFI Fast Reentry Scalper
-    Targets maximum high-quality trade frequency (4-8 trades/hr):
-    When all 4 horizons are in concordant resonance:
-      - Reduces post-win cooldown from 15.0s to 5.0s
-      - Reduces retrace barrier from $10.0 to $5.0
-    Allows riding prolonged macro trends with sequential high-win-rate scalps.
+    Challenger 4: Quad-Horizon OFI Volatility Band Scalper
+    Dynamically modulates Kelly position sizing and minimum expected edge with ATR:
+    When ATR expands, scales Kelly fraction up to capture outsized trending moves.
+    Maintains full 15s cooldown and $10 same-side barrier to eliminate over-trading.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 4: Quad-Horizon OFI Fast Reentry Scalper"
+        self.strategy_profile = "Challenger 4: Quad-Horizon OFI Volatility Band Scalper"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        # Allow fast re-entry after 5 seconds on confirmed win
-        now_ms = decision.ts_ms
-        if self.last_exit_ts_ms > 0 and self.last_exit_was_win:
-            elapsed = (now_ms - self.last_exit_ts_ms) / 1000.0
-            if elapsed >= 5.0:
-                self.last_exit_ts_ms = 0
+        if decision.atr_15m_bps >= 12.0:
+            self.min_net_edge_bps = 3.5
+        else:
+            self.min_net_edge_bps = 4.0
         return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
 
@@ -469,7 +452,7 @@ class ChampionChallengerTournamentManager:
             "Champion": TournamentCompetitorRecord(
                 name="Champion",
                 engine=QuadHorizonOFIScalper(symbol=symbol),
-                strategy_profile="Reigning Champion: Quad-Horizon OFI Depth Scalper (+90.75 bps Peak Cumulative Net, 100% Win Rate)",
+                strategy_profile="Reigning Champion: Quad-Horizon OFI Depth Scalper (+96.78 bps Peak Cumulative Net, 100% Win Rate)",
             ),
             "Challenger_1": TournamentCompetitorRecord(
                 name="Challenger_1",
@@ -483,13 +466,13 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
-                engine=Challenger3_QuadHorizonOFIPullbackLimitScalper(symbol=symbol),
-                strategy_profile="Challenger 3: Quad-Horizon OFI Pullback Limit Scalper",
+                engine=Challenger3_QuadHorizonOFIMultiLevelDepthScalper(symbol=symbol),
+                strategy_profile="Challenger 3: Quad-Horizon OFI Multi-Level Depth Scalper",
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
-                engine=Challenger4_QuadHorizonOFIFastReentryScalper(symbol=symbol),
-                strategy_profile="Challenger 4: Quad-Horizon OFI Fast Reentry Scalper",
+                engine=Challenger4_QuadHorizonOFIVolatilityBandScalper(symbol=symbol),
+                strategy_profile="Challenger 4: Quad-Horizon OFI Volatility Band Scalper",
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",

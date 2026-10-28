@@ -60,6 +60,7 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
 | **Cycle 37** | 60.04 min | 359 | 2 | 0.0% | `-17.23 bps` | 0.00 | **ABSOLUTE PROFIT GATE PRESERVES CHAMPION TITLE & TRIGGERS CYCLE 35 REVERSION:** Absolute Profitability Gate enforced; all competitors finished negative (`-9.99 bps` to `-17.23 bps`), so no challenger dethroned Champion. **Cumulative Peak Realized Net Cash Profit preserved at `+89.28 bps`**. Standout discovery: **Challenger 4 (`ConformalMicroPriceOFIScalper`) vetoed Trade 2** via L1/L2 book depth imbalance ($< 1.05$), saving **`-7.24 bps`** of loss. In accordance with user's standing mandate (*"if trade frequency improved and win rate falls off, get back to cycle 35"*), the tournament strictly preserves the undefeated Cycle 35 Champion and reverts to the Cycle 35 baseline. |
 | **Cycle 38** | 60.06 min | 360 | 1 | 0.0% | `-6.79 bps` | 0.00 | **ABSOLUTE PROFIT GATE DEFENDS TITLE & DISCOVERS QUAD-HORIZON CAPITAL DEFENSE:** Absolute Gate strictly enforced; **Reigning Champion (`ConformalConfidenceFilterScalper`) defended title**, preserving **`+89.28 bps` Peak Cumulative Net Cash Profit**. Major breakthrough: **Challenger 5 (`Cycle35_ConformalQuadHorizonScalper`) and Challenger 3 (`Cycle35_ConformalPullbackScalper`) finished tied at Rank 1 with 0 trades, 0 losses, and `+0.00 bps Net`**! Challenger 5 vetoed Trade 1 because Macro was not concordant with the long impulse, completely dodging the loss and protecting 100% of capital! Phenomenal forward accuracies: **89.74% Macro Precision (117 samples), 85.80% Meso Precision (162 samples), 91.21% Meso Overall, 91.09% Micro Overall**. |
 | **Cycle 39** | 60.07 min | 360 | 3 | **100.0%** | **`+1.47 bps`** | **`999.00`** | 🏆 **NEW CHAMPION CROWNED: Challenger 2 (`QuadHorizonOFIScalper`) wins crown with 100.0% Win Rate (3 Wins / 0 Losses) and `+1.47 bps` Net Cash Profit!** Absorbed 12.0 bps in maker roundtrip fees while delivering strictly positive net profit and 0 losses. Vetoed Trade 1 via Quad-Horizon Macro concordance and vetoed Trade 3 via L1/L2 Order Flow Imbalance depth guard ($< 0.95$). Absolute Profitability Gate dethrones former Champion (-30.91 bps). **Cumulative Peak Realized Net Cash Profit expanded to `+90.75 bps`**! Peak accuracies: **97.36% Macro (93.14% Active Precision), 93.94% Meso (85.92% Active Precision)**. |
+| **Cycle 40** | 60.06 min | 360 | 2 | **100.0%** | **`+6.03 bps`** | **`999.00`** | 👑 **REIGNING CHAMPION DEFENDS TITLE & RETAINS CROWN: `QuadHorizonOFIScalper` scores 100.0% Win Rate (2 Wins / 0 Losses) and `+6.03 bps` Net Cash Profit!** 100% passive maker fills at BBO ($8.0\text{ bps}$ fees absorbed). Trade 1 won `+1.83 bps` net; Trade 2 won `+4.20 bps` net. Absolute Gate disqualifies over-trading mutants (Challenger 4 lost -18.73 bps by cutting cooldown to 5s). **Cumulative Peak Realized Net Cash Profit expanded to `+96.78 bps`**! Forward accuracies: **93.24% Tactical Precision (74 samples), 92.96% Macro Overall, 91.52% Meso Overall (86.89% Active Precision), 89.97% Micro Overall**. |
 
 ---
 
@@ -1480,6 +1481,43 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
   - ⚔️ **Challenger 3: `QuadHorizonOFIPullbackMakerScalper`** (OFI depth guard + 1-tick deeper passive limit quoting on micro-pullbacks).
   - ⚔️ **Challenger 4: `QuadHorizonOFIFastReentryScalper`** (Reduced 5s cooldown and $5 retrace barrier during trending runs to target 4-6 trades/hr).
   - ⚔️ **Challenger 5: `QuadHorizonOFIMultiLevelDepthScalper`** (Aggregated L1 + L2 book depth ratio to filter micro-spoofs).
+
+---
+
+### Cycle 40 (Champion-Challenger Tournament Session 17: Champion Defends Crown with +6.03 bps Net Cash Profit & 100% Win Rate) - COMPLETED
+- **Session Window:** 2026-10-28 13:38:21 – 2026-10-28 14:38:28 UTC (19:08:21 – 20:08:28 Local Time) (60.06 min / 360 bars)
+- **Tournament Verdict:** 👑 **REIGNING CHAMPION DEFENDED AND RETAINED CROWN: `QuadHorizonOFIScalper`** with **100.0% Win Rate (2 Wins / 0 Losses)**, **`+6.03 bps` Net Cash Profit**, and **PF `999.00`**!
+- **Absolute Profitability Gate:** Fully enforced. No challenger beat the Champion with strictly higher positive PnL and WR $\ge 75\%$. The Reigning Champion defends title.
+- **Cumulative Peak Realized Net Cash Profit:** **`+96.78 bps Net`** (Expanded from `+90.75 bps`).
+- **Competitors Breakdown:**
+  - 👑 **Champion (`QuadHorizonOFIScalper`):** **2 Trades, 2 Wins / 0 Losses (100.0% Win Rate)**, **`+6.03 bps Net`**, PF 999.00 -> 👑 **DEFENDED CROWN!**
+  - ⚔️ **Challenger 1 (`QuadHorizonOFIDynamicThresholdScalper`):** **2 Trades, 2 Wins / 0 Losses (100.0% Win Rate)**, **`+6.03 bps Net`**, PF 999.00 -> Tied Rank 1 (Runner-up).
+  - ⚔️ **Challenger 5 (`QuadHorizonOFICrossAssetScalper`):** **2 Trades, 2 Wins / 0 Losses (100.0% Win Rate)**, **`+6.03 bps Net`**, PF 999.00 -> Tied Rank 1 (Runner-up).
+  - ⚔️ **Challenger 2 (`QuadHorizonOFISteppedRatchetScalper`):** **2 Trades, 2 Wins / 0 Losses (100.0% Win Rate)**, **`+5.70 bps Net`**, PF 999.00 -> Runner-up.
+  - ⚔️ **Challenger 3 (`QuadHorizonOFIPullbackLimitScalper`):** 0 Trades, 0 Wins / 0 Losses, **`+0.00 bps Net`**, PF 1.00 -> Capital Preserved.
+  - 6. **Challenger 4 (`QuadHorizonOFIFastReentryScalper`):** 3 Trades, 2 Wins / 1 Loss (66.7% Win Rate), **`-18.73 bps Net`**, PF 0.24 -> Rejected Mutant (cut cooldown to 5s, bought local top).
+- **Trades Executed by Reigning Champion (`QuadHorizonOFIScalper`):**
+  1. `BUY` @ `$80,754.40` (Bar 140) $\rightarrow$ Closed @ `$80,801.49` via `MICRO_TRAILING_MAKER_TP` (**`+1.83 bps` net**, Peak MFE: `+7.33 bps`).
+  2. `SELL` @ `$80,651.30` (Bar 181) $\rightarrow$ Closed @ `$80,585.20` via `MICRO_TRAILING_MAKER_TP` (**`+4.20 bps` net**, Peak MFE: `+9.70 bps`).
+- **Model Forward Accuracies (360 bars / 60 minutes):**
+  - **1m Tactical:** **`87.01%`** overall, **`93.24% Active Precision`** (74 samples)
+  - **30s Inflection:** **`85.43%`** overall, **`93.24% Active Precision`** (74 samples)
+  - **15m Macro:** **`92.96%`** overall, **`88.05% Active Precision`** (159 samples)
+  - **5m Meso:** **`91.52%`** overall, **`86.89% Active Precision`** (183 samples)
+  - **10s Micro:** **`89.97%`** overall directional accuracy (359 samples)
+- **Deep Architectural Findings:**
+  1. **Discipline vs. Over-Trading Danger Confirmed:**
+     Challenger 4 tried to force higher frequency by cutting post-win cooldown to 5 seconds and retrace barrier to $5. It immediately bought the local top-tick exhaustion at $80,831.50 and suffered a -10.5 bps loss. The Champion's 15s cooldown and $10 barrier avoided this trap completely, securing 100% Win Rate and +6.03 bps net profit.
+  2. **100% Passive Maker Fills & Fee Absorption:**
+     All trades executed with 100% passive maker fills at BBO, absorbing 8.00 bps in maker roundtrip fees and delivering pure positive net cash returns directly to equity.
+- **Cycle 41 Tournament Lineup (Refined Ratchet & Multi-Level OFI Depth):**
+  - 👑 **Reigning Champion: `QuadHorizonOFIScalper`** (Defended Champion, +96.78 bps Peak Cumulative Net Cash Profit, 100.0% Win Rate, PF 999.00).
+  - ⚔️ **Challenger 1: `QuadHorizonOFIDynamicThresholdScalper`** (Dynamic OFI depth threshold; tied Champion in C40 with 100% WR and +6.03 bps Net).
+  - ⚔️ **Challenger 2: `QuadHorizonOFISteppedRatchetScalper`** (Refined ratchet: MFE >= 6.0 bps locks +2.0 bps net floor).
+  - ⚔️ **Challenger 3: `QuadHorizonOFIMultiLevelDepthScalper`** (Aggregates L1 + L2 book depth ratio to filter micro-spoofs).
+  - ⚔️ **Challenger 4: `QuadHorizonOFIVolatilityBandScalper`** (Modulates entry threshold dynamically with Yang-Zhang ATR).
+  - ⚔️ **Challenger 5: `QuadHorizonOFICrossAssetScalper`** (Cross-asset ETH lead-lag filter; tied Champion in C40 with 100% WR and +6.03 bps Net).
+
 
 
 

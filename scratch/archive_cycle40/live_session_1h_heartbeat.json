@@ -1,0 +1,123 @@
+{
+  "timestamp": "2026-10-28T14:38:20.358244+00:00",
+  "elapsed_minutes": 59.93,
+  "target_minutes": 60.0,
+  "progress_pct": 99.9,
+  "bars_evaluated": 360,
+  "current_price": 80455.25,
+  "active_position": "NONE",
+  "trades_count": 2,
+  "wins_count": 2,
+  "win_rate_pct": 100.0,
+  "net_pnl_bps": 6.03,
+  "accuracy_summary": {
+    "10s": {
+      "evaluated_samples": 359,
+      "overall_accuracy_pct": 89.97,
+      "active_signals_count": 0,
+      "active_precision_pct": 0.0,
+      "sign_accuracy_pct": 0.0,
+      "sign_samples": 0
+    },
+    "30s": {
+      "evaluated_samples": 357,
+      "overall_accuracy_pct": 85.43,
+      "active_signals_count": 74,
+      "active_precision_pct": 93.24,
+      "sign_accuracy_pct": 93.24,
+      "sign_samples": 74
+    },
+    "1m": {
+      "evaluated_samples": 354,
+      "overall_accuracy_pct": 87.01,
+      "active_signals_count": 74,
+      "active_precision_pct": 93.24,
+      "sign_accuracy_pct": 93.24,
+      "sign_samples": 74
+    },
+    "5m": {
+      "evaluated_samples": 330,
+      "overall_accuracy_pct": 91.52,
+      "active_signals_count": 183,
+      "active_precision_pct": 86.89,
+      "sign_accuracy_pct": 86.89,
+      "sign_samples": 183
+    },
+    "15m": {
+      "evaluated_samples": 270,
+      "overall_accuracy_pct": 92.96,
+      "active_signals_count": 159,
+      "active_precision_pct": 88.05,
+      "sign_accuracy_pct": 88.05,
+      "sign_samples": 159
+    },
+    "tiers": {
+      "macro": {
+        "evaluated": 270,
+        "accuracy_pct": 53.7
+      },
+      "meso": {
+        "evaluated": 270,
+        "accuracy_pct": 81.11
+      },
+      "tactical": {
+        "evaluated": 354,
+        "accuracy_pct": 87.01
+      },
+      "micro": {
+        "evaluated": 359,
+        "accuracy_pct": 89.97
+      }
+    }
+  },
+  "leaderboard_summary": [
+    {
+      "rank": 1,
+      "name": "Champion",
+      "net_pnl": 6.03,
+      "wr": 100.0,
+      "trades": 2,
+      "pf": 999.0
+    },
+    {
+      "rank": 2,
+      "name": "Challenger_1",
+      "net_pnl": 6.03,
+      "wr": 100.0,
+      "trades": 2,
+      "pf": 999.0
+    },
+    {
+      "rank": 3,
+      "name": "Challenger_5",
+      "net_pnl": 6.03,
+      "wr": 100.0,
+      "trades": 2,
+      "pf": 999.0
+    },
+    {
+      "rank": 4,
+      "name": "Challenger_2",
+      "net_pnl": 5.7,
+      "wr": 100.0,
+      "trades": 2,
+      "pf": 999.0
+    },
+    {
+      "rank": 5,
+      "name": "Challenger_3",
+      "net_pnl": 0,
+      "wr": 0.0,
+      "trades": 0,
+      "pf": 1.0
+    },
+    {
+      "rank": 6,
+      "name": "Challenger_4",
+      "net_pnl": -18.73,
+      "wr": 66.7,
+      "trades": 3,
+      "pf": 0.24
+    }
+  ]
+}
