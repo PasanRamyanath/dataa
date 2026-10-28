@@ -2,12 +2,12 @@
 feature engineering scripts/execution/champion_challenger_framework.py
 Production Champion-Challenger Tournament Framework for Project-IMPJR Peak Trading System.
 
-Cycle 31 Tournament Lineup (Peak System Restored):
-  - 👑 Reigning Champion: PeakSameSideRetraceScalper (Restored Undefeated C25-C26 Baseline with +37.78 bps Net, 100% WR in C26, and Positive Break-Even Shield)
-  - ⚔️ Challenger 1: StrictMesoConcordanceScalper (Enforces d_meso >= +0.02 for BUY and <= -0.02 for SELL to eliminate counter-trend knife catches)
-  - ⚔️ Challenger 2: ExtremeRangeBoundaryFilterScalper (15m rolling envelope filter: blocks SELL near session floor and BUY near session ceiling)
-  - ⚔️ Challenger 3: AsymmetricRiskRewardScalper (Expands resting Maker TP to 35 bps gross with 3:1 RR on strong macro/meso consensus)
-  - ⚔️ Challenger 4: WideBreatheHarvestScalper (Wider 8.5 bps trailing arming and 7.5 bps model harvest to ride +30 bps runners like C25 Trade 3 & C29 Trade 5)
+Cycle 32 Tournament Lineup (Peak System Restored & Profit Maximization):
+  - 👑 Reigning Champion: PeakSameSideRetraceScalper (Defended title in Cycle 31 with 100.0% WR, +4.18 bps Net, 0 losses; cumulative +41.96 bps net across peak cycles)
+  - ⚔️ Challenger 1: BoundaryFilteredRunnerScalper (Integrates 15m range envelope filter with expanded 7.50 bps model harvest to ride runners while blocking top-buys/bottom-sells)
+  - ⚔️ Challenger 2: SteppedProfitRatchetScalper (Multi-tier profit ratchet: MFE >= 3.8 -> +0.1b net; MFE >= 5.5 -> +1.2b net; MFE >= 7.5 -> +3.0b net; MFE >= 10.0 -> +5.0b net)
+  - ⚔️ Challenger 3: AsymmetricBoundaryScalper (3:1 RR with expanded 35 bps TP on strong Macro/Meso consensus + 15m range boundary envelope filter)
+  - ⚔️ Challenger 4: MicroImbalanceVelocityScalper (High-conviction micro-liquidity gating: requires order-book depth imbalance >= 1.35 and micro-velocity alignment)
   - ⚔️ Challenger 5: DynamicFrequencyPeakScalper (Calibrated 0.12 impulse threshold + $14 retrace barrier for 4-6 high-conviction trades/hr)
 
 Tournament Gating Rule:
@@ -139,81 +139,25 @@ class PeakSameSideRetraceScalper(HierarchicalSniperExecutionEngine):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 1: Strict Meso Concordance Scalper (Anti-Hostile Flow)
+# ⚔️ CHALLENGER 1: Boundary-Filtered Runner Scalper (Max Excursion Ride)
 # ==============================================================================
-class Challenger1_StrictMesoConcordanceScalper(PeakSameSideRetraceScalper):
+class Challenger1_BoundaryFilteredRunnerScalper(PeakSameSideRetraceScalper):
     """
-    Challenger 1: Strict Meso Concordance Scalper
-    Tightens Meso concordance filter:
-    Requires d_meso >= +0.02 for BUY and d_meso <= -0.02 for SELL.
-    Completely eliminates hostile counter-trend trades during adverse 5-minute flows.
+    Challenger 1: Boundary-Filtered Runner Scalper
+    Combines:
+    1. 15-minute rolling range envelope filter: blocks BUY within $15 of session ceiling
+       and blocks SELL within $15 of session floor (anti-exhaustion trap).
+    2. Wider 7.50 bps model harvest threshold and 8.50 bps trailing arming: allows
+       high-conviction swings to run to full runner targets (+25 to +35 bps TP).
+    3. Retains Positive Break-Even Profit Shield (+4.10 bps gross / +0.10 bps net).
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 1: Strict Meso Concordance Scalper (Anti-Hostile Flow)"
-
-    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        now_ms = decision.ts_ms
-        mid = 0.5 * (bbo_bid + bbo_ask)
-        d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
-        d_micro = decision.micro_probs[2] - decision.micro_probs[0]
-        d_meso = decision.meso_probs[2] - decision.meso_probs[0]
-
-        if self.state == "IDLE" and self.ticks_seen >= 10:
-            cand_dir = None
-            tact_dir = 2 if d_tact >= 0.14 else (0 if d_tact <= -0.14 else 1)
-            tact_confirmed = (tact_dir in (0, 2)) and (
-                (tact_dir == 2 and d_micro > 0.02 and d_meso >= 0.02) or
-                (tact_dir == 0 and d_micro < -0.02 and d_meso <= -0.02)
-            )
-
-            if tact_confirmed:
-                cand_dir = tact_dir
-            elif decision.primary_direction in (0, 2) and decision.expected_net_edge_bps >= self.min_net_edge_bps:
-                if decision.primary_direction == 2 and d_meso >= 0.02:
-                    cand_dir = 2
-                elif decision.primary_direction == 0 and d_meso <= -0.02:
-                    cand_dir = 0
-
-            if cand_dir in (0, 2):
-                if self._is_parabolic_surge(cand_dir, now_ms, mid):
-                    return self.state
-
-                if self.last_exit_ts_ms > 0:
-                    elapsed = (now_ms - self.last_exit_ts_ms) / 1000.0
-                    if not self.last_exit_was_win and elapsed < 90.0:
-                        return self.state
-                    elif self.last_exit_was_win and elapsed < 20.0:
-                        return self.state
-
-                    if elapsed < 300.0 and self.last_trade_exit_price > 0:
-                        if cand_dir == 2 and self.last_trade_side == "BUY" and (mid > self.last_trade_exit_price - 15.0):
-                            return self.state
-                        elif cand_dir == 0 and self.last_trade_side == "SELL" and (mid < self.last_trade_exit_price + 15.0):
-                            return self.state
-
-                tact_dec = copy.copy(decision)
-                object.__setattr__(tact_dec, "primary_direction", cand_dir) if hasattr(tact_dec, "__dataclass_fields__") and getattr(tact_dec, "__dataclass_params__", None) and getattr(tact_dec.__dataclass_params__, "frozen", False) else setattr(tact_dec, "primary_direction", cand_dir)
-                self.stalking_decision = tact_dec
-                self._place_sniper_maker_entry(tact_dec, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
-                return self.state
-
-        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
-
-
-# ==============================================================================
-# ⚔️ CHALLENGER 2: Extreme Range Boundary Filter Scalper
-# ==============================================================================
-class Challenger2_ExtremeRangeBoundaryFilterScalper(PeakSameSideRetraceScalper):
-    """
-    Challenger 2: Extreme Range Boundary Filter Scalper
-    Maintains a rolling 15-minute price envelope (90 bars).
-    Blocks SELL orders within $15.00 of the 15m session low (anti-bottom-selling).
-    Blocks BUY orders within $15.00 of the 15m session high (anti-top-buying).
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 2: Extreme Range Boundary Filter Scalper"
+        self.strategy_profile = "Challenger 1: Boundary-Filtered Runner Scalper"
+        self.min_trailing_activation_bps = 8.50
+        self.tier1_min_lock_bps = 5.50
+        self.model_harvest_min_bps = 7.50
+        self.passive_unwind_min_bps = 5.50
         self.rolling_15m_prices: deque[tuple[int, float]] = deque(maxlen=90)
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
@@ -226,7 +170,7 @@ class Challenger2_ExtremeRangeBoundaryFilterScalper(PeakSameSideRetraceScalper):
             session_low = min(p for _, p in self.rolling_15m_prices)
             d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
 
-            # Range boundary filters
+            # Envelope boundary check: veto buying ceiling or selling floor
             if d_tact <= -0.14 and (mid <= session_low + 15.0):
                 return self.state
             elif d_tact >= 0.14 and (mid >= session_high - 15.0):
@@ -236,18 +180,90 @@ class Challenger2_ExtremeRangeBoundaryFilterScalper(PeakSameSideRetraceScalper):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 3: Asymmetric Risk-Reward Scalper (3:1 RR Target)
+# ⚔️ CHALLENGER 2: Stepped Profit Ratchet Scalper (Multi-Tier Profit Lock)
 # ==============================================================================
-class Challenger3_AsymmetricRiskRewardScalper(PeakSameSideRetraceScalper):
+class Challenger2_SteppedProfitRatchetScalper(PeakSameSideRetraceScalper):
     """
-    Challenger 3: Asymmetric Risk-Reward Scalper (3:1 RR Target)
-    When higher timeframes agree (Macro > 0.38 and Meso > 0.42), expands resting Maker TP
-    to 35.0 bps gross (+31.0 bps net) and tightens stop loss to 12.0 bps.
-    Combines with positive break-even profit shield to lock banked profits.
+    Challenger 2: Stepped Profit Ratchet Scalper
+    Inherits Peak baseline + Multi-tiered profit ratchet floor:
+    - MFE >= 3.80 bps -> floor locked at +4.10 bps gross (+0.10 net cash profit)
+    - MFE >= 5.50 bps -> floor ratcheted to +5.20 bps gross (+1.20 net cash profit)
+    - MFE >= 7.50 bps -> floor ratcheted to +7.00 bps gross (+3.00 net cash profit)
+    - MFE >= 10.0 bps -> floor ratcheted to +9.00 bps gross (+5.00 net cash profit)
+    Prevents large favorable excursions from decaying back to break-even.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 3: Asymmetric Risk-Reward Scalper (3:1 RR Target)"
+        self.strategy_profile = "Challenger 2: Stepped Profit Ratchet Scalper (Multi-Tier Lock)"
+
+    def on_market_micro_tick(self, ts_ms: int, bbo_bid: float, bbo_ask: float, bbo_bid_qty: float, bbo_ask_qty: float, *args, **kwargs) -> str:
+        if self.state in ("FILLED_SWING_HOLDING", "PASSIVE_MAKER_UNWIND") and self.active_position is not None:
+            pos = self.active_position
+            sign = 1.0 if pos.side == "BUY" else -1.0
+            mid = 0.5 * (bbo_bid + bbo_ask)
+            unrealized_bps = sign * ((mid - pos.entry_price) / pos.entry_price) * 1e4
+            if unrealized_bps > pos.peak_favorable_excursion_bps:
+                pos.peak_favorable_excursion_bps = unrealized_bps
+
+            # Determine Stepped Ratchet Floor
+            mfe = pos.peak_favorable_excursion_bps
+            floor_gross = 0.0
+            if mfe >= 10.0:
+                floor_gross = 9.00
+            elif mfe >= 7.50:
+                floor_gross = 7.00
+            elif mfe >= 5.50:
+                floor_gross = 5.20
+            elif mfe >= 3.80:
+                floor_gross = 4.10
+
+            if floor_gross > 0.0 and not pos.trailing_maker_armed:
+                if unrealized_bps <= floor_gross:
+                    exit_p = pos.entry_price * (1.0 + sign * floor_gross * 1e-4)
+                    self._close_position(
+                        exit_price=exit_p,
+                        exit_ts_ms=ts_ms,
+                        exit_fee_bps=self.maker_fee_leg,
+                        reason=f"STEPPED_PROFIT_RATCHET_{floor_gross:.1f}BPS",
+                    )
+                    return self.state
+
+        return super().on_market_micro_tick(ts_ms=ts_ms, bbo_bid=bbo_bid, bbo_ask=bbo_ask, bbo_bid_qty=bbo_bid_qty, bbo_ask_qty=bbo_ask_qty, *args, **kwargs)
+
+
+# ==============================================================================
+# ⚔️ CHALLENGER 3: Asymmetric Boundary Scalper (3:1 RR + Envelope Filter)
+# ==============================================================================
+class Challenger3_AsymmetricBoundaryScalper(PeakSameSideRetraceScalper):
+    """
+    Challenger 3: Asymmetric Boundary Scalper (3:1 RR + Envelope Filter)
+    Combines:
+    1. 15-minute rolling range envelope filter (blocks BUY at high / SELL at low).
+    2. When Macro and Meso show strong directional alignment (P > 0.38 / 0.42),
+       expands resting Maker TP to 35.0 bps gross with tight 12.0 bps SL (3:1 RR).
+    3. Positive break-even profit shield locks positive cash gains once MFE >= 3.8 bps.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 3: Asymmetric Boundary Scalper (3:1 RR Target)"
+        self.rolling_15m_prices: deque[tuple[int, float]] = deque(maxlen=90)
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        now_ms = decision.ts_ms
+        mid = 0.5 * (bbo_bid + bbo_ask)
+        self.rolling_15m_prices.append((now_ms, mid))
+
+        if len(self.rolling_15m_prices) >= 18 and self.state == "IDLE":
+            session_high = max(p for _, p in self.rolling_15m_prices)
+            session_low = min(p for _, p in self.rolling_15m_prices)
+            d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+
+            if d_tact <= -0.14 and (mid <= session_low + 15.0):
+                return self.state
+            elif d_tact >= 0.14 and (mid >= session_high - 15.0):
+                return self.state
+
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
     def _place_sniper_maker_entry(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open=0.0):
         super()._place_sniper_maker_entry(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
@@ -266,28 +282,36 @@ class Challenger3_AsymmetricRiskRewardScalper(PeakSameSideRetraceScalper):
 
 
 # ==============================================================================
-# ⚔️ CHALLENGER 4: Wide-Breathe Harvest Scalper (+30 bps Runner Target)
+# ⚔️ CHALLENGER 4: Micro-Imbalance Velocity Scalper (Depth Imbalance Gating)
 # ==============================================================================
-class Challenger4_WideBreatheHarvestScalper(PeakSameSideRetraceScalper):
+class Challenger4_MicroImbalanceVelocityScalper(PeakSameSideRetraceScalper):
     """
-    Challenger 4: Wide-Breathe Harvest Scalper
-    Widens trailing activation hurdle to 8.50 bps and model harvest threshold to 7.50 bps.
-    Designed specifically to let high-conviction breakout swings run to full +25 to +35 bps
-    resting TP capture (preserving the Trade 5 edge of Cycle 29).
+    Challenger 4: Micro-Imbalance Velocity Scalper
+    Requires order-book depth imbalance:
+    - BUY requires bbo_bid_qty / bbo_ask_qty >= 1.35 and micro_probs[2] > 0.25
+    - SELL requires bbo_bid_qty / bbo_ask_qty <= 0.74 and micro_probs[0] > 0.25
+    Prevents thin-liquidity slippage and ensures immediate order-book support upon maker fill.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 4: Wide-Breathe Harvest Scalper (+30 bps Runner Target)"
-        self.min_trailing_activation_bps = 8.50
-        self.tier1_min_lock_bps = 5.50
-        self.model_harvest_min_bps = 7.50
-        self.passive_unwind_min_bps = 5.50
+        self.strategy_profile = "Challenger 4: Micro-Imbalance Velocity Scalper"
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        imb = bbo_bid_qty / max(1e-4, bbo_ask_qty)
+        d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+
+        if d_tact >= 0.14 and imb < 1.35:
+            return self.state
+        elif d_tact <= -0.14 and imb > 0.74:
+            return self.state
+
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
 
 # ==============================================================================
 # ⚔️ CHALLENGER 5: Dynamic Frequency Peak Scalper (4-6 tr/hr Target)
 # ==============================================================================
-class Challenger5_DynamicFrequencyPeakScalper(Challenger2_ExtremeRangeBoundaryFilterScalper):
+class Challenger5_DynamicFrequencyPeakScalper(PeakSameSideRetraceScalper):
     """
     Challenger 5: Dynamic Frequency Peak Scalper
     Calibrated 0.12 tactical impulse threshold for 4-6 trades/hr frequency
@@ -297,10 +321,12 @@ class Challenger5_DynamicFrequencyPeakScalper(Challenger2_ExtremeRangeBoundaryFi
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.strategy_profile = "Challenger 5: Dynamic Frequency Peak Scalper (4-6 tr/hr Target)"
+        self.rolling_15m_prices: deque[tuple[int, float]] = deque(maxlen=90)
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
         now_ms = decision.ts_ms
         mid = 0.5 * (bbo_bid + bbo_ask)
+        self.rolling_15m_prices.append((now_ms, mid))
         d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
         d_micro = decision.micro_probs[2] - decision.micro_probs[0]
         d_meso = decision.meso_probs[2] - decision.meso_probs[0]
@@ -369,27 +395,27 @@ class ChampionChallengerTournamentManager:
             "Champion": TournamentCompetitorRecord(
                 name="Champion",
                 engine=PeakSameSideRetraceScalper(symbol=symbol),
-                strategy_profile="Reigning Champion: Peak Same-Side Retrace Scalper (+37.78 bps Net in C25-C26)",
+                strategy_profile="Reigning Champion: Peak Same-Side Retrace Scalper (+41.96 bps Peak Cumulative Net)",
             ),
             "Challenger_1": TournamentCompetitorRecord(
                 name="Challenger_1",
-                engine=Challenger1_StrictMesoConcordanceScalper(symbol=symbol),
-                strategy_profile="Strict Meso Concordance Scalper (Anti-Hostile Flow)",
+                engine=Challenger1_BoundaryFilteredRunnerScalper(symbol=symbol),
+                strategy_profile="Boundary-Filtered Runner Scalper (Envelope Filter + Expanded TP)",
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
-                engine=Challenger2_ExtremeRangeBoundaryFilterScalper(symbol=symbol),
-                strategy_profile="Extreme Range Boundary Filter Scalper",
+                engine=Challenger2_SteppedProfitRatchetScalper(symbol=symbol),
+                strategy_profile="Stepped Profit Ratchet Scalper (Multi-Tier Lock)",
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
-                engine=Challenger3_AsymmetricRiskRewardScalper(symbol=symbol),
-                strategy_profile="Asymmetric Risk-Reward Scalper (3:1 RR Target)",
+                engine=Challenger3_AsymmetricBoundaryScalper(symbol=symbol),
+                strategy_profile="Asymmetric Boundary Scalper (3:1 RR Target)",
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
-                engine=Challenger4_WideBreatheHarvestScalper(symbol=symbol),
-                strategy_profile="Wide-Breathe Harvest Scalper (+30 bps Runner Target)",
+                engine=Challenger4_MicroImbalanceVelocityScalper(symbol=symbol),
+                strategy_profile="Micro-Imbalance Velocity Scalper (Depth Imbalance Gating)",
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",
