@@ -1066,3 +1066,25 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
 - **Cycle 29 Tournament Architecture:**
   - **Reigning Champion:** `WideBreatheTrailingScalper` (Cycle 28 Winner).
   - Mutate 5 new Challengers with **Strict Meso Concordance Guard** (`d_meso >= +0.02`), **Extended Post-Cut Retrace Barrier** ($25.00), and **Adaptive Micro-Momentum Entry Sniping**.
+
+### Cycle 29 (Champion-Challenger Tournament Session 7)
+- **Session Window:** 2026-10-28 06:17:57 - 2026-10-28 07:18:01 (60.00 min / 360 bars)
+- **Tournament Standings & Winner:**
+  - **👑 REIGNING CHAMPION DEFENDED:** **`WideBreatheTrailingScalper`**
+  - **Net Realized PnL:** **`-28.61 bps` Net PnL** across 8 trades
+  - **Trade Velocity:** **8 Trades in 60 minutes** (1 trade / 7.5 min — high velocity goal achieved!)
+  - **Win Rate:** **`12.5%`** (1 Win / 7 Losses)
+  - **Breakthrough Net Profit Trade:** Trade 5 (BUY @ $80,740.20) reached +12.34 bps MFE, exited @ $80,828.30 via `MODEL_HARVEST_MAKER_TP`, producing **`+10.91 bps` gross / `+6.9115 bps` NET CASH PROFIT** after 4.0 bps fees!
+- **Forward Prediction Accuracies Across Horizons:**
+  - **Macro (15m):** **`97.74%`** overall, **`96.30%` Active Precision** (130/135 signals)
+  - **Meso (5m):** **`93.64%`** overall, **`86.88%` Active Precision** (139/160 signals)
+  - **Micro (10s):** **`89.69%`** overall across 359 forward intervals
+  - **Tactical (30s):** **`81.41%`** overall, **`70.91%` Active Precision** (39/55 signals)
+  - **Tactical (1m):** **`80.97%`** overall, **`69.09%` Active Precision** (38/55 signals)
+- **Key Algorithmic Discovery - 90s Stall Bottleneck:**
+  - 90 seconds (9 bars) was cutting developing 5m swing trades during normal consolidation (Trades 2, 3, 4, 6 were all cut at exactly 90s with MFE between +0.5 and +1.7 bps).
+  - Trade 5 survived the 90s check because MFE reached +2.0 bps early, subsequently surging to +12.34 bps and banking +6.91 bps net cash.
+  - Relaxing the stall timer from 90s to 180s gives developing 5m trends adequate breathing room to unfold.
+- **Cycle 30 Tournament Architecture:**
+  - **Reigning Champion:** `WideBreatheTrailingScalper` (Cycle 29 Winner).
+  - Mutate 5 new Challengers with **180s Patient Stall Breathing Guard**, **Extreme Range-Boundary Exhaustion Filters**, and **Dynamic Trend Expansion**.
