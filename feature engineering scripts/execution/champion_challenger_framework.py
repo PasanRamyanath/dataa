@@ -242,7 +242,7 @@ class Challenger1_QuadHorizonConformalResonanceScalper(ConformalConfidenceFilter
         self.strategy_profile = "Challenger 1: Quad-Horizon Conformal Resonance Scalper"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        if self.state == "IDLE":
+        if self.state == "IDLE" and self.ticks_seen >= 10:
             d_macro = decision.macro_probs[2] - decision.macro_probs[0]
             d_meso = decision.meso_probs[2] - decision.meso_probs[0]
             d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
@@ -418,7 +418,7 @@ class Cycle35_RetraceProtectedBidirectionalScalper(Cycle35_ConformalPureScalper)
         self.strategy_profile = "Challenger 3: Retrace-Protected Bidirectional Scalper"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
-        if self.state == "IDLE":
+        if self.state == "IDLE" and self.ticks_seen >= 10:
             d_macro = decision.macro_probs[2] - decision.macro_probs[0]
             d_meso = decision.meso_probs[2] - decision.meso_probs[0]
             d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
@@ -445,7 +445,7 @@ class Cycle35_RetraceProtectedBidirectionalScalper(Cycle35_ConformalPureScalper)
                         return self.state
 
                     if elapsed < 200.0 and self.last_trade_exit_price > 0:
-                        if self.last_trade_side == "SELL" and (mid < self.last_trade_exit_price + 10.0):
+                        if self.last_trade_side == "SELL" and (mid < self.last_trade_exit_price + 12.0):
                             return self.state
 
                 imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
