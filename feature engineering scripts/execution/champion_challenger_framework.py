@@ -2,11 +2,11 @@
 feature engineering scripts/execution/champion_challenger_framework.py
 Production Champion-Challenger Tournament Framework for Project-IMPJR Peak Trading System.
 
-Cycle 50 Tournament Lineup (Cycle 35 Baseline Reversion & Universal IDLE Gate):
+Cycle 51 Tournament Lineup (Cycle 35 Bidirectional Expansion & Universal IDLE Gate):
   - 👑 Reigning Champion: DualTierSteppedRatchetScalper (Cycle 48 Winner, defended in Cycle 49 under Absolute Gate; +109.63 bps Peak Cumulative Net, 100% Win Rate baseline, patched with Universal IDLE Gate)
   - ⚔️ Challenger 1: Cycle35_ConformalPureScalper (Exact restored Cycle 35 engine with unchoked 5.50 bps shield, directional max(p_down, p_up) >= 0.45, and $10 range boundary)
   - ⚔️ Challenger 2: Cycle35_ConformalOFIScalper (Cycle 35 baseline + L1/L2 Order Flow Imbalance depth guard >= 1.10)
-  - ⚔️ Challenger 3: Cycle35_ConformalPullbackScalper (Cycle 35 baseline + 1-tick deeper passive limit maker quoting)
+  - ⚔️ Challenger 3: Cycle35_BidirectionalTrendScalper (Cycle 35 baseline + high-conviction Short entries when Macro/Meso are concordantly bearish)
   - ⚔️ Challenger 4: Cycle35_DualTierRatchetScalper (Cycle 35 baseline + Dual-Tier Stepped Ratchet: Tier 0.5 at +4.5b, Tier 1 at +6.0b)
   - ⚔️ Challenger 5: OrderbookLiquidityImbalanceScalper (Cycle 49 Rank 1 Leader with depth ratio > 1.25, 100% capital preserved)
 
@@ -397,41 +397,44 @@ class Cycle35_ConformalOFIScalper(Cycle35_ConformalPureScalper):
 
 
 # ==============================================================================
-# ⚔️ CYCLE 50 CHALLENGER 3: Cycle 35 Conformal Pullback Limit Scalper
+# ⚔️ CYCLE 51 CHALLENGER 3: Cycle 35 Bidirectional Trend Scalper
 # ==============================================================================
-class Cycle35_ConformalPullbackScalper(Cycle35_ConformalPureScalper):
+class Cycle35_BidirectionalTrendScalper(Cycle35_ConformalPureScalper):
     """
-    ⚔️ Challenger 3: Cycle 35 Conformal Pullback Limit Scalper
-    Cycle 35 baseline + 1-tick deeper passive limit maker quoting:
-    Places resting limit entry orders $0.50 deeper into the book (bbo_bid - 0.50 for BUY,
-    bbo_ask + 0.50 for SELL), completely dodging top-tick fills into impulse wicks.
+    ⚔️ Challenger 3: Cycle 35 Bidirectional Trend Scalper
+    Inherits Cycle 35 baseline. Enables active high-conviction Short entries when
+    Meso and Macro are concordantly bearish:
+      d_macro < -0.08 and d_meso < -0.05 and d_tact < -0.10 and d_micro < -0.02
+    Enforces $10 same-side retrace barrier, 100% Maker fills at BBO Ask, and passive unwind.
+    Directly addresses waterfall regimes like Cycle 50 ($495 dump) by monetizing downward waves.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 3: Cycle 35 Conformal Pullback Limit Scalper"
+        self.strategy_profile = "Challenger 3: Cycle 35 Bidirectional Trend Scalper"
 
-    def _place_sniper_maker_entry(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open):
-        dir_val = decision.primary_direction
-        pos_side = "BUY" if dir_val == 2 else "SELL"
-        limit_p = (bbo_bid - 0.50) if pos_side == "BUY" else (bbo_ask + 0.50)
-        notional = max(100.0, equity_usdt * max(0.10, decision.kelly_position_fraction))
-        qty = round(notional / limit_p, 3)
-        if qty <= 0:
-            qty = 0.001
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        if self.state == "IDLE":
+            d_macro = decision.macro_probs[2] - decision.macro_probs[0]
+            d_meso = decision.meso_probs[2] - decision.meso_probs[0]
+            d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+            d_micro = decision.micro_probs[2] - decision.micro_probs[0]
 
-        self.active_position = None
-        self.resting_entry_order_id = f"maker_pb_{int(now_ms)}"
-        self.resting_entry_side = pos_side
-        self.resting_entry_price = limit_p
-        self.resting_entry_qty = qty
-        self.resting_entry_ts_ms = now_ms
-        self.queue_tracker = QueuePriorityTracker(initial_queue_ahead=bbo_bid_qty if pos_side == "BUY" else bbo_ask_qty)
-        self.adverse_guard = AdverseSelectionGuard(
-            initial_supporting_depth=bbo_bid_qty if pos_side == "BUY" else bbo_ask_qty,
-            depth_deterioration_threshold=0.45,
-            max_adverse_microprice_bps=1.8,
-        )
-        self.state = "RESTING_ENTRY_QUEUE"
+            if d_macro < -0.08 and d_meso < -0.05 and d_tact < -0.10 and d_micro < -0.02:
+                imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
+                if imbalance_ratio > 0.95:
+                    return self.state
+                now_ms = getattr(decision, "ts_ms", int(time.time() * 1000))
+                short_dec = copy.copy(decision)
+                object.__setattr__(short_dec, "primary_direction", 0) if hasattr(short_dec, "__dataclass_fields__") and getattr(short_dec, "__dataclass_params__", None) and getattr(short_dec.__dataclass_params__, "frozen", False) else setattr(short_dec, "primary_direction", 0)
+                self.stalking_decision = short_dec
+                self._place_sniper_maker_entry(short_dec, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+                return self.state
+
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
+# Backward compatibility alias
+Cycle35_ConformalPullbackScalper = Cycle35_BidirectionalTrendScalper
 
 
 # ==============================================================================
@@ -546,8 +549,8 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
-                engine=Cycle35_ConformalPullbackScalper(symbol=symbol),
-                strategy_profile="Challenger 3: Cycle 35 Conformal Pullback Limit Scalper",
+                engine=Cycle35_BidirectionalTrendScalper(symbol=symbol),
+                strategy_profile="Challenger 3: Cycle 35 Bidirectional Trend Scalper",
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
