@@ -172,52 +172,51 @@ class ConformalConfidenceFilterScalper(PeakSameSideRetraceScalper):
         d_meso = decision.meso_probs[2] - decision.meso_probs[0]
 
         # UNIVERSAL IDLE GATE: Only apply entry search filters when IDLE!
-        if self.state == "IDLE":
-            # Conformal directional confidence check on tactical and meso: require directional bias
-            tact_dir_max = max(decision.tactical_probs[0], decision.tactical_probs[2])
-            meso_dir_max = max(decision.meso_probs[0], decision.meso_probs[2])
-            if tact_dir_max < 0.45 or meso_dir_max < 0.45:
+        if self.state == "IDLE" and self.ticks_seen >= 10:
+            # Restored Proven Cycle 35 / Cycle 48 Conformal Confidence Filter
+            conf_tact = max(decision.tactical_probs)
+            conf_meso = max(decision.meso_probs)
+            if conf_tact < 0.45 or conf_meso < 0.45:
                 return self.state
 
-            if self.ticks_seen >= 10:
-                tact_dir = 2 if d_tact >= 0.12 else (0 if d_tact <= -0.12 else 1)
-                tact_confirmed = (tact_dir in (0, 2)) and (
-                    (tact_dir == 2 and d_micro > 0.015 and d_meso >= 0.03) or
-                    (tact_dir == 0 and d_micro < -0.015 and d_meso <= -0.03)
-                )
+            tact_dir = 2 if d_tact >= 0.12 else (0 if d_tact <= -0.12 else 1)
+            tact_confirmed = (tact_dir in (0, 2)) and (
+                (tact_dir == 2 and d_micro > 0.015 and d_meso >= 0.03) or
+                (tact_dir == 0 and d_micro < -0.015 and d_meso <= -0.03)
+            )
 
-                cand_dir = tact_dir if tact_confirmed else None
-                if cand_dir is None and decision.primary_direction in (0, 2) and decision.expected_net_edge_bps >= self.min_net_edge_bps:
-                    if decision.primary_direction == 2 and d_meso >= 0.03:
-                        cand_dir = 2
-                    elif decision.primary_direction == 0 and d_meso <= -0.03:
-                        cand_dir = 0
+            cand_dir = tact_dir if tact_confirmed else None
+            if cand_dir is None and decision.primary_direction in (0, 2) and decision.expected_net_edge_bps >= self.min_net_edge_bps:
+                if decision.primary_direction == 2 and d_meso >= 0.03:
+                    cand_dir = 2
+                elif decision.primary_direction == 0 and d_meso <= -0.03:
+                    cand_dir = 0
 
-                if cand_dir in (0, 2):
-                    if self._is_range_boundary_violation(cand_dir, mid):
-                        return self.state
-
-                    if self._is_parabolic_surge(cand_dir, now_ms, mid):
-                        return self.state
-
-                    if self.last_exit_ts_ms > 0:
-                        elapsed = (now_ms - self.last_exit_ts_ms) / 1000.0
-                        if not self.last_exit_was_win and elapsed < 60.0:
-                            return self.state
-                        elif self.last_exit_was_win and elapsed < 15.0:
-                            return self.state
-
-                        if elapsed < 200.0 and self.last_trade_exit_price > 0:
-                            if cand_dir == 2 and self.last_trade_side == "BUY" and (mid > self.last_trade_exit_price - 10.0):
-                                return self.state
-                            elif cand_dir == 0 and self.last_trade_side == "SELL" and (mid < self.last_trade_exit_price + 10.0):
-                                return self.state
-
-                    tact_dec = copy.copy(decision)
-                    object.__setattr__(tact_dec, "primary_direction", cand_dir) if hasattr(tact_dec, "__dataclass_fields__") and getattr(tact_dec, "__dataclass_params__", None) and getattr(tact_dec.__dataclass_params__, "frozen", False) else setattr(tact_dec, "primary_direction", cand_dir)
-                    self.stalking_decision = tact_dec
-                    self._place_sniper_maker_entry(tact_dec, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+            if cand_dir in (0, 2):
+                if self._is_range_boundary_violation(cand_dir, mid):
                     return self.state
+
+                if self._is_parabolic_surge(cand_dir, now_ms, mid):
+                    return self.state
+
+                if self.last_exit_ts_ms > 0:
+                    elapsed = (now_ms - self.last_exit_ts_ms) / 1000.0
+                    if not self.last_exit_was_win and elapsed < 60.0:
+                        return self.state
+                    elif self.last_exit_was_win and elapsed < 15.0:
+                        return self.state
+
+                    if elapsed < 200.0 and self.last_trade_exit_price > 0:
+                        if cand_dir == 2 and self.last_trade_side == "BUY" and (mid > self.last_trade_exit_price - 10.0):
+                            return self.state
+                        elif cand_dir == 0 and self.last_trade_side == "SELL" and (mid < self.last_trade_exit_price + 10.0):
+                            return self.state
+
+                tact_dec = copy.copy(decision)
+                object.__setattr__(tact_dec, "primary_direction", cand_dir) if hasattr(tact_dec, "__dataclass_fields__") and getattr(tact_dec, "__dataclass_params__", None) and getattr(tact_dec.__dataclass_params__, "frozen", False) else setattr(tact_dec, "primary_direction", cand_dir)
+                self.stalking_decision = tact_dec
+                self._place_sniper_maker_entry(tact_dec, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+                return self.state
 
         # Pass active position management through to base engine unimpeded
         return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
@@ -549,6 +548,112 @@ OrderbookLiquidityImbalanceScalper = Challenger5_OrderbookLiquidityImbalanceScal
 
 
 # ==============================================================================
+# ⚔️ CYCLE 55 CHALLENGER 1: Synthesized Peak Omni Scalper (Best of Landmark Cycles)
+# ==============================================================================
+class SynthesizedPeakOmniScalper(SteppedRatchetOFIScalper):
+    """
+    ⚔️ Challenger 1: Synthesized Peak Omni Scalper
+    Unifies the proven breakthroughs across landmark tournament cycles:
+    1. Cycle 35 Conformal Certainty Filter (conf_tact >= 0.45 and conf_meso >= 0.45).
+    2. Cycle 48 Dual-Tier Stepped Ratchet (+4.5b -> +1.25b, +6.0b -> +2.0b, +10.0b -> +4.5b).
+    3. Cycle 51 Bidirectional Short Monetization (d_macro < -0.08, d_meso < -0.05, d_tact < -0.10).
+    4. Cycle 53 Calibrated Same-Side Pullback Retrace Barrier (+$12.00 bounce) & warm-up buffer guard.
+    5. Cycle 39/40 Order Flow Imbalance (OFI) Depth Guard (>= 1.05 BUY, <= 0.95 SELL).
+    6. Universal IDLE Gate + Responsive Model Maker Cuts at BBO.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 1: Synthesized Peak Omni Scalper (Omni-Horizon Synthesis)"
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        if self.state == "IDLE" and self.ticks_seen >= 10:
+            d_macro = decision.macro_probs[2] - decision.macro_probs[0]
+            d_meso = decision.meso_probs[2] - decision.meso_probs[0]
+            d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+            d_micro = decision.micro_probs[2] - decision.micro_probs[0]
+            mid = 0.5 * (bbo_bid + bbo_ask)
+            now_ms = getattr(decision, "ts_ms", int(time.time() * 1000))
+
+            # Conformal certainty check (Cycle 35)
+            if max(decision.tactical_probs) < 0.45 or max(decision.meso_probs) < 0.45:
+                return self.state
+
+            # 1. High-Conviction Bearish Short Extraction (Cycle 51 + Cycle 53)
+            if d_macro < -0.08 and d_meso < -0.05 and d_tact < -0.10 and d_micro < -0.02:
+                if not self._is_range_boundary_violation(0, mid) and not self._is_parabolic_surge(0, now_ms, mid):
+                    # Check retrace barrier
+                    retrace_ok = True
+                    if self.last_exit_ts_ms > 0:
+                        elapsed = (now_ms - self.last_exit_ts_ms) / 1000.0
+                        if elapsed < 200.0 and self.last_trade_exit_price > 0 and self.last_trade_side == "SELL":
+                            if mid < self.last_trade_exit_price + 12.0:
+                                retrace_ok = False
+                    
+                    imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
+                    if retrace_ok and imbalance_ratio <= 0.95:
+                        short_dec = copy.copy(decision)
+                        object.__setattr__(short_dec, "primary_direction", 0) if hasattr(short_dec, "__dataclass_fields__") and getattr(short_dec, "__dataclass_params__", None) and getattr(short_dec.__dataclass_params__, "frozen", False) else setattr(short_dec, "primary_direction", 0)
+                        self.stalking_decision = short_dec
+                        self._place_sniper_maker_entry(short_dec, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+                        return self.state
+
+            # 2. Bullish Long Extraction (Cycle 35 + Cycle 48)
+            quad_long = (d_micro > 0) and (d_tact > 0) and (d_meso > 0) and (d_macro > -0.05)
+            if quad_long:
+                imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
+                if imbalance_ratio >= 1.05 and not self._is_range_boundary_violation(2, mid) and not self._is_parabolic_surge(2, now_ms, mid):
+                    long_dec = copy.copy(decision)
+                    object.__setattr__(long_dec, "primary_direction", 2) if hasattr(long_dec, "__dataclass_fields__") and getattr(long_dec, "__dataclass_params__", None) and getattr(long_dec.__dataclass_params__, "frozen", False) else setattr(long_dec, "primary_direction", 2)
+                    self.stalking_decision = long_dec
+                    self._place_sniper_maker_entry(long_dec, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+                    return self.state
+
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
+# ==============================================================================
+# ⚔️ CYCLE 55 CHALLENGER 4: Micro-Momentum Conformal Scalper
+# ==============================================================================
+class Cycle55_MicroMomentumConformalScalper(SteppedRatchetOFIScalper):
+    """
+    ⚔️ Challenger 4: Micro-Momentum Conformal Scalper
+    Combines Cycle 35 conformal certainty with Micro-Velocity impulse triggers:
+    Triggers when Micro directional delta d_micro > 0.025 (Long) or < -0.025 (Short)
+    under confirmed Tactical trend to capture 2-5 fast momentum scalps per hour.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 4: Micro-Momentum Conformal Scalper (2-5 trades/hr target)"
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        if self.state == "IDLE" and self.ticks_seen >= 10:
+            d_micro = decision.micro_probs[2] - decision.micro_probs[0]
+            d_tact = decision.tactical_probs[2] - decision.tactical_probs[0]
+            d_meso = decision.meso_probs[2] - decision.meso_probs[0]
+            mid = 0.5 * (bbo_bid + bbo_ask)
+            now_ms = getattr(decision, "ts_ms", int(time.time() * 1000))
+
+            # Conformal check
+            if max(decision.tactical_probs) >= 0.45 and max(decision.meso_probs) >= 0.45:
+                if d_micro >= 0.025 and d_tact >= 0.08 and d_meso >= 0.0:
+                    if not self._is_range_boundary_violation(2, mid) and not self._is_parabolic_surge(2, now_ms, mid):
+                        long_dec = copy.copy(decision)
+                        object.__setattr__(long_dec, "primary_direction", 2) if hasattr(long_dec, "__dataclass_fields__") and getattr(long_dec, "__dataclass_params__", None) and getattr(long_dec.__dataclass_params__, "frozen", False) else setattr(long_dec, "primary_direction", 2)
+                        self.stalking_decision = long_dec
+                        self._place_sniper_maker_entry(long_dec, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+                        return self.state
+                elif d_micro <= -0.025 and d_tact <= -0.08 and d_meso <= 0.0:
+                    if not self._is_range_boundary_violation(0, mid) and not self._is_parabolic_surge(0, now_ms, mid):
+                        short_dec = copy.copy(decision)
+                        object.__setattr__(short_dec, "primary_direction", 0) if hasattr(short_dec, "__dataclass_fields__") and getattr(short_dec, "__dataclass_params__", None) and getattr(short_dec.__dataclass_params__, "frozen", False) else setattr(short_dec, "primary_direction", 0)
+                        self.stalking_decision = short_dec
+                        self._place_sniper_maker_entry(short_dec, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, now_ms, intra_bar_open)
+                        return self.state
+
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
+# ==============================================================================
 # 🏆 TOURNAMENT MANAGER (1 CHAMPION + 5 CHALLENGERS)
 # ==============================================================================
 class ChampionChallengerTournamentManager:
@@ -568,8 +673,8 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_1": TournamentCompetitorRecord(
                 name="Challenger_1",
-                engine=Cycle35_ConformalPureScalper(symbol=symbol),
-                strategy_profile="Challenger 1: Cycle 35 Conformal Pure Scalper (Restored Baseline)",
+                engine=SynthesizedPeakOmniScalper(symbol=symbol),
+                strategy_profile="Challenger 1: Synthesized Peak Omni Scalper (Omni-Horizon Synthesis)",
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
@@ -583,8 +688,8 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
-                engine=Cycle35_DualTierRatchetScalper(symbol=symbol),
-                strategy_profile="Challenger 4: Cycle 35 Dual-Tier Stepped Ratchet Scalper",
+                engine=Cycle55_MicroMomentumConformalScalper(symbol=symbol),
+                strategy_profile="Challenger 4: Micro-Momentum Conformal Scalper (2-5 trades/hr target)",
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",
