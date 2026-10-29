@@ -648,6 +648,66 @@ class Cycle48_MicroMomentumPulseScalper(SteppedRatchetOFIScalper):
 # ==============================================================================
 # 🏆 TOURNAMENT MANAGER (1 CHAMPION + 5 CHALLENGERS)
 # ==============================================================================
+# ==============================================================================
+# 👑 CYCLE 58 LINEUP: Orderbook Liquidity Imbalance Scalpers
+# ==============================================================================
+class OrderbookLiquidity_RetraceScalper(Challenger5_OrderbookLiquidityImbalanceScalper):
+    """
+    ⚔️ Challenger 1: Orderbook Liquidity Retrace Scalper
+    Challenger 5 winning liquidity guard (imbalance >= 1.25) + $15 same-side retrace barrier.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 1: Orderbook Liquidity Retrace Scalper ($15 Barrier)"
+
+
+class OrderbookLiquidity_Tier05RatchetScalper(Challenger5_OrderbookLiquidityImbalanceScalper):
+    """
+    ⚔️ Challenger 2: Orderbook Liquidity Tier 0.5 Ratchet Scalper
+    Challenger 5 winning liquidity guard + Tier 0.5 ratchet (+1.25b net floor at +4.5b MFE).
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 2: Orderbook Liquidity Tier 0.5 Ratchet Scalper"
+
+
+class OrderbookLiquidity_AdaptiveSpreadScalper(Challenger5_OrderbookLiquidityImbalanceScalper):
+    """
+    ⚔️ Challenger 3: Orderbook Liquidity Adaptive Spread Scalper
+    Challenger 5 winning liquidity guard + Directional Spread (d_tact >= 0.12, Edge >= 10.0 bps).
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 3: Orderbook Liquidity Adaptive Spread Scalper"
+
+
+class OrderbookLiquidity_TightEnvelopeScalper(Challenger5_OrderbookLiquidityImbalanceScalper):
+    """
+    ⚔️ Challenger 4: Orderbook Liquidity Tight Envelope Scalper
+    Challenger 5 winning liquidity guard + $6 Range Boundary Envelope.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 4: Orderbook Liquidity Tight Envelope Scalper ($6 Envelope)"
+
+
+class OrderbookLiquidity_HighConvictionScalper(Challenger5_OrderbookLiquidityImbalanceScalper):
+    """
+    ⚔️ Challenger 5: Orderbook Liquidity High Conviction Scalper
+    Ultra-strict liquidity guard (imbalance >= 1.35) for maximum trade quality.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 5: Orderbook Liquidity High Conviction Scalper (Imbalance >= 1.35)"
+
+    def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
+        if self.state == "IDLE":
+            imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
+            if imbalance_ratio < 1.35:
+                return self.state
+        return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
+
+
 class ChampionChallengerTournamentManager:
     """
     Manages the 1 Champion + 5 Challengers Tournament in real time.
@@ -660,33 +720,33 @@ class ChampionChallengerTournamentManager:
         self.competitors: dict[str, TournamentCompetitorRecord] = {
             "Champion": TournamentCompetitorRecord(
                 name="Champion",
-                engine=SteppedRatchetOFIScalper(symbol=symbol),
-                strategy_profile="Reigning Champion: Dual-Tier Stepped Ratchet Scalper (+109.63 bps Peak Cumulative Net, 100% Win Rate)",
+                engine=Challenger5_OrderbookLiquidityImbalanceScalper(symbol=symbol),
+                strategy_profile="Reigning Champion: Orderbook Liquidity Imbalance Scalper (+111.63 bps Peak Cumulative Net, 100% Win Rate)",
             ),
             "Challenger_1": TournamentCompetitorRecord(
                 name="Challenger_1",
-                engine=Cycle48_AdaptiveSpreadScalper(symbol=symbol),
-                strategy_profile="Challenger 1: Cycle 48 Adaptive Spread Scalper (Bar 50 Peak Discovery)",
+                engine=OrderbookLiquidity_RetraceScalper(symbol=symbol),
+                strategy_profile="Challenger 1: Orderbook Liquidity Retrace Scalper ($15 Barrier)",
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
-                engine=Cycle48_Tier05_ConformalScalper(symbol=symbol),
-                strategy_profile="Challenger 2: Cycle 48 Tier 0.5 Conformal Scalper (Long-Only Pure)",
+                engine=OrderbookLiquidity_Tier05RatchetScalper(symbol=symbol),
+                strategy_profile="Challenger 2: Orderbook Liquidity Tier 0.5 Ratchet Scalper",
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
-                engine=Cycle48_TightRangePivotScalper(symbol=symbol),
-                strategy_profile="Challenger 3: Cycle 48 Tight Range Pivot Scalper ($6 Envelope)",
+                engine=OrderbookLiquidity_AdaptiveSpreadScalper(symbol=symbol),
+                strategy_profile="Challenger 3: Orderbook Liquidity Adaptive Spread Scalper",
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
-                engine=Cycle48_MicroMomentumPulseScalper(symbol=symbol),
-                strategy_profile="Challenger 4: Cycle 48 Micro-Momentum Pulse Scalper (Long-Only)",
+                engine=OrderbookLiquidity_TightEnvelopeScalper(symbol=symbol),
+                strategy_profile="Challenger 4: Orderbook Liquidity Tight Envelope Scalper ($6 Envelope)",
             ),
             "Challenger_5": TournamentCompetitorRecord(
                 name="Challenger_5",
-                engine=Challenger5_OrderbookLiquidityImbalanceScalper(symbol=symbol),
-                strategy_profile="Challenger 5: Orderbook Liquidity Imbalance Scalper (Pure Liquidity Guard)",
+                engine=OrderbookLiquidity_HighConvictionScalper(symbol=symbol),
+                strategy_profile="Challenger 5: Orderbook Liquidity High Conviction Scalper (Imbalance >= 1.35)",
             ),
         }
 
