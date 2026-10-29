@@ -2,11 +2,11 @@
 feature engineering scripts/execution/champion_challenger_framework.py
 Production Champion-Challenger Tournament Framework for Project-IMPJR Peak Trading System.
 
-Cycle 51 Tournament Lineup (Cycle 35 Bidirectional Expansion & Universal IDLE Gate):
+Cycle 52 Tournament Lineup (Retrace-Protected Bidirectional Scalpers):
   - 👑 Reigning Champion: DualTierSteppedRatchetScalper (Cycle 48 Winner, defended in Cycle 49 under Absolute Gate; +109.63 bps Peak Cumulative Net, 100% Win Rate baseline, patched with Universal IDLE Gate)
   - ⚔️ Challenger 1: Cycle35_ConformalPureScalper (Exact restored Cycle 35 engine with unchoked 5.50 bps shield, directional max(p_down, p_up) >= 0.45, and $10 range boundary)
   - ⚔️ Challenger 2: Cycle35_ConformalOFIScalper (Cycle 35 baseline + L1/L2 Order Flow Imbalance depth guard >= 1.10)
-  - ⚔️ Challenger 3: Cycle35_BidirectionalTrendScalper (Cycle 35 baseline + high-conviction Short entries when Macro/Meso are concordantly bearish)
+  - ⚔️ Challenger 3: Cycle35_RetraceProtectedBidirectionalScalper (Cycle 35 baseline + Short entries with $10 Same-Side Retrace Barrier & Range Boundary Filter)
   - ⚔️ Challenger 4: Cycle35_DualTierRatchetScalper (Cycle 35 baseline + Dual-Tier Stepped Ratchet: Tier 0.5 at +4.5b, Tier 1 at +6.0b)
   - ⚔️ Challenger 5: OrderbookLiquidityImbalanceScalper (Cycle 49 Rank 1 Leader with depth ratio > 1.25, 100% capital preserved)
 
@@ -397,20 +397,25 @@ class Cycle35_ConformalOFIScalper(Cycle35_ConformalPureScalper):
 
 
 # ==============================================================================
-# ⚔️ CYCLE 51 CHALLENGER 3: Cycle 35 Bidirectional Trend Scalper
+# ⚔️ CYCLE 52 CHALLENGER 3: Retrace-Protected Bidirectional Scalper
 # ==============================================================================
-class Cycle35_BidirectionalTrendScalper(Cycle35_ConformalPureScalper):
+class Cycle35_RetraceProtectedBidirectionalScalper(Cycle35_ConformalPureScalper):
     """
-    ⚔️ Challenger 3: Cycle 35 Bidirectional Trend Scalper
+    ⚔️ Challenger 3: Retrace-Protected Bidirectional Scalper
     Inherits Cycle 35 baseline. Enables active high-conviction Short entries when
     Meso and Macro are concordantly bearish:
       d_macro < -0.08 and d_meso < -0.05 and d_tact < -0.10 and d_micro < -0.02
-    Enforces $10 same-side retrace barrier, 100% Maker fills at BBO Ask, and passive unwind.
-    Directly addresses waterfall regimes like Cycle 50 ($495 dump) by monetizing downward waves.
+    Mandatory Protections:
+    1. Range Boundary Envelope Filter: Vetoes Short if mid <= 15m low + $10.0.
+    2. Same-Side Retrace Price Barrier: Requires at least a +$10.0 bounce above
+       last Short exit price before re-entering Short within 200s, preventing
+       selling local bottoms (the exact cause of Trade 2 loss in Cycle 51).
+    3. Parabolic Surge Guard: Vetoes Short if 30s plunge > 10.0 bps or 180s plunge > 15.0 bps.
+    4. 100% Maker fills at BBO Ask; Trailing Maker profit locks.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.strategy_profile = "Challenger 3: Cycle 35 Bidirectional Trend Scalper"
+        self.strategy_profile = "Challenger 3: Retrace-Protected Bidirectional Scalper"
 
     def on_hierarchical_decision(self, decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt=10000.0, intra_bar_open=0.0):
         if self.state == "IDLE":
@@ -420,10 +425,33 @@ class Cycle35_BidirectionalTrendScalper(Cycle35_ConformalPureScalper):
             d_micro = decision.micro_probs[2] - decision.micro_probs[0]
 
             if d_macro < -0.08 and d_meso < -0.05 and d_tact < -0.10 and d_micro < -0.02:
+                mid = 0.5 * (bbo_bid + bbo_ask)
+                now_ms = getattr(decision, "ts_ms", int(time.time() * 1000))
+
+                # 1. Range boundary filter: do not sell into 15m low boundary
+                if self._is_range_boundary_violation(0, mid):
+                    return self.state
+
+                # 2. Parabolic plunge guard: do not sell into exhausted waterfall plunge
+                if self._is_parabolic_surge(0, now_ms, mid):
+                    return self.state
+
+                # 3. Same-Side Retrace Barrier: require +$10.0 bounce before re-shorting
+                if self.last_exit_ts_ms > 0:
+                    elapsed = (now_ms - self.last_exit_ts_ms) / 1000.0
+                    if not self.last_exit_was_win and elapsed < 60.0:
+                        return self.state
+                    elif self.last_exit_was_win and elapsed < 15.0:
+                        return self.state
+
+                    if elapsed < 200.0 and self.last_trade_exit_price > 0:
+                        if self.last_trade_side == "SELL" and (mid < self.last_trade_exit_price + 10.0):
+                            return self.state
+
                 imbalance_ratio = bbo_bid_qty / max(bbo_ask_qty, 1e-4)
                 if imbalance_ratio > 0.95:
                     return self.state
-                now_ms = getattr(decision, "ts_ms", int(time.time() * 1000))
+
                 short_dec = copy.copy(decision)
                 object.__setattr__(short_dec, "primary_direction", 0) if hasattr(short_dec, "__dataclass_fields__") and getattr(short_dec, "__dataclass_params__", None) and getattr(short_dec.__dataclass_params__, "frozen", False) else setattr(short_dec, "primary_direction", 0)
                 self.stalking_decision = short_dec
@@ -433,8 +461,9 @@ class Cycle35_BidirectionalTrendScalper(Cycle35_ConformalPureScalper):
         return super().on_hierarchical_decision(decision, bbo_bid, bbo_ask, bbo_bid_qty, bbo_ask_qty, equity_usdt, intra_bar_open)
 
 
-# Backward compatibility alias
-Cycle35_ConformalPullbackScalper = Cycle35_BidirectionalTrendScalper
+# Backward compatibility aliases
+Cycle35_BidirectionalTrendScalper = Cycle35_RetraceProtectedBidirectionalScalper
+Cycle35_ConformalPullbackScalper = Cycle35_RetraceProtectedBidirectionalScalper
 
 
 # ==============================================================================
@@ -549,8 +578,8 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
-                engine=Cycle35_BidirectionalTrendScalper(symbol=symbol),
-                strategy_profile="Challenger 3: Cycle 35 Bidirectional Trend Scalper",
+                engine=Cycle35_RetraceProtectedBidirectionalScalper(symbol=symbol),
+                strategy_profile="Challenger 3: Retrace-Protected Bidirectional Scalper",
             ),
             "Challenger_4": TournamentCompetitorRecord(
                 name="Challenger_4",
