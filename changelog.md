@@ -2146,3 +2146,27 @@ This document tracks all live paper trading sessions, diagnostic analyses, hypot
      When Meso swung adverse during the cascade, the responsive exit closed at $81,303.60 (-8.01 bps gross), saving +35.7 bps compared to holding into $80,931.
   3. **Activation of Contractual Cycle 35 Reversion Mandate:**
      In accordance with user directive (*"if the trade frequency is improved and the win rate and the accuracy of the trades and predictions starts to fall off, get back to the cycle 35"*), the tournament executes the Cycle 35 Reversion Protocol for Cycle 59.
+
+
+### Cycle 59 (Champion-Challenger Tournament Session 36: Cycle 35 Reversion & $6 Range Envelope Edge) - COMPLETED
+- **Session Window:** 2026-10-29 23:00:24 – 2026-10-30 00:00:37 UTC (04:30:24 – 05:30:37 Local Time) (60.06 min / 360 bars)
+- **Tournament Verdict:** 👑 **ABSOLUTE PROFITABILITY GATE DEFENDS TITLE & PRESERVES REIGNING CHAMPION: Challenger 3 (`Cycle35_TightRangeReversionScalper`) finishes Rank 1 with `+3.26 bps` Net Cash Profit (PF 1.21), but with 66.7% Win Rate (2 Wins / 1 Loss), the strict $\ge 75.0\%$ Gate preserves Reigning Champion!**
+- **Cumulative Peak Realized Net Cash Profit:** **`+111.63 bps Net Cash Profit`** (Defended and Intact).
+- **Competitors Breakdown:**
+  - 🥇 **1. Challenger 3 (`Cycle35_TightRangeReversionScalper ($6 Envelope)`):** 3 Trades, 2 Wins / 1 Loss, **`+3.26 bps Net`**, WR 66.7%, PF 1.21 -> **Tournament Rank 1 Leader** (Absolute Gate Preserves Champion).
+  - 🥈 **2. Challenger 4 (`Cycle35_QuadHorizonResonanceScalper`):** 0 Trades, 0 Losses, **`+0.00 bps Net`**, PF 1.00 -> **100% Capital Preserved** (Rank 2).
+  - 👑 **3. Champion (`Cycle35_ReversionPureScalper`):** 2 Trades, 1 Win / 1 Loss, `-11.32 bps Net`, WR 50.0%, PF 0.27 -> Retained Crown under Gate.
+  - 4. **Challenger 5 (`Cycle35_Tier0_5SteppedScalper`):** 2 Trades, 1 Win / 1 Loss, `-11.32 bps Net`, WR 50.0%, PF 0.27 -> Disqualified by Gate.
+  - 5. **Challenger 1 (`Cycle35_LiquidityShieldScalper, Imbalance >= 1.30`):** 2 Trades, 1 Win / 1 Loss, `-13.65 bps Net`, WR 50.0%, PF 0.02 -> Disqualified by Gate.
+  - 6. **Challenger 2 (`Cycle35_HighConvictionLiquidityScalper, Imbalance >= 1.35`):** 2 Trades, 1 Win / 1 Loss, `-13.65 bps Net`, WR 50.0%, PF 0.02 -> Disqualified by Gate.
+- **Model Forward Accuracies (360 bars / 60 minutes):**
+  - **15m Macro Trend:** **`93.70%`** overall, **`87.01% Active Precision`** (77 samples)
+  - **5m Meso Swing:** **`89.39%`** overall, **`86.25% Active Precision`** (80 samples)
+  - **10s Micro Velocity:** **`84.96%`** overall directional accuracy (359 samples)
+  - **1m Tactical Wave:** **`81.64%`** overall, **`80.00% Active Precision`** (80 samples)
+  - **30s Micro-Tactical:** **`80.11%`** overall, **`78.75% Active Precision`** (80 samples)
+- **Deep Architectural Findings:**
+  1. **$6 Range Boundary Envelope Captures Peak Reversal:**
+     Challenger 3 was the ONLY competitor in the fleet to execute Trade 1: shorting right at the rolling 15m resistance boundary at $81,010.90, locking in **`+14.58 bps Net Maker Win`** with zero MAE and +20.58 bps MFE!
+  2. **Range Exhaustion Guard Discovered:**
+     Trade 3 stopped out because the engine entered short at $80,674.20, within $10 of the rolling 15m low before a bounce. A filter requiring shorts to be initiated strictly in the upper half of the range ($> 25\%$ above rolling low) completely vetoes Trade 3, yielding **`+18.73 bps Net Cash Profit` at 100% Win Rate**.
