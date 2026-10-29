@@ -544,6 +544,16 @@ OrderbookLiquidityImbalanceScalper = Challenger5_OrderbookLiquidityImbalanceScal
 # ==============================================================================
 # ⚔️ CYCLE 56 CHALLENGER 1: Cycle 48 Adaptive Spread Scalper (Bar 50 Peak Discovery)
 # ==============================================================================
+class Cycle48_Tier05_ConformalScalper(SteppedRatchetOFIScalper):
+    """
+    ⚔️ Challenger 2: Cycle 48 Tier 0.5 Conformal Scalper (Long-Only Pure)
+    Pure Long-Only scalper with Tier 0.5 Stepped Ratchet (+1.25 bps net lock at +4.5 bps MFE).
+    Enforces strict Long-Only entries, eliminating all short-side chop bleed.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.strategy_profile = "Challenger 2: Cycle 48 Tier 0.5 Conformal Scalper (Long-Only Pure)"
+
 class Cycle48_AdaptiveSpreadScalper(SteppedRatchetOFIScalper):
     """
     ⚔️ Challenger 1: Cycle 48 Adaptive Spread Scalper
@@ -660,8 +670,8 @@ class ChampionChallengerTournamentManager:
             ),
             "Challenger_2": TournamentCompetitorRecord(
                 name="Challenger_2",
-                engine=Cycle35_ConformalOFIScalper(symbol=symbol),
-                strategy_profile="Challenger 2: Cycle 35 Conformal OFI Depth Scalper (Long-Only Pure)",
+                engine=Cycle48_Tier05_ConformalScalper(symbol=symbol),
+                strategy_profile="Challenger 2: Cycle 48 Tier 0.5 Conformal Scalper (Long-Only Pure)",
             ),
             "Challenger_3": TournamentCompetitorRecord(
                 name="Challenger_3",
