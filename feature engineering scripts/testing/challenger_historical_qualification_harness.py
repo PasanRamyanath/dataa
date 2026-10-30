@@ -82,6 +82,20 @@ class HistoricalLedgerReplayer:
         engine_instance.ticks_seen = 0
         engine_instance.rolling_15m_prices.clear()
         engine_instance.recent_mid_prices.clear()
+        engine_instance.last_exit_ts_ms = 0
+        engine_instance.last_trade_exit_price = 0.0
+        engine_instance.last_trade_side = ""
+        engine_instance.last_exit_was_win = False
+
+        if not self.records:
+            return []
+
+        # Pre-seed initial 15 bars into rolling_15m_prices for accurate range metrics
+        seed_len = min(15, len(self.records))
+        for r in self.records[:seed_len]:
+            m = float(r.get("bbo_mid", 0.0))
+            if m > 0:
+                engine_instance.rolling_15m_prices.append(m)
 
         for r in self.records:
             mid = float(r.get("bbo_mid", 0.0))
@@ -89,16 +103,17 @@ class HistoricalLedgerReplayer:
             ask = float(r.get("bbo_ask", mid))
             ts_ms = int(r.get("ts_ms", 0))
 
-            class MockDecision:
+            class AccurateDecision:
                 def __init__(self, d):
                     self.ts_ms = int(d.get("ts_ms", 0))
-                    self.macro_probs = d.get("macro_probs", [0.33, 0.34, 0.33])
-                    self.meso_probs = d.get("meso_probs", [0.33, 0.34, 0.33])
-                    self.tactical_probs = d.get("tactical_probs", [0.33, 0.34, 0.33])
-                    self.micro_probs = d.get("micro_probs", [0.33, 0.34, 0.33])
+                    self.macro_probs = tuple(d.get("macro_probs", [0.33, 0.34, 0.33]))
+                    self.meso_probs = tuple(d.get("meso_probs", [0.33, 0.34, 0.33]))
+                    self.tactical_probs = tuple(d.get("tactical_probs", [0.33, 0.34, 0.33]))
+                    self.micro_probs = tuple(d.get("micro_probs", [0.33, 0.34, 0.33]))
                     self.primary_direction = int(d.get("primary_direction", 1))
                     self.expected_net_edge_bps = float(d.get("expected_net_edge_bps", 0.0))
                     self.expected_gross_move_bps = self.expected_net_edge_bps + 4.0
+                    self.execution_mode = d.get("execution_mode", "NONE")
                     self.target_holding_seconds = 300.0
                     self.take_profit_bps = 15.0
                     self.stop_loss_bps = 25.0
@@ -106,10 +121,9 @@ class HistoricalLedgerReplayer:
                     self.fused_swing_probs = self.meso_probs
                     self.cross_horizon_alignment = 0.8
                     self.meta_act_probability = 0.8
-                    self.micro_sniper_trigger_prob = 0.8
-                    self.execution_mode = "SNIPER_MAKER"
+                    self.micro_sniper_trigger_prob = 0.8 if self.execution_mode == "SNIPER_MAKER" else 0.0
 
-            dec = MockDecision(r)
+            dec = AccurateDecision(r)
 
             engine_instance.on_market_micro_tick(
                 ts_ms=ts_ms,
@@ -117,6 +131,7 @@ class HistoricalLedgerReplayer:
                 bbo_ask=ask,
                 bbo_bid_qty=1.0,
                 bbo_ask_qty=1.0,
+                current_decision=dec,
             )
             engine_instance.on_hierarchical_decision(
                 decision=dec,
@@ -154,6 +169,9 @@ def evaluate_candidate_challenger(
             "archive_cycle57",
             "archive_cycle58",
             "archive_cycle59",
+            "archive_cycle60",
+            "archive_cycle61",
+            "archive_cycle62",
         ]
 
     total_trades = 0
