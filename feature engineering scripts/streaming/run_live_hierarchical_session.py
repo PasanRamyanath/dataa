@@ -26,6 +26,7 @@ for p in [str(REPO_ROOT), str(FEAT_ENGINE_DIR)]:
 
 from streaming.multi_horizon_ring_buffer import MultiHorizonLiveRingBuffer
 from fusion.hierarchical_fusion_v3 import HierarchicalMultiHorizonFusionEngine
+from execution.champion_challenger_framework import Cycle66_QuadModeMultiTranchePeakEngine
 from execution.hierarchical_sniper_engine import HierarchicalSniperExecutionEngine
 from inference.adaptive_hardware_coordinator import detect_optimal_hardware_topology
 from streaming.live_ingestion.binance_ws import BinanceLiveIngestor
@@ -263,7 +264,7 @@ class LiveHierarchicalTradingSession:
         self.topo = detect_optimal_hardware_topology()
         self.ring_buffer = MultiHorizonLiveRingBuffer(symbol=self.symbol)
         self.fusion_engine = HierarchicalMultiHorizonFusionEngine()
-        self.sniper_engine = HierarchicalSniperExecutionEngine(symbol=self.symbol)
+        self.sniper_engine = Cycle66_QuadModeMultiTranchePeakEngine(symbol=self.symbol)
         self.evaluator = ForwardAccuracyEvaluator()
         self.rest_poller = BinanceRestCompanionPoller(symbol=self.symbol)
 
