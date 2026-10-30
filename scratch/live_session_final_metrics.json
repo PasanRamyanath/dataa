@@ -1,5 +1,5 @@
 {
-  "session_duration_minutes": 60.05,
+  "session_duration_minutes": 60.07,
   "bars_evaluated": 359,
   "total_trades": 0,
   "winning_trades": 0,
@@ -9,7 +9,7 @@
   "accuracy_summary": {
     "10s": {
       "evaluated_samples": 358,
-      "overall_accuracy_pct": 91.34,
+      "overall_accuracy_pct": 93.3,
       "active_signals_count": 0,
       "active_precision_pct": 0.0,
       "sign_accuracy_pct": 0.0,
@@ -17,52 +17,52 @@
     },
     "30s": {
       "evaluated_samples": 356,
-      "overall_accuracy_pct": 83.99,
-      "active_signals_count": 29,
-      "active_precision_pct": 89.66,
-      "sign_accuracy_pct": 89.66,
-      "sign_samples": 29
+      "overall_accuracy_pct": 89.33,
+      "active_signals_count": 31,
+      "active_precision_pct": 87.1,
+      "sign_accuracy_pct": 87.1,
+      "sign_samples": 31
     },
     "1m": {
       "evaluated_samples": 353,
-      "overall_accuracy_pct": 87.54,
-      "active_signals_count": 29,
-      "active_precision_pct": 89.66,
-      "sign_accuracy_pct": 89.66,
-      "sign_samples": 29
+      "overall_accuracy_pct": 90.37,
+      "active_signals_count": 31,
+      "active_precision_pct": 90.32,
+      "sign_accuracy_pct": 90.32,
+      "sign_samples": 31
     },
     "5m": {
       "evaluated_samples": 329,
-      "overall_accuracy_pct": 94.53,
-      "active_signals_count": 173,
-      "active_precision_pct": 89.6,
-      "sign_accuracy_pct": 89.6,
-      "sign_samples": 173
+      "overall_accuracy_pct": 94.83,
+      "active_signals_count": 140,
+      "active_precision_pct": 87.86,
+      "sign_accuracy_pct": 87.86,
+      "sign_samples": 140
     },
     "15m": {
       "evaluated_samples": 269,
-      "overall_accuracy_pct": 96.28,
-      "active_signals_count": 139,
-      "active_precision_pct": 92.81,
-      "sign_accuracy_pct": 92.81,
-      "sign_samples": 139
+      "overall_accuracy_pct": 94.8,
+      "active_signals_count": 129,
+      "active_precision_pct": 89.15,
+      "sign_accuracy_pct": 89.15,
+      "sign_samples": 129
     },
     "tiers": {
       "macro": {
         "evaluated": 269,
-        "accuracy_pct": 47.96
+        "accuracy_pct": 42.75
       },
       "meso": {
         "evaluated": 269,
-        "accuracy_pct": 82.9
+        "accuracy_pct": 90.33
       },
       "tactical": {
         "evaluated": 353,
-        "accuracy_pct": 87.54
+        "accuracy_pct": 90.37
       },
       "micro": {
         "evaluated": 358,
-        "accuracy_pct": 91.34
+        "accuracy_pct": 93.3
       }
     }
   },

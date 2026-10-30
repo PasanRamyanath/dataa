@@ -12,3 +12,6 @@
 {"ts": "2026-10-30T13:00:44.293067+00:00", "polarity": 0.0, "magnitude": 0.0, "confidence": 0.3, "mention_velocity": 2, "n_scored": 1, "scorer": "LexiconFallbackScorer"}
 {"ts": "2026-10-30T13:13:44.360191+00:00", "polarity": -1.0, "magnitude": 0.4, "confidence": 0.5, "mention_velocity": 2, "n_scored": 1, "scorer": "LexiconFallbackScorer"}
 {"ts": "2026-10-30T13:15:53.303909+00:00", "polarity": -1.0, "magnitude": 0.8, "confidence": 0.6, "mention_velocity": 2, "n_scored": 1, "scorer": "LexiconFallbackScorer"}
+{"ts": "2026-10-30T14:10:04.851953+00:00", "polarity": 0.0, "magnitude": 0.0, "confidence": 0.3, "mention_velocity": 1, "n_scored": 1, "scorer": "LexiconFallbackScorer"}
+{"ts": "2026-10-30T14:18:32.041235+00:00", "polarity": 0.0, "magnitude": 0.4, "confidence": 0.5, "mention_velocity": 3, "n_scored": 2, "scorer": "LexiconFallbackScorer"}
+{"ts": "2026-10-30T14:36:49.820857+00:00", "polarity": 1.0, "magnitude": 0.2, "confidence": 0.4, "mention_velocity": 1, "n_scored": 1, "scorer": "LexiconFallbackScorer"}
