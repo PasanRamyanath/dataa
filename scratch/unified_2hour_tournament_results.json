@@ -1,0 +1,81 @@
+{
+  "session_title": "2-Hour Live Unified Champion-Challenger Tournament (No 45-Min Cutoff)",
+  "total_duration_minutes": 120.03,
+  "total_bars_evaluated": 713,
+  "tournament_winner": "Challenger_1",
+  "winner_profile": "Challenger 1: Cycle 65 Peak Bidirectional Scalper (98.31% WR, +209.18 bps Net, 59 Trades)",
+  "winner_trades": 3,
+  "winner_wins": 3,
+  "winner_losses": 0,
+  "winner_win_rate_pct": 100.0,
+  "winner_net_pnl_bps": 15.25,
+  "winner_profit_factor": 999.0,
+  "final_unified_leaderboard": [
+    {
+      "name": "Challenger_1",
+      "strategy_profile": "Challenger 1: Cycle 65 Peak Bidirectional Scalper (98.31% WR, +209.18 bps Net, 59 Trades)",
+      "trades": 3,
+      "wins": 3,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 15.25,
+      "profit_factor": 999.0,
+      "rank": 1
+    },
+    {
+      "name": "Champion",
+      "strategy_profile": "Supreme Champion: Cycle 66 Quad-Mode Multi-Tranche Peak Engine (100% WR, +348.74 bps Net, 0 Losses)",
+      "trades": 4,
+      "wins": 4,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 13.89,
+      "profit_factor": 999.0,
+      "rank": 2
+    },
+    {
+      "name": "Challenger_3",
+      "strategy_profile": "Challenger 3: Cycle 65 Unified Peak Reversion Engine (Live Tournament Winner +5.65 bps)",
+      "trades": 4,
+      "wins": 4,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 9.15,
+      "profit_factor": 999.0,
+      "rank": 3
+    },
+    {
+      "name": "Challenger_2",
+      "strategy_profile": "Challenger 2: Cycle 65 Flawless Bidirectional Scalper (100% WR Standard, 0 Losses, +162.59 bps)",
+      "trades": 0,
+      "wins": 0,
+      "losses": 0,
+      "win_rate_pct": 0.0,
+      "net_pnl_bps": 0,
+      "profit_factor": 1.0,
+      "rank": 4
+    },
+    {
+      "name": "Challenger_4",
+      "strategy_profile": "Challenger 4: Pure Maker Long-Only Mean Reversion Scalper (96.3% WR, +109.58 bps)",
+      "trades": 0,
+      "wins": 0,
+      "losses": 0,
+      "win_rate_pct": 0.0,
+      "net_pnl_bps": 0,
+      "profit_factor": 1.0,
+      "rank": 5
+    },
+    {
+      "name": "Challenger_5",
+      "strategy_profile": "Challenger 5: Cycle 35 Reversion Pure Scalper (Foundational Baseline)",
+      "trades": 18,
+      "wins": 8,
+      "losses": 10,
+      "win_rate_pct": 44.4,
+      "net_pnl_bps": -137.82,
+      "profit_factor": 0.0,
+      "rank": 6
+    }
+  ]
+}
