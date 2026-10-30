@@ -1,0 +1,1046 @@
+[
+  {
+    "cycle": "archive_cycle11",
+    "side": "SELL",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle12",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle12",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle13",
+    "side": "SELL",
+    "net_bps": 4.5,
+    "gross_bps": 8.5,
+    "exit_reason": "TIER1_STEPPED_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle13",
+    "side": "SELL",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle13",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle14",
+    "side": "SELL",
+    "net_bps": 0.6,
+    "gross_bps": 4.6,
+    "exit_reason": "SCALE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle14",
+    "side": "SELL",
+    "net_bps": 5.9614,
+    "gross_bps": 9.9614,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle15",
+    "side": "SELL",
+    "net_bps": 14.5,
+    "gross_bps": 18.5,
+    "exit_reason": "TIER3_RUNNER_EXPANSION_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle16",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle16",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle16",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "SCALE_LATE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle16",
+    "side": "SELL",
+    "net_bps": 14.5,
+    "gross_bps": 18.5,
+    "exit_reason": "TIER3_RUNNER_EXPANSION_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle18",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle18",
+    "side": "BUY",
+    "net_bps": 4.4317,
+    "gross_bps": 8.4317,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle19",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle19",
+    "side": "BUY",
+    "net_bps": 14.5,
+    "gross_bps": 18.5,
+    "exit_reason": "TIER3_RUNNER_EXPANSION_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle19",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle19",
+    "side": "BUY",
+    "net_bps": 3.8687,
+    "gross_bps": 7.8687,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle20",
+    "side": "BUY",
+    "net_bps": 2.6172,
+    "gross_bps": 6.6172,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle20",
+    "side": "BUY",
+    "net_bps": 4.5,
+    "gross_bps": 8.5,
+    "exit_reason": "TIER1_STEPPED_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle21",
+    "side": "BUY",
+    "net_bps": 4.5,
+    "gross_bps": 8.5,
+    "exit_reason": "TIER1_STEPPED_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle21",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle21",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle23",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle23",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle23",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle23",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle24",
+    "side": "BUY",
+    "net_bps": 4.5,
+    "gross_bps": 8.5,
+    "exit_reason": "TIER1_STEPPED_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle24",
+    "side": "BUY",
+    "net_bps": 2.8225,
+    "gross_bps": 6.8225,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle25",
+    "side": "BUY",
+    "net_bps": 2.0232,
+    "gross_bps": 6.0232,
+    "exit_reason": "PASSIVE_MAKER_TIME_UNWIND",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle26",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "SCALE_LATE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle26",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle27",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle27",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle27",
+    "side": "BUY",
+    "net_bps": 5.5952,
+    "gross_bps": 9.5952,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle28",
+    "side": "BUY",
+    "net_bps": 0.845,
+    "gross_bps": 4.845,
+    "exit_reason": "PASSIVE_MAKER_TIME_UNWIND",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle29",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle31",
+    "side": "BUY",
+    "net_bps": 14.5,
+    "gross_bps": 18.5,
+    "exit_reason": "TIER3_RUNNER_EXPANSION_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle31",
+    "side": "BUY",
+    "net_bps": -11.1237,
+    "gross_bps": -7.1237,
+    "exit_reason": "SESSION_END_MARK_TO_MARKET",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle32",
+    "side": "BUY",
+    "net_bps": 4.5,
+    "gross_bps": 8.5,
+    "exit_reason": "TIER1_STEPPED_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle32",
+    "side": "BUY",
+    "net_bps": 0.2747,
+    "gross_bps": 4.2747,
+    "exit_reason": "PASSIVE_MAKER_TIME_UNWIND",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle33",
+    "side": "BUY",
+    "net_bps": 1.2019,
+    "gross_bps": 5.2019,
+    "exit_reason": "PASSIVE_MAKER_TIME_UNWIND",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle35",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle35",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "SCALE_LATE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle35",
+    "side": "BUY",
+    "net_bps": 31.0,
+    "gross_bps": 35.0,
+    "exit_reason": "TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle36",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "SCALE_LATE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle36",
+    "side": "BUY",
+    "net_bps": 3.7311,
+    "gross_bps": 7.7311,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle37",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle39",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "SCALE_LATE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle39",
+    "side": "BUY",
+    "net_bps": -4.7817,
+    "gross_bps": -0.7817,
+    "exit_reason": "SESSION_END_MARK_TO_MARKET",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle40",
+    "side": "SELL",
+    "net_bps": 9.0,
+    "gross_bps": 13.0,
+    "exit_reason": "TIER2_RUNNER_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle41",
+    "side": "SELL",
+    "net_bps": 1.6137,
+    "gross_bps": 5.6137,
+    "exit_reason": "PASSIVE_MAKER_TIME_UNWIND",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle42",
+    "side": "SELL",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle43",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle43",
+    "side": "BUY",
+    "net_bps": 4.5,
+    "gross_bps": 8.5,
+    "exit_reason": "TIER1_STEPPED_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle44",
+    "side": "BUY",
+    "net_bps": 3.3672,
+    "gross_bps": 7.3672,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle44",
+    "side": "BUY",
+    "net_bps": 0.6,
+    "gross_bps": 4.6,
+    "exit_reason": "SCALE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle44",
+    "side": "BUY",
+    "net_bps": 3.294,
+    "gross_bps": 7.294,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle44",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle44",
+    "side": "BUY",
+    "net_bps": 4.383,
+    "gross_bps": 8.383,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle44",
+    "side": "BUY",
+    "net_bps": 4.5,
+    "gross_bps": 8.5,
+    "exit_reason": "TIER1_STEPPED_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle44",
+    "side": "BUY",
+    "net_bps": 31.0,
+    "gross_bps": 35.0,
+    "exit_reason": "TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle44",
+    "side": "BUY",
+    "net_bps": 9.0,
+    "gross_bps": 13.0,
+    "exit_reason": "TIER2_RUNNER_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle44",
+    "side": "BUY",
+    "net_bps": 4.1955,
+    "gross_bps": 8.1955,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle45",
+    "side": "BUY",
+    "net_bps": 4.0034,
+    "gross_bps": 8.0034,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle45",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle45",
+    "side": "BUY",
+    "net_bps": 4.5,
+    "gross_bps": 8.5,
+    "exit_reason": "TIER1_STEPPED_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle45",
+    "side": "BUY",
+    "net_bps": 3.1007,
+    "gross_bps": 7.1007,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle45",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle46",
+    "side": "BUY",
+    "net_bps": 0.2417,
+    "gross_bps": 4.2417,
+    "exit_reason": "PASSIVE_MAKER_TIME_UNWIND",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle46",
+    "side": "BUY",
+    "net_bps": 31.0,
+    "gross_bps": 35.0,
+    "exit_reason": "TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle47",
+    "side": "BUY",
+    "net_bps": 11.6998,
+    "gross_bps": 15.6998,
+    "exit_reason": "PASSIVE_MAKER_TIME_UNWIND",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle48",
+    "side": "BUY",
+    "net_bps": 1.445,
+    "gross_bps": 5.445,
+    "exit_reason": "PASSIVE_MAKER_TIME_UNWIND",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle49",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle50",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle51",
+    "side": "SELL",
+    "net_bps": 3.657,
+    "gross_bps": 7.657,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle52",
+    "side": "SELL",
+    "net_bps": 0.6,
+    "gross_bps": 4.6,
+    "exit_reason": "SCALE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle53",
+    "side": "SELL",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle53",
+    "side": "SELL",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle54",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "SCALE_LATE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle54",
+    "side": "SELL",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle55",
+    "side": "SELL",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle55",
+    "side": "SELL",
+    "net_bps": -0.7856,
+    "gross_bps": 3.2144,
+    "exit_reason": "SESSION_END_MARK_TO_MARKET",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle56",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle56",
+    "side": "SELL",
+    "net_bps": 0.6,
+    "gross_bps": 4.6,
+    "exit_reason": "SCALE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle56",
+    "side": "SELL",
+    "net_bps": 3.6672,
+    "gross_bps": 7.6672,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle57",
+    "side": "BUY",
+    "net_bps": 0.6,
+    "gross_bps": 4.6,
+    "exit_reason": "SCALE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle57",
+    "side": "BUY",
+    "net_bps": 14.5,
+    "gross_bps": 18.5,
+    "exit_reason": "TIER3_RUNNER_EXPANSION_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle58",
+    "side": "BUY",
+    "net_bps": 4.6782,
+    "gross_bps": 8.6782,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle58",
+    "side": "BUY",
+    "net_bps": 9.0,
+    "gross_bps": 13.0,
+    "exit_reason": "TIER2_RUNNER_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle59",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle6",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle6",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "SCALE_LATE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle6",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle6",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle6",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle60",
+    "side": "SELL",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle62",
+    "side": "SELL",
+    "net_bps": 9.0,
+    "gross_bps": 13.0,
+    "exit_reason": "TIER2_RUNNER_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle62",
+    "side": "SELL",
+    "net_bps": 14.5,
+    "gross_bps": 18.5,
+    "exit_reason": "TIER3_RUNNER_EXPANSION_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle62",
+    "side": "SELL",
+    "net_bps": 4.5,
+    "gross_bps": 8.5,
+    "exit_reason": "TIER1_STEPPED_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle64",
+    "side": "SELL",
+    "net_bps": 4.2921,
+    "gross_bps": 8.2921,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle64",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "SCALE_LATE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle7",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "SCALE_LATE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle7",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle7",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle7",
+    "side": "BUY",
+    "net_bps": 0.2157,
+    "gross_bps": 4.2157,
+    "exit_reason": "PASSIVE_MAKER_TIME_UNWIND",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle8",
+    "side": "BUY",
+    "net_bps": 0.6,
+    "gross_bps": 4.6,
+    "exit_reason": "SCALE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle8",
+    "side": "BUY",
+    "net_bps": 1.25,
+    "gross_bps": 5.25,
+    "exit_reason": "TIER0_5_CYCLE48_CROWN_RATCHET_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle8",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle8",
+    "side": "BUY",
+    "net_bps": 2.8816,
+    "gross_bps": 6.8816,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle8",
+    "side": "BUY",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "SCALE_LATE_BE_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_cycle9",
+    "side": "SELL",
+    "net_bps": 0.08,
+    "gross_bps": 4.08,
+    "exit_reason": "TIER0_LATE_BREAKEVEN_SHIELD",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_v3_2_session2",
+    "side": "BUY",
+    "net_bps": 31.0,
+    "gross_bps": 35.0,
+    "exit_reason": "TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_v3_2_session2",
+    "side": "BUY",
+    "net_bps": 3.5403,
+    "gross_bps": 7.5403,
+    "exit_reason": "SCALE_TARGET_MAKER_TP",
+    "tranches": 1,
+    "weight": 1.0
+  },
+  {
+    "cycle": "archive_v3_3_session1",
+    "side": "BUY",
+    "net_bps": 0.7281,
+    "gross_bps": 4.7281,
+    "exit_reason": "PASSIVE_MAKER_TIME_UNWIND",
+    "tranches": 1,
+    "weight": 1.0
+  }
+]
