@@ -174,3 +174,42 @@ To maintain strict modularity and prevent concurrent subagent write collisions:
 - `feature engineering scripts/execution/`: Owned by Milestone 3 Worker (`teamwork_preview_worker`).
 - `scripts/`: Shared evaluation and backtest scripts, coordinated by Milestone 4 Worker.
 - `.agents/teamwork/`: Metadata and coordination logs only (strictly orchestrator & agent directories).
+
+
+---
+
+## Continuous Improvement Goal & Peak Multi-Objective Target Function
+
+Following the forensic analysis of all historical cycles and explicit user directive, the production system is steered by a 5-pillar Multi-Objective Optimization Target:
+
+`
+                      ┌────────────────────────────────────────────────────────┐
+                      │    Continuous Peak System Target Function (Cycle 64+)  │
+                      └──────────────────────────┬─────────────────────────────┘
+                                                 │
+         ┌───────────────────┬───────────────────┼───────────────────┬───────────────────┐
+         ▼                   ▼                   ▼                   ▼                   ▼
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│ 1. MAX FREQUENCY│ │ 2. MAX ACCURACY │ │ 3. MAX PROFIT/TR│ │ 4. MAX QUALITY  │ │ 5. 15-MIN CADENCE│
+│ 2-6+ Trades/Hr  │ │ >= 90% Accuracy │ │ Unchoked MFE    │ │ >= 80-100% WR   │ │ Telemetry Audit │
+│ Zero Dead Hours │ │ >= 92% Precision│ │ Trailing Floor  │ │ 100% Maker Fills│ │ Real-Time Heart │
+│ Active Scaling  │ │ Multi-Horizon   │ │ +15 to +50 bps  │ │ Zero Panic Shed │ │ Dynamic Tuning  │
+└─────────────────┘ └─────────────────┘ └─────────────────┘ └─────────────────┘ └─────────────────┘
+`
+
+1. **Maximum Trade Frequency per Session**:
+   - Maintain continuous, active trade generation ( - 6+$ high-quality executions per hour).
+   - Eliminate all over-filtering chokes that cause 0 trades/hr or dead sessions.
+2. **Maximum Accuracy and Precision of Predictions**:
+   - Uphold $\ge 90\%$ forward directional accuracy across 15m Macro, 5m Meso, and 10s Micro horizons.
+   - Maintain active directional precision $\ge 92\%$, ensuring trades only trigger on verified model consensus.
+3. **Maximum Profits per Trade**:
+   - Let profitable excursions run freely without premature choking (MFE $+15$ to $+50\text{ bps}$).
+   - Arm trailing profit shields once MFE $\ge 3.80\text{ bps}$, locking $+1.25$ to $+2.25\text{ bps}$ net floor and capturing peak swings via MODEL_HARVEST_MAKER_TP and MICRO_TRAILING_MAKER_TP.
+4. **Maximum Trade Quality & Maximum Win Rate**:
+   - Target \% - 100\%$ win rate with zero unhedged slippage.
+   - Strict 100% Post-Only Maker fills at BBO (.0\text{ bps}$ fee leg / .0\text{ bps}$ round-trip).
+   - Eliminate premature $-6.50\text{ bps}$ taker panic cuts on normal $\$ BTC micro-wobbles; give trades $\ge 90\text{s}$ breathing room, unwinding structurally only via BBO Maker order.
+5. **Continuous 15-Minute Monitoring Cadence**:
+   - Audit live session telemetry every 15 minutes (Bars 90, 180, 270, 360).
+   - Track live PnL, open positions, win rate, and directional precision in real time.
