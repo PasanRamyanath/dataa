@@ -1277,6 +1277,8 @@ class Cycle65_UnifiedPeakReversionEngine(Cycle35_ReversionPureScalper):
         self.strategy_profile = "Challenger 1: Cycle 65 Unified Peak Reversion Engine (100% WR Empirical Standard)"
         self.shield_mfe_hurdle = 3.80
         self.shield_floor_gross = 4.15
+        self.ratchet0_5_mfe_hurdle = 4.50 # Cycle 48 Historic Crown Feature (+1.25 bps net floor)
+        self.ratchet0_5_floor_gross = 5.25
         self.ratchet1_mfe_hurdle = 6.00
         self.ratchet1_floor_gross = 6.25
         self.ratchet2_mfe_hurdle = 10.00
@@ -1317,7 +1319,7 @@ class Cycle65_UnifiedPeakReversionEngine(Cycle35_ReversionPureScalper):
             pos.mae = min(pos.mae, unrealized_bps)
         mfe = pos.mfe
 
-        # Determine Active Ratchet Floor
+        # Determine Active Ratchet Floor (Integrated Cycle 48 + Cycle 43 + Cycle 31 Hierarchy)
         active_floor = None
         ratchet_reason = None
         if mfe >= self.ratchet2_mfe_hurdle:
@@ -1326,6 +1328,9 @@ class Cycle65_UnifiedPeakReversionEngine(Cycle35_ReversionPureScalper):
         elif mfe >= self.ratchet1_mfe_hurdle:
             active_floor = self.ratchet1_floor_gross
             ratchet_reason = "TIER1_STEPPED_RATCHET_TP"
+        elif mfe >= self.ratchet0_5_mfe_hurdle:
+            active_floor = self.ratchet0_5_floor_gross
+            ratchet_reason = "TIER0_5_CYCLE48_CROWN_RATCHET_TP"
         elif mfe >= self.shield_mfe_hurdle:
             active_floor = self.shield_floor_gross
             ratchet_reason = "TIER0_BREAKEVEN_MAKER_SHIELD"
