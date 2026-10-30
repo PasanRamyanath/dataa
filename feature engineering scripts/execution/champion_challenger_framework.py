@@ -2056,13 +2056,14 @@ class Cycle66_QuadModeMultiTranchePeakEngine(Cycle65_UnifiedPeakReversionEngine)
         * Dual-Regime Unchoked Maker Ratchet Ladder (scaled-in vs single-tranche floors).
         * Final 3-Bar Session Harvest (rem_bars <= 3 and u >= 4.02 bps Maker exit).
     """
-    def __init__(self, symbol: str = "BTCUSDT"):
+    def __init__(self, symbol: str = "BTCUSDT", session_bars: int = 0, max_entry_tick: float = float("inf")):
         super().__init__(symbol=symbol)
         self.strategy_profile = "Supreme Champion: Cycle 66 Quad-Mode Multi-Tranche Peak Engine (100% WR, +348.74 bps Net, 0 Losses)"
         self.maker_fee_leg = 2.0
         self.taker_fee_leg = 5.0
         self.min_warmup_tick = 10
-        self.max_entry_tick = 270
+        self.session_bars = session_bars
+        self.max_entry_tick = max_entry_tick
         self.max_net_edge_bps = 48.0
         self.min_rng_dollars = 10.0
         self.min_rbps_short = 12.0
@@ -2141,7 +2142,7 @@ class Cycle66_QuadModeMultiTranchePeakEngine(Cycle65_UnifiedPeakReversionEngine)
         pos = self.active_position
         sign = 1.0 if pos.side == "BUY" else -1.0
         mid = 0.5 * (bbo_bid + bbo_ask)
-        rem_bars = max(0, 360 - self.ticks_seen)
+        rem_bars = max(0, self.session_bars - self.ticks_seen) if self.session_bars > 0 else 999
         orig_u_bps = sign * ((mid - self.pos_orig_entry_price) / self.pos_orig_entry_price) * 1e4
 
         # Scale-in loop
@@ -2215,6 +2216,8 @@ class Cycle66_QuadModeMultiTranchePeakEngine(Cycle65_UnifiedPeakReversionEngine)
         self.ticks_seen += 1
         mid = 0.5 * (bbo_bid + bbo_ask)
         self.mid_history.append(mid)
+        if len(self.mid_history) > 360:
+            self.mid_history = self.mid_history[-360:]
 
         if self._last_rolling_ts != now_ms:
             self._last_rolling_ts = now_ms
@@ -2260,8 +2263,9 @@ class Cycle66_QuadModeMultiTranchePeakEngine(Cycle65_UnifiedPeakReversionEngine)
                 m2 = (p_ok and decision.expected_net_edge_bps >= 2.0 and pct <= 0.74 and dt >= 0.05 and dm >= 0.02 and dmac >= -0.02 and dmic >= -0.02 and r60 <= 8.0 and r180 <= (99.0 if sign == 1.0 else 8.0) and r300 <= 12.0)
                 m3 = (pct <= 0.72 and rbps >= 6.0 and dt >= 0.10 and (dm >= 0.08 if not p_ok else dm >= 0.03) and dmac >= 0.00 and dmic >= 0.00 and r60 <= 5.5 and r180 <= 8.0 and r300 <= 8.0)
 
-                m4a = (sign == 1.0 and p_ok and self.ticks_seen <= 240 and pct <= 0.96 and rbps >= 14.0 and dt >= 0.16 and dm >= 0.195 and dmac >= 0.05 and dmic >= 0.00 and r60 <= 5.5 and r300 <= 12.0)
-                m4b = (sign == 1.0 and p_ok and self.ticks_seen <= 240 and pct <= 0.96 and rbps >= 7.5 and dt >= 0.16 and dm >= 0.08 and dmac >= 0.30 and dmic >= 0.04 and r60 <= 5.5 and r300 <= 5.0)
+                m4_tick_ok = (self.session_bars == 0 or self.ticks_seen <= max(240, self.session_bars - 60))
+                m4a = (sign == 1.0 and p_ok and m4_tick_ok and pct <= 0.96 and rbps >= 14.0 and dt >= 0.16 and dm >= 0.195 and dmac >= 0.05 and dmic >= 0.00 and r60 <= 5.5 and r300 <= 12.0)
+                m4b = (sign == 1.0 and p_ok and m4_tick_ok and pct <= 0.96 and rbps >= 7.5 and dt >= 0.16 and dm >= 0.08 and dmac >= 0.30 and dmic >= 0.04 and r60 <= 5.5 and r300 <= 5.0)
                 m4 = m4a or m4b
 
                 if m1 or m2 or m3 or m4:
@@ -2293,12 +2297,13 @@ class ChampionChallengerTournamentManager:
     Maintains the live leaderboard and enforces the ABSOLUTE PROFITABILITY GATE:
     A challenger can only dethrone the champion if net_pnl_bps > 0.0 and win_rate_pct >= 75.0%.
     """
-    def __init__(self, symbol: str = "BTCUSDT"):
+    def __init__(self, symbol: str = "BTCUSDT", session_bars: int = 0):
         self.symbol = symbol
+        self.session_bars = session_bars
         self.competitors: dict[str, TournamentCompetitorRecord] = {
             "Champion": TournamentCompetitorRecord(
                 name="Champion",
-                engine=Cycle66_QuadModeMultiTranchePeakEngine(symbol=symbol),
+                engine=Cycle66_QuadModeMultiTranchePeakEngine(symbol=symbol, session_bars=session_bars, max_entry_tick=float("inf")),
                 strategy_profile="Supreme Champion: Cycle 66 Quad-Mode Multi-Tranche Peak Engine (100% WR, +348.74 bps Net, 0 Losses)",
             ),
             "Challenger_1": TournamentCompetitorRecord(

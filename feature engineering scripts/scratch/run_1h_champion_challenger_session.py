@@ -68,7 +68,8 @@ class ChampionChallengerTradingSession(LiveHierarchicalTradingSession):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.tournament_mgr = ChampionChallengerTournamentManager(symbol=self.symbol)
+        bars = int(self.duration_seconds / 10.0)
+        self.tournament_mgr = ChampionChallengerTournamentManager(symbol=self.symbol, session_bars=bars)
         self.last_heartbeat_bar = 0
 
     def start(self) -> None:
@@ -247,6 +248,14 @@ class ChampionChallengerTradingSession(LiveHierarchicalTradingSession):
         if self.bars_evaluated % 60 == 0:
             self._print_tournament_leaderboard(bbo_mid)
 
+        # 10. 15-Minute Monitor Checkpoint Output (Every 90 bars = 15 minutes)
+        if self.bars_evaluated % 90 == 0:
+            checkpoint_min = int(self.bars_evaluated * 10 / 60)
+            log.info("=" * 105)
+            log.info(">>> [15-MIN CHECKPOINT] Minute %d / %d (Bar %d) Leaderboard Status:", checkpoint_min, int(self.duration_seconds / 60), self.bars_evaluated)
+            self._print_tournament_leaderboard(bbo_mid)
+            log.info("=" * 105)
+
     def _write_tournament_telemetry(self, current_mid: float) -> None:
         try:
             elapsed_sec = time.time() - self.start_time
@@ -333,9 +342,16 @@ class ChampionChallengerTradingSession(LiveHierarchicalTradingSession):
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Live Champion-Challenger Tournament Session Runner")
+    parser.add_argument("--symbol", default="BTCUSDT", help="Trading symbol (default: BTCUSDT)")
+    parser.add_argument("--duration", type=float, default=120.0, help="Duration in minutes (default: 120.0)")
+    parser.add_argument("--equity", type=float, default=600.0, help="Account equity USDT (default: 600.0)")
+    args = parser.parse_args()
+
     log.info("=" * 105)
-    log.info("LAUNCHING 1-HOUR CHAMPION-CHALLENGER TOURNAMENT SESSION (1 CHAMPION + 5 CHALLENGERS)")
-    log.info("Symbol: BTCUSDT | Target Duration: 60.0 minutes")
+    log.info("LAUNCHING %.1f-MINUTE CHAMPION-CHALLENGER TOURNAMENT SESSION (1 CHAMPION + 5 CHALLENGERS)", args.duration)
+    log.info("Symbol: %s | Target Duration: %.1f minutes | Starting Equity: $%.2f USDT", args.symbol, args.duration, args.equity)
     log.info("=" * 105)
 
     # Clean previous run artifacts
@@ -347,9 +363,9 @@ def main():
                 pass
 
     session = ChampionChallengerTradingSession(
-        symbol="BTCUSDT",
-        duration_minutes=60.0,
-        equity_usdt=10000.0,
+        symbol=args.symbol,
+        duration_minutes=args.duration,
+        equity_usdt=args.equity,
     )
     try:
         session.start()
