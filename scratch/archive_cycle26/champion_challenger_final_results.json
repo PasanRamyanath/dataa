@@ -1,0 +1,211 @@
+{
+  "session_duration_minutes": 60.0,
+  "bars_evaluated": 360,
+  "tournament_winner": "Champion",
+  "winner_profile": "Reigning Champion: Same-Side Retrace Barrier Scalper (Crowned Cycle 25 with +30.68 bps Net)",
+  "winner_net_pnl_bps": 7.1,
+  "winner_win_rate_pct": 100.0,
+  "winner_trades": 1,
+  "final_leaderboard": [
+    {
+      "rank": 1,
+      "name": "Champion",
+      "strategy_profile": "Reigning Champion: Same-Side Retrace Barrier Scalper (Crowned Cycle 25 with +30.68 bps Net)",
+      "trades": 1,
+      "wins": 1,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 7.1,
+      "profit_factor": 999.0,
+      "avg_trade_bps": 7.1,
+      "avg_duration_sec": 150.0,
+      "active_pos": "NONE",
+      "fitness_score": 24.6
+    },
+    {
+      "rank": 2,
+      "name": "Challenger_1",
+      "strategy_profile": "Dynamic ATR Retrace Barrier Scalper",
+      "trades": 1,
+      "wins": 1,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 7.1,
+      "profit_factor": 999.0,
+      "avg_trade_bps": 7.1,
+      "avg_duration_sec": 150.0,
+      "active_pos": "NONE",
+      "fitness_score": 24.6
+    },
+    {
+      "rank": 3,
+      "name": "Challenger_2",
+      "strategy_profile": "Multi-Stage Runner Scalper",
+      "trades": 1,
+      "wins": 1,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 7.1,
+      "profit_factor": 999.0,
+      "avg_trade_bps": 7.1,
+      "avg_duration_sec": 150.0,
+      "active_pos": "NONE",
+      "fitness_score": 24.6
+    },
+    {
+      "rank": 4,
+      "name": "Challenger_3",
+      "strategy_profile": "OFI Burst Retrace Scalper",
+      "trades": 1,
+      "wins": 1,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 7.1,
+      "profit_factor": 999.0,
+      "avg_trade_bps": 7.1,
+      "avg_duration_sec": 150.0,
+      "active_pos": "NONE",
+      "fitness_score": 24.6
+    },
+    {
+      "rank": 5,
+      "name": "Challenger_4",
+      "strategy_profile": "Conformal Negentropy Retrace Scalper",
+      "trades": 1,
+      "wins": 1,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 7.1,
+      "profit_factor": 999.0,
+      "avg_trade_bps": 7.1,
+      "avg_duration_sec": 150.0,
+      "active_pos": "NONE",
+      "fitness_score": 24.6
+    },
+    {
+      "rank": 6,
+      "name": "Challenger_5",
+      "strategy_profile": "Fast 90s Stalling Retrace Scalper",
+      "trades": 1,
+      "wins": 1,
+      "losses": 0,
+      "win_rate_pct": 100.0,
+      "net_pnl_bps": 7.1,
+      "profit_factor": 999.0,
+      "avg_trade_bps": 7.1,
+      "avg_duration_sec": 150.0,
+      "active_pos": "NONE",
+      "fitness_score": 24.6
+    }
+  ],
+  "competitor_trade_ledgers": {
+    "Champion": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 80905.1,
+        "exit_price": 80994.9,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793139350000,
+        "exit_ts_ms": 1793139500000,
+        "holding_duration_sec": 150.0,
+        "gross_return_bps": 11.0994,
+        "total_fee_bps": 4.0,
+        "net_return_bps": 7.0994,
+        "peak_mfe_bps": 11.7298,
+        "max_mae_bps": 0.0,
+        "exit_reason": "MODEL_HARVEST_MAKER_TP"
+      }
+    ],
+    "Challenger_1": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 80905.1,
+        "exit_price": 80994.9,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793139350000,
+        "exit_ts_ms": 1793139500000,
+        "holding_duration_sec": 150.0,
+        "gross_return_bps": 11.0994,
+        "total_fee_bps": 4.0,
+        "net_return_bps": 7.0994,
+        "peak_mfe_bps": 11.7298,
+        "max_mae_bps": 0.0,
+        "exit_reason": "MODEL_HARVEST_MAKER_TP"
+      }
+    ],
+    "Challenger_2": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 80905.1,
+        "exit_price": 80994.9,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793139350000,
+        "exit_ts_ms": 1793139500000,
+        "holding_duration_sec": 150.0,
+        "gross_return_bps": 11.0994,
+        "total_fee_bps": 4.0,
+        "net_return_bps": 7.0994,
+        "peak_mfe_bps": 11.7298,
+        "max_mae_bps": 0.0,
+        "exit_reason": "MODEL_HARVEST_MAKER_TP"
+      }
+    ],
+    "Challenger_3": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 80905.1,
+        "exit_price": 80994.9,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793139350000,
+        "exit_ts_ms": 1793139500000,
+        "holding_duration_sec": 150.0,
+        "gross_return_bps": 11.0994,
+        "total_fee_bps": 4.0,
+        "net_return_bps": 7.0994,
+        "peak_mfe_bps": 11.7298,
+        "max_mae_bps": 0.0,
+        "exit_reason": "MODEL_HARVEST_MAKER_TP"
+      }
+    ],
+    "Challenger_4": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 80905.1,
+        "exit_price": 80994.9,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793139350000,
+        "exit_ts_ms": 1793139500000,
+        "holding_duration_sec": 150.0,
+        "gross_return_bps": 11.0994,
+        "total_fee_bps": 4.0,
+        "net_return_bps": 7.0994,
+        "peak_mfe_bps": 11.7298,
+        "max_mae_bps": 0.0,
+        "exit_reason": "MODEL_HARVEST_MAKER_TP"
+      }
+    ],
+    "Challenger_5": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 80905.1,
+        "exit_price": 80994.9,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793139350000,
+        "exit_ts_ms": 1793139500000,
+        "holding_duration_sec": 150.0,
+        "gross_return_bps": 11.0994,
+        "total_fee_bps": 4.0,
+        "net_return_bps": 7.0994,
+        "peak_mfe_bps": 11.7298,
+        "max_mae_bps": 0.0,
+        "exit_reason": "MODEL_HARVEST_MAKER_TP"
+      }
+    ]
+  }
+}

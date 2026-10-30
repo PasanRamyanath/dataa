@@ -1,0 +1,7 @@
+{"ts": "2026-10-30T00:18:02.269368+00:00", "polarity": -1.0, "magnitude": 0.2, "confidence": 0.4, "mention_velocity": 1, "n_scored": 1, "scorer": "LexiconFallbackScorer"}
+{"ts": "2026-10-30T00:21:25.212948+00:00", "polarity": -1.0, "magnitude": 0.4, "confidence": 0.5, "mention_velocity": 2, "n_scored": 1, "scorer": "LexiconFallbackScorer"}
+{"ts": "2026-10-30T05:41:18.698001+00:00", "polarity": -0.8333333333333334, "magnitude": 0.26666666666666666, "confidence": 0.43333333333333335, "mention_velocity": 6, "n_scored": 6, "scorer": "LexiconFallbackScorer"}
+{"ts": "2026-10-30T05:44:24.043427+00:00", "polarity": 0.0, "magnitude": 0.0, "confidence": 0.3, "mention_velocity": 7, "n_scored": 1, "scorer": "LexiconFallbackScorer"}
+{"ts": "2026-10-30T05:47:22.358979+00:00", "polarity": 0.0, "magnitude": 0.0, "confidence": 0.3, "mention_velocity": 8, "n_scored": 1, "scorer": "LexiconFallbackScorer"}
+{"ts": "2026-10-30T05:56:31.228928+00:00", "polarity": 0.33333333333333337, "magnitude": 0.4, "confidence": 0.5, "mention_velocity": 4, "n_scored": 2, "scorer": "LexiconFallbackScorer"}
+{"ts": "2026-10-30T06:23:36.185985+00:00", "polarity": -1.0, "magnitude": 0.2, "confidence": 0.4, "mention_velocity": 1, "n_scored": 1, "scorer": "LexiconFallbackScorer"}

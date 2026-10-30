@@ -1,0 +1,4 @@
+from execution.hierarchical_sniper_engine import HierarchicalSniperExecutionEngine
+import inspect
+
+print(inspect.getsource(HierarchicalSniperExecutionEngine._place_sniper_maker_entry))

@@ -1,0 +1,4 @@
+from execution.champion_challenger_framework import PeakSameSideRetraceScalper
+import inspect
+
+print(inspect.getsource(PeakSameSideRetraceScalper.on_hierarchical_decision))

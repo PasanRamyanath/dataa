@@ -1,0 +1,97 @@
+{
+  "timestamp": "2026-10-26T23:28:29.765854+00:00",
+  "elapsed_minutes": 59.99,
+  "target_minutes": 60.0,
+  "progress_pct": 100.0,
+  "bars_evaluated": 360,
+  "current_price": 80035.45,
+  "active_position": {
+    "side": "BUY",
+    "entry_price": 79984.7,
+    "tp_price": 80280.5634053,
+    "sl_price": 79868.722185,
+    "unrealized_pnl_bps": 6.34,
+    "holding_sec": 119
+  },
+  "trades_count": 3,
+  "wins_count": 2,
+  "win_rate_pct": 66.67,
+  "net_pnl_bps": 3.9,
+  "cached_tier_probs": {
+    "macro": [
+      0.1874,
+      0.4088,
+      0.4038
+    ],
+    "meso": [
+      0.1657,
+      0.4506,
+      0.3837
+    ],
+    "tactical": [
+      0.1208,
+      0.409,
+      0.4702
+    ]
+  },
+  "accuracy_summary": {
+    "10s": {
+      "evaluated_samples": 359,
+      "overall_accuracy_pct": 90.25,
+      "active_signals_count": 0,
+      "active_precision_pct": 0.0,
+      "sign_accuracy_pct": 0.0,
+      "sign_samples": 0
+    },
+    "30s": {
+      "evaluated_samples": 357,
+      "overall_accuracy_pct": 81.79,
+      "active_signals_count": 60,
+      "active_precision_pct": 85.0,
+      "sign_accuracy_pct": 85.0,
+      "sign_samples": 60
+    },
+    "1m": {
+      "evaluated_samples": 354,
+      "overall_accuracy_pct": 82.77,
+      "active_signals_count": 57,
+      "active_precision_pct": 85.96,
+      "sign_accuracy_pct": 85.96,
+      "sign_samples": 57
+    },
+    "5m": {
+      "evaluated_samples": 330,
+      "overall_accuracy_pct": 83.03,
+      "active_signals_count": 125,
+      "active_precision_pct": 80.8,
+      "sign_accuracy_pct": 80.8,
+      "sign_samples": 125
+    },
+    "15m": {
+      "evaluated_samples": 270,
+      "overall_accuracy_pct": 79.26,
+      "active_signals_count": 100,
+      "active_precision_pct": 64.0,
+      "sign_accuracy_pct": 64.0,
+      "sign_samples": 100
+    },
+    "tiers": {
+      "macro": {
+        "evaluated": 270,
+        "accuracy_pct": 65.93
+      },
+      "meso": {
+        "evaluated": 270,
+        "accuracy_pct": 72.96
+      },
+      "tactical": {
+        "evaluated": 354,
+        "accuracy_pct": 82.77
+      },
+      "micro": {
+        "evaluated": 359,
+        "accuracy_pct": 90.25
+      }
+    }
+  }
+}

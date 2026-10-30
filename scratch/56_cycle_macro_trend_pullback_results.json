@@ -1,0 +1,11 @@
+{
+  "candidate": "MacroTrendPullbackScalper",
+  "total_trades": 4,
+  "wins": 2,
+  "losses": 2,
+  "win_rate": 50.0,
+  "net_pnl": -10.0408,
+  "winning_cycles": 1,
+  "breakeven_cycles": 53,
+  "losing_cycles": 2
+}

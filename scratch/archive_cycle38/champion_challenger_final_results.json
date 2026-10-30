@@ -1,0 +1,177 @@
+{
+  "session_duration_minutes": 60.06,
+  "bars_evaluated": 360,
+  "tournament_winner": "Champion",
+  "winner_profile": "Reigning Champion: Conformal Confidence Filter Scalper (+89.28 bps Peak Cumulative Net)",
+  "winner_net_pnl_bps": -6.79,
+  "winner_win_rate_pct": 0.0,
+  "winner_trades": 1,
+  "final_leaderboard": [
+    {
+      "rank": 1,
+      "name": "Challenger_3",
+      "strategy_profile": "Challenger 3: Cycle 35 Conformal Pullback Limit Scalper",
+      "trades": 0,
+      "wins": 0,
+      "losses": 0,
+      "win_rate_pct": 0.0,
+      "net_pnl_bps": 0,
+      "profit_factor": 1.0,
+      "avg_trade_bps": 0.0,
+      "avg_duration_sec": 0.0,
+      "active_pos": "NONE",
+      "fitness_score": 0.0
+    },
+    {
+      "rank": 2,
+      "name": "Challenger_5",
+      "strategy_profile": "Challenger 5: Cycle 35 Conformal Quad-Horizon Scalper",
+      "trades": 0,
+      "wins": 0,
+      "losses": 0,
+      "win_rate_pct": 0.0,
+      "net_pnl_bps": 0,
+      "profit_factor": 1.0,
+      "avg_trade_bps": 0.0,
+      "avg_duration_sec": 0.0,
+      "active_pos": "NONE",
+      "fitness_score": 0.0
+    },
+    {
+      "rank": 3,
+      "name": "Champion",
+      "strategy_profile": "Reigning Champion: Conformal Confidence Filter Scalper (+89.28 bps Peak Cumulative Net)",
+      "trades": 1,
+      "wins": 0,
+      "losses": 1,
+      "win_rate_pct": 0.0,
+      "net_pnl_bps": -6.79,
+      "profit_factor": 0.0,
+      "avg_trade_bps": -6.79,
+      "avg_duration_sec": 330.0,
+      "active_pos": "NONE",
+      "fitness_score": -0.3
+    },
+    {
+      "rank": 4,
+      "name": "Challenger_1",
+      "strategy_profile": "Challenger 1: Cycle 35 Conformal OFI Depth Scalper",
+      "trades": 1,
+      "wins": 0,
+      "losses": 1,
+      "win_rate_pct": 0.0,
+      "net_pnl_bps": -6.79,
+      "profit_factor": 0.0,
+      "avg_trade_bps": -6.79,
+      "avg_duration_sec": 330.0,
+      "active_pos": "NONE",
+      "fitness_score": -0.3
+    },
+    {
+      "rank": 5,
+      "name": "Challenger_2",
+      "strategy_profile": "Challenger 2: Cycle 35 Conformal Wide Boundary Scalper ($15 Filter)",
+      "trades": 1,
+      "wins": 0,
+      "losses": 1,
+      "win_rate_pct": 0.0,
+      "net_pnl_bps": -6.79,
+      "profit_factor": 0.0,
+      "avg_trade_bps": -6.79,
+      "avg_duration_sec": 330.0,
+      "active_pos": "NONE",
+      "fitness_score": -0.3
+    },
+    {
+      "rank": 6,
+      "name": "Challenger_4",
+      "strategy_profile": "Challenger 4: Cycle 35 Conformal Stepped Ratchet Scalper",
+      "trades": 1,
+      "wins": 0,
+      "losses": 1,
+      "win_rate_pct": 0.0,
+      "net_pnl_bps": -6.79,
+      "profit_factor": 0.0,
+      "avg_trade_bps": -6.79,
+      "avg_duration_sec": 330.0,
+      "active_pos": "NONE",
+      "fitness_score": -0.3
+    }
+  ],
+  "competitor_trade_ledgers": {
+    "Champion": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 81409.0,
+        "exit_price": 81386.3,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793187300000,
+        "exit_ts_ms": 1793187630000,
+        "holding_duration_sec": 330.0,
+        "gross_return_bps": -2.7884,
+        "total_fee_bps": 4.0,
+        "net_return_bps": -6.7884,
+        "peak_mfe_bps": 0.6142,
+        "max_mae_bps": -2.813,
+        "exit_reason": "RESPONSIVE_MODEL_MAKER_EXIT"
+      }
+    ],
+    "Challenger_1": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 81409.0,
+        "exit_price": 81386.3,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793187300000,
+        "exit_ts_ms": 1793187630000,
+        "holding_duration_sec": 330.0,
+        "gross_return_bps": -2.7884,
+        "total_fee_bps": 4.0,
+        "net_return_bps": -6.7884,
+        "peak_mfe_bps": 0.6142,
+        "max_mae_bps": -2.813,
+        "exit_reason": "RESPONSIVE_MODEL_MAKER_EXIT"
+      }
+    ],
+    "Challenger_2": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 81409.0,
+        "exit_price": 81386.3,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793187300000,
+        "exit_ts_ms": 1793187630000,
+        "holding_duration_sec": 330.0,
+        "gross_return_bps": -2.7884,
+        "total_fee_bps": 4.0,
+        "net_return_bps": -6.7884,
+        "peak_mfe_bps": 0.6142,
+        "max_mae_bps": -2.813,
+        "exit_reason": "RESPONSIVE_MODEL_MAKER_EXIT"
+      }
+    ],
+    "Challenger_3": [],
+    "Challenger_4": [
+      {
+        "symbol": "BTCUSDT",
+        "side": "BUY",
+        "entry_price": 81409.0,
+        "exit_price": 81386.3,
+        "quantity": 0.012,
+        "entry_ts_ms": 1793187300000,
+        "exit_ts_ms": 1793187630000,
+        "holding_duration_sec": 330.0,
+        "gross_return_bps": -2.7884,
+        "total_fee_bps": 4.0,
+        "net_return_bps": -6.7884,
+        "peak_mfe_bps": 0.6142,
+        "max_mae_bps": -2.813,
+        "exit_reason": "RESPONSIVE_MODEL_MAKER_EXIT"
+      }
+    ],
+    "Challenger_5": []
+  }
+}

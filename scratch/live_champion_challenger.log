@@ -1,0 +1,368 @@
+2026-10-30 12:29:15,490 [INFO] =========================================================================================================
+2026-10-30 12:29:15,491 [INFO] LAUNCHING 1-HOUR CHAMPION-CHALLENGER TOURNAMENT SESSION (1 CHAMPION + 5 CHALLENGERS)
+2026-10-30 12:29:15,491 [INFO] Symbol: BTCUSDT | Target Duration: 60.0 minutes
+2026-10-30 12:29:15,491 [INFO] =========================================================================================================
+2026-10-30 12:29:15,493 [INFO] Initializing Project-IMPJR v4.0 Live Trading & Monitoring Session...
+2026-10-30 12:29:16,731 [INFO] Detected Hardware Topology: HardwareTopologyProfile(deployment_mode='LOCAL_LAPTOP_STANDALONE', is_kaggle_vm=False, os_platform='Windows', cuda_device_count=0, tier4_macro_device='cpu', tier3_meso_device='cpu', tier2_tactical_device='cpu', tier1_micro_device='cpu', use_fp16_autocast=False, use_cpu_int8_quantization=True, binance_fapi_reachable=True, active_rest_kline_base='https://fapi.binance.com/fapi/v1/klines', active_ws_base='wss://fstream.binance.com/stream')
+2026-10-30 12:29:18,301 [INFO] LiveMultiHorizonV4ModelRegistry initialized: 16/16 models loaded (tier4-hmm-regime, tier4-patchtst-ffd, tier4-tft-funding, tier4-kronos-macro, tier3-itransformer-32, tier3-nhits-multirate, tier3-kronos-meso, tier3-lgbm-positioning, tier2-mamba-s6, tier2-lgbm-bookdepth, tier2-crossasset-gat, tier2-cryptobert-news, tier1-lgbm-micro-1s10s, tier1-spot1s-leadlag, tier1-queue-hazard, fusion-v4-hierarchical) | Stage5 fitted=True
+2026-10-30 12:29:18,311 [INFO] Loaded fitted Stage-5 SupervisedMultiHorizonOOFStacker from D:\PrivateProjects\BTC Futures\feature engineering scripts\models_v3\checkpoints\stage5_fusion\models\fusion-v4-hierarchical\supervised_multi_horizon_stacker.joblib
+2026-10-30 12:29:18,311 [INFO] Bootstrapping multi-horizon ring buffer from Binance REST...
+2026-10-30 12:29:24,278 [INFO] Bootstrap complete across all 14 timeframes: {'1m': 99, '3m': 99, '5m': 99, '15m': 99, '30m': 99, '1h': 99, '2h': 99, '4h': 99, '6h': 99, '8h': 99, '12h': 99, '1d': 99}
+2026-10-30 12:29:24,278 [INFO] Pre-seeded 15 15m price points to all competitor engines (15m Range: $78390.20 - $78617.30)
+2026-10-30 12:29:24,278 [INFO] Starting real-time Binance WebSocket stream, REST companion poller & Live News Engine...
+2026-10-30 12:29:24,366 [INFO] LiveNewsEngineDaemon started in background (poll_interval=30s)
+2026-10-30 12:29:24,367 [INFO] Starting Binance REST Companion Poller (Interval: 30s, Symbol: BTCUSDT)...
+2026-10-30 12:29:24,368 [INFO] ================================================================================
+2026-10-30 12:29:24,369 [INFO] LIVE HIERARCHICAL TRADING & MONITORING SESSION STARTED (BTCUSDT)
+2026-10-30 12:29:24,369 [INFO] Target Duration: 60.0 minutes (1.0 hours)
+2026-10-30 12:29:24,369 [INFO] Ledger Output: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_ledger.jsonl
+2026-10-30 12:29:24,370 [INFO] ================================================================================
+2026-10-30 12:29:24,372 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:29:24,383 [WARNING] Could not load sentiment model 'ElKulako/cryptobert' (ModuleNotFoundError: No module named 'transformers') — falling back to lexicon-based polarity heuristic. Install `transformers`/`torch` (requirements-models.txt) and ensure the model is reachable (HF Hub network access) for real FinBERT-class scoring.
+2026-10-30 12:29:31,490 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-30 12:29:42,165 [INFO] [06:59:42 | #0001] BTC: $78610.25 | Dir: FLAT | Edge: +20.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:29:49,894 [INFO] [06:59:49 | #0002] BTC: $78610.25 | Dir: FLAT | Edge: +19.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:29:59,887 [INFO] [06:59:59 | #0003] BTC: $78621.05 | Dir: FLAT | Edge: +20.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:30:10,564 [INFO] [07:00:10 | #0004] BTC: $78621.05 | Dir: FLAT | Edge: +20.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:30:17,395 [WARNING] RSS poll failed for coindesk: HTTPSConnectionPool(host='www.coindesk.com', port=443): Read timed out. (read timeout=10)
+2026-10-30 12:30:20,609 [INFO] [07:00:20 | #0005] BTC: $78600.05 | Dir: FLAT | Edge: +21.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:30:21,529 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): sent 1011 (internal error) keepalive ping timeout; no close frame received. Switching/reconnecting in 1.0s...
+2026-10-30 12:30:22,538 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:30:27,403 [WARNING] RSS poll failed for cointelegraph: HTTPSConnectionPool(host='cointelegraph.com', port=443): Read timed out. (read timeout=10)
+2026-10-30 12:30:30,543 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-30 12:30:30,543 [ERROR] Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 282, in parse
+    status_line = yield from parse_line(read_line, StatusLineTooLong)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 365, in parse_line
+    line = yield from read_line(MAX_LINE_LENGTH, too_long_exc_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\streams.py", line 54, in read_line
+    raise EOFError(f"stream ends after {p} bytes, before end of line")
+EOFError: stream ends after 0 bytes, before end of line
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 738, in run_parser
+    next(self.parser)
+    ~~~~^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 284, in parse
+    raise EOFError("connection closed while reading HTTP status line") from exc
+EOFError: connection closed while reading HTTP status line
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 160, in _call_connection_lost
+    self._protocol.connection_lost(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 769, in connection_lost
+    self.run_parser()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 750, in run_parser
+    self.response.set_exception(proxy_exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+asyncio.exceptions.InvalidStateError: invalid state
+2026-10-30 12:30:32,051 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:30:37,416 [WARNING] RSS poll failed for theblock: HTTPSConnectionPool(host='www.theblock.co', port=443): Read timed out. (read timeout=10)
+2026-10-30 12:30:40,054 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 2.2s...
+2026-10-30 12:30:40,054 [ERROR] Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 282, in parse
+    status_line = yield from parse_line(read_line, StatusLineTooLong)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 365, in parse_line
+    line = yield from read_line(MAX_LINE_LENGTH, too_long_exc_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\streams.py", line 54, in read_line
+    raise EOFError(f"stream ends after {p} bytes, before end of line")
+EOFError: stream ends after 0 bytes, before end of line
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 738, in run_parser
+    next(self.parser)
+    ~~~~^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 284, in parse
+    raise EOFError("connection closed while reading HTTP status line") from exc
+EOFError: connection closed while reading HTTP status line
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 160, in _call_connection_lost
+    self._protocol.connection_lost(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 769, in connection_lost
+    self.run_parser()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 750, in run_parser
+    self.response.set_exception(proxy_exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+asyncio.exceptions.InvalidStateError: invalid state
+2026-10-30 12:30:42,319 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:30:47,430 [WARNING] RSS poll failed for decrypt: HTTPSConnectionPool(host='decrypt.co', port=443): Read timed out. (read timeout=10)
+2026-10-30 12:30:50,327 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 3.4s...
+2026-10-30 12:30:50,328 [ERROR] Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 282, in parse
+    status_line = yield from parse_line(read_line, StatusLineTooLong)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 365, in parse_line
+    line = yield from read_line(MAX_LINE_LENGTH, too_long_exc_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\streams.py", line 54, in read_line
+    raise EOFError(f"stream ends after {p} bytes, before end of line")
+EOFError: stream ends after 0 bytes, before end of line
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 738, in run_parser
+    next(self.parser)
+    ~~~~^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 284, in parse
+    raise EOFError("connection closed while reading HTTP status line") from exc
+EOFError: connection closed while reading HTTP status line
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 160, in _call_connection_lost
+    self._protocol.connection_lost(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 769, in connection_lost
+    self.run_parser()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 750, in run_parser
+    self.response.set_exception(proxy_exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+asyncio.exceptions.InvalidStateError: invalid state
+2026-10-30 12:30:53,710 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:31:01,724 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 5.1s...
+2026-10-30 12:31:01,724 [ERROR] Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 282, in parse
+    status_line = yield from parse_line(read_line, StatusLineTooLong)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 365, in parse_line
+    line = yield from read_line(MAX_LINE_LENGTH, too_long_exc_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\streams.py", line 54, in read_line
+    raise EOFError(f"stream ends after {p} bytes, before end of line")
+EOFError: stream ends after 0 bytes, before end of line
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 738, in run_parser
+    next(self.parser)
+    ~~~~^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 284, in parse
+    raise EOFError("connection closed while reading HTTP status line") from exc
+EOFError: connection closed while reading HTTP status line
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 160, in _call_connection_lost
+    self._protocol.connection_lost(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 769, in connection_lost
+    self.run_parser()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 750, in run_parser
+    self.response.set_exception(proxy_exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+asyncio.exceptions.InvalidStateError: invalid state
+2026-10-30 12:31:06,802 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:31:14,811 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 7.6s...
+2026-10-30 12:31:14,812 [ERROR] Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 282, in parse
+    status_line = yield from parse_line(read_line, StatusLineTooLong)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 365, in parse_line
+    line = yield from read_line(MAX_LINE_LENGTH, too_long_exc_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\streams.py", line 54, in read_line
+    raise EOFError(f"stream ends after {p} bytes, before end of line")
+EOFError: stream ends after 0 bytes, before end of line
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 738, in run_parser
+    next(self.parser)
+    ~~~~^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 284, in parse
+    raise EOFError("connection closed while reading HTTP status line") from exc
+EOFError: connection closed while reading HTTP status line
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 160, in _call_connection_lost
+    self._protocol.connection_lost(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 769, in connection_lost
+    self.run_parser()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 750, in run_parser
+    self.response.set_exception(proxy_exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+asyncio.exceptions.InvalidStateError: invalid state
+2026-10-30 12:31:22,409 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:31:30,420 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-30 12:31:30,421 [ERROR] Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 282, in parse
+    status_line = yield from parse_line(read_line, StatusLineTooLong)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 365, in parse_line
+    line = yield from read_line(MAX_LINE_LENGTH, too_long_exc_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\streams.py", line 54, in read_line
+    raise EOFError(f"stream ends after {p} bytes, before end of line")
+EOFError: stream ends after 0 bytes, before end of line
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 738, in run_parser
+    next(self.parser)
+    ~~~~^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 284, in parse
+    raise EOFError("connection closed while reading HTTP status line") from exc
+EOFError: connection closed while reading HTTP status line
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 160, in _call_connection_lost
+    self._protocol.connection_lost(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 769, in connection_lost
+    self.run_parser()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 750, in run_parser
+    self.response.set_exception(proxy_exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+asyncio.exceptions.InvalidStateError: invalid state
+2026-10-30 12:31:40,430 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:31:43,790 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-30 12:31:44,115 [WARNING] Detected stream gap of 80000 ms (7 missing bars). Interpolating 7 bounded synthetic flat bars.
+2026-10-30 12:31:44,153 [INFO] [07:01:44 | #0006] BTC: $78600.05 | Dir: FLAT | Edge: +21.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:31:44,190 [INFO] [07:01:44 | #0007] BTC: $78600.05 | Dir: FLAT | Edge: +20.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:31:44,229 [INFO] [07:01:44 | #0008] BTC: $78600.05 | Dir: FLAT | Edge: +20.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:31:44,291 [INFO] [07:01:44 | #0009] BTC: $78600.05 | Dir: FLAT | Edge: +20.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:31:44,324 [INFO] [07:01:44 | #0010] BTC: $78600.05 | Dir: FLAT | Edge: +20.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:31:44,364 [INFO] [07:01:44 | #0011] BTC: $78600.05 | Dir: FLAT | Edge: +20.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:31:44,409 [INFO] [07:01:44 | #0012] BTC: $78600.05 | Dir: FLAT | Edge: +19.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:31:44,441 [INFO] [07:01:44 | #0013] BTC: $78600.05 | Dir: FLAT | Edge: +19.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:31:50,223 [INFO] [07:01:50 | #0014] BTC: $78612.45 | Dir: FLAT | Edge: +19.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:31:59,875 [INFO] [07:01:59 | #0015] BTC: $78603.05 | Dir: FLAT | Edge: +18.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:32:10,124 [INFO] [07:02:10 | #0016] BTC: $78589.05 | Dir: FLAT | Edge: +22.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:32:19,969 [INFO] [07:02:19 | #0017] BTC: $78607.35 | Dir: FLAT | Edge: +17.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:32:29,917 [INFO] [07:02:29 | #0018] BTC: $78607.35 | Dir: FLAT | Edge: +18.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:32:39,900 [INFO] [07:02:39 | #0019] BTC: $78600.95 | Dir: FLAT | Edge: +20.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:32:49,839 [INFO] [07:02:49 | #0020] BTC: $78608.75 | Dir: FLAT | Edge: +18.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:32:59,886 [INFO] [07:02:59 | #0021] BTC: $78608.75 | Dir: FLAT | Edge: +18.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:33:09,834 [INFO] [07:03:09 | #0022] BTC: $78608.85 | Dir: FLAT | Edge: +17.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:33:19,970 [INFO] [07:03:19 | #0023] BTC: $78617.45 | Dir: FLAT | Edge: +18.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:33:29,904 [INFO] [07:03:29 | #0024] BTC: $78614.45 | Dir: FLAT | Edge: +17.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:33:40,229 [INFO] [07:03:40 | #0025] BTC: $78621.05 | Dir: FLAT | Edge: +19.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:33:49,885 [INFO] [07:03:49 | #0026] BTC: $78615.35 | Dir: FLAT | Edge: +17.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:34:00,101 [INFO] [07:04:00 | #0027] BTC: $78583.65 | Dir: SHORT | Edge: +34.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:34:10,173 [INFO] [07:04:10 | #0028] BTC: $78589.95 | Dir: FLAT | Edge: +23.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:34:19,833 [INFO] [07:04:19 | #0029] BTC: $78584.25 | Dir: SHORT | Edge: +34.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:34:30,092 [INFO] [07:04:30 | #0030] BTC: $78560.65 | Dir: SHORT | Edge: +41.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:34:39,879 [INFO] [07:04:39 | #0031] BTC: $78560.65 | Dir: SHORT | Edge: +40.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:34:49,884 [INFO] [07:04:49 | #0032] BTC: $78545.35 | Dir: SHORT | Edge: +41.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:34:55,594 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-30 12:34:56,605 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:34:56,606 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): [WinError 1232] The network location cannot be reached. For information about network troubleshooting, see Windows Help. Switching/reconnecting in 1.5s...
+2026-10-30 12:34:58,111 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:34:58,113 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): [WinError 1232] The network location cannot be reached. For information about network troubleshooting, see Windows Help. Switching/reconnecting in 2.2s...
+2026-10-30 12:35:00,379 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:35:08,395 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 3.4s...
+2026-10-30 12:35:11,783 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:35:15,644 [WARNING] RSS poll failed for coindesk: HTTPSConnectionPool(host='www.coindesk.com', port=443): Read timed out. (read timeout=10)
+2026-10-30 12:35:19,789 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 5.1s...
+2026-10-30 12:35:19,789 [ERROR] Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 282, in parse
+    status_line = yield from parse_line(read_line, StatusLineTooLong)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 365, in parse_line
+    line = yield from read_line(MAX_LINE_LENGTH, too_long_exc_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\streams.py", line 54, in read_line
+    raise EOFError(f"stream ends after {p} bytes, before end of line")
+EOFError: stream ends after 0 bytes, before end of line
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 738, in run_parser
+    next(self.parser)
+    ~~~~^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\http11.py", line 284, in parse
+    raise EOFError("connection closed while reading HTTP status line") from exc
+EOFError: connection closed while reading HTTP status line
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 160, in _call_connection_lost
+    self._protocol.connection_lost(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 769, in connection_lost
+    self.run_parser()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\pasan\AppData\Local\Programs\Python\Python313\Lib\site-packages\websockets\asyncio\client.py", line 750, in run_parser
+    self.response.set_exception(proxy_exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+asyncio.exceptions.InvalidStateError: invalid state
+2026-10-30 12:35:24,863 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:35:32,877 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 7.6s...
+2026-10-30 12:35:40,486 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-30 12:35:42,223 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-30 12:35:42,315 [WARNING] Detected stream gap of 50000 ms (4 missing bars). Interpolating 4 bounded synthetic flat bars.
+2026-10-30 12:35:42,374 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-30 12:35:42,390 [INFO] [07:05:42 | #0033] BTC: $78545.35 | Dir: SHORT | Edge: +38.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:35:42,431 [INFO] [07:05:42 | #0034] BTC: $78545.35 | Dir: SHORT | Edge: +38.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:35:42,463 [INFO] [07:05:42 | #0035] BTC: $78545.35 | Dir: SHORT | Edge: +38.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-30 12:35:42,513 [INFO] [07:05:42 | #0036] BTC: $78545.35 | Dir: SHORT | Edge: +38.3 bps | Champ Pos: SELL @ 78545.4 (+0.0b) | Champ PnL: +0.00 bps
+2026-10-30 12:35:42,546 [INFO] [07:05:42 | #0037] BTC: $78545.35 | Dir: SHORT | Edge: +38.3 bps | Champ Pos: SELL @ 78545.4 (+0.0b) | Champ PnL: +0.00 bps

@@ -1,0 +1,428 @@
+[
+  {
+    "name": "Champion Benchmark (Cycle 35 Baseline)",
+    "problem_addressed": "Foundational Conformal Certainty Baseline",
+    "passed": false,
+    "total_trades": 40,
+    "win_rate_pct": 40.0,
+    "total_net_pnl_bps": -223.82,
+    "avg_trades_per_hour": 5.71,
+    "disqualification_reasons": [
+      "Aggregate Net PnL is non-positive: -223.82 bps",
+      "Overall Win Rate (40.0%) is below 70.0% standard"
+    ],
+    "cycle_results": [
+      {
+        "cycle": "cycle12",
+        "trades": 5,
+        "wins": 1,
+        "losses": 4,
+        "win_rate": 20.0,
+        "net_pnl": -31.07
+      },
+      {
+        "cycle": "cycle17",
+        "trades": 8,
+        "wins": 5,
+        "losses": 3,
+        "win_rate": 62.5,
+        "net_pnl": -22.41
+      },
+      {
+        "cycle": "cycle35",
+        "trades": 4,
+        "wins": 1,
+        "losses": 3,
+        "win_rate": 25.0,
+        "net_pnl": -2.89
+      },
+      {
+        "cycle": "cycle48",
+        "trades": 5,
+        "wins": 2,
+        "losses": 3,
+        "win_rate": 40.0,
+        "net_pnl": -29.24
+      },
+      {
+        "cycle": "cycle57",
+        "trades": 8,
+        "wins": 3,
+        "losses": 5,
+        "win_rate": 37.5,
+        "net_pnl": -71.56
+      },
+      {
+        "cycle": "cycle58",
+        "trades": 4,
+        "wins": 0,
+        "losses": 4,
+        "win_rate": 0.0,
+        "net_pnl": -54.16
+      },
+      {
+        "cycle": "cycle59",
+        "trades": 6,
+        "wins": 4,
+        "losses": 2,
+        "win_rate": 66.7,
+        "net_pnl": -12.49
+      }
+    ]
+  },
+  {
+    "name": "Challenger 1 Candidate ($6 Range Envelope Scalper)",
+    "problem_addressed": "Solves range midpoint whipsaw by entering within $6 of 15m extremes",
+    "passed": false,
+    "total_trades": 45,
+    "win_rate_pct": 42.2,
+    "total_net_pnl_bps": -214.85,
+    "avg_trades_per_hour": 6.43,
+    "disqualification_reasons": [
+      "Aggregate Net PnL is non-positive: -214.85 bps",
+      "Overall Win Rate (42.2%) is below 70.0% standard"
+    ],
+    "cycle_results": [
+      {
+        "cycle": "cycle12",
+        "trades": 6,
+        "wins": 2,
+        "losses": 4,
+        "win_rate": 33.3,
+        "net_pnl": -23.18
+      },
+      {
+        "cycle": "cycle17",
+        "trades": 9,
+        "wins": 6,
+        "losses": 3,
+        "win_rate": 66.7,
+        "net_pnl": -16.13
+      },
+      {
+        "cycle": "cycle35",
+        "trades": 5,
+        "wins": 1,
+        "losses": 4,
+        "win_rate": 20.0,
+        "net_pnl": -16.26
+      },
+      {
+        "cycle": "cycle48",
+        "trades": 5,
+        "wins": 2,
+        "losses": 3,
+        "win_rate": 40.0,
+        "net_pnl": -21.09
+      },
+      {
+        "cycle": "cycle57",
+        "trades": 8,
+        "wins": 3,
+        "losses": 5,
+        "win_rate": 37.5,
+        "net_pnl": -71.56
+      },
+      {
+        "cycle": "cycle58",
+        "trades": 5,
+        "wins": 0,
+        "losses": 5,
+        "win_rate": 0.0,
+        "net_pnl": -62.87
+      },
+      {
+        "cycle": "cycle59",
+        "trades": 7,
+        "wins": 5,
+        "losses": 2,
+        "win_rate": 71.4,
+        "net_pnl": -3.77
+      }
+    ]
+  },
+  {
+    "name": "Challenger 2 Candidate (Exhaustion-Aware $6 Envelope Scalper)",
+    "problem_addressed": "Solves tail-end chasing by vetoing entries in bottom/top 20% of extended range",
+    "passed": false,
+    "total_trades": 34,
+    "win_rate_pct": 32.4,
+    "total_net_pnl_bps": -219.04,
+    "avg_trades_per_hour": 4.86,
+    "disqualification_reasons": [
+      "Aggregate Net PnL is non-positive: -219.04 bps",
+      "Overall Win Rate (32.4%) is below 70.0% standard"
+    ],
+    "cycle_results": [
+      {
+        "cycle": "cycle12",
+        "trades": 6,
+        "wins": 2,
+        "losses": 4,
+        "win_rate": 33.3,
+        "net_pnl": -23.18
+      },
+      {
+        "cycle": "cycle17",
+        "trades": 6,
+        "wins": 4,
+        "losses": 2,
+        "win_rate": 66.7,
+        "net_pnl": -12.4
+      },
+      {
+        "cycle": "cycle35",
+        "trades": 3,
+        "wins": 0,
+        "losses": 3,
+        "win_rate": 0.0,
+        "net_pnl": -19.4
+      },
+      {
+        "cycle": "cycle48",
+        "trades": 3,
+        "wins": 0,
+        "losses": 3,
+        "win_rate": 0.0,
+        "net_pnl": -21.62
+      },
+      {
+        "cycle": "cycle57",
+        "trades": 7,
+        "wins": 2,
+        "losses": 5,
+        "win_rate": 28.6,
+        "net_pnl": -76.64
+      },
+      {
+        "cycle": "cycle58",
+        "trades": 5,
+        "wins": 0,
+        "losses": 5,
+        "win_rate": 0.0,
+        "net_pnl": -62.87
+      },
+      {
+        "cycle": "cycle59",
+        "trades": 4,
+        "wins": 3,
+        "losses": 1,
+        "win_rate": 75.0,
+        "net_pnl": -2.93
+      }
+    ]
+  },
+  {
+    "name": "Challenger 3 Candidate (Active Frequency $5 Envelope Scalper)",
+    "problem_addressed": "Solves low-frequency/overly conservative trade starvation",
+    "passed": false,
+    "total_trades": 46,
+    "win_rate_pct": 41.3,
+    "total_net_pnl_bps": -238.12,
+    "avg_trades_per_hour": 6.57,
+    "disqualification_reasons": [
+      "Aggregate Net PnL is non-positive: -238.12 bps",
+      "Overall Win Rate (41.3%) is below 70.0% standard"
+    ],
+    "cycle_results": [
+      {
+        "cycle": "cycle12",
+        "trades": 6,
+        "wins": 2,
+        "losses": 4,
+        "win_rate": 33.3,
+        "net_pnl": -23.18
+      },
+      {
+        "cycle": "cycle17",
+        "trades": 9,
+        "wins": 6,
+        "losses": 3,
+        "win_rate": 66.7,
+        "net_pnl": -18.9
+      },
+      {
+        "cycle": "cycle35",
+        "trades": 5,
+        "wins": 1,
+        "losses": 4,
+        "win_rate": 20.0,
+        "net_pnl": -16.26
+      },
+      {
+        "cycle": "cycle48",
+        "trades": 5,
+        "wins": 2,
+        "losses": 3,
+        "win_rate": 40.0,
+        "net_pnl": -21.09
+      },
+      {
+        "cycle": "cycle57",
+        "trades": 9,
+        "wins": 3,
+        "losses": 6,
+        "win_rate": 33.3,
+        "net_pnl": -92.06
+      },
+      {
+        "cycle": "cycle58",
+        "trades": 5,
+        "wins": 0,
+        "losses": 5,
+        "win_rate": 0.0,
+        "net_pnl": -62.87
+      },
+      {
+        "cycle": "cycle59",
+        "trades": 7,
+        "wins": 5,
+        "losses": 2,
+        "win_rate": 71.4,
+        "net_pnl": -3.77
+      }
+    ]
+  },
+  {
+    "name": "Challenger 4 Candidate (Stepped Ratchet $6 Envelope Scalper)",
+    "problem_addressed": "Solves profit decay by locking +1.5b net at +4.5b and +3.5b at +7.5b MFE",
+    "passed": false,
+    "total_trades": 45,
+    "win_rate_pct": 42.2,
+    "total_net_pnl_bps": -194.77,
+    "avg_trades_per_hour": 6.43,
+    "disqualification_reasons": [
+      "Aggregate Net PnL is non-positive: -194.77 bps",
+      "Overall Win Rate (42.2%) is below 70.0% standard"
+    ],
+    "cycle_results": [
+      {
+        "cycle": "cycle12",
+        "trades": 6,
+        "wins": 2,
+        "losses": 4,
+        "win_rate": 33.3,
+        "net_pnl": -23.18
+      },
+      {
+        "cycle": "cycle17",
+        "trades": 9,
+        "wins": 6,
+        "losses": 3,
+        "win_rate": 66.7,
+        "net_pnl": -16.13
+      },
+      {
+        "cycle": "cycle35",
+        "trades": 5,
+        "wins": 1,
+        "losses": 4,
+        "win_rate": 20.0,
+        "net_pnl": -16.26
+      },
+      {
+        "cycle": "cycle48",
+        "trades": 5,
+        "wins": 2,
+        "losses": 3,
+        "win_rate": 40.0,
+        "net_pnl": -1.01
+      },
+      {
+        "cycle": "cycle57",
+        "trades": 8,
+        "wins": 3,
+        "losses": 5,
+        "win_rate": 37.5,
+        "net_pnl": -71.56
+      },
+      {
+        "cycle": "cycle58",
+        "trades": 5,
+        "wins": 0,
+        "losses": 5,
+        "win_rate": 0.0,
+        "net_pnl": -62.87
+      },
+      {
+        "cycle": "cycle59",
+        "trades": 7,
+        "wins": 5,
+        "losses": 2,
+        "win_rate": 71.4,
+        "net_pnl": -3.77
+      }
+    ]
+  },
+  {
+    "name": "Challenger 5 Candidate (Dynamic Asymmetric Scalper)",
+    "problem_addressed": "Combines $6 envelope, exhaustion guard, and micro-trailing profit protection",
+    "passed": false,
+    "total_trades": 34,
+    "win_rate_pct": 32.4,
+    "total_net_pnl_bps": -219.04,
+    "avg_trades_per_hour": 4.86,
+    "disqualification_reasons": [
+      "Aggregate Net PnL is non-positive: -219.04 bps",
+      "Overall Win Rate (32.4%) is below 70.0% standard"
+    ],
+    "cycle_results": [
+      {
+        "cycle": "cycle12",
+        "trades": 6,
+        "wins": 2,
+        "losses": 4,
+        "win_rate": 33.3,
+        "net_pnl": -23.18
+      },
+      {
+        "cycle": "cycle17",
+        "trades": 6,
+        "wins": 4,
+        "losses": 2,
+        "win_rate": 66.7,
+        "net_pnl": -12.4
+      },
+      {
+        "cycle": "cycle35",
+        "trades": 3,
+        "wins": 0,
+        "losses": 3,
+        "win_rate": 0.0,
+        "net_pnl": -19.4
+      },
+      {
+        "cycle": "cycle48",
+        "trades": 3,
+        "wins": 0,
+        "losses": 3,
+        "win_rate": 0.0,
+        "net_pnl": -21.62
+      },
+      {
+        "cycle": "cycle57",
+        "trades": 7,
+        "wins": 2,
+        "losses": 5,
+        "win_rate": 28.6,
+        "net_pnl": -76.64
+      },
+      {
+        "cycle": "cycle58",
+        "trades": 5,
+        "wins": 0,
+        "losses": 5,
+        "win_rate": 0.0,
+        "net_pnl": -62.87
+      },
+      {
+        "cycle": "cycle59",
+        "trades": 4,
+        "wins": 3,
+        "losses": 1,
+        "win_rate": 75.0,
+        "net_pnl": -2.93
+      }
+    ]
+  }
+]

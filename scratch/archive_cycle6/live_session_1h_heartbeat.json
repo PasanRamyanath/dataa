@@ -1,0 +1,90 @@
+{
+  "timestamp": "2026-10-27T00:31:49.810099+00:00",
+  "elapsed_minutes": 59.94,
+  "target_minutes": 60.0,
+  "progress_pct": 99.9,
+  "bars_evaluated": 360,
+  "current_price": 80259.95,
+  "active_position": null,
+  "trades_count": 6,
+  "wins_count": 2,
+  "win_rate_pct": 33.33,
+  "net_pnl_bps": -24.19,
+  "cached_tier_probs": {
+    "macro": [
+      0.1585,
+      0.3593,
+      0.4823
+    ],
+    "meso": [
+      0.1996,
+      0.5113,
+      0.2891
+    ],
+    "tactical": [
+      0.139,
+      0.4409,
+      0.4201
+    ]
+  },
+  "accuracy_summary": {
+    "10s": {
+      "evaluated_samples": 359,
+      "overall_accuracy_pct": 88.3,
+      "active_signals_count": 0,
+      "active_precision_pct": 0.0,
+      "sign_accuracy_pct": 0.0,
+      "sign_samples": 0
+    },
+    "30s": {
+      "evaluated_samples": 357,
+      "overall_accuracy_pct": 84.03,
+      "active_signals_count": 71,
+      "active_precision_pct": 92.96,
+      "sign_accuracy_pct": 92.96,
+      "sign_samples": 71
+    },
+    "1m": {
+      "evaluated_samples": 354,
+      "overall_accuracy_pct": 84.46,
+      "active_signals_count": 71,
+      "active_precision_pct": 92.96,
+      "sign_accuracy_pct": 92.96,
+      "sign_samples": 71
+    },
+    "5m": {
+      "evaluated_samples": 326,
+      "overall_accuracy_pct": 91.72,
+      "active_signals_count": 158,
+      "active_precision_pct": 84.81,
+      "sign_accuracy_pct": 84.81,
+      "sign_samples": 158
+    },
+    "15m": {
+      "evaluated_samples": 267,
+      "overall_accuracy_pct": 95.88,
+      "active_signals_count": 143,
+      "active_precision_pct": 93.01,
+      "sign_accuracy_pct": 93.01,
+      "sign_samples": 143
+    },
+    "tiers": {
+      "macro": {
+        "evaluated": 267,
+        "accuracy_pct": 47.19
+      },
+      "meso": {
+        "evaluated": 267,
+        "accuracy_pct": 50.94
+      },
+      "tactical": {
+        "evaluated": 354,
+        "accuracy_pct": 84.46
+      },
+      "micro": {
+        "evaluated": 359,
+        "accuracy_pct": 88.3
+      }
+    }
+  }
+}

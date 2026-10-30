@@ -1,0 +1,87 @@
+{
+  "session_duration_minutes": 60.03,
+  "bars_evaluated": 360,
+  "total_trades": 1,
+  "winning_trades": 0,
+  "win_rate_pct": 0.0,
+  "total_net_pnl_bps": -22.17,
+  "avg_net_pnl_bps": -22.17,
+  "accuracy_summary": {
+    "10s": {
+      "evaluated_samples": 359,
+      "overall_accuracy_pct": 89.14,
+      "active_signals_count": 0,
+      "active_precision_pct": 0.0,
+      "sign_accuracy_pct": 0.0,
+      "sign_samples": 0
+    },
+    "30s": {
+      "evaluated_samples": 357,
+      "overall_accuracy_pct": 87.11,
+      "active_signals_count": 62,
+      "active_precision_pct": 91.94,
+      "sign_accuracy_pct": 91.94,
+      "sign_samples": 62
+    },
+    "1m": {
+      "evaluated_samples": 354,
+      "overall_accuracy_pct": 88.42,
+      "active_signals_count": 62,
+      "active_precision_pct": 90.32,
+      "sign_accuracy_pct": 90.32,
+      "sign_samples": 62
+    },
+    "5m": {
+      "evaluated_samples": 330,
+      "overall_accuracy_pct": 95.76,
+      "active_signals_count": 105,
+      "active_precision_pct": 87.62,
+      "sign_accuracy_pct": 87.62,
+      "sign_samples": 105
+    },
+    "15m": {
+      "evaluated_samples": 266,
+      "overall_accuracy_pct": 94.74,
+      "active_signals_count": 91,
+      "active_precision_pct": 94.51,
+      "sign_accuracy_pct": 94.51,
+      "sign_samples": 91
+    },
+    "tiers": {
+      "macro": {
+        "evaluated": 266,
+        "accuracy_pct": 39.1
+      },
+      "meso": {
+        "evaluated": 266,
+        "accuracy_pct": 64.66
+      },
+      "tactical": {
+        "evaluated": 354,
+        "accuracy_pct": 88.42
+      },
+      "micro": {
+        "evaluated": 359,
+        "accuracy_pct": 89.14
+      }
+    }
+  },
+  "closed_trades": [
+    {
+      "symbol": "BTCUSDT",
+      "side": "SELL",
+      "entry_price": 79654.0,
+      "exit_price": 79774.8,
+      "quantity": 0.017,
+      "entry_ts_ms": 1793070970000,
+      "exit_ts_ms": 1793071810000,
+      "holding_duration_sec": 840.0,
+      "gross_return_bps": -15.1656,
+      "total_fee_bps": 7.0,
+      "net_return_bps": -22.1656,
+      "peak_mfe_bps": 5.5992,
+      "max_mae_bps": -15.1656,
+      "exit_reason": "HARD_STOP_LOSS_TAKER"
+    }
+  ]
+}

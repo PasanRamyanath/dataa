@@ -1,0 +1,1040 @@
+2026-10-29 20:38:49,526 [INFO] =========================================================================================================
+2026-10-29 20:38:49,527 [INFO] LAUNCHING 1-HOUR CHAMPION-CHALLENGER TOURNAMENT SESSION (1 CHAMPION + 5 CHALLENGERS)
+2026-10-29 20:38:49,527 [INFO] Symbol: BTCUSDT | Target Duration: 60.0 minutes
+2026-10-29 20:38:49,527 [INFO] =========================================================================================================
+2026-10-29 20:38:49,529 [INFO] Initializing Project-IMPJR v4.0 Live Trading & Monitoring Session...
+2026-10-29 20:38:54,728 [INFO] Detected Hardware Topology: HardwareTopologyProfile(deployment_mode='LOCAL_LAPTOP_STANDALONE', is_kaggle_vm=False, os_platform='Windows', cuda_device_count=0, tier4_macro_device='cpu', tier3_meso_device='cpu', tier2_tactical_device='cpu', tier1_micro_device='cpu', use_fp16_autocast=False, use_cpu_int8_quantization=True, binance_fapi_reachable=True, active_rest_kline_base='https://fapi.binance.com/fapi/v1/klines', active_ws_base='wss://fstream.binance.com/stream')
+2026-10-29 20:38:55,676 [INFO] LiveMultiHorizonV4ModelRegistry initialized: 16/16 models loaded (tier4-hmm-regime, tier4-patchtst-ffd, tier4-tft-funding, tier4-kronos-macro, tier3-itransformer-32, tier3-nhits-multirate, tier3-kronos-meso, tier3-lgbm-positioning, tier2-mamba-s6, tier2-lgbm-bookdepth, tier2-crossasset-gat, tier2-cryptobert-news, tier1-lgbm-micro-1s10s, tier1-spot1s-leadlag, tier1-queue-hazard, fusion-v4-hierarchical) | Stage5 fitted=True
+2026-10-29 20:38:55,686 [INFO] Loaded fitted Stage-5 SupervisedMultiHorizonOOFStacker from D:\PrivateProjects\BTC Futures\feature engineering scripts\models_v3\checkpoints\stage5_fusion\models\fusion-v4-hierarchical\supervised_multi_horizon_stacker.joblib
+2026-10-29 20:38:55,687 [INFO] Bootstrapping multi-horizon ring buffer from Binance REST...
+2026-10-29 20:39:00,003 [INFO] Bootstrap complete across all 14 timeframes: {'1m': 99, '3m': 99, '5m': 99, '15m': 99, '30m': 99, '1h': 99, '2h': 99, '4h': 99, '6h': 99, '8h': 99, '12h': 99, '1d': 99}
+2026-10-29 20:39:00,003 [INFO] Pre-seeded 15 15m price points to all competitor engines (15m Range: $81050.00 - $81290.00)
+2026-10-29 20:39:00,003 [INFO] Starting real-time Binance WebSocket stream, REST companion poller & Live News Engine...
+2026-10-29 20:39:00,095 [INFO] LiveNewsEngineDaemon started in background (poll_interval=30s)
+2026-10-29 20:39:00,096 [INFO] Starting Binance REST Companion Poller (Interval: 30s, Symbol: BTCUSDT)...
+2026-10-29 20:39:00,099 [INFO] ================================================================================
+2026-10-29 20:39:00,100 [INFO] LIVE HIERARCHICAL TRADING & MONITORING SESSION STARTED (BTCUSDT)
+2026-10-29 20:39:00,100 [INFO] Target Duration: 60.0 minutes (1.0 hours)
+2026-10-29 20:39:00,100 [INFO] Ledger Output: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_ledger.jsonl
+2026-10-29 20:39:00,101 [INFO] ================================================================================
+2026-10-29 20:39:00,103 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:39:00,112 [WARNING] Could not load sentiment model 'ElKulako/cryptobert' (ModuleNotFoundError: No module named 'transformers') — falling back to lexicon-based polarity heuristic. Install `transformers`/`torch` (requirements-models.txt) and ensure the model is reachable (HF Hub network access) for real FinBERT-class scoring.
+2026-10-29 20:39:03,222 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:39:15,056 [INFO] [15:09:15 | #0001] BTC: $81345.85 | Dir: LONG | Edge: +19.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:39:15,585 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:39:16,601 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:39:22,288 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:39:22,761 [INFO] [15:09:22 | #0002] BTC: $81345.25 | Dir: LONG | Edge: +17.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:39:30,919 [INFO] [15:09:30 | #0003] BTC: $81350.25 | Dir: FLAT | Edge: +12.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:39:35,618 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:39:36,621 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:39:43,195 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:39:43,239 [INFO] [15:09:43 | #0004] BTC: $81345.25 | Dir: FLAT | Edge: +12.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:39:45,327 [INFO] scored 2/2 pending articles
+2026-10-29 20:39:51,807 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:39:51,840 [INFO] [15:09:51 | #0005] BTC: $81387.95 | Dir: LONG | Edge: +17.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:39:52,811 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:39:54,031 [INFO] rss_coindesk: appended 1 new event(s) to D:\PrivateProjects\BTC Futures\feature engineering scripts\inference\data\news_events\rss_coindesk_2026-10-29.jsonl
+2026-10-29 20:40:00,539 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:40:00,635 [INFO] [15:10:00 | #0006] BTC: $81384.45 | Dir: LONG | Edge: +17.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:40:06,402 [INFO] rss_decrypt: appended 1 new event(s) to D:\PrivateProjects\BTC Futures\feature engineering scripts\inference\data\news_events\rss_decrypt_2026-10-29.jsonl
+2026-10-29 20:40:11,925 [INFO] [15:10:11 | #0007] BTC: $81428.55 | Dir: LONG | Edge: +21.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:40:17,317 [INFO] Scored 2 new event(s): polarity=0.000 magnitude=0.000 confidence=0.300 mention_velocity=3
+2026-10-29 20:40:21,956 [INFO] [15:10:21 | #0008] BTC: $81384.45 | Dir: FLAT | Edge: +11.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:40:28,938 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): WebSocket stream silent for >15.0s (half-open zombie socket); forcing immediate reconnect. Switching/reconnecting in 1.0s...
+2026-10-29 20:40:29,939 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:40:31,969 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:40:32,040 [INFO] [15:10:32 | #0009] BTC: $81384.45 | Dir: FLAT | Edge: +11.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:40:40,655 [INFO] [15:10:40 | #0010] BTC: $81448.65 | Dir: LONG | Edge: +22.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:40:51,174 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): WebSocket stream silent for >15.0s (half-open zombie socket); forcing immediate reconnect. Switching/reconnecting in 1.0s...
+2026-10-29 20:40:52,189 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:40:54,391 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:40:54,451 [INFO] [15:10:54 | #0011] BTC: $81384.45 | Dir: FLAT | Edge: +9.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:41:00,078 [INFO] [15:11:00 | #0012] BTC: $81443.55 | Dir: LONG | Edge: +22.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:41:06,308 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:41:07,311 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:41:11,200 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:41:11,285 [INFO] [15:11:11 | #0013] BTC: $81384.45 | Dir: FLAT | Edge: +7.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:41:20,674 [INFO] [15:11:20 | #0014] BTC: $81415.05 | Dir: LONG | Edge: +21.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:41:25,602 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:41:26,619 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:41:33,341 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:41:33,639 [INFO] [15:11:33 | #0015] BTC: $81414.95 | Dir: LONG | Edge: +18.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:41:41,278 [INFO] [15:11:41 | #0016] BTC: $81337.55 | Dir: SHORT | Edge: +22.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:41:51,676 [INFO] [15:11:51 | #0017] BTC: $81414.95 | Dir: LONG | Edge: +18.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:42:00,381 [INFO] [15:12:00 | #0018] BTC: $81414.95 | Dir: FLAT | Edge: +10.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:42:05,421 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): sent 1011 (internal error) keepalive ping timeout; no close frame received. Switching/reconnecting in 1.0s...
+2026-10-29 20:42:06,430 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:42:14,436 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 20:42:15,938 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:42:23,512 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:42:23,605 [WARNING] Detected stream gap of 20000 ms (1 missing bars). Interpolating 1 bounded synthetic flat bars.
+2026-10-29 20:42:23,641 [INFO] [15:12:23 | #0019] BTC: $81368.75 | Dir: FLAT | Edge: +10.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:42:23,680 [INFO] [15:12:23 | #0020] BTC: $81368.75 | Dir: FLAT | Edge: +10.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:42:31,428 [INFO] [15:12:31 | #0021] BTC: $81391.55 | Dir: FLAT | Edge: +8.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:42:41,533 [INFO] [15:12:41 | #0022] BTC: $81368.75 | Dir: FLAT | Edge: +8.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:42:47,067 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:42:48,081 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:42:56,088 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 20:42:57,604 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:43:05,526 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:43:05,526 [WARNING] Detected stream gap of 20000 ms (1 missing bars). Interpolating 1 bounded synthetic flat bars.
+2026-10-29 20:43:05,573 [INFO] [15:13:05 | #0023] BTC: $81368.75 | Dir: FLAT | Edge: +10.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:43:05,629 [INFO] [15:13:05 | #0024] BTC: $81368.75 | Dir: FLAT | Edge: +10.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:43:10,709 [INFO] [15:13:10 | #0025] BTC: $81457.95 | Dir: LONG | Edge: +21.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:43:22,800 [INFO] [15:13:22 | #0026] BTC: $81368.75 | Dir: FLAT | Edge: +9.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:43:29,573 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:43:30,581 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:43:38,586 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 20:43:40,088 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:43:48,094 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 2.2s...
+2026-10-29 20:43:50,347 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:43:58,354 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 3.4s...
+2026-10-29 20:44:01,740 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:44:09,750 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 5.1s...
+2026-10-29 20:44:14,821 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:44:22,829 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 7.6s...
+2026-10-29 20:44:30,437 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:44:38,447 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:44:48,456 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:44:56,463 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:45:06,477 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:45:14,485 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:45:14,911 [WARNING] RSS poll failed for coindesk: HTTPSConnectionPool(host='www.coindesk.com', port=443): Read timed out.
+2026-10-29 20:45:21,652 [INFO] rss_cointelegraph: appended 1 new event(s) to D:\PrivateProjects\BTC Futures\feature engineering scripts\inference\data\news_events\rss_cointelegraph_2026-10-29.jsonl
+2026-10-29 20:45:24,491 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:45:32,499 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:45:37,085 [WARNING] RSS poll failed for theblock: HTTPSConnectionPool(host='www.theblock.co', port=443): Read timed out. (read timeout=10)
+2026-10-29 20:45:42,512 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:45:50,518 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:46:00,531 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:46:07,862 [INFO] Scored 1 new event(s): polarity=0.000 magnitude=0.000 confidence=0.300 mention_velocity=4
+2026-10-29 20:46:08,536 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:46:18,548 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:46:26,551 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:46:36,560 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:46:44,572 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:46:54,577 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:47:02,590 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:47:12,607 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:47:20,616 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:47:30,632 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:47:38,640 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:47:38,812 [INFO] scored 1/1 pending articles
+2026-10-29 20:47:48,653 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:47:56,657 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:48:06,674 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:48:07,298 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:48:07,329 [WARNING] Detected stream gap of 280000 ms (27 missing bars). Interpolating 27 bounded synthetic flat bars.
+2026-10-29 20:48:07,368 [INFO] [15:18:07 | #0027] BTC: $81368.75 | Dir: FLAT | Edge: +9.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,402 [INFO] [15:18:07 | #0028] BTC: $81368.75 | Dir: FLAT | Edge: +9.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,437 [INFO] [15:18:07 | #0029] BTC: $81368.75 | Dir: FLAT | Edge: +9.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,515 [INFO] [15:18:07 | #0030] BTC: $81368.75 | Dir: FLAT | Edge: +8.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,550 [INFO] [15:18:07 | #0031] BTC: $81368.75 | Dir: FLAT | Edge: +9.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,593 [INFO] [15:18:07 | #0032] BTC: $81368.75 | Dir: FLAT | Edge: +8.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,627 [INFO] [15:18:07 | #0033] BTC: $81368.75 | Dir: FLAT | Edge: +9.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,661 [INFO] [15:18:07 | #0034] BTC: $81368.75 | Dir: FLAT | Edge: +8.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,696 [INFO] [15:18:07 | #0035] BTC: $81368.75 | Dir: FLAT | Edge: +10.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,743 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-29 20:48:07,759 [INFO] [15:18:07 | #0036] BTC: $81368.75 | Dir: FLAT | Edge: +11.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,794 [INFO] [15:18:07 | #0037] BTC: $81368.75 | Dir: FLAT | Edge: +13.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,828 [INFO] [15:18:07 | #0038] BTC: $81368.75 | Dir: FLAT | Edge: +11.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,864 [INFO] [15:18:07 | #0039] BTC: $81368.75 | Dir: FLAT | Edge: +11.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,896 [INFO] [15:18:07 | #0040] BTC: $81368.75 | Dir: FLAT | Edge: +13.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,930 [INFO] [15:18:07 | #0041] BTC: $81368.75 | Dir: FLAT | Edge: +11.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:07,990 [INFO] [15:18:07 | #0042] BTC: $81368.75 | Dir: FLAT | Edge: +13.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:08,024 [INFO] [15:18:08 | #0043] BTC: $81368.75 | Dir: FLAT | Edge: +11.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:08,058 [INFO] [15:18:08 | #0044] BTC: $81368.75 | Dir: FLAT | Edge: +12.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:08,101 [INFO] [15:18:08 | #0045] BTC: $81368.75 | Dir: FLAT | Edge: +12.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:08,135 [INFO] [15:18:08 | #0046] BTC: $81368.75 | Dir: FLAT | Edge: +9.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:08,168 [INFO] [15:18:08 | #0047] BTC: $81368.75 | Dir: FLAT | Edge: +12.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:08,233 [INFO] [15:18:08 | #0048] BTC: $81368.75 | Dir: FLAT | Edge: +12.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:08,268 [INFO] [15:18:08 | #0049] BTC: $81368.75 | Dir: FLAT | Edge: +10.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:08,301 [INFO] [15:18:08 | #0050] BTC: $81368.75 | Dir: FLAT | Edge: +10.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:08,336 [INFO] [15:18:08 | #0051] BTC: $81368.75 | Dir: FLAT | Edge: +11.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:08,385 [INFO] [15:18:08 | #0052] BTC: $81368.75 | Dir: FLAT | Edge: +10.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:08,485 [INFO] [15:18:08 | #0053] BTC: $81368.75 | Dir: FLAT | Edge: +10.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:08,992 [INFO] [15:18:08 | #0054] BTC: $81368.75 | Dir: FLAT | Edge: +10.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:10,105 [INFO] [15:18:10 | #0055] BTC: $81440.05 | Dir: LONG | Edge: +20.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:20,939 [INFO] [15:18:20 | #0056] BTC: $81368.75 | Dir: FLAT | Edge: +10.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:48:26,102 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:48:27,105 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:48:35,114 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 20:48:36,615 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:48:44,625 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 2.2s...
+2026-10-29 20:48:46,889 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:48:54,896 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 3.4s...
+2026-10-29 20:48:58,276 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:49:06,290 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 5.1s...
+2026-10-29 20:49:11,356 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:49:19,357 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 7.6s...
+2026-10-29 20:49:26,957 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:49:34,973 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:49:44,990 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:49:49,613 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:49:49,613 [WARNING] Detected stream gap of 80000 ms (7 missing bars). Interpolating 7 bounded synthetic flat bars.
+2026-10-29 20:49:49,648 [INFO] [15:19:49 | #0057] BTC: $81459.85 | Dir: LONG | Edge: +24.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:49:49,685 [INFO] [15:19:49 | #0058] BTC: $81459.85 | Dir: LONG | Edge: +24.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:49:49,722 [INFO] [15:19:49 | #0059] BTC: $81459.85 | Dir: LONG | Edge: +24.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:49:49,783 [INFO] [15:19:49 | #0060] BTC: $81459.85 | Dir: LONG | Edge: +24.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:49:49,784 [INFO] =========================================================================================================
+2026-10-29 20:49:49,784 [INFO] >>> TOURNAMENT LEADERBOARD AUDIT (Elapsed: 10.8 min | Bars: 60)
+2026-10-29 20:49:49,785 [INFO] Rank | Competitor     | Trades | Wins | Win Rate | Net PnL    | PF    | Active Pos          
+2026-10-29 20:49:49,785 [INFO] ---------------------------------------------------------------------------------------------------------
+2026-10-29 20:49:49,786 [INFO] # 1   | Champion       |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 20:49:49,786 [INFO] # 2   | Challenger_1   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 20:49:49,786 [INFO] # 3   | Challenger_2   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 20:49:49,786 [INFO] # 4   | Challenger_3   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 20:49:49,786 [INFO] # 5   | Challenger_4   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 20:49:49,786 [INFO] # 6   | Challenger_5   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 20:49:49,786 [INFO] =========================================================================================================
+2026-10-29 20:49:49,820 [INFO] [15:19:49 | #0061] BTC: $81459.85 | Dir: LONG | Edge: +24.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:49:49,856 [INFO] [15:19:49 | #0062] BTC: $81459.85 | Dir: LONG | Edge: +24.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:49:49,896 [INFO] [15:19:49 | #0063] BTC: $81459.85 | Dir: LONG | Edge: +23.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:49:49,930 [INFO] [15:19:49 | #0064] BTC: $81459.85 | Dir: LONG | Edge: +23.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:49:50,262 [INFO] [15:19:50 | #0065] BTC: $81459.85 | Dir: LONG | Edge: +23.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:50:00,877 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 20:50:00,893 [INFO] [15:20:00 | #0066] BTC: $81459.95 | Dir: LONG | Edge: +23.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:50:10,422 [INFO] [15:20:10 | #0067] BTC: $81459.85 | Dir: LONG | Edge: +23.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:50:12,360 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:50:13,373 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:50:21,389 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 20:50:22,907 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:50:27,387 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:50:27,594 [INFO] [15:20:27 | #0068] BTC: $81459.85 | Dir: LONG | Edge: +23.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:50:30,494 [INFO] [15:20:30 | #0069] BTC: $81485.55 | Dir: LONG | Edge: +25.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:50:40,838 [INFO] [15:20:40 | #0070] BTC: $81489.65 | Dir: LONG | Edge: +25.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:50:49,380 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:50:50,384 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:50:52,016 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:50:52,139 [INFO] [15:20:52 | #0071] BTC: $81489.65 | Dir: LONG | Edge: +25.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:51:01,931 [INFO] [15:21:01 | #0072] BTC: $81499.95 | Dir: LONG | Edge: +25.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:51:11,702 [INFO] [15:21:11 | #0073] BTC: $81514.95 | Dir: LONG | Edge: +24.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:51:12,153 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:51:13,155 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:51:14,486 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:51:21,061 [INFO] [15:21:21 | #0074] BTC: $81498.15 | Dir: LONG | Edge: +23.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:51:24,891 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:51:25,895 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:51:27,124 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:51:31,895 [INFO] [15:21:31 | #0075] BTC: $81480.05 | Dir: LONG | Edge: +19.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:51:39,414 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:51:40,419 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:51:41,336 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:51:41,391 [INFO] [15:21:41 | #0076] BTC: $81465.85 | Dir: FLAT | Edge: +12.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:51:51,158 [INFO] [15:21:51 | #0077] BTC: $81464.15 | Dir: FLAT | Edge: +12.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:52:01,857 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:52:02,874 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:52:10,881 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 20:52:12,386 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:52:17,160 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:52:17,214 [WARNING] Detected stream gap of 20000 ms (1 missing bars). Interpolating 1 bounded synthetic flat bars.
+2026-10-29 20:52:17,269 [INFO] [15:22:17 | #0078] BTC: $81465.85 | Dir: FLAT | Edge: +12.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:52:17,306 [INFO] [15:22:17 | #0079] BTC: $81465.85 | Dir: FLAT | Edge: +12.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:52:20,256 [INFO] [15:22:20 | #0080] BTC: $81487.85 | Dir: LONG | Edge: +19.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:52:32,856 [INFO] [15:22:32 | #0081] BTC: $81487.85 | Dir: LONG | Edge: +23.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:52:34,434 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:52:35,438 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:52:43,448 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 20:52:44,967 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:52:52,970 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 2.2s...
+2026-10-29 20:52:55,225 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:53:03,232 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 3.4s...
+2026-10-29 20:53:06,619 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:53:14,627 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 5.1s...
+2026-10-29 20:53:19,701 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:53:27,716 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 7.6s...
+2026-10-29 20:53:35,315 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:53:43,322 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:53:53,336 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:54:01,340 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:54:11,356 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:54:19,357 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:54:29,367 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:54:37,370 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:54:47,373 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:54:55,378 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:55:05,391 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:55:13,107 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:55:13,285 [WARNING] Detected stream gap of 160000 ms (15 missing bars). Interpolating 15 bounded synthetic flat bars.
+2026-10-29 20:55:13,324 [INFO] [15:25:13 | #0082] BTC: $81549.35 | Dir: LONG | Edge: +26.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,360 [INFO] [15:25:13 | #0083] BTC: $81549.35 | Dir: LONG | Edge: +26.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,423 [INFO] [15:25:13 | #0084] BTC: $81549.35 | Dir: LONG | Edge: +26.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,459 [INFO] [15:25:13 | #0085] BTC: $81549.35 | Dir: LONG | Edge: +26.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,500 [INFO] [15:25:13 | #0086] BTC: $81549.35 | Dir: LONG | Edge: +26.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,544 [INFO] [15:25:13 | #0087] BTC: $81549.35 | Dir: LONG | Edge: +26.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,580 [INFO] [15:25:13 | #0088] BTC: $81549.35 | Dir: LONG | Edge: +24.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,618 [INFO] [15:25:13 | #0089] BTC: $81549.35 | Dir: LONG | Edge: +24.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,682 [INFO] [15:25:13 | #0090] BTC: $81549.35 | Dir: LONG | Edge: +24.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,722 [INFO] [15:25:13 | #0091] BTC: $81549.35 | Dir: LONG | Edge: +24.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,800 [INFO] [15:25:13 | #0092] BTC: $81549.35 | Dir: LONG | Edge: +24.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,836 [INFO] [15:25:13 | #0093] BTC: $81549.35 | Dir: LONG | Edge: +24.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,872 [INFO] [15:25:13 | #0094] BTC: $81549.35 | Dir: LONG | Edge: +24.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,912 [INFO] [15:25:13 | #0095] BTC: $81549.35 | Dir: LONG | Edge: +24.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:13,959 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 20:55:13,976 [INFO] [15:25:13 | #0096] BTC: $81549.35 | Dir: LONG | Edge: +24.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:14,013 [INFO] [15:25:14 | #0097] BTC: $81549.35 | Dir: LONG | Edge: +24.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:20,563 [INFO] [15:25:20 | #0098] BTC: $81483.35 | Dir: FLAT | Edge: +8.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:55:28,667 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:55:29,681 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:55:37,685 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 20:55:39,190 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:55:47,203 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 2.2s...
+2026-10-29 20:55:49,457 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:55:57,472 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 3.4s...
+2026-10-29 20:56:00,859 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:56:08,872 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 5.1s...
+2026-10-29 20:56:13,940 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:56:21,957 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 7.6s...
+2026-10-29 20:56:29,552 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:56:37,565 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:56:47,573 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:56:55,577 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 10.0s...
+2026-10-29 20:57:05,590 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:57:10,923 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:57:10,927 [WARNING] Detected stream gap of 110000 ms (10 missing bars). Interpolating 10 bounded synthetic flat bars.
+2026-10-29 20:57:10,962 [INFO] [15:27:10 | #0099] BTC: $81549.35 | Dir: LONG | Edge: +22.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:57:11,017 [INFO] [15:27:11 | #0100] BTC: $81549.35 | Dir: LONG | Edge: +21.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:57:11,082 [INFO] [15:27:11 | #0101] BTC: $81549.35 | Dir: LONG | Edge: +21.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:57:11,237 [INFO] [15:27:11 | #0102] BTC: $81549.35 | Dir: LONG | Edge: +21.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:57:11,275 [INFO] [15:27:11 | #0103] BTC: $81549.35 | Dir: LONG | Edge: +21.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:57:11,315 [INFO] [15:27:11 | #0104] BTC: $81549.35 | Dir: LONG | Edge: +24.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:57:11,352 [INFO] [15:27:11 | #0105] BTC: $81549.35 | Dir: LONG | Edge: +21.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:57:11,391 [INFO] [15:27:11 | #0106] BTC: $81549.35 | Dir: LONG | Edge: +20.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:57:11,433 [INFO] [15:27:11 | #0107] BTC: $81549.35 | Dir: LONG | Edge: +20.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:57:11,488 [INFO] [15:27:11 | #0108] BTC: $81549.35 | Dir: LONG | Edge: +20.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:57:11,526 [INFO] [15:27:11 | #0109] BTC: $81549.35 | Dir: LONG | Edge: +20.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:57:21,721 [INFO] [15:27:21 | #0110] BTC: $81426.15 | Dir: SHORT | Edge: +21.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:57:31,117 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:57:32,122 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:57:40,131 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 20:57:41,641 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:57:49,646 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 2.2s...
+2026-10-29 20:57:51,906 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:57:59,907 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 3.4s...
+2026-10-29 20:58:03,298 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:58:11,305 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 5.1s...
+2026-10-29 20:58:16,373 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:58:18,769 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:58:18,822 [WARNING] Detected stream gap of 50000 ms (4 missing bars). Interpolating 4 bounded synthetic flat bars.
+2026-10-29 20:58:18,855 [INFO] [15:28:18 | #0111] BTC: $81549.35 | Dir: LONG | Edge: +20.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:58:18,893 [INFO] [15:28:18 | #0112] BTC: $81549.35 | Dir: FLAT | Edge: +12.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:58:18,935 [INFO] [15:28:18 | #0113] BTC: $81549.35 | Dir: FLAT | Edge: +12.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:58:19,001 [INFO] [15:28:19 | #0114] BTC: $81549.35 | Dir: FLAT | Edge: +12.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:58:19,038 [INFO] [15:28:19 | #0115] BTC: $81549.35 | Dir: FLAT | Edge: +11.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:58:20,168 [INFO] [15:28:20 | #0116] BTC: $81549.35 | Dir: FLAT | Edge: +13.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:58:31,012 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:58:32,017 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:58:36,120 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:58:36,568 [INFO] [15:28:36 | #0117] BTC: $81420.05 | Dir: SHORT | Edge: +22.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:58:40,167 [INFO] [15:28:40 | #0118] BTC: $81428.05 | Dir: SHORT | Edge: +20.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:58:50,461 [INFO] [15:28:50 | #0119] BTC: $81428.05 | Dir: SHORT | Edge: +21.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:58:54,105 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:58:55,106 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:58:56,061 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:59:01,679 [INFO] [15:29:01 | #0120] BTC: $81408.05 | Dir: SHORT | Edge: +24.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:59:01,680 [INFO] =========================================================================================================
+2026-10-29 20:59:01,681 [INFO] >>> TOURNAMENT LEADERBOARD AUDIT (Elapsed: 20.0 min | Bars: 120)
+2026-10-29 20:59:01,681 [INFO] Rank | Competitor     | Trades | Wins | Win Rate | Net PnL    | PF    | Active Pos          
+2026-10-29 20:59:01,681 [INFO] ---------------------------------------------------------------------------------------------------------
+2026-10-29 20:59:01,681 [INFO] # 1   | Champion       |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 20:59:01,681 [INFO] # 2   | Challenger_1   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 20:59:01,681 [INFO] # 3   | Challenger_2   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 20:59:01,681 [INFO] # 4   | Challenger_3   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 20:59:01,681 [INFO] # 5   | Challenger_4   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 20:59:01,682 [INFO] # 6   | Challenger_5   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 20:59:01,682 [INFO] =========================================================================================================
+2026-10-29 20:59:12,031 [INFO] [15:29:12 | #0121] BTC: $81411.55 | Dir: SHORT | Edge: +24.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:59:13,328 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:59:14,335 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:59:15,355 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:59:20,215 [INFO] [15:29:20 | #0122] BTC: $81398.25 | Dir: SHORT | Edge: +24.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:59:30,533 [INFO] [15:29:30 | #0123] BTC: $81376.75 | Dir: SHORT | Edge: +25.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:59:34,524 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 20:59:35,536 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 20:59:37,024 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 20:59:40,866 [INFO] [15:29:40 | #0124] BTC: $81394.65 | Dir: SHORT | Edge: +23.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 20:59:50,955 [INFO] [15:29:50 | #0125] BTC: $81394.05 | Dir: SHORT | Edge: +24.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:00:03,379 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-29 21:00:03,395 [INFO] [15:30:03 | #0126] BTC: $81408.55 | Dir: SHORT | Edge: +21.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:00:10,287 [INFO] [15:30:10 | #0127] BTC: $81408.55 | Dir: SHORT | Edge: +21.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:00:10,688 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): sent 1011 (internal error) keepalive ping timeout; no close frame received. Switching/reconnecting in 1.0s...
+2026-10-29 21:00:11,697 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:00:13,493 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:00:20,797 [INFO] [15:30:20 | #0128] BTC: $81429.55 | Dir: FLAT | Edge: +12.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:00:24,219 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:00:25,233 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:00:26,364 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:00:30,241 [INFO] [15:30:30 | #0129] BTC: $81446.15 | Dir: FLAT | Edge: +11.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:00:40,198 [INFO] [15:30:40 | #0130] BTC: $81453.05 | Dir: FLAT | Edge: +11.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:00:41,825 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:00:42,825 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:00:43,530 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:00:50,722 [INFO] [15:30:50 | #0131] BTC: $81428.25 | Dir: FLAT | Edge: +13.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:00:58,081 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:00:59,082 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:01:00,005 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:01:00,079 [INFO] [15:31:00 | #0132] BTC: $81446.15 | Dir: FLAT | Edge: +12.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:01:11,312 [INFO] [15:31:11 | #0133] BTC: $81467.95 | Dir: FLAT | Edge: +10.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:01:18,657 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:01:19,671 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:01:21,603 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:01:21,861 [INFO] [15:31:21 | #0134] BTC: $81467.95 | Dir: FLAT | Edge: +10.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:01:30,631 [INFO] [15:31:30 | #0135] BTC: $81425.55 | Dir: SHORT | Edge: +22.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:01:36,794 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:01:37,796 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:01:39,083 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:01:40,166 [INFO] [15:31:40 | #0136] BTC: $81425.55 | Dir: SHORT | Edge: +21.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:01:51,513 [INFO] [15:31:51 | #0137] BTC: $81465.95 | Dir: FLAT | Edge: +10.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:01:57,850 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:01:58,852 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:01:59,923 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:02:00,001 [INFO] [15:32:00 | #0138] BTC: $81437.45 | Dir: SHORT | Edge: +20.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:02:10,198 [INFO] [15:32:10 | #0139] BTC: $81487.05 | Dir: FLAT | Edge: +10.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:02:17,934 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:02:18,934 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:02:24,574 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:02:24,616 [INFO] [15:32:24 | #0140] BTC: $81487.05 | Dir: FLAT | Edge: +13.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:02:30,330 [INFO] [15:32:30 | #0141] BTC: $81532.65 | Dir: FLAT | Edge: +13.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:02:37,825 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:02:38,840 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:02:40,176 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:02:40,216 [INFO] [15:32:40 | #0142] BTC: $81518.15 | Dir: FLAT | Edge: +11.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:02:50,245 [INFO] [15:32:50 | #0143] BTC: $81530.15 | Dir: FLAT | Edge: +12.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:02:51,752 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:02:52,755 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:02:53,941 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:03:00,255 [INFO] [15:33:00 | #0144] BTC: $81573.65 | Dir: LONG | Edge: +26.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:03:06,250 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:03:07,264 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:03:08,268 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:03:11,441 [INFO] [15:33:11 | #0145] BTC: $81593.75 | Dir: LONG | Edge: +27.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:03:20,075 [INFO] [15:33:20 | #0146] BTC: $81593.75 | Dir: LONG | Edge: +26.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:03:26,057 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:03:27,073 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:03:28,120 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:03:30,277 [INFO] [15:33:30 | #0147] BTC: $81671.05 | Dir: LONG | Edge: +28.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:03:38,512 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:03:39,523 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:03:40,830 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:03:40,908 [INFO] [15:33:40 | #0148] BTC: $81673.45 | Dir: LONG | Edge: +28.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:03:51,019 [INFO] [15:33:51 | #0149] BTC: $81671.05 | Dir: LONG | Edge: +27.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:03:55,132 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:03:56,136 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:03:57,109 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:04:01,661 [INFO] [15:34:01 | #0150] BTC: $81671.05 | Dir: LONG | Edge: +27.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:04:11,378 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:04:12,383 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:04:13,478 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:04:13,593 [INFO] [15:34:13 | #0151] BTC: $81628.25 | Dir: LONG | Edge: +26.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:04:20,394 [INFO] [15:34:20 | #0152] BTC: $81627.75 | Dir: LONG | Edge: +26.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:04:35,135 [INFO] [15:34:35 | #0153] BTC: $81628.25 | Dir: LONG | Edge: +21.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:04:35,424 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:04:36,439 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:04:38,782 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:04:40,188 [INFO] [15:34:40 | #0154] BTC: $81628.25 | Dir: LONG | Edge: +20.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:04:49,492 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:04:50,503 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:04:52,618 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:04:52,707 [INFO] [15:34:52 | #0155] BTC: $81648.85 | Dir: LONG | Edge: +23.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:05:01,049 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 21:05:01,068 [INFO] [15:35:01 | #0156] BTC: $81637.95 | Dir: LONG | Edge: +21.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:05:12,199 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:05:13,205 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:05:14,082 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:05:14,156 [INFO] [15:35:14 | #0157] BTC: $81655.95 | Dir: LONG | Edge: +28.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:05:21,705 [INFO] [15:35:21 | #0158] BTC: $81699.35 | Dir: LONG | Edge: +27.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:05:31,535 [INFO] [15:35:31 | #0159] BTC: $81726.35 | Dir: LONG | Edge: +28.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:05:34,593 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:05:35,599 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:05:36,599 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:05:40,311 [INFO] [15:35:40 | #0160] BTC: $81748.05 | Dir: LONG | Edge: +28.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:05:52,531 [INFO] [15:35:52 | #0161] BTC: $81748.75 | Dir: LONG | Edge: +28.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:05:55,087 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:05:56,090 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:05:57,387 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:06:00,934 [INFO] [15:36:00 | #0162] BTC: $81736.85 | Dir: LONG | Edge: +28.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:06:12,254 [INFO] [15:36:12 | #0163] BTC: $81748.75 | Dir: LONG | Edge: +29.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:06:13,027 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:06:14,057 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:06:15,379 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:06:21,402 [INFO] [15:36:21 | #0164] BTC: $81703.75 | Dir: LONG | Edge: +25.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:06:30,928 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:06:31,940 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:06:34,483 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:06:34,517 [INFO] [15:36:34 | #0165] BTC: $81678.05 | Dir: FLAT | Edge: +13.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:06:40,237 [INFO] [15:36:40 | #0166] BTC: $81671.75 | Dir: LONG | Edge: +20.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:06:49,858 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:06:50,858 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:06:52,730 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:06:52,796 [INFO] [15:36:52 | #0167] BTC: $81678.05 | Dir: LONG | Edge: +20.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:07:00,188 [INFO] [15:37:00 | #0168] BTC: $81633.15 | Dir: FLAT | Edge: +13.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:07:10,767 [INFO] [15:37:10 | #0169] BTC: $81633.15 | Dir: FLAT | Edge: +13.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:07:11,370 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:07:12,372 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:07:13,954 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:07:20,591 [INFO] [15:37:20 | #0170] BTC: $81627.35 | Dir: FLAT | Edge: +13.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:07:29,434 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:07:30,438 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:07:32,812 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:07:32,884 [INFO] [15:37:32 | #0171] BTC: $81622.25 | Dir: FLAT | Edge: +13.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:07:40,033 [INFO] [15:37:40 | #0172] BTC: $81642.95 | Dir: LONG | Edge: +21.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:07:48,178 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:07:49,190 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:07:50,461 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:07:51,076 [INFO] [15:37:51 | #0173] BTC: $81622.25 | Dir: FLAT | Edge: +12.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:08:00,200 [INFO] [15:38:00 | #0174] BTC: $81619.25 | Dir: FLAT | Edge: +12.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:08:05,728 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:08:06,729 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:08:08,658 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:08:10,661 [INFO] [15:38:10 | #0175] BTC: $81612.45 | Dir: FLAT | Edge: +10.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:08:22,069 [INFO] [15:38:22 | #0176] BTC: $81605.45 | Dir: FLAT | Edge: +9.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:08:24,931 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:08:25,940 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:08:28,692 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:08:31,660 [INFO] [15:38:31 | #0177] BTC: $81604.55 | Dir: FLAT | Edge: +9.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:08:40,874 [INFO] [15:38:40 | #0178] BTC: $81604.55 | Dir: FLAT | Edge: +10.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:08:47,251 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:08:48,261 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:08:50,535 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:08:50,830 [INFO] [15:38:50 | #0179] BTC: $81604.55 | Dir: FLAT | Edge: +9.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:09:00,701 [INFO] [15:39:00 | #0180] BTC: $81599.35 | Dir: FLAT | Edge: +10.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:09:00,702 [INFO] =========================================================================================================
+2026-10-29 21:09:00,702 [INFO] >>> TOURNAMENT LEADERBOARD AUDIT (Elapsed: 30.0 min | Bars: 180)
+2026-10-29 21:09:00,702 [INFO] Rank | Competitor     | Trades | Wins | Win Rate | Net PnL    | PF    | Active Pos          
+2026-10-29 21:09:00,702 [INFO] ---------------------------------------------------------------------------------------------------------
+2026-10-29 21:09:00,703 [INFO] # 1   | Champion       |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 21:09:00,703 [INFO] # 2   | Challenger_1   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 21:09:00,703 [INFO] # 3   | Challenger_2   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 21:09:00,703 [INFO] # 4   | Challenger_3   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 21:09:00,703 [INFO] # 5   | Challenger_4   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 21:09:00,703 [INFO] # 6   | Challenger_5   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 21:09:00,703 [INFO] =========================================================================================================
+2026-10-29 21:09:02,014 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:09:03,022 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:09:03,925 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:09:10,086 [INFO] [15:39:10 | #0181] BTC: $81591.85 | Dir: FLAT | Edge: +10.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:09:21,191 [INFO] [15:39:21 | #0182] BTC: $81591.85 | Dir: FLAT | Edge: +10.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:09:22,556 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:09:23,564 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:09:25,572 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:09:31,968 [INFO] [15:39:31 | #0183] BTC: $81544.05 | Dir: FLAT | Edge: +12.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:09:42,409 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:09:43,414 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:09:44,893 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:09:44,959 [INFO] [15:39:44 | #0184] BTC: $81569.95 | Dir: FLAT | Edge: +11.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:09:50,328 [INFO] [15:39:50 | #0185] BTC: $81562.15 | Dir: FLAT | Edge: +12.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:10:00,400 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 21:10:00,419 [INFO] [15:40:00 | #0186] BTC: $81569.95 | Dir: FLAT | Edge: +11.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:10:04,123 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:10:05,136 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:10:10,784 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:10:10,942 [INFO] [15:40:10 | #0187] BTC: $81569.95 | Dir: FLAT | Edge: +11.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:10:20,579 [INFO] [15:40:20 | #0188] BTC: $81535.25 | Dir: FLAT | Edge: +13.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:10:28,120 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:10:29,125 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:10:30,853 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:10:30,929 [INFO] [15:40:30 | #0189] BTC: $81535.25 | Dir: FLAT | Edge: +12.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:10:41,472 [INFO] [15:40:41 | #0190] BTC: $81530.35 | Dir: FLAT | Edge: +13.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:10:45,424 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:10:46,434 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:10:47,515 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:10:51,981 [INFO] [15:40:51 | #0191] BTC: $81557.35 | Dir: FLAT | Edge: +10.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:11:00,355 [INFO] [15:41:00 | #0192] BTC: $81559.45 | Dir: FLAT | Edge: +10.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:11:03,071 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:11:04,080 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:11:05,966 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:11:11,168 [INFO] [15:41:11 | #0193] BTC: $81591.85 | Dir: FLAT | Edge: +9.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:11:23,289 [INFO] [15:41:23 | #0194] BTC: $81575.35 | Dir: FLAT | Edge: +9.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:11:24,340 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:11:25,352 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:11:27,920 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:11:30,530 [INFO] [15:41:30 | #0195] BTC: $81569.35 | Dir: FLAT | Edge: +8.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:11:40,333 [INFO] [15:41:40 | #0196] BTC: $81575.35 | Dir: FLAT | Edge: +9.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:11:43,145 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:11:44,155 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:11:46,256 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:11:51,823 [INFO] [15:41:51 | #0197] BTC: $81562.15 | Dir: FLAT | Edge: +10.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:12:04,136 [INFO] [15:42:04 | #0198] BTC: $81562.15 | Dir: FLAT | Edge: +10.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:12:04,525 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:12:05,526 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:12:07,536 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:12:11,771 [INFO] [15:42:11 | #0199] BTC: $81541.75 | Dir: FLAT | Edge: +13.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:12:20,156 [INFO] [15:42:20 | #0200] BTC: $81541.75 | Dir: FLAT | Edge: +12.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:12:23,158 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:12:24,175 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:12:26,943 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:12:30,790 [INFO] [15:42:30 | #0201] BTC: $81584.05 | Dir: FLAT | Edge: +10.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:12:42,333 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:12:43,333 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:12:44,627 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:12:44,901 [INFO] [15:42:44 | #0202] BTC: $81559.95 | Dir: FLAT | Edge: +10.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:12:50,303 [INFO] [15:42:50 | #0203] BTC: $81559.95 | Dir: FLAT | Edge: +9.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:12:59,863 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:13:00,865 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:13:02,477 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:13:02,617 [INFO] [15:43:02 | #0204] BTC: $81566.65 | Dir: FLAT | Edge: +9.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:13:10,174 [INFO] [15:43:10 | #0205] BTC: $81566.65 | Dir: FLAT | Edge: +9.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:13:19,668 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:13:20,681 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:13:22,956 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:13:23,005 [INFO] [15:43:23 | #0206] BTC: $81566.65 | Dir: FLAT | Edge: +9.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:13:30,098 [INFO] [15:43:30 | #0207] BTC: $81563.05 | Dir: FLAT | Edge: +10.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:13:40,711 [INFO] [15:43:40 | #0208] BTC: $81649.65 | Dir: LONG | Edge: +25.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:13:48,377 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:13:49,393 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:13:54,050 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:13:54,400 [INFO] [15:43:54 | #0209] BTC: $81649.65 | Dir: LONG | Edge: +24.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:14:00,641 [INFO] [15:44:00 | #0210] BTC: $81619.95 | Dir: FLAT | Edge: +14.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:14:11,090 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:14:12,099 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:14:20,107 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 21:14:21,609 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:14:29,615 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 2.2s...
+2026-10-29 21:14:31,871 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:14:39,878 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 3.4s...
+2026-10-29 21:14:43,267 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:14:51,277 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 5.1s...
+2026-10-29 21:14:56,342 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:15:03,045 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:15:03,072 [WARNING] Detected stream gap of 60000 ms (5 missing bars). Interpolating 5 bounded synthetic flat bars.
+2026-10-29 21:15:03,119 [INFO] [15:45:03 | #0211] BTC: $81613.65 | Dir: FLAT | Edge: +14.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:15:03,162 [INFO] [15:45:03 | #0212] BTC: $81613.65 | Dir: FLAT | Edge: +14.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:15:03,323 [INFO] [15:45:03 | #0213] BTC: $81613.65 | Dir: LONG | Edge: +23.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:15:03,375 [INFO] [15:45:03 | #0214] BTC: $81613.65 | Dir: FLAT | Edge: +11.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:15:03,546 [INFO] [15:45:03 | #0215] BTC: $81613.65 | Dir: FLAT | Edge: +12.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:15:03,617 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-29 21:15:03,635 [INFO] [15:45:03 | #0216] BTC: $81613.65 | Dir: FLAT | Edge: +14.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:15:10,243 [INFO] [15:45:10 | #0217] BTC: $81735.65 | Dir: LONG | Edge: +32.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:15:21,909 [INFO] [15:45:21 | #0218] BTC: $81707.35 | Dir: LONG | Edge: +30.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:15:25,792 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:15:26,793 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:15:31,615 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:15:31,735 [INFO] [15:45:31 | #0219] BTC: $81707.35 | Dir: LONG | Edge: +30.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:15:41,728 [INFO] [15:45:41 | #0220] BTC: $81742.95 | Dir: LONG | Edge: +30.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:15:47,133 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:15:48,145 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:15:50,578 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:15:50,617 [INFO] [15:45:50 | #0221] BTC: $81738.55 | Dir: LONG | Edge: +29.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:16:01,699 [INFO] [15:46:01 | #0222] BTC: $81717.65 | Dir: LONG | Edge: +28.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:16:10,230 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:16:11,241 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:16:12,055 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:16:12,091 [INFO] [15:46:12 | #0223] BTC: $81738.55 | Dir: LONG | Edge: +28.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:16:20,790 [INFO] [15:46:20 | #0224] BTC: $81720.35 | Dir: LONG | Edge: +27.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:16:23,360 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:16:24,364 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:16:25,173 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:16:30,276 [INFO] [15:46:30 | #0225] BTC: $81776.85 | Dir: LONG | Edge: +28.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:16:35,582 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:16:36,584 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:16:37,332 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:16:40,893 [INFO] [15:46:40 | #0226] BTC: $81847.05 | Dir: LONG | Edge: +27.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:16:47,884 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:16:48,892 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:16:55,047 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:16:55,109 [INFO] [15:46:55 | #0227] BTC: $81850.05 | Dir: LONG | Edge: +28.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:17:00,316 [INFO] [15:47:00 | #0228] BTC: $81809.25 | Dir: LONG | Edge: +29.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:17:10,245 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:17:11,246 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:17:12,642 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:17:12,721 [INFO] [15:47:12 | #0229] BTC: $81850.05 | Dir: LONG | Edge: +29.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:17:20,120 [INFO] [15:47:20 | #0230] BTC: $81776.75 | Dir: LONG | Edge: +30.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:17:27,286 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:17:28,288 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:17:29,100 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:17:30,364 [INFO] [15:47:30 | #0231] BTC: $81776.75 | Dir: LONG | Edge: +27.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:17:39,842 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:17:40,854 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:17:44,807 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:17:44,850 [INFO] [15:47:44 | #0232] BTC: $81827.95 | Dir: LONG | Edge: +27.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:17:51,276 [INFO] [15:47:51 | #0233] BTC: $81801.65 | Dir: LONG | Edge: +23.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:17:59,989 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:18:00,996 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:18:02,369 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:18:02,489 [INFO] [15:48:02 | #0234] BTC: $81765.65 | Dir: LONG | Edge: +22.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:18:10,803 [INFO] [15:48:10 | #0235] BTC: $81763.05 | Dir: LONG | Edge: +21.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:18:20,152 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:18:21,156 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:18:22,636 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:18:22,711 [INFO] [15:48:22 | #0236] BTC: $81765.65 | Dir: LONG | Edge: +24.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:18:31,023 [INFO] [15:48:31 | #0237] BTC: $81758.05 | Dir: LONG | Edge: +22.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:18:37,785 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:18:38,800 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:18:39,963 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:18:40,103 [INFO] [15:48:40 | #0238] BTC: $81751.05 | Dir: LONG | Edge: +21.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:18:51,463 [INFO] [15:48:51 | #0239] BTC: $81777.95 | Dir: LONG | Edge: +23.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:18:58,909 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:18:59,921 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:19:07,155 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:19:07,259 [INFO] [15:49:07 | #0240] BTC: $81738.65 | Dir: FLAT | Edge: +14.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:19:07,261 [INFO] =========================================================================================================
+2026-10-29 21:19:07,262 [INFO] >>> TOURNAMENT LEADERBOARD AUDIT (Elapsed: 40.1 min | Bars: 240)
+2026-10-29 21:19:07,262 [INFO] Rank | Competitor     | Trades | Wins | Win Rate | Net PnL    | PF    | Active Pos          
+2026-10-29 21:19:07,262 [INFO] ---------------------------------------------------------------------------------------------------------
+2026-10-29 21:19:07,263 [INFO] # 1   | Champion       |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 21:19:07,263 [INFO] # 2   | Challenger_1   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 21:19:07,263 [INFO] # 3   | Challenger_2   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 21:19:07,263 [INFO] # 4   | Challenger_3   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 21:19:07,263 [INFO] # 5   | Challenger_4   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 21:19:07,264 [INFO] # 6   | Challenger_5   |      0 |    0 |     0.0% |     +0.00b |  1.00 | NONE                
+2026-10-29 21:19:07,264 [INFO] =========================================================================================================
+2026-10-29 21:19:10,523 [INFO] [15:49:10 | #0241] BTC: $81707.15 | Dir: FLAT | Edge: +13.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:19:22,370 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:19:23,377 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:19:24,167 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:19:24,257 [INFO] [15:49:24 | #0242] BTC: $81738.65 | Dir: LONG | Edge: +22.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:19:30,935 [INFO] [15:49:30 | #0243] BTC: $81683.15 | Dir: FLAT | Edge: +11.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:19:42,553 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:19:43,564 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:19:45,289 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:19:45,364 [INFO] [15:49:45 | #0244] BTC: $81692.25 | Dir: FLAT | Edge: +12.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:19:50,303 [INFO] [15:49:50 | #0245] BTC: $81639.65 | Dir: FLAT | Edge: +9.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:20:00,865 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 21:20:00,889 [INFO] [15:50:00 | #0246] BTC: $81692.25 | Dir: FLAT | Edge: +13.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:20:03,589 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:20:04,601 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:20:10,723 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:20:11,116 [INFO] [15:50:11 | #0247] BTC: $81692.25 | Dir: FLAT | Edge: +9.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:20:21,992 [INFO] [15:50:21 | #0248] BTC: $81643.85 | Dir: FLAT | Edge: +11.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:20:26,053 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:20:27,056 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:20:31,424 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:20:31,507 [INFO] [15:50:31 | #0249] BTC: $81644.95 | Dir: FLAT | Edge: +11.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:20:40,025 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:20:40,267 [INFO] [15:50:40 | #0250] BTC: $81674.25 | Dir: FLAT | Edge: +9.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:20:41,027 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:20:49,032 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 21:20:50,545 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:20:58,559 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 2.2s...
+2026-10-29 21:21:00,815 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:21:08,818 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 3.4s...
+2026-10-29 21:21:12,199 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:21:15,834 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:21:15,896 [WARNING] Detected stream gap of 30000 ms (2 missing bars). Interpolating 2 bounded synthetic flat bars.
+2026-10-29 21:21:15,933 [INFO] [15:51:15 | #0251] BTC: $81648.05 | Dir: FLAT | Edge: +10.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:21:15,995 [INFO] [15:51:15 | #0252] BTC: $81648.05 | Dir: FLAT | Edge: +12.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:21:16,033 [INFO] [15:51:16 | #0253] BTC: $81648.05 | Dir: FLAT | Edge: +12.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:21:20,926 [INFO] [15:51:20 | #0254] BTC: $81712.85 | Dir: FLAT | Edge: +13.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:21:32,179 [INFO] [15:51:32 | #0255] BTC: $81648.05 | Dir: FLAT | Edge: +11.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:21:32,392 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:21:33,395 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:21:41,407 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 21:21:42,918 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:21:50,926 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 2.2s...
+2026-10-29 21:21:53,191 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:21:58,802 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:21:58,871 [WARNING] Detected stream gap of 20000 ms (1 missing bars). Interpolating 1 bounded synthetic flat bars.
+2026-10-29 21:21:58,908 [INFO] [15:51:58 | #0256] BTC: $81648.05 | Dir: FLAT | Edge: +12.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:21:58,947 [INFO] [15:51:58 | #0257] BTC: $81648.05 | Dir: FLAT | Edge: +10.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:22:01,203 [INFO] [15:52:01 | #0258] BTC: $81648.05 | Dir: FLAT | Edge: +10.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:22:11,651 [INFO] [15:52:11 | #0259] BTC: $81669.45 | Dir: FLAT | Edge: +9.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:22:19,173 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:22:20,174 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:22:28,178 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 21:22:29,684 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:22:37,686 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 2.2s...
+2026-10-29 21:22:39,942 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:22:47,948 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 3.4s...
+2026-10-29 21:22:51,340 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:22:59,347 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 5.1s...
+2026-10-29 21:23:04,417 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:23:08,905 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:23:08,906 [WARNING] Detected stream gap of 50000 ms (4 missing bars). Interpolating 4 bounded synthetic flat bars.
+2026-10-29 21:23:08,956 [INFO] [15:53:08 | #0260] BTC: $81728.35 | Dir: FLAT | Edge: +11.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:23:09,004 [INFO] [15:53:09 | #0261] BTC: $81728.35 | Dir: FLAT | Edge: +12.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:23:09,049 [INFO] [15:53:09 | #0262] BTC: $81728.35 | Dir: FLAT | Edge: +14.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:23:09,105 [INFO] [15:53:09 | #0263] BTC: $81728.35 | Dir: FLAT | Edge: +14.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:23:09,183 [INFO] [15:53:09 | #0264] BTC: $81728.35 | Dir: FLAT | Edge: +13.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:23:12,555 [INFO] [15:53:12 | #0265] BTC: $81691.95 | Dir: FLAT | Edge: +10.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:23:21,704 [INFO] [15:53:21 | #0266] BTC: $81700.55 | Dir: FLAT | Edge: +9.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:23:26,000 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:23:27,004 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:23:31,206 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:23:31,255 [INFO] [15:53:31 | #0267] BTC: $81728.35 | Dir: FLAT | Edge: +11.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:23:41,316 [INFO] [15:53:41 | #0268] BTC: $81689.95 | Dir: FLAT | Edge: +10.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:23:50,203 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:23:51,213 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:23:53,360 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:23:53,427 [INFO] [15:53:53 | #0269] BTC: $81694.35 | Dir: FLAT | Edge: +9.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:24:01,738 [INFO] [15:54:01 | #0270] BTC: $81675.15 | Dir: FLAT | Edge: +11.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:24:05,267 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:24:06,278 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:24:10,949 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:24:11,501 [INFO] [15:54:11 | #0271] BTC: $81694.35 | Dir: FLAT | Edge: +10.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:24:20,885 [INFO] [15:54:20 | #0272] BTC: $81686.95 | Dir: FLAT | Edge: +9.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:24:27,877 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:24:28,880 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:24:31,952 [INFO] rss_cointelegraph: appended 1 new event(s) to D:\PrivateProjects\BTC Futures\feature engineering scripts\inference\data\news_events\rss_cointelegraph_2026-10-29.jsonl
+2026-10-29 21:24:32,205 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:24:32,249 [INFO] [15:54:32 | #0273] BTC: $81683.05 | Dir: FLAT | Edge: +9.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:24:40,178 [INFO] [15:54:40 | #0274] BTC: $81661.95 | Dir: FLAT | Edge: +10.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:24:43,814 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:24:44,816 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:24:45,212 [INFO] Scored 1 new event(s): polarity=0.000 magnitude=0.000 confidence=0.300 mention_velocity=1
+2026-10-29 21:24:46,042 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:24:50,850 [INFO] [15:54:50 | #0275] BTC: $81669.35 | Dir: FLAT | Edge: +10.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:25:00,618 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 21:25:00,649 [INFO] [15:55:00 | #0276] BTC: $81669.35 | Dir: FLAT | Edge: +9.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:25:06,074 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:25:07,079 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:25:08,240 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:25:10,232 [INFO] [15:55:10 | #0277] BTC: $81669.25 | Dir: FLAT | Edge: +10.0 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:25:21,505 [INFO] [15:55:21 | #0278] BTC: $81669.25 | Dir: FLAT | Edge: +10.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:25:25,318 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:25:25,320 [INFO] scored 1/1 pending articles
+2026-10-29 21:25:26,321 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:25:28,203 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:25:30,182 [INFO] [15:55:30 | #0279] BTC: $81690.25 | Dir: FLAT | Edge: +14.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:25:40,659 [INFO] [15:55:40 | #0280] BTC: $81699.75 | Dir: FLAT | Edge: +15.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:25:51,987 [INFO] [15:55:51 | #0281] BTC: $81686.45 | Dir: FLAT | Edge: +13.7 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:25:52,727 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:25:53,737 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:25:56,132 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:26:00,142 [INFO] [15:56:00 | #0282] BTC: $81691.75 | Dir: LONG | Edge: +21.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:26:11,172 [INFO] [15:56:11 | #0283] BTC: $81691.75 | Dir: LONG | Edge: +21.4 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:26:16,790 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:26:17,795 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:26:25,799 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 1.5s...
+2026-10-29 21:26:27,313 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:26:35,330 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): timed out during opening handshake. Switching/reconnecting in 2.2s...
+2026-10-29 21:26:37,598 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:26:43,639 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:26:43,687 [WARNING] Detected stream gap of 30000 ms (2 missing bars). Interpolating 2 bounded synthetic flat bars.
+2026-10-29 21:26:43,732 [INFO] [15:56:43 | #0284] BTC: $81695.65 | Dir: FLAT | Edge: +14.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:26:43,769 [INFO] [15:56:43 | #0285] BTC: $81695.65 | Dir: FLAT | Edge: +13.9 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:26:43,808 [INFO] [15:56:43 | #0286] BTC: $81695.65 | Dir: FLAT | Edge: +13.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:26:50,980 [INFO] [15:56:50 | #0287] BTC: $81699.85 | Dir: LONG | Edge: +23.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:26:59,015 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:27:00,016 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:27:02,464 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:27:02,732 [INFO] [15:57:02 | #0288] BTC: $81695.65 | Dir: FLAT | Edge: +13.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:27:10,301 [INFO] [15:57:10 | #0289] BTC: $81715.35 | Dir: LONG | Edge: +26.6 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:27:20,270 [INFO] [15:57:20 | #0290] BTC: $81715.35 | Dir: FLAT | Edge: +13.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:27:31,825 [INFO] [15:57:31 | #0291] BTC: $81715.35 | Dir: FLAT | Edge: +13.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:27:35,206 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): sent 1011 (internal error) keepalive ping timeout; no close frame received. Switching/reconnecting in 1.0s...
+2026-10-29 21:27:36,218 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:27:37,883 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:27:40,333 [INFO] [15:57:40 | #0292] BTC: $81715.35 | Dir: FLAT | Edge: +13.1 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:27:51,344 [INFO] [15:57:51 | #0293] BTC: $81715.35 | Dir: FLAT | Edge: +12.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:27:54,804 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:27:55,806 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:27:57,708 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:28:00,610 [INFO] [15:58:00 | #0294] BTC: $81728.55 | Dir: FLAT | Edge: +15.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:28:07,334 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:28:08,335 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:28:09,264 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:28:10,154 [INFO] [15:58:10 | #0295] BTC: $81728.55 | Dir: LONG | Edge: +24.5 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:28:20,985 [INFO] [15:58:20 | #0296] BTC: $81750.05 | Dir: LONG | Edge: +29.2 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:28:29,457 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:28:30,458 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:28:33,056 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:28:33,287 [INFO] [15:58:33 | #0297] BTC: $81738.55 | Dir: FLAT | Edge: +15.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:28:40,211 [INFO] [15:58:40 | #0298] BTC: $81728.65 | Dir: LONG | Edge: +23.3 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:28:50,887 [INFO] [15:58:50 | #0299] BTC: $81738.55 | Dir: LONG | Edge: +26.8 bps | Champ Pos: NONE | Champ PnL: +0.00 bps
+2026-10-29 21:28:51,667 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:28:52,677 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:28:54,025 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:29:01,844 [INFO] [15:59:01 | #0300] BTC: $81733.15 | Dir: LONG | Edge: +25.2 bps | Champ Pos: BUY @ 81728.5 (+0.6b) | Champ PnL: +0.00 bps
+2026-10-29 21:29:01,845 [INFO] =========================================================================================================
+2026-10-29 21:29:01,845 [INFO] >>> TOURNAMENT LEADERBOARD AUDIT (Elapsed: 50.0 min | Bars: 300)
+2026-10-29 21:29:01,845 [INFO] Rank | Competitor     | Trades | Wins | Win Rate | Net PnL    | PF    | Active Pos          
+2026-10-29 21:29:01,846 [INFO] ---------------------------------------------------------------------------------------------------------
+2026-10-29 21:29:01,846 [INFO] # 1   | Champion       |      0 |    0 |     0.0% |     +0.00b |  1.00 | BUY @ 81728.5 (+0.6b)
+2026-10-29 21:29:01,846 [INFO] # 2   | Challenger_1   |      0 |    0 |     0.0% |     +0.00b |  1.00 | BUY @ 81728.5 (+0.6b)
+2026-10-29 21:29:01,846 [INFO] # 3   | Challenger_2   |      0 |    0 |     0.0% |     +0.00b |  1.00 | BUY @ 81728.5 (+0.6b)
+2026-10-29 21:29:01,846 [INFO] # 4   | Challenger_3   |      0 |    0 |     0.0% |     +0.00b |  1.00 | BUY @ 81728.5 (+0.6b)
+2026-10-29 21:29:01,846 [INFO] # 5   | Challenger_4   |      0 |    0 |     0.0% |     +0.00b |  1.00 | BUY @ 81728.5 (+0.6b)
+2026-10-29 21:29:01,846 [INFO] # 6   | Challenger_5   |      0 |    0 |     0.0% |     +0.00b |  1.00 | BUY @ 81728.5 (+0.6b)
+2026-10-29 21:29:01,846 [INFO] =========================================================================================================
+2026-10-29 21:29:11,171 [INFO] [15:59:11 | #0301] BTC: $81733.15 | Dir: LONG | Edge: +23.9 bps | Champ Pos: BUY @ 81728.5 (+0.6b) | Champ PnL: +0.00 bps
+2026-10-29 21:29:11,408 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:29:12,416 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:29:15,979 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:29:21,537 [INFO] [15:59:21 | #0302] BTC: $81729.65 | Dir: FLAT | Edge: +13.6 bps | Champ Pos: BUY @ 81728.5 (+0.6b) | Champ PnL: +0.00 bps
+2026-10-29 21:29:31,078 [INFO] [15:59:31 | #0303] BTC: $81728.65 | Dir: FLAT | Edge: +14.1 bps | Champ Pos: BUY @ 81728.5 (+0.6b) | Champ PnL: +0.00 bps
+2026-10-29 21:29:41,506 [INFO] [15:59:41 | #0304] BTC: $81728.65 | Dir: LONG | Edge: +23.1 bps | Champ Pos: BUY @ 81728.5 (+0.6b) | Champ PnL: +0.00 bps
+2026-10-29 21:29:48,952 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): sent 1011 (internal error) keepalive ping timeout; no close frame received. Switching/reconnecting in 1.0s...
+2026-10-29 21:29:49,953 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:29:51,593 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:29:51,714 [INFO] [15:59:51 | #0305] BTC: $81728.65 | Dir: FLAT | Edge: +14.4 bps | Champ Pos: BUY @ 81728.5 (+0.6b) | Champ PnL: +0.00 bps
+2026-10-29 21:30:03,913 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-29 21:30:04,015 [INFO] [16:00:04 | #0306] BTC: $81722.35 | Dir: FLAT | Edge: +13.7 bps | Champ Pos: BUY @ 81728.5 (-0.8b) | Champ PnL: +0.00 bps
+2026-10-29 21:30:07,441 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:30:08,454 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:30:09,515 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:30:11,001 [INFO] [16:00:11 | #0307] BTC: $81722.35 | Dir: FLAT | Edge: +13.6 bps | Champ Pos: BUY @ 81728.5 (-0.8b) | Champ PnL: +0.00 bps
+2026-10-29 21:30:18,019 [INFO] scored 1/1 pending articles
+2026-10-29 21:30:19,491 [INFO] rss_cointelegraph: appended 1 new event(s) to D:\PrivateProjects\BTC Futures\feature engineering scripts\inference\data\news_events\rss_cointelegraph_2026-10-29.jsonl
+2026-10-29 21:30:21,360 [INFO] [16:00:21 | #0308] BTC: $81785.35 | Dir: LONG | Edge: +32.1 bps | Champ Pos: BUY @ 81728.5 (-0.8b) | Champ PnL: +0.00 bps
+2026-10-29 21:30:21,925 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:30:22,937 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:30:24,353 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:30:30,704 [INFO] [16:00:30 | #0309] BTC: $81762.55 | Dir: LONG | Edge: +30.4 bps | Champ Pos: BUY @ 81728.5 (-0.8b) | Champ PnL: +0.00 bps
+2026-10-29 21:30:31,617 [INFO] Scored 1 new event(s): polarity=0.000 magnitude=0.000 confidence=0.300 mention_velocity=2
+2026-10-29 21:30:36,791 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:30:37,796 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:30:39,033 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:30:39,947 [INFO] [16:00:39 | #0310] BTC: $81762.55 | Dir: LONG | Edge: +30.4 bps | Champ Pos: BUY @ 81728.5 (-0.8b) | Champ PnL: +0.00 bps
+2026-10-29 21:30:50,199 [INFO] [16:00:50 | #0311] BTC: $81759.95 | Dir: LONG | Edge: +30.3 bps | Champ Pos: BUY @ 81728.5 (-0.8b) | Champ PnL: +0.00 bps
+2026-10-29 21:30:55,722 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:30:56,738 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:30:57,900 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:31:00,506 [INFO] [16:01:00 | #0312] BTC: $81757.85 | Dir: LONG | Edge: +29.4 bps | Champ Pos: BUY @ 81759.9 (-0.3b) | Champ PnL: +2.00 bps
+2026-10-29 21:31:08,582 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:31:09,179 [INFO] scored 1/1 pending articles
+2026-10-29 21:31:09,584 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:31:10,329 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:31:10,501 [INFO] [16:01:10 | #0313] BTC: $81755.45 | Dir: LONG | Edge: +29.0 bps | Champ Pos: BUY @ 81759.9 (-0.3b) | Champ PnL: +2.00 bps
+2026-10-29 21:31:10,919 [INFO] rss_decrypt: appended 1 new event(s) to D:\PrivateProjects\BTC Futures\feature engineering scripts\inference\data\news_events\rss_decrypt_2026-10-29.jsonl
+2026-10-29 21:31:21,376 [INFO] [16:01:21 | #0314] BTC: $81757.85 | Dir: LONG | Edge: +23.7 bps | Champ Pos: BUY @ 81759.9 (-0.3b) | Champ PnL: +2.00 bps
+2026-10-29 21:31:22,139 [INFO] Scored 1 new event(s): polarity=0.000 magnitude=0.000 confidence=0.300 mention_velocity=3
+2026-10-29 21:31:22,825 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:31:23,837 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:31:24,594 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:31:30,343 [INFO] [16:01:30 | #0315] BTC: $81722.55 | Dir: FLAT | Edge: +11.1 bps | Champ Pos: BUY @ 81759.9 (-0.3b) | Champ PnL: +2.00 bps
+2026-10-29 21:31:39,848 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:31:40,853 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:31:42,803 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:31:43,032 [INFO] [16:01:43 | #0316] BTC: $81729.75 | Dir: FLAT | Edge: +12.7 bps | Champ Pos: BUY @ 81759.9 (-0.3b) | Champ PnL: +2.00 bps
+2026-10-29 21:31:51,009 [INFO] [16:01:51 | #0317] BTC: $81737.65 | Dir: FLAT | Edge: +13.4 bps | Champ Pos: BUY @ 81759.9 (-0.3b) | Champ PnL: +2.00 bps
+2026-10-29 21:31:54,929 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:31:55,932 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:31:57,928 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:32:02,414 [INFO] [16:02:02 | #0318] BTC: $81710.65 | Dir: FLAT | Edge: +10.2 bps | Champ Pos: BUY @ 81759.9 (-6.0b) | Champ PnL: +2.00 bps
+2026-10-29 21:32:11,355 [INFO] [16:02:11 | #0319] BTC: $81710.65 | Dir: FLAT | Edge: +10.5 bps | Champ Pos: BUY @ 81759.9 (-6.0b) | Champ PnL: +2.00 bps
+2026-10-29 21:32:13,065 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:32:14,080 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:32:20,552 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:32:21,107 [INFO] [16:02:21 | #0320] BTC: $81655.95 | Dir: FLAT | Edge: +14.2 bps | Champ Pos: BUY @ 81759.9 (-6.0b) | Champ PnL: +2.00 bps
+2026-10-29 21:32:31,395 [INFO] [16:02:31 | #0321] BTC: $81625.95 | Dir: FLAT | Edge: +14.4 bps | Champ Pos: BUY @ 81759.9 (-6.0b) | Champ PnL: +2.00 bps
+2026-10-29 21:32:33,321 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:32:34,324 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:32:35,555 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:32:40,981 [INFO] [16:02:40 | #0322] BTC: $81633.25 | Dir: FLAT | Edge: +13.6 bps | Champ Pos: BUY @ 81759.9 (-6.0b) | Champ PnL: +2.00 bps
+2026-10-29 21:32:49,268 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:32:50,282 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:32:52,981 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:32:53,057 [INFO] [16:02:53 | #0323] BTC: $81623.95 | Dir: FLAT | Edge: +14.0 bps | Champ Pos: BUY @ 81759.9 (-6.0b) | Champ PnL: +2.00 bps
+2026-10-29 21:33:00,639 [INFO] [16:03:00 | #0324] BTC: $81594.45 | Dir: FLAT | Edge: +14.4 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:33:10,222 [INFO] [16:03:10 | #0325] BTC: $81623.95 | Dir: FLAT | Edge: +13.7 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:33:11,849 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:33:12,856 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:33:14,151 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:33:21,474 [INFO] [16:03:21 | #0326] BTC: $81622.85 | Dir: FLAT | Edge: +13.8 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:33:29,345 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:33:30,358 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:33:31,277 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:33:31,544 [INFO] [16:03:31 | #0327] BTC: $81627.35 | Dir: FLAT | Edge: +12.4 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:33:40,440 [INFO] [16:03:40 | #0328] BTC: $81625.25 | Dir: FLAT | Edge: +12.8 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:33:50,355 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:33:51,361 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:33:53,920 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:33:54,746 [INFO] [16:03:54 | #0329] BTC: $81627.35 | Dir: FLAT | Edge: +11.7 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:34:00,223 [INFO] [16:04:00 | #0330] BTC: $81734.00 | Dir: LONG | Edge: +24.5 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:34:06,551 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:34:07,577 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:34:09,422 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:34:10,023 [INFO] [16:04:10 | #0331] BTC: $81734.00 | Dir: LONG | Edge: +24.0 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:34:21,213 [INFO] [16:04:21 | #0332] BTC: $81749.65 | Dir: LONG | Edge: +29.6 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:34:22,021 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:34:23,031 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:34:24,560 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:34:30,122 [INFO] [16:04:30 | #0333] BTC: $81768.15 | Dir: LONG | Edge: +31.8 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:34:34,300 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:34:35,301 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:34:36,525 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:34:41,032 [INFO] [16:04:41 | #0334] BTC: $81770.45 | Dir: LONG | Edge: +31.2 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:34:50,616 [INFO] [16:04:50 | #0335] BTC: $81769.55 | Dir: LONG | Edge: +31.0 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:34:55,878 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:34:56,894 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:34:57,842 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:35:00,385 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-29 21:35:00,404 [INFO] [16:05:00 | #0336] BTC: $81752.45 | Dir: LONG | Edge: +26.7 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:35:10,051 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:35:10,089 [INFO] [16:05:10 | #0337] BTC: $81748.75 | Dir: LONG | Edge: +25.1 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:35:11,058 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:35:11,801 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:35:20,541 [INFO] [16:05:20 | #0338] BTC: $81747.25 | Dir: FLAT | Edge: +12.2 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:35:31,215 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:35:32,231 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:35:35,742 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:35:35,859 [INFO] [16:05:35 | #0339] BTC: $81752.45 | Dir: FLAT | Edge: +13.3 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:35:40,219 [INFO] [16:05:40 | #0340] BTC: $81796.25 | Dir: LONG | Edge: +30.9 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:35:46,782 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:35:47,797 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:35:49,390 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:35:50,393 [INFO] [16:05:50 | #0341] BTC: $81796.25 | Dir: LONG | Edge: +30.3 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:36:00,588 [INFO] [16:06:00 | #0342] BTC: $81792.25 | Dir: LONG | Edge: +29.9 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:36:06,917 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:36:07,931 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:36:11,555 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:36:11,591 [INFO] [16:06:11 | #0343] BTC: $81788.95 | Dir: LONG | Edge: +29.7 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:36:20,645 [INFO] [16:06:20 | #0344] BTC: $81763.80 | Dir: LONG | Edge: +23.6 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:36:23,369 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:36:24,381 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:36:25,420 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:36:31,543 [INFO] [16:06:31 | #0345] BTC: $81799.85 | Dir: LONG | Edge: +30.5 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:36:37,347 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:36:38,355 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:36:39,251 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:36:39,922 [INFO] [16:06:39 | #0346] BTC: $81799.85 | Dir: LONG | Edge: +27.8 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:36:50,067 [INFO] [16:06:50 | #0347] BTC: $81788.85 | Dir: LONG | Edge: +26.5 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:37:03,026 [INFO] [16:07:03 | #0348] BTC: $81788.85 | Dir: LONG | Edge: +27.1 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:37:10,279 [INFO] [16:07:10 | #0349] BTC: $81788.85 | Dir: LONG | Edge: +27.4 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:37:10,682 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): sent 1011 (internal error) keepalive ping timeout; no close frame received. Switching/reconnecting in 1.0s...
+2026-10-29 21:37:11,695 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:37:13,679 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:37:21,514 [INFO] [16:07:21 | #0350] BTC: $81789.45 | Dir: LONG | Edge: +28.9 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:37:30,441 [INFO] [16:07:30 | #0351] BTC: $81789.45 | Dir: LONG | Edge: +24.9 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:37:34,848 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:37:35,851 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:37:36,567 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:37:40,377 [INFO] [16:07:40 | #0352] BTC: $81812.45 | Dir: LONG | Edge: +29.2 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:37:46,902 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:37:47,914 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:37:49,796 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:37:50,489 [INFO] [16:07:50 | #0353] BTC: $81834.65 | Dir: LONG | Edge: +30.6 bps | Champ Pos: NONE | Champ PnL: -14.71 bps
+2026-10-29 21:38:01,140 [INFO] [16:08:01 | #0354] BTC: $81834.65 | Dir: LONG | Edge: +30.3 bps | Champ Pos: BUY @ 81788.8 (+5.6b) | Champ PnL: -14.71 bps
+2026-10-29 21:38:02,434 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:38:03,447 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:38:05,393 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:38:10,495 [INFO] [16:08:10 | #0355] BTC: $81857.85 | Dir: LONG | Edge: +30.2 bps | Champ Pos: BUY @ 81788.8 (+5.6b) | Champ PnL: -14.71 bps
+2026-10-29 21:38:14,000 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:38:15,007 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:38:16,070 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:38:20,105 [INFO] [16:08:20 | #0356] BTC: $81849.95 | Dir: LONG | Edge: +29.7 bps | Champ Pos: BUY @ 81788.8 (+5.6b) | Champ PnL: -14.71 bps
+2026-10-29 21:38:25,037 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:38:26,052 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:38:27,922 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:38:31,215 [INFO] [16:08:31 | #0357] BTC: $81855.75 | Dir: LONG | Edge: +30.6 bps | Champ Pos: BUY @ 81788.8 (+5.6b) | Champ PnL: -14.71 bps
+2026-10-29 21:38:46,438 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:38:47,441 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:38:48,639 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:38:48,771 [INFO] [16:08:48 | #0358] BTC: $81854.25 | Dir: LONG | Edge: +30.4 bps | Champ Pos: BUY @ 81788.8 (+5.6b) | Champ PnL: -14.71 bps
+2026-10-29 21:38:50,651 [INFO] [16:08:50 | #0359] BTC: $81854.25 | Dir: LONG | Edge: +29.7 bps | Champ Pos: BUY @ 81788.8 (+5.6b) | Champ PnL: -14.71 bps
+2026-10-29 21:38:58,791 [WARNING] [futures-unified] WebSocket dropped (wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker): no close frame received or sent. Switching/reconnecting in 1.0s...
+2026-10-29 21:38:59,802 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-29 21:39:00,533 [INFO] Stopping WebSocket ingestor & REST companion poller...
+2026-10-29 21:39:00,755 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-29 21:39:03,554 [INFO] ================================================================================
+2026-10-29 21:39:03,554 [INFO] SESSION CONCLUDED SUCCESSFULLY
+2026-10-29 21:39:03,554 [INFO] Total Time: 60.1 min | Total Bars: 359 | Closed Trades: 0
+2026-10-29 21:39:03,555 [INFO] Win Rate: 0.0% | Total Net PnL: +0.00 bps
+2026-10-29 21:39:03,555 [INFO] Final Metrics Saved: D:\PrivateProjects\BTC Futures\scratch\live_session_final_metrics.json
+2026-10-29 21:39:03,555 [INFO] Ledger Saved: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_ledger.jsonl
+2026-10-29 21:39:03,555 [INFO] ================================================================================
+2026-10-29 21:39:03,558 [INFO] 🏆 NEW CHAMPION CROWNED: Challenger_5 (Challenger 5: Orderbook Liquidity Imbalance Scalper (Pure Liquidity Guard)) with +2.00 bps Net and 100.0% WR!
+2026-10-29 21:39:03,562 [INFO] =========================================================================================================
+2026-10-29 21:39:03,562 [INFO] TOURNAMENT CONCLUDED SUCCESSFULLY!
+2026-10-29 21:39:03,562 [INFO] CROWNED CHAMPION: Challenger_5 (Challenger 5: Orderbook Liquidity Imbalance Scalper (Pure Liquidity Guard))
+2026-10-29 21:39:03,562 [INFO] Winning Performance: +2.00 bps Net PnL | 100.0% Win Rate | 1 Trades
+2026-10-29 21:39:03,563 [INFO] Final Tournament Results Saved: D:\PrivateProjects\BTC Futures\scratch\champion_challenger_final_results.json
+2026-10-29 21:39:03,563 [INFO] =========================================================================================================
+2026-10-29 21:39:03,564 [INFO] 🏆 NEW CHAMPION CROWNED: Challenger_5 (Challenger 5: Orderbook Liquidity Imbalance Scalper (Pure Liquidity Guard)) with +2.00 bps Net and 100.0% WR!
+2026-10-29 21:39:03,567 [INFO] =========================================================================================================
+2026-10-29 21:39:03,567 [INFO] TOURNAMENT CONCLUDED SUCCESSFULLY!
+2026-10-29 21:39:03,568 [INFO] CROWNED CHAMPION: Challenger_5 (Challenger 5: Orderbook Liquidity Imbalance Scalper (Pure Liquidity Guard))
+2026-10-29 21:39:03,568 [INFO] Winning Performance: +2.00 bps Net PnL | 100.0% Win Rate | 1 Trades
+2026-10-29 21:39:03,568 [INFO] Final Tournament Results Saved: D:\PrivateProjects\BTC Futures\scratch\champion_challenger_final_results.json
+2026-10-29 21:39:03,568 [INFO] =========================================================================================================

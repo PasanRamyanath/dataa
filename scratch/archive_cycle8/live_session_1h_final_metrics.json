@@ -1,0 +1,151 @@
+{
+  "session_duration_minutes": 60.06,
+  "bars_evaluated": 360,
+  "total_trades": 5,
+  "winning_trades": 1,
+  "win_rate_pct": 20.0,
+  "total_net_pnl_bps": -48.17,
+  "avg_net_pnl_bps": -9.63,
+  "accuracy_summary": {
+    "10s": {
+      "evaluated_samples": 359,
+      "overall_accuracy_pct": 84.96,
+      "active_signals_count": 0,
+      "active_precision_pct": 0.0,
+      "sign_accuracy_pct": 0.0,
+      "sign_samples": 0
+    },
+    "30s": {
+      "evaluated_samples": 357,
+      "overall_accuracy_pct": 80.11,
+      "active_signals_count": 37,
+      "active_precision_pct": 64.86,
+      "sign_accuracy_pct": 64.86,
+      "sign_samples": 37
+    },
+    "1m": {
+      "evaluated_samples": 354,
+      "overall_accuracy_pct": 87.85,
+      "active_signals_count": 37,
+      "active_precision_pct": 67.57,
+      "sign_accuracy_pct": 67.57,
+      "sign_samples": 37
+    },
+    "5m": {
+      "evaluated_samples": 329,
+      "overall_accuracy_pct": 93.01,
+      "active_signals_count": 87,
+      "active_precision_pct": 73.56,
+      "sign_accuracy_pct": 73.56,
+      "sign_samples": 87
+    },
+    "15m": {
+      "evaluated_samples": 262,
+      "overall_accuracy_pct": 91.98,
+      "active_signals_count": 77,
+      "active_precision_pct": 72.73,
+      "sign_accuracy_pct": 72.73,
+      "sign_samples": 77
+    },
+    "tiers": {
+      "macro": {
+        "evaluated": 262,
+        "accuracy_pct": 78.63
+      },
+      "meso": {
+        "evaluated": 262,
+        "accuracy_pct": 78.24
+      },
+      "tactical": {
+        "evaluated": 354,
+        "accuracy_pct": 87.85
+      },
+      "micro": {
+        "evaluated": 359,
+        "accuracy_pct": 84.96
+      }
+    }
+  },
+  "closed_trades": [
+    {
+      "symbol": "BTCUSDT",
+      "side": "BUY",
+      "entry_price": 80030.6,
+      "exit_price": 80066.61377000001,
+      "quantity": 0.017,
+      "entry_ts_ms": 1793067160000,
+      "exit_ts_ms": 1793067290000,
+      "holding_duration_sec": 130.0,
+      "gross_return_bps": 4.5,
+      "total_fee_bps": 4.0,
+      "net_return_bps": 0.5,
+      "peak_mfe_bps": 7.5846,
+      "max_mae_bps": 0.0,
+      "exit_reason": "MICRO_TRAILING_MAKER_TP"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "BUY",
+      "entry_price": 80045.5,
+      "exit_price": 80000.3,
+      "quantity": 0.024,
+      "entry_ts_ms": 1793067430000,
+      "exit_ts_ms": 1793067720000,
+      "holding_duration_sec": 290.0,
+      "gross_return_bps": -5.6468,
+      "total_fee_bps": 4.0,
+      "net_return_bps": -9.6468,
+      "peak_mfe_bps": 0.3123,
+      "max_mae_bps": -5.6593,
+      "exit_reason": "MACRO_REVERSAL_MAKER_EXIT"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "BUY",
+      "entry_price": 80029.9,
+      "exit_price": 79962.6,
+      "quantity": 0.015,
+      "entry_ts_ms": 1793067880000,
+      "exit_ts_ms": 1793068000000,
+      "holding_duration_sec": 120.0,
+      "gross_return_bps": -8.4094,
+      "total_fee_bps": 4.0,
+      "net_return_bps": -12.4094,
+      "peak_mfe_bps": 2.6865,
+      "max_mae_bps": -8.4219,
+      "exit_reason": "MACRO_REVERSAL_MAKER_EXIT"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "SELL",
+      "entry_price": 79870.1,
+      "exit_price": 79928.6,
+      "quantity": 0.013,
+      "entry_ts_ms": 1793068590000,
+      "exit_ts_ms": 1793068900000,
+      "holding_duration_sec": 310.0,
+      "gross_return_bps": -7.3244,
+      "total_fee_bps": 4.0,
+      "net_return_bps": -11.3244,
+      "peak_mfe_bps": 1.2646,
+      "max_mae_bps": -7.3369,
+      "exit_reason": "MACRO_REVERSAL_MAKER_EXIT"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "BUY",
+      "entry_price": 79976.7,
+      "exit_price": 79886.4,
+      "quantity": 0.022,
+      "entry_ts_ms": 1793068990000,
+      "exit_ts_ms": 1793069530000,
+      "holding_duration_sec": 540.0,
+      "gross_return_bps": -11.2908,
+      "total_fee_bps": 4.0,
+      "net_return_bps": -15.2908,
+      "peak_mfe_bps": 0.0,
+      "max_mae_bps": -11.3033,
+      "exit_reason": "MACRO_REVERSAL_MAKER_EXIT"
+    }
+  ]
+}

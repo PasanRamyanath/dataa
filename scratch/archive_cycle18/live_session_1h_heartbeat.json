@@ -1,0 +1,90 @@
+{
+  "timestamp": "2026-10-27T13:54:19.823768+00:00",
+  "elapsed_minutes": 59.87,
+  "target_minutes": 60.0,
+  "progress_pct": 99.8,
+  "bars_evaluated": 360,
+  "current_price": 79983.85,
+  "active_position": null,
+  "trades_count": 0,
+  "wins_count": 0,
+  "win_rate_pct": 0.0,
+  "net_pnl_bps": 0,
+  "cached_tier_probs": {
+    "macro": [
+      0.2625,
+      0.4688,
+      0.2687
+    ],
+    "meso": [
+      0.4625,
+      0.4197,
+      0.1178
+    ],
+    "tactical": [
+      0.229,
+      0.5237,
+      0.2474
+    ]
+  },
+  "accuracy_summary": {
+    "10s": {
+      "evaluated_samples": 359,
+      "overall_accuracy_pct": 88.02,
+      "active_signals_count": 0,
+      "active_precision_pct": 0.0,
+      "sign_accuracy_pct": 0.0,
+      "sign_samples": 0
+    },
+    "30s": {
+      "evaluated_samples": 357,
+      "overall_accuracy_pct": 82.35,
+      "active_signals_count": 41,
+      "active_precision_pct": 92.68,
+      "sign_accuracy_pct": 92.68,
+      "sign_samples": 41
+    },
+    "1m": {
+      "evaluated_samples": 354,
+      "overall_accuracy_pct": 84.46,
+      "active_signals_count": 41,
+      "active_precision_pct": 92.68,
+      "sign_accuracy_pct": 92.68,
+      "sign_samples": 41
+    },
+    "5m": {
+      "evaluated_samples": 330,
+      "overall_accuracy_pct": 90.0,
+      "active_signals_count": 172,
+      "active_precision_pct": 83.14,
+      "sign_accuracy_pct": 83.14,
+      "sign_samples": 172
+    },
+    "15m": {
+      "evaluated_samples": 270,
+      "overall_accuracy_pct": 86.3,
+      "active_signals_count": 159,
+      "active_precision_pct": 84.28,
+      "sign_accuracy_pct": 84.28,
+      "sign_samples": 159
+    },
+    "tiers": {
+      "macro": {
+        "evaluated": 270,
+        "accuracy_pct": 34.81
+      },
+      "meso": {
+        "evaluated": 270,
+        "accuracy_pct": 78.89
+      },
+      "tactical": {
+        "evaluated": 354,
+        "accuracy_pct": 84.46
+      },
+      "micro": {
+        "evaluated": 359,
+        "accuracy_pct": 88.02
+      }
+    }
+  }
+}

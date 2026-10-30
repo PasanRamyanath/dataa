@@ -1,0 +1,492 @@
+2026-10-27 08:41:18,843 [INFO] ================================================================================
+2026-10-27 08:41:18,843 [INFO] LAUNCHING 1-HOUR LIVE PAPER TRADING & ACCURACY EVALUATION SESSION (V3.5 PEAK ENGINE - ENHANCED INGESTION)
+2026-10-27 08:41:18,843 [INFO] Symbol: BTCUSDT | Target Duration: 60.0 minutes (1.0 hour)
+2026-10-27 08:41:18,843 [INFO] Checkpoints: D:\PrivateProjects\BTC Futures\feature engineering scripts\models_v3\checkpoints
+2026-10-27 08:41:18,843 [INFO] Ledger Path: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_1h_ledger.jsonl
+2026-10-27 08:41:18,843 [INFO] Metrics Path: D:\PrivateProjects\BTC Futures\scratch\live_session_1h_final_metrics.json
+2026-10-27 08:41:18,843 [INFO] Heartbeat Path: D:\PrivateProjects\BTC Futures\scratch\live_session_1h_heartbeat.json
+2026-10-27 08:41:18,843 [INFO] ================================================================================
+2026-10-27 08:41:18,844 [INFO] Initializing Project-IMPJR v4.0 Live Trading & Monitoring Session...
+2026-10-27 08:41:19,286 [INFO] Detected Hardware Topology: HardwareTopologyProfile(deployment_mode='LOCAL_LAPTOP_STANDALONE', is_kaggle_vm=False, os_platform='Windows', cuda_device_count=0, tier4_macro_device='cpu', tier3_meso_device='cpu', tier2_tactical_device='cpu', tier1_micro_device='cpu', use_fp16_autocast=False, use_cpu_int8_quantization=True, binance_fapi_reachable=True, active_rest_kline_base='https://fapi.binance.com/fapi/v1/klines', active_ws_base='wss://fstream.binance.com/stream')
+2026-10-27 08:41:20,102 [INFO] LiveMultiHorizonV4ModelRegistry initialized: 16/16 models loaded (tier4-hmm-regime, tier4-patchtst-ffd, tier4-tft-funding, tier4-kronos-macro, tier3-itransformer-32, tier3-nhits-multirate, tier3-kronos-meso, tier3-lgbm-positioning, tier2-mamba-s6, tier2-lgbm-bookdepth, tier2-crossasset-gat, tier2-cryptobert-news, tier1-lgbm-micro-1s10s, tier1-spot1s-leadlag, tier1-queue-hazard, fusion-v4-hierarchical) | Stage5 fitted=True
+2026-10-27 08:41:20,109 [INFO] Loaded fitted Stage-5 SupervisedMultiHorizonOOFStacker from D:\PrivateProjects\BTC Futures\feature engineering scripts\models_v3\checkpoints\stage5_fusion\models\fusion-v4-hierarchical\supervised_multi_horizon_stacker.joblib
+2026-10-27 08:41:20,110 [INFO] Bootstrapping multi-horizon ring buffer from Binance REST...
+2026-10-27 08:41:21,061 [INFO] Bootstrap complete across all 14 timeframes: {'1m': 99, '3m': 99, '5m': 99, '15m': 99, '30m': 99, '1h': 99, '2h': 99, '4h': 99, '6h': 99, '8h': 99, '12h': 99, '1d': 99}
+2026-10-27 08:41:21,061 [INFO] Starting real-time Binance WebSocket stream, REST companion poller & Live News Engine...
+2026-10-27 08:41:21,126 [INFO] LiveNewsEngineDaemon started in background (poll_interval=30s)
+2026-10-27 08:41:21,127 [INFO] Starting Binance REST Companion Poller (Interval: 30s, Symbol: BTCUSDT)...
+2026-10-27 08:41:21,128 [INFO] ================================================================================
+2026-10-27 08:41:21,129 [INFO] LIVE HIERARCHICAL TRADING & MONITORING SESSION STARTED (BTCUSDT)
+2026-10-27 08:41:21,132 [INFO] Target Duration: 60.0 minutes (1.0 hours)
+2026-10-27 08:41:21,132 [INFO] Ledger Output: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_1h_ledger.jsonl
+2026-10-27 08:41:21,132 [INFO] ================================================================================
+2026-10-27 08:41:21,134 [INFO] Connecting [futures-unified] WebSocket: wss://fstream.binance.com/stream?streams=btcusdt@aggTrade/btcusdt@markPrice@1s/btcusdt@forceOrder/btcusdt@bookTicker/btcusdt@depth20@100ms/ethusdt@aggTrade/ethusdt@bookTicker
+2026-10-27 08:41:21,147 [WARNING] Could not load sentiment model 'ElKulako/cryptobert' (ModuleNotFoundError: No module named 'transformers') — falling back to lexicon-based polarity heuristic. Install `transformers`/`torch` (requirements-models.txt) and ensure the model is reachable (HF Hub network access) for real FinBERT-class scoring.
+2026-10-27 08:41:21,903 [INFO] [futures-unified] WebSocket connected successfully.
+2026-10-27 08:41:31,508 [INFO] [03:11:31 | #0001] BTC: $79693.45 | Dir: SHORT | Edge: +12.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:41:39,764 [INFO] [03:11:39 | #0002] BTC: $79671.15 | Dir: SHORT | Edge: +14.3 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: IDLE | Pos: NONE
+2026-10-27 08:41:49,759 [INFO] [03:11:49 | #0003] BTC: $79661.85 | Dir: SHORT | Edge: +14.0 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: IDLE | Pos: NONE
+2026-10-27 08:41:59,775 [INFO] [03:11:59 | #0004] BTC: $79675.95 | Dir: SHORT | Edge: +19.3 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: IDLE | Pos: NONE
+2026-10-27 08:42:09,761 [INFO] [03:12:09 | #0005] BTC: $79689.95 | Dir: SHORT | Edge: +19.7 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: IDLE | Pos: NONE
+2026-10-27 08:42:19,794 [INFO] [03:12:19 | #0006] BTC: $79696.15 | Dir: FLAT | Edge: +3.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:42:29,765 [INFO] [03:12:29 | #0007] BTC: $79696.15 | Dir: FLAT | Edge: +3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:42:39,765 [INFO] [03:12:39 | #0008] BTC: $79685.55 | Dir: FLAT | Edge: +4.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:42:49,779 [INFO] [03:12:49 | #0009] BTC: $79698.65 | Dir: FLAT | Edge: +4.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:42:59,772 [INFO] [03:12:59 | #0010] BTC: $79692.05 | Dir: FLAT | Edge: +3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:43:09,759 [INFO] [03:13:09 | #0011] BTC: $79691.15 | Dir: FLAT | Edge: +4.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:43:19,763 [INFO] [03:13:19 | #0012] BTC: $79691.15 | Dir: FLAT | Edge: +4.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:43:29,762 [INFO] [03:13:29 | #0013] BTC: $79673.85 | Dir: SHORT | Edge: +12.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:43:39,761 [INFO] [03:13:39 | #0014] BTC: $79673.85 | Dir: FLAT | Edge: +6.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:43:49,755 [INFO] [03:13:49 | #0015] BTC: $79673.85 | Dir: FLAT | Edge: +7.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:43:59,784 [INFO] [03:13:59 | #0016] BTC: $79674.15 | Dir: FLAT | Edge: +6.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:44:09,774 [INFO] [03:14:09 | #0017] BTC: $79674.15 | Dir: FLAT | Edge: +6.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:44:19,780 [INFO] [03:14:19 | #0018] BTC: $79689.95 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:44:29,780 [INFO] [03:14:29 | #0019] BTC: $79680.05 | Dir: FLAT | Edge: +5.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:44:39,765 [INFO] [03:14:39 | #0020] BTC: $79673.95 | Dir: FLAT | Edge: +6.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:44:49,777 [INFO] [03:14:49 | #0021] BTC: $79667.85 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 08:44:59,770 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-27 08:44:59,782 [INFO] [03:14:59 | #0022] BTC: $79661.65 | Dir: SHORT | Edge: +14.5 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 08:45:09,757 [INFO] [03:15:09 | #0023] BTC: $79653.85 | Dir: SHORT | Edge: +16.8 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 08:45:19,784 [INFO] [03:15:19 | #0024] BTC: $79660.45 | Dir: SHORT | Edge: +15.0 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 08:45:29,772 [INFO] [03:15:29 | #0025] BTC: $79658.85 | Dir: SHORT | Edge: +15.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 08:45:39,761 [INFO] [03:15:39 | #0026] BTC: $79658.85 | Dir: SHORT | Edge: +14.6 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 08:45:49,785 [INFO] [03:15:49 | #0027] BTC: $79663.05 | Dir: FLAT | Edge: +7.3 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 08:45:59,777 [INFO] [03:15:59 | #0028] BTC: $79663.05 | Dir: SHORT | Edge: +12.8 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 08:46:09,759 [INFO] [03:16:09 | #0029] BTC: $79653.95 | Dir: SHORT | Edge: +14.7 bps | Mode: PASSIVE_MAKER_SNIPER | FSM: RESTING_ENTRY_QUEUE | Pos: NONE
+2026-10-27 08:46:19,757 [INFO] [03:16:19 | #0030] BTC: $79650.05 | Dir: SHORT | Edge: +15.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +0.5 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:46:29,756 [INFO] [03:16:29 | #0031] BTC: $79644.65 | Dir: SHORT | Edge: +16.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +1.2 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:46:39,766 [INFO] [03:16:39 | #0032] BTC: $79650.05 | Dir: SHORT | Edge: +12.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +0.5 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:46:49,760 [INFO] [03:16:49 | #0033] BTC: $79641.15 | Dir: SHORT | Edge: +15.6 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +1.6 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:46:59,777 [INFO] [03:16:59 | #0034] BTC: $79641.15 | Dir: SHORT | Edge: +16.5 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +1.6 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:47:09,755 [INFO] [03:17:09 | #0035] BTC: $79641.15 | Dir: SHORT | Edge: +16.6 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +1.6 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:47:19,784 [INFO] [03:17:19 | #0036] BTC: $79641.15 | Dir: SHORT | Edge: +16.8 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +1.6 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:47:29,808 [INFO] [03:17:29 | #0037] BTC: $79639.35 | Dir: SHORT | Edge: +16.8 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +1.8 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:47:39,766 [INFO] [03:17:39 | #0038] BTC: $79637.05 | Dir: SHORT | Edge: +17.1 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +2.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:47:49,803 [INFO] [03:17:49 | #0039] BTC: $79637.05 | Dir: SHORT | Edge: +16.8 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +2.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:47:59,779 [INFO] [03:17:59 | #0040] BTC: $79637.05 | Dir: SHORT | Edge: +16.4 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +2.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:48:09,793 [INFO] [03:18:09 | #0041] BTC: $79637.05 | Dir: SHORT | Edge: +16.3 bps | Mode: PASSIVE_MAKER_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +2.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:48:19,768 [INFO] [03:18:19 | #0042] BTC: $79630.05 | Dir: SHORT | Edge: +17.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +3.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:48:29,759 [INFO] [03:18:29 | #0043] BTC: $79630.05 | Dir: SHORT | Edge: +16.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +3.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:48:39,778 [INFO] [03:18:39 | #0044] BTC: $79629.45 | Dir: SHORT | Edge: +16.9 bps | Mode: PASSIVE_MAKER_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +3.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:48:49,774 [INFO] [03:18:49 | #0045] BTC: $79627.25 | Dir: SHORT | Edge: +17.3 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +3.4 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:48:59,786 [INFO] [03:18:59 | #0046] BTC: $79609.45 | Dir: SHORT | Edge: +19.3 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +5.6 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:49:09,763 [INFO] [03:19:09 | #0047] BTC: $79609.45 | Dir: SHORT | Edge: +18.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +5.6 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:49:19,776 [INFO] [03:19:19 | #0048] BTC: $79616.15 | Dir: SHORT | Edge: +17.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +4.8 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:49:29,801 [INFO] [03:19:29 | #0049] BTC: $79632.95 | Dir: SHORT | Edge: +14.7 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +2.6 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:49:39,759 [INFO] [03:19:39 | #0050] BTC: $79649.65 | Dir: FLAT | Edge: +4.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: +0.5 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:49:49,784 [INFO] [03:19:49 | #0051] BTC: $79707.55 | Dir: FLAT | Edge: +7.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -6.7 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:49:59,771 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-27 08:49:59,785 [INFO] [03:19:59 | #0052] BTC: $79691.05 | Dir: FLAT | Edge: +6.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -4.7 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:50:09,768 [INFO] [03:20:09 | #0053] BTC: $79738.55 | Dir: FLAT | Edge: +8.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -10.6 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:50:19,803 [INFO] [03:20:19 | #0054] BTC: $79736.05 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -10.3 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:50:29,782 [INFO] [03:20:29 | #0055] BTC: $79722.55 | Dir: FLAT | Edge: +6.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -8.6 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:50:39,769 [INFO] [03:20:39 | #0056] BTC: $79708.35 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -6.8 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:50:49,779 [INFO] [03:20:49 | #0057] BTC: $79746.55 | Dir: FLAT | Edge: +8.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -11.6 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:50:59,794 [INFO] [03:20:59 | #0058] BTC: $79740.05 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -10.8 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:51:09,810 [INFO] [03:21:09 | #0059] BTC: $79727.85 | Dir: FLAT | Edge: +6.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -9.3 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:51:19,775 [INFO] [03:21:19 | #0060] BTC: $79718.55 | Dir: FLAT | Edge: +5.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -8.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:51:19,775 [INFO] ================================================================================
+2026-10-27 08:51:19,776 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 10.0 min | Bars: 60)
+2026-10-27 08:51:19,776 [INFO] --- TRADING PERFORMANCE ---
+2026-10-27 08:51:19,776 [INFO]     Closed Trades: 0 | Wins: 0 | Win Rate: 0.0%
+2026-10-27 08:51:19,776 [INFO]     Total Net PnL: +0.00 bps | Avg PnL: +0.00 bps
+2026-10-27 08:51:19,776 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-27 08:51:19,776 [INFO]     Horizon 10s: Overall Acc:  86.4% (59 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-27 08:51:19,776 [INFO]     Horizon 30s: Overall Acc:  83.9% (56 smp) | Active Excursion: 100.0% (6 sig) | Directional Sign Acc: 100.0% (6 sig)
+2026-10-27 08:51:19,776 [INFO]     Horizon 1m : Overall Acc:  85.2% (54 smp) | Active Excursion: 100.0% (4 sig) | Directional Sign Acc: 100.0% (4 sig)
+2026-10-27 08:51:19,776 [INFO]     Horizon 5m : Overall Acc: 100.0% (30 smp) | Active Excursion: 100.0% (14 sig) | Directional Sign Acc: 100.0% (14 sig)
+2026-10-27 08:51:19,777 [INFO]     Horizon 15m: Overall Acc:   0.0% (0 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-27 08:51:19,777 [INFO]     Tier Accuracies -> Tactical(1m): 85.2% | Meso(15m): 0.0% | Macro(15m): 0.0%
+2026-10-27 08:51:19,777 [INFO] ================================================================================
+2026-10-27 08:51:29,764 [INFO] [03:21:29 | #0061] BTC: $79754.25 | Dir: FLAT | Edge: +8.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -12.6 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:51:39,786 [INFO] [03:21:39 | #0062] BTC: $79737.35 | Dir: FLAT | Edge: +7.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -10.5 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:51:49,774 [INFO] [03:21:49 | #0063] BTC: $79725.55 | Dir: FLAT | Edge: +4.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -9.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:51:59,792 [INFO] [03:21:59 | #0064] BTC: $79718.75 | Dir: FLAT | Edge: +4.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -8.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:52:09,772 [INFO] [03:22:09 | #0065] BTC: $79742.65 | Dir: FLAT | Edge: +7.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -11.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:52:19,764 [INFO] [03:22:19 | #0066] BTC: $79744.45 | Dir: FLAT | Edge: +7.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -11.4 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:52:29,782 [INFO] [03:22:29 | #0067] BTC: $79744.45 | Dir: FLAT | Edge: +6.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -11.4 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:52:39,868 [INFO] [03:22:39 | #0068] BTC: $79717.45 | Dir: FLAT | Edge: +3.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -8.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:52:49,770 [INFO] [03:22:49 | #0069] BTC: $79717.45 | Dir: FLAT | Edge: +4.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -8.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:52:59,804 [INFO] [03:22:59 | #0070] BTC: $79718.45 | Dir: FLAT | Edge: +5.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -8.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:53:09,838 [INFO] [03:23:09 | #0071] BTC: $79728.25 | Dir: FLAT | Edge: +4.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -9.3 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:53:19,772 [INFO] [03:23:19 | #0072] BTC: $79727.65 | Dir: FLAT | Edge: +4.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -9.2 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:53:29,772 [INFO] [03:23:29 | #0073] BTC: $79758.55 | Dir: FLAT | Edge: +7.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -13.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:53:39,780 [INFO] [03:23:39 | #0074] BTC: $79748.75 | Dir: FLAT | Edge: +7.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -11.9 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:53:49,782 [INFO] [03:23:49 | #0075] BTC: $79735.25 | Dir: FLAT | Edge: +6.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -10.2 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:53:59,782 [INFO] [03:23:59 | #0076] BTC: $79731.25 | Dir: FLAT | Edge: +6.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -9.7 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:54:09,812 [INFO] [03:24:09 | #0077] BTC: $79727.75 | Dir: FLAT | Edge: +4.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -9.3 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:54:19,763 [INFO] [03:24:19 | #0078] BTC: $79752.25 | Dir: FLAT | Edge: +7.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -12.3 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:54:29,800 [INFO] [03:24:29 | #0079] BTC: $79752.25 | Dir: FLAT | Edge: +5.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -12.3 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:54:39,907 [INFO] [03:24:39 | #0080] BTC: $79759.95 | Dir: FLAT | Edge: +7.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -13.3 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:54:49,767 [INFO] [03:24:49 | #0081] BTC: $79735.75 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -10.3 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:54:59,784 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-27 08:54:59,800 [INFO] [03:24:59 | #0082] BTC: $79735.75 | Dir: FLAT | Edge: +5.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -10.3 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:55:09,762 [INFO] [03:25:09 | #0083] BTC: $79724.15 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -8.8 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:55:19,763 [INFO] [03:25:19 | #0084] BTC: $79710.45 | Dir: FLAT | Edge: +6.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -7.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:55:29,789 [INFO] [03:25:29 | #0085] BTC: $79707.35 | Dir: FLAT | Edge: +6.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -6.7 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:55:39,840 [INFO] [03:25:39 | #0086] BTC: $79728.85 | Dir: FLAT | Edge: +3.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -9.4 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:55:49,762 [INFO] [03:25:49 | #0087] BTC: $79724.05 | Dir: FLAT | Edge: +4.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -8.8 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:55:59,784 [INFO] [03:25:59 | #0088] BTC: $79718.05 | Dir: FLAT | Edge: +5.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -8.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:56:09,773 [INFO] [03:26:09 | #0089] BTC: $79705.15 | Dir: FLAT | Edge: +6.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -6.4 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:56:19,777 [INFO] [03:26:19 | #0090] BTC: $79694.55 | Dir: FLAT | Edge: +7.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -5.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:56:30,818 [INFO] [03:26:30 | #0091] BTC: $79694.45 | Dir: SHORT | Edge: +14.0 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -5.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:56:39,807 [INFO] [03:26:39 | #0092] BTC: $79696.25 | Dir: SHORT | Edge: +12.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -5.3 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:56:49,835 [INFO] [03:26:49 | #0093] BTC: $79662.15 | Dir: SHORT | Edge: +17.7 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -1.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:56:59,806 [INFO] [03:26:59 | #0094] BTC: $79687.75 | Dir: FLAT | Edge: +7.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -4.2 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:57:09,793 [INFO] [03:27:09 | #0095] BTC: $79702.15 | Dir: FLAT | Edge: +6.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -6.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:57:19,785 [INFO] [03:27:19 | #0096] BTC: $79707.75 | Dir: FLAT | Edge: +5.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -6.7 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:57:29,828 [INFO] [03:27:29 | #0097] BTC: $79731.95 | Dir: FLAT | Edge: +5.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -9.8 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:57:39,771 [INFO] [03:27:39 | #0098] BTC: $79737.95 | Dir: FLAT | Edge: +6.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -10.5 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:57:49,793 [INFO] [03:27:49 | #0099] BTC: $79750.95 | Dir: FLAT | Edge: +7.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -12.2 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:57:59,783 [INFO] [03:27:59 | #0100] BTC: $79759.15 | Dir: FLAT | Edge: +7.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -13.2 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:58:09,768 [INFO] [03:28:09 | #0101] BTC: $79750.55 | Dir: FLAT | Edge: +6.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -12.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:58:19,774 [INFO] [03:28:19 | #0102] BTC: $79756.45 | Dir: FLAT | Edge: +7.6 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -12.9 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:58:29,776 [INFO] [03:28:29 | #0103] BTC: $79765.95 | Dir: FLAT | Edge: +7.4 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -14.1 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:58:40,723 [INFO] [03:28:40 | #0104] BTC: $79760.05 | Dir: FLAT | Edge: +7.1 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -13.3 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:58:49,767 [INFO] [03:28:49 | #0105] BTC: $79760.05 | Dir: FLAT | Edge: +6.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -13.3 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:58:59,791 [INFO] [03:28:59 | #0106] BTC: $79749.35 | Dir: FLAT | Edge: +3.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -12.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:59:09,806 [INFO] [03:29:09 | #0107] BTC: $79749.35 | Dir: FLAT | Edge: +4.5 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -12.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:59:19,773 [INFO] [03:29:19 | #0108] BTC: $79749.35 | Dir: FLAT | Edge: +3.7 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -12.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:59:29,767 [INFO] [03:29:29 | #0109] BTC: $79749.35 | Dir: FLAT | Edge: +3.9 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -12.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:59:39,797 [INFO] [03:29:39 | #0110] BTC: $79749.35 | Dir: FLAT | Edge: +3.8 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -12.0 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:59:49,764 [INFO] [03:29:49 | #0111] BTC: $79764.25 | Dir: FLAT | Edge: +7.0 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -13.8 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 08:59:59,778 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-27 08:59:59,793 [INFO] [03:29:59 | #0112] BTC: $79759.25 | Dir: FLAT | Edge: +6.3 bps | Mode: NONE | FSM: FILLED_SWING_HOLDING | Pos: SELL @ 79654.0 (Unreal: -13.2 bps, TP: 79326.7, SL: 79769.5)
+2026-10-27 09:00:09,767 [INFO] [03:30:09 | #0113] BTC: $79774.75 | Dir: FLAT | Edge: +7.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:00:19,768 [INFO] [03:30:19 | #0114] BTC: $79771.85 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:00:29,782 [INFO] [03:30:29 | #0115] BTC: $79759.35 | Dir: FLAT | Edge: +6.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:00:39,758 [INFO] [03:30:39 | #0116] BTC: $79756.85 | Dir: FLAT | Edge: +6.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:00:49,782 [INFO] [03:30:49 | #0117] BTC: $79779.25 | Dir: FLAT | Edge: +8.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:00:59,779 [INFO] [03:30:59 | #0118] BTC: $79779.25 | Dir: FLAT | Edge: +7.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:01:09,760 [INFO] [03:31:09 | #0119] BTC: $79792.25 | Dir: FLAT | Edge: +8.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:01:19,763 [INFO] [03:31:19 | #0120] BTC: $79770.05 | Dir: FLAT | Edge: +5.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:01:19,763 [INFO] ================================================================================
+2026-10-27 09:01:19,763 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 20.0 min | Bars: 120)
+2026-10-27 09:01:19,763 [INFO] --- TRADING PERFORMANCE ---
+2026-10-27 09:01:19,763 [INFO]     Closed Trades: 1 | Wins: 0 | Win Rate: 0.0%
+2026-10-27 09:01:19,763 [INFO]     Total Net PnL: -22.17 bps | Avg PnL: -22.17 bps
+2026-10-27 09:01:19,763 [INFO]     Profit Factor: 0.00 | Total Fees Paid: 7.00 bps
+2026-10-27 09:01:19,763 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-27 09:01:19,764 [INFO]     Horizon 10s: Overall Acc:  84.9% (119 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-27 09:01:19,764 [INFO]     Horizon 30s: Overall Acc:  88.0% (117 smp) | Active Excursion: 100.0% (25 sig) | Directional Sign Acc: 100.0% (25 sig)
+2026-10-27 09:01:19,764 [INFO]     Horizon 1m : Overall Acc:  90.3% (114 smp) | Active Excursion:  95.8% (24 sig) | Directional Sign Acc:  95.8% (24 sig)
+2026-10-27 09:01:19,764 [INFO]     Horizon 5m : Overall Acc:  95.6% (90 smp) | Active Excursion:  87.9% (33 sig) | Directional Sign Acc:  87.9% (33 sig)
+2026-10-27 09:01:19,764 [INFO]     Horizon 15m: Overall Acc: 100.0% (30 smp) | Active Excursion: 100.0% (14 sig) | Directional Sign Acc: 100.0% (14 sig)
+2026-10-27 09:01:19,764 [INFO]     Tier Accuracies -> Tactical(1m): 90.3% | Meso(15m): 70.0% | Macro(15m): 46.7%
+2026-10-27 09:01:19,764 [INFO] ================================================================================
+2026-10-27 09:01:29,763 [INFO] [03:31:29 | #0121] BTC: $79762.05 | Dir: FLAT | Edge: +5.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:01:39,901 [INFO] [03:31:39 | #0122] BTC: $79770.75 | Dir: FLAT | Edge: +7.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:01:49,767 [INFO] [03:31:49 | #0123] BTC: $79786.45 | Dir: FLAT | Edge: +7.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:01:59,785 [INFO] [03:31:59 | #0124] BTC: $79780.05 | Dir: FLAT | Edge: +6.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:02:09,769 [INFO] [03:32:09 | #0125] BTC: $79780.05 | Dir: FLAT | Edge: +4.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:02:19,772 [INFO] [03:32:19 | #0126] BTC: $79798.25 | Dir: FLAT | Edge: +8.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:02:29,788 [INFO] [03:32:29 | #0127] BTC: $79798.25 | Dir: FLAT | Edge: +7.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:02:39,772 [INFO] [03:32:39 | #0128] BTC: $79790.25 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:02:49,856 [INFO] [03:32:49 | #0129] BTC: $79798.05 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:02:59,786 [INFO] [03:32:59 | #0130] BTC: $79798.35 | Dir: FLAT | Edge: +7.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:03:09,779 [INFO] [03:33:09 | #0131] BTC: $79803.25 | Dir: FLAT | Edge: +7.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:03:19,765 [INFO] [03:33:19 | #0132] BTC: $79819.95 | Dir: FLAT | Edge: +8.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:03:29,771 [INFO] [03:33:29 | #0133] BTC: $79827.25 | Dir: FLAT | Edge: +7.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:03:39,783 [INFO] [03:33:39 | #0134] BTC: $79831.55 | Dir: FLAT | Edge: +7.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:03:49,782 [INFO] [03:33:49 | #0135] BTC: $79849.05 | Dir: FLAT | Edge: +7.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:04:00,300 [INFO] [03:34:00 | #0136] BTC: $79848.95 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:04:10,551 [INFO] [03:34:10 | #0137] BTC: $79838.65 | Dir: FLAT | Edge: +6.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:04:21,034 [INFO] [03:34:21 | #0138] BTC: $79840.55 | Dir: FLAT | Edge: +7.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:04:31,585 [INFO] [03:34:31 | #0139] BTC: $79841.95 | Dir: FLAT | Edge: +7.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:04:40,572 [INFO] [03:34:40 | #0140] BTC: $79841.95 | Dir: FLAT | Edge: +7.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:04:49,835 [INFO] [03:34:49 | #0141] BTC: $79871.85 | Dir: FLAT | Edge: +8.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:04:59,770 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-27 09:04:59,783 [INFO] [03:34:59 | #0142] BTC: $79871.85 | Dir: FLAT | Edge: +7.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:05:09,788 [INFO] [03:35:09 | #0143] BTC: $79879.25 | Dir: FLAT | Edge: +7.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:05:19,766 [INFO] [03:35:19 | #0144] BTC: $79871.85 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:05:29,771 [INFO] [03:35:29 | #0145] BTC: $79871.85 | Dir: FLAT | Edge: +7.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:05:39,789 [INFO] [03:35:39 | #0146] BTC: $79871.85 | Dir: FLAT | Edge: +7.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:05:49,764 [INFO] [03:35:49 | #0147] BTC: $79879.25 | Dir: FLAT | Edge: +7.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:05:59,783 [INFO] [03:35:59 | #0148] BTC: $79899.95 | Dir: FLAT | Edge: +8.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:06:10,654 [INFO] [03:36:10 | #0149] BTC: $79883.35 | Dir: FLAT | Edge: +6.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:06:19,891 [INFO] [03:36:19 | #0150] BTC: $79876.55 | Dir: FLAT | Edge: +6.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:06:29,765 [INFO] [03:36:29 | #0151] BTC: $79876.45 | Dir: FLAT | Edge: +6.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:06:39,764 [INFO] [03:36:39 | #0152] BTC: $79876.45 | Dir: FLAT | Edge: +6.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:06:49,793 [INFO] [03:36:49 | #0153] BTC: $79885.25 | Dir: FLAT | Edge: +7.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:06:59,787 [INFO] [03:36:59 | #0154] BTC: $79895.35 | Dir: FLAT | Edge: +6.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:07:09,775 [INFO] [03:37:09 | #0155] BTC: $79899.95 | Dir: FLAT | Edge: +7.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:07:19,774 [INFO] [03:37:19 | #0156] BTC: $79899.95 | Dir: FLAT | Edge: +7.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:07:29,760 [INFO] [03:37:29 | #0157] BTC: $79899.95 | Dir: FLAT | Edge: +7.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:07:39,821 [INFO] [03:37:39 | #0158] BTC: $79895.35 | Dir: FLAT | Edge: +7.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:07:49,813 [INFO] [03:37:49 | #0159] BTC: $79895.35 | Dir: FLAT | Edge: +6.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:07:59,780 [INFO] [03:37:59 | #0160] BTC: $79890.05 | Dir: FLAT | Edge: +5.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:08:09,758 [INFO] [03:38:09 | #0161] BTC: $79890.05 | Dir: FLAT | Edge: +4.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:08:19,814 [INFO] [03:38:19 | #0162] BTC: $79890.05 | Dir: FLAT | Edge: +4.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:08:31,139 [INFO] [03:38:31 | #0163] BTC: $79890.05 | Dir: FLAT | Edge: +4.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:08:39,824 [INFO] [03:38:39 | #0164] BTC: $79900.35 | Dir: FLAT | Edge: +6.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:08:49,777 [INFO] [03:38:49 | #0165] BTC: $79901.95 | Dir: FLAT | Edge: +6.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:08:59,776 [INFO] [03:38:59 | #0166] BTC: $79901.95 | Dir: FLAT | Edge: +6.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:09:09,760 [INFO] [03:39:09 | #0167] BTC: $79901.95 | Dir: FLAT | Edge: +6.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:09:19,767 [INFO] [03:39:19 | #0168] BTC: $79893.95 | Dir: FLAT | Edge: +5.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:09:29,788 [INFO] [03:39:29 | #0169] BTC: $79893.95 | Dir: FLAT | Edge: +5.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:09:39,790 [INFO] [03:39:39 | #0170] BTC: $79893.95 | Dir: FLAT | Edge: +4.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:09:49,760 [INFO] [03:39:49 | #0171] BTC: $79893.95 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:09:59,782 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-27 09:09:59,796 [INFO] [03:39:59 | #0172] BTC: $79903.85 | Dir: FLAT | Edge: +6.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:10:09,758 [INFO] [03:40:09 | #0173] BTC: $79898.55 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:10:19,763 [INFO] [03:40:19 | #0174] BTC: $79881.05 | Dir: FLAT | Edge: +4.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:10:29,765 [INFO] [03:40:29 | #0175] BTC: $79880.05 | Dir: FLAT | Edge: +4.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:10:39,789 [INFO] [03:40:39 | #0176] BTC: $79886.65 | Dir: FLAT | Edge: +3.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:10:49,762 [INFO] [03:40:49 | #0177] BTC: $79894.75 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:10:59,777 [INFO] [03:40:59 | #0178] BTC: $79894.75 | Dir: FLAT | Edge: +3.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:11:09,758 [INFO] [03:41:09 | #0179] BTC: $79894.75 | Dir: FLAT | Edge: +3.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:11:19,767 [INFO] [03:41:19 | #0180] BTC: $79892.65 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:11:19,767 [INFO] ================================================================================
+2026-10-27 09:11:19,767 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 30.0 min | Bars: 180)
+2026-10-27 09:11:19,768 [INFO] --- TRADING PERFORMANCE ---
+2026-10-27 09:11:19,768 [INFO]     Closed Trades: 1 | Wins: 0 | Win Rate: 0.0%
+2026-10-27 09:11:19,768 [INFO]     Total Net PnL: -22.17 bps | Avg PnL: -22.17 bps
+2026-10-27 09:11:19,768 [INFO]     Profit Factor: 0.00 | Total Fees Paid: 7.00 bps
+2026-10-27 09:11:19,768 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-27 09:11:19,768 [INFO]     Horizon 10s: Overall Acc:  88.3% (179 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-27 09:11:19,768 [INFO]     Horizon 30s: Overall Acc:  91.0% (177 smp) | Active Excursion: 100.0% (48 sig) | Directional Sign Acc: 100.0% (48 sig)
+2026-10-27 09:11:19,768 [INFO]     Horizon 1m : Overall Acc:  93.7% (174 smp) | Active Excursion:  97.9% (48 sig) | Directional Sign Acc:  97.9% (48 sig)
+2026-10-27 09:11:19,769 [INFO]     Horizon 5m : Overall Acc:  96.0% (150 smp) | Active Excursion:  86.1% (36 sig) | Directional Sign Acc:  86.1% (36 sig)
+2026-10-27 09:11:19,769 [INFO]     Horizon 15m: Overall Acc:  88.9% (90 smp) | Active Excursion:  87.9% (33 sig) | Directional Sign Acc:  87.9% (33 sig)
+2026-10-27 09:11:19,769 [INFO]     Tier Accuracies -> Tactical(1m): 93.7% | Meso(15m): 63.3% | Macro(15m): 32.2%
+2026-10-27 09:11:19,769 [INFO] ================================================================================
+2026-10-27 09:11:29,762 [INFO] [03:41:29 | #0181] BTC: $79898.55 | Dir: FLAT | Edge: +5.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:11:39,775 [INFO] [03:41:39 | #0182] BTC: $79898.55 | Dir: FLAT | Edge: +4.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:11:49,759 [INFO] [03:41:49 | #0183] BTC: $79897.95 | Dir: FLAT | Edge: +3.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:11:59,779 [INFO] [03:41:59 | #0184] BTC: $79900.15 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:12:09,767 [INFO] [03:42:09 | #0185] BTC: $79893.25 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:12:19,811 [INFO] [03:42:19 | #0186] BTC: $79893.25 | Dir: FLAT | Edge: +4.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:12:29,774 [INFO] [03:42:29 | #0187] BTC: $79886.55 | Dir: FLAT | Edge: +5.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:12:39,782 [INFO] [03:42:39 | #0188] BTC: $79902.05 | Dir: FLAT | Edge: +4.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:12:49,815 [INFO] [03:42:49 | #0189] BTC: $79896.05 | Dir: FLAT | Edge: +3.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:12:59,834 [INFO] [03:42:59 | #0190] BTC: $79896.05 | Dir: FLAT | Edge: +3.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:13:09,786 [INFO] [03:43:09 | #0191] BTC: $79894.45 | Dir: FLAT | Edge: +3.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:13:19,773 [INFO] [03:43:19 | #0192] BTC: $79896.05 | Dir: FLAT | Edge: +3.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:13:29,758 [INFO] [03:43:29 | #0193] BTC: $79896.05 | Dir: FLAT | Edge: +3.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:13:39,831 [INFO] [03:43:39 | #0194] BTC: $79896.05 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:13:49,764 [INFO] [03:43:49 | #0195] BTC: $79884.35 | Dir: FLAT | Edge: +4.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:13:59,777 [INFO] [03:43:59 | #0196] BTC: $79884.35 | Dir: FLAT | Edge: +4.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:14:09,794 [INFO] [03:44:09 | #0197] BTC: $79884.35 | Dir: FLAT | Edge: +4.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:14:19,766 [INFO] [03:44:19 | #0198] BTC: $79884.35 | Dir: FLAT | Edge: +4.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:14:29,762 [INFO] [03:44:29 | #0199] BTC: $79893.55 | Dir: FLAT | Edge: +3.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:14:39,796 [INFO] [03:44:39 | #0200] BTC: $79899.95 | Dir: FLAT | Edge: +3.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:14:49,794 [INFO] [03:44:49 | #0201] BTC: $79899.95 | Dir: FLAT | Edge: +4.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:14:59,812 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-27 09:14:59,829 [INFO] [03:44:59 | #0202] BTC: $79899.95 | Dir: FLAT | Edge: +4.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:15:09,766 [INFO] [03:45:09 | #0203] BTC: $79884.45 | Dir: FLAT | Edge: +4.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:15:19,786 [INFO] [03:45:19 | #0204] BTC: $79884.45 | Dir: FLAT | Edge: +4.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:15:29,761 [INFO] [03:45:29 | #0205] BTC: $79884.45 | Dir: FLAT | Edge: +4.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:15:39,821 [INFO] [03:45:39 | #0206] BTC: $79884.45 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:15:49,760 [INFO] [03:45:49 | #0207] BTC: $79878.05 | Dir: FLAT | Edge: +5.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:15:59,793 [INFO] [03:45:59 | #0208] BTC: $79854.25 | Dir: SHORT | Edge: +14.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:16:09,768 [INFO] [03:46:09 | #0209] BTC: $79850.05 | Dir: SHORT | Edge: +15.1 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:16:19,766 [INFO] [03:46:19 | #0210] BTC: $79840.85 | Dir: SHORT | Edge: +16.6 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:16:29,824 [INFO] [03:46:29 | #0211] BTC: $79829.35 | Dir: SHORT | Edge: +18.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:16:39,766 [INFO] [03:46:39 | #0212] BTC: $79815.75 | Dir: SHORT | Edge: +18.3 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:16:49,760 [INFO] [03:46:49 | #0213] BTC: $79807.15 | Dir: SHORT | Edge: +18.0 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:16:59,779 [INFO] [03:46:59 | #0214] BTC: $79831.55 | Dir: SHORT | Edge: +17.0 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:17:09,764 [INFO] [03:47:09 | #0215] BTC: $79831.55 | Dir: SHORT | Edge: +17.6 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:17:19,803 [INFO] [03:47:19 | #0216] BTC: $79841.05 | Dir: SHORT | Edge: +14.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:17:29,757 [INFO] [03:47:29 | #0217] BTC: $79825.65 | Dir: SHORT | Edge: +17.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:17:39,762 [INFO] [03:47:39 | #0218] BTC: $79821.05 | Dir: SHORT | Edge: +16.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:17:49,767 [INFO] [03:47:49 | #0219] BTC: $79824.75 | Dir: SHORT | Edge: +14.6 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:17:59,784 [INFO] [03:47:59 | #0220] BTC: $79830.35 | Dir: SHORT | Edge: +15.5 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:18:09,791 [INFO] [03:48:09 | #0221] BTC: $79830.35 | Dir: SHORT | Edge: +15.6 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:18:19,765 [INFO] [03:48:19 | #0222] BTC: $79841.65 | Dir: SHORT | Edge: +14.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:18:29,816 [INFO] [03:48:29 | #0223] BTC: $79843.95 | Dir: SHORT | Edge: +13.5 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:18:39,767 [INFO] [03:48:39 | #0224] BTC: $79843.95 | Dir: SHORT | Edge: +13.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:18:49,851 [INFO] [03:48:49 | #0225] BTC: $79836.65 | Dir: SHORT | Edge: +15.1 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:18:59,783 [INFO] [03:48:59 | #0226] BTC: $79830.35 | Dir: SHORT | Edge: +15.6 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:19:09,761 [INFO] [03:49:09 | #0227] BTC: $79830.35 | Dir: SHORT | Edge: +15.3 bps | Mode: PASSIVE_MAKER_SNIPER | FSM: IDLE | Pos: NONE
+2026-10-27 09:19:19,774 [INFO] [03:49:19 | #0228] BTC: $79822.25 | Dir: SHORT | Edge: +17.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:19:29,961 [INFO] [03:49:29 | #0229] BTC: $79822.25 | Dir: SHORT | Edge: +16.8 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:19:39,772 [INFO] [03:49:39 | #0230] BTC: $79827.85 | Dir: SHORT | Edge: +15.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:19:49,767 [INFO] [03:49:49 | #0231] BTC: $79817.75 | Dir: SHORT | Edge: +17.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:19:59,773 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-27 09:19:59,787 [INFO] [03:49:59 | #0232] BTC: $79817.75 | Dir: SHORT | Edge: +16.3 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:20:09,761 [INFO] [03:50:09 | #0233] BTC: $79825.25 | Dir: SHORT | Edge: +14.8 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:20:19,757 [INFO] [03:50:19 | #0234] BTC: $79825.25 | Dir: SHORT | Edge: +15.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:20:29,760 [INFO] [03:50:29 | #0235] BTC: $79835.25 | Dir: SHORT | Edge: +13.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:20:39,808 [INFO] [03:50:39 | #0236] BTC: $79835.25 | Dir: SHORT | Edge: +13.8 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:20:49,768 [INFO] [03:50:49 | #0237] BTC: $79843.75 | Dir: FLAT | Edge: +5.6 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:20:59,799 [INFO] [03:50:59 | #0238] BTC: $79843.75 | Dir: FLAT | Edge: +4.8 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:21:09,757 [INFO] [03:51:09 | #0239] BTC: $79828.35 | Dir: SHORT | Edge: +14.0 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:21:19,766 [INFO] [03:51:19 | #0240] BTC: $79820.35 | Dir: SHORT | Edge: +14.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:21:19,766 [INFO] ================================================================================
+2026-10-27 09:21:19,766 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 40.0 min | Bars: 240)
+2026-10-27 09:21:19,766 [INFO] --- TRADING PERFORMANCE ---
+2026-10-27 09:21:19,767 [INFO]     Closed Trades: 1 | Wins: 0 | Win Rate: 0.0%
+2026-10-27 09:21:19,767 [INFO]     Total Net PnL: -22.17 bps | Avg PnL: -22.17 bps
+2026-10-27 09:21:19,767 [INFO]     Profit Factor: 0.00 | Total Fees Paid: 7.00 bps
+2026-10-27 09:21:19,767 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-27 09:21:19,768 [INFO]     Horizon 10s: Overall Acc:  88.7% (239 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-27 09:21:19,768 [INFO]     Horizon 30s: Overall Acc:  89.9% (237 smp) | Active Excursion: 100.0% (48 sig) | Directional Sign Acc: 100.0% (48 sig)
+2026-10-27 09:21:19,768 [INFO]     Horizon 1m : Overall Acc:  92.7% (234 smp) | Active Excursion:  97.9% (48 sig) | Directional Sign Acc:  97.9% (48 sig)
+2026-10-27 09:21:19,768 [INFO]     Horizon 5m : Overall Acc:  97.1% (210 smp) | Active Excursion:  87.2% (39 sig) | Directional Sign Acc:  87.2% (39 sig)
+2026-10-27 09:21:19,769 [INFO]     Horizon 15m: Overall Acc:  90.7% (150 smp) | Active Excursion:  86.1% (36 sig) | Directional Sign Acc:  86.1% (36 sig)
+2026-10-27 09:21:19,769 [INFO]     Tier Accuracies -> Tactical(1m): 92.7% | Meso(15m): 74.0% | Macro(15m): 21.3%
+2026-10-27 09:21:19,769 [INFO] ================================================================================
+2026-10-27 09:21:29,768 [INFO] [03:51:29 | #0241] BTC: $79820.85 | Dir: SHORT | Edge: +13.6 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:21:39,786 [INFO] [03:51:39 | #0242] BTC: $79823.05 | Dir: FLAT | Edge: +6.8 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:21:49,760 [INFO] [03:51:49 | #0243] BTC: $79823.05 | Dir: FLAT | Edge: +6.7 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:21:59,776 [INFO] [03:51:59 | #0244] BTC: $79823.05 | Dir: SHORT | Edge: +13.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:22:09,773 [INFO] [03:52:09 | #0245] BTC: $79823.05 | Dir: SHORT | Edge: +12.8 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:22:19,757 [INFO] [03:52:19 | #0246] BTC: $79810.25 | Dir: SHORT | Edge: +16.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:22:29,842 [INFO] [03:52:29 | #0247] BTC: $79810.25 | Dir: SHORT | Edge: +15.3 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: IDLE | Pos: NONE
+2026-10-27 09:22:39,762 [INFO] [03:52:39 | #0248] BTC: $79810.25 | Dir: SHORT | Edge: +15.0 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:22:49,770 [INFO] [03:52:49 | #0249] BTC: $79810.25 | Dir: SHORT | Edge: +15.1 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:22:59,779 [INFO] [03:52:59 | #0250] BTC: $79798.85 | Dir: SHORT | Edge: +17.4 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:23:09,775 [INFO] [03:53:09 | #0251] BTC: $79798.85 | Dir: SHORT | Edge: +17.1 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:23:19,765 [INFO] [03:53:19 | #0252] BTC: $79798.85 | Dir: SHORT | Edge: +16.3 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:23:29,757 [INFO] [03:53:29 | #0253] BTC: $79772.35 | Dir: SHORT | Edge: +18.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:23:39,773 [INFO] [03:53:39 | #0254] BTC: $79752.75 | Dir: SHORT | Edge: +18.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:23:49,761 [INFO] [03:53:49 | #0255] BTC: $79737.15 | Dir: SHORT | Edge: +18.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:23:59,782 [INFO] [03:53:59 | #0256] BTC: $79759.95 | Dir: SHORT | Edge: +16.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:24:09,762 [INFO] [03:54:09 | #0257] BTC: $79766.95 | Dir: SHORT | Edge: +17.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:24:19,775 [INFO] [03:54:19 | #0258] BTC: $79769.95 | Dir: SHORT | Edge: +17.3 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:24:29,764 [INFO] [03:54:29 | #0259] BTC: $79775.55 | Dir: SHORT | Edge: +15.1 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:24:39,790 [INFO] [03:54:39 | #0260] BTC: $79765.95 | Dir: SHORT | Edge: +15.5 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:24:49,759 [INFO] [03:54:49 | #0261] BTC: $79772.45 | Dir: SHORT | Edge: +14.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:24:59,773 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-27 09:24:59,787 [INFO] [03:54:59 | #0262] BTC: $79776.05 | Dir: SHORT | Edge: +15.0 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:25:09,762 [INFO] [03:55:09 | #0263] BTC: $79760.05 | Dir: SHORT | Edge: +17.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:25:19,789 [INFO] [03:55:19 | #0264] BTC: $79756.85 | Dir: SHORT | Edge: +17.4 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:25:29,785 [INFO] [03:55:29 | #0265] BTC: $79756.85 | Dir: SHORT | Edge: +17.5 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:25:39,823 [INFO] [03:55:39 | #0266] BTC: $79750.05 | Dir: SHORT | Edge: +17.7 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:25:49,783 [INFO] [03:55:49 | #0267] BTC: $79744.05 | Dir: SHORT | Edge: +18.1 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: IDLE | Pos: NONE
+2026-10-27 09:25:59,795 [INFO] [03:55:59 | #0268] BTC: $79732.75 | Dir: SHORT | Edge: +18.2 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:26:09,794 [INFO] [03:56:09 | #0269] BTC: $79730.15 | Dir: SHORT | Edge: +17.9 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:26:19,760 [INFO] [03:56:19 | #0270] BTC: $79758.95 | Dir: SHORT | Edge: +14.4 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:26:29,769 [INFO] [03:56:29 | #0271] BTC: $79758.95 | Dir: SHORT | Edge: +15.0 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:26:39,802 [INFO] [03:56:39 | #0272] BTC: $79761.85 | Dir: SHORT | Edge: +14.8 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:26:49,783 [INFO] [03:56:49 | #0273] BTC: $79763.45 | Dir: SHORT | Edge: +14.3 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:26:59,796 [INFO] [03:56:59 | #0274] BTC: $79763.45 | Dir: SHORT | Edge: +13.5 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:27:09,787 [INFO] [03:57:09 | #0275] BTC: $79753.25 | Dir: SHORT | Edge: +14.6 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:27:19,799 [INFO] [03:57:19 | #0276] BTC: $79753.25 | Dir: SHORT | Edge: +15.4 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:27:29,760 [INFO] [03:57:29 | #0277] BTC: $79753.25 | Dir: SHORT | Edge: +15.3 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:27:39,786 [INFO] [03:57:39 | #0278] BTC: $79753.15 | Dir: SHORT | Edge: +15.4 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:27:49,790 [INFO] [03:57:49 | #0279] BTC: $79753.15 | Dir: SHORT | Edge: +15.5 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:27:59,778 [INFO] [03:57:59 | #0280] BTC: $79763.95 | Dir: SHORT | Edge: +13.5 bps | Mode: WAIT_FOR_MICRO_SNIPER | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:28:09,765 [INFO] [03:58:09 | #0281] BTC: $79765.65 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:28:19,764 [INFO] [03:58:19 | #0282] BTC: $79765.65 | Dir: FLAT | Edge: +7.1 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:28:21,813 [INFO] scored 1/1 pending articles
+2026-10-27 09:28:22,537 [INFO] rss_theblock: appended 1 new event(s) to D:\PrivateProjects\BTC Futures\feature engineering scripts\inference\data\news_events\rss_theblock_2026-10-27.jsonl
+2026-10-27 09:28:29,798 [INFO] [03:58:29 | #0283] BTC: $79765.65 | Dir: FLAT | Edge: +5.9 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:28:31,475 [INFO] Scored 1 new event(s): polarity=1.000 magnitude=0.200 confidence=0.400 mention_velocity=1
+2026-10-27 09:28:40,512 [INFO] [03:58:40 | #0284] BTC: $79765.65 | Dir: FLAT | Edge: +4.9 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:28:49,772 [INFO] [03:58:49 | #0285] BTC: $79770.95 | Dir: FLAT | Edge: +3.5 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:28:59,779 [INFO] [03:58:59 | #0286] BTC: $79770.95 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: SNIPER_ENTRY_STALKING | Pos: NONE
+2026-10-27 09:29:09,766 [INFO] [03:59:09 | #0287] BTC: $79770.95 | Dir: FLAT | Edge: +4.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:29:19,779 [INFO] [03:59:19 | #0288] BTC: $79770.95 | Dir: FLAT | Edge: +4.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:29:29,768 [INFO] [03:59:29 | #0289] BTC: $79764.05 | Dir: FLAT | Edge: +6.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:29:39,760 [INFO] [03:59:39 | #0290] BTC: $79764.05 | Dir: FLAT | Edge: +6.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:29:49,821 [INFO] [03:59:49 | #0291] BTC: $79779.65 | Dir: FLAT | Edge: +3.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:29:59,786 [INFO] >>> [RingBuffer] 15m Bar Closed | Macro & Meso Probabilities Refreshed
+2026-10-27 09:29:59,799 [INFO] [03:59:59 | #0292] BTC: $79790.45 | Dir: FLAT | Edge: +4.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:30:09,760 [INFO] [04:00:09 | #0293] BTC: $79780.15 | Dir: FLAT | Edge: +3.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:30:19,763 [INFO] [04:00:19 | #0294] BTC: $79807.95 | Dir: FLAT | Edge: +7.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:30:29,771 [INFO] [04:00:29 | #0295] BTC: $79801.85 | Dir: FLAT | Edge: +6.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:30:39,766 [INFO] [04:00:39 | #0296] BTC: $79801.85 | Dir: FLAT | Edge: +6.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:30:49,764 [INFO] [04:00:49 | #0297] BTC: $79801.85 | Dir: FLAT | Edge: +6.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:30:59,781 [INFO] [04:00:59 | #0298] BTC: $79789.45 | Dir: FLAT | Edge: +4.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:31:09,768 [INFO] [04:01:09 | #0299] BTC: $79789.45 | Dir: FLAT | Edge: +5.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:31:19,785 [INFO] [04:01:19 | #0300] BTC: $79788.35 | Dir: FLAT | Edge: +3.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:31:19,785 [INFO] ================================================================================
+2026-10-27 09:31:19,785 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 50.0 min | Bars: 300)
+2026-10-27 09:31:19,785 [INFO] --- TRADING PERFORMANCE ---
+2026-10-27 09:31:19,786 [INFO]     Closed Trades: 1 | Wins: 0 | Win Rate: 0.0%
+2026-10-27 09:31:19,786 [INFO]     Total Net PnL: -22.17 bps | Avg PnL: -22.17 bps
+2026-10-27 09:31:19,786 [INFO]     Profit Factor: 0.00 | Total Fees Paid: 7.00 bps
+2026-10-27 09:31:19,786 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-27 09:31:19,786 [INFO]     Horizon 10s: Overall Acc:  88.3% (299 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-27 09:31:19,787 [INFO]     Horizon 30s: Overall Acc:  88.0% (293 smp) | Active Excursion: 100.0% (49 sig) | Directional Sign Acc: 100.0% (49 sig)
+2026-10-27 09:31:19,787 [INFO]     Horizon 1m : Overall Acc:  90.4% (293 smp) | Active Excursion:  98.0% (49 sig) | Directional Sign Acc:  98.0% (49 sig)
+2026-10-27 09:31:19,787 [INFO]     Horizon 5m : Overall Acc:  97.8% (268 smp) | Active Excursion:  94.6% (93 sig) | Directional Sign Acc:  94.6% (93 sig)
+2026-10-27 09:31:19,787 [INFO]     Horizon 15m: Overall Acc:  93.3% (210 smp) | Active Excursion:  87.2% (39 sig) | Directional Sign Acc:  87.2% (39 sig)
+2026-10-27 09:31:19,787 [INFO]     Tier Accuracies -> Tactical(1m): 90.4% | Meso(15m): 80.0% | Macro(15m): 24.8%
+2026-10-27 09:31:19,788 [INFO] ================================================================================
+2026-10-27 09:31:29,758 [INFO] [04:01:29 | #0301] BTC: $79780.15 | Dir: FLAT | Edge: +5.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:31:39,776 [INFO] [04:01:39 | #0302] BTC: $79774.55 | Dir: FLAT | Edge: +6.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:31:49,778 [INFO] [04:01:49 | #0303] BTC: $79764.15 | Dir: FLAT | Edge: +7.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:31:59,780 [INFO] [04:01:59 | #0304] BTC: $79764.15 | Dir: FLAT | Edge: +7.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:32:09,783 [INFO] [04:02:09 | #0305] BTC: $79762.05 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:32:19,791 [INFO] [04:02:19 | #0306] BTC: $79767.95 | Dir: FLAT | Edge: +5.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:32:29,760 [INFO] [04:02:29 | #0307] BTC: $79767.95 | Dir: FLAT | Edge: +5.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:32:39,808 [INFO] [04:02:39 | #0308] BTC: $79762.85 | Dir: FLAT | Edge: +6.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:32:49,813 [INFO] [04:02:49 | #0309] BTC: $79762.85 | Dir: FLAT | Edge: +6.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:32:59,781 [INFO] [04:02:59 | #0310] BTC: $79762.85 | Dir: FLAT | Edge: +7.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:33:09,758 [INFO] [04:03:09 | #0311] BTC: $79777.35 | Dir: FLAT | Edge: +3.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:33:19,770 [INFO] [04:03:19 | #0312] BTC: $79777.35 | Dir: FLAT | Edge: +4.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:33:29,764 [INFO] [04:03:29 | #0313] BTC: $79772.55 | Dir: FLAT | Edge: +5.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:33:39,778 [INFO] [04:03:39 | #0314] BTC: $79799.95 | Dir: FLAT | Edge: +7.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:33:49,764 [INFO] [04:03:49 | #0315] BTC: $79795.75 | Dir: FLAT | Edge: +6.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:33:59,779 [INFO] [04:03:59 | #0316] BTC: $79799.85 | Dir: FLAT | Edge: +6.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:34:09,782 [INFO] [04:04:09 | #0317] BTC: $79799.85 | Dir: FLAT | Edge: +6.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:34:19,774 [INFO] [04:04:19 | #0318] BTC: $79787.55 | Dir: FLAT | Edge: +4.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:34:29,783 [INFO] [04:04:29 | #0319] BTC: $79790.95 | Dir: FLAT | Edge: +5.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:34:39,771 [INFO] [04:04:39 | #0320] BTC: $79787.55 | Dir: FLAT | Edge: +4.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:34:49,759 [INFO] [04:04:49 | #0321] BTC: $79779.75 | Dir: FLAT | Edge: +5.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:34:59,773 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-27 09:34:59,787 [INFO] [04:04:59 | #0322] BTC: $79779.75 | Dir: FLAT | Edge: +5.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:35:09,768 [INFO] [04:05:09 | #0323] BTC: $79810.25 | Dir: FLAT | Edge: +7.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:35:19,760 [INFO] [04:05:19 | #0324] BTC: $79810.25 | Dir: FLAT | Edge: +6.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:35:29,762 [INFO] [04:05:29 | #0325] BTC: $79810.15 | Dir: FLAT | Edge: +6.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:35:39,760 [INFO] [04:05:39 | #0326] BTC: $79819.75 | Dir: FLAT | Edge: +8.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:35:49,789 [INFO] [04:05:49 | #0327] BTC: $79810.15 | Dir: FLAT | Edge: +6.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:35:59,777 [INFO] [04:05:59 | #0328] BTC: $79810.05 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:36:09,777 [INFO] [04:06:09 | #0329] BTC: $79810.05 | Dir: FLAT | Edge: +5.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:36:19,778 [INFO] [04:06:19 | #0330] BTC: $79810.05 | Dir: FLAT | Edge: +6.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:36:29,759 [INFO] [04:06:29 | #0331] BTC: $79810.05 | Dir: FLAT | Edge: +6.1 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:36:39,762 [INFO] [04:06:39 | #0332] BTC: $79819.95 | Dir: FLAT | Edge: +7.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:36:49,769 [INFO] [04:06:49 | #0333] BTC: $79812.15 | Dir: FLAT | Edge: +6.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:36:59,788 [INFO] [04:06:59 | #0334] BTC: $79812.15 | Dir: FLAT | Edge: +6.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:37:09,766 [INFO] [04:07:09 | #0335] BTC: $79800.05 | Dir: FLAT | Edge: +3.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:37:19,759 [INFO] [04:07:19 | #0336] BTC: $79800.05 | Dir: FLAT | Edge: +3.9 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:37:29,781 [INFO] [04:07:29 | #0337] BTC: $79800.05 | Dir: FLAT | Edge: +3.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:37:39,799 [INFO] [04:07:39 | #0338] BTC: $79800.05 | Dir: FLAT | Edge: +4.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:37:49,788 [INFO] [04:07:49 | #0339] BTC: $79784.95 | Dir: FLAT | Edge: +5.7 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:37:59,783 [INFO] [04:07:59 | #0340] BTC: $79784.95 | Dir: FLAT | Edge: +5.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:38:09,789 [INFO] [04:08:09 | #0341] BTC: $79781.35 | Dir: FLAT | Edge: +5.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:38:19,791 [INFO] [04:08:19 | #0342] BTC: $79779.85 | Dir: FLAT | Edge: +5.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:38:29,822 [INFO] [04:08:29 | #0343] BTC: $79779.85 | Dir: FLAT | Edge: +5.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:38:39,780 [INFO] [04:08:39 | #0344] BTC: $79779.85 | Dir: FLAT | Edge: +6.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:38:49,770 [INFO] [04:08:49 | #0345] BTC: $79777.05 | Dir: FLAT | Edge: +6.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:38:59,782 [INFO] [04:08:59 | #0346] BTC: $79772.65 | Dir: FLAT | Edge: +7.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:39:09,825 [INFO] [04:09:09 | #0347] BTC: $79772.65 | Dir: FLAT | Edge: +7.2 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:39:19,761 [INFO] [04:09:19 | #0348] BTC: $79772.65 | Dir: FLAT | Edge: +6.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:39:29,782 [INFO] [04:09:29 | #0349] BTC: $79779.35 | Dir: FLAT | Edge: +5.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:39:39,764 [INFO] [04:09:39 | #0350] BTC: $79779.35 | Dir: FLAT | Edge: +6.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:39:49,759 [INFO] [04:09:49 | #0351] BTC: $79779.35 | Dir: FLAT | Edge: +5.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:39:59,850 [INFO] >>> [RingBuffer] 5m Bar Closed | Meso Swing Probabilities Refreshed
+2026-10-27 09:39:59,865 [INFO] [04:09:59 | #0352] BTC: $79779.35 | Dir: FLAT | Edge: +5.3 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:40:09,768 [INFO] [04:10:09 | #0353] BTC: $79779.35 | Dir: FLAT | Edge: +6.6 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:40:19,806 [INFO] [04:10:19 | #0354] BTC: $79779.35 | Dir: FLAT | Edge: +6.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:40:29,760 [INFO] [04:10:29 | #0355] BTC: $79783.35 | Dir: FLAT | Edge: +6.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:40:39,763 [INFO] [04:10:39 | #0356] BTC: $79783.35 | Dir: FLAT | Edge: +6.4 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:40:49,789 [INFO] [04:10:49 | #0357] BTC: $79786.45 | Dir: FLAT | Edge: +5.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:40:59,779 [INFO] [04:10:59 | #0358] BTC: $79786.75 | Dir: FLAT | Edge: +5.5 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:41:09,772 [INFO] [04:11:09 | #0359] BTC: $79779.95 | Dir: FLAT | Edge: +7.0 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:41:19,792 [INFO] [04:11:19 | #0360] BTC: $79779.95 | Dir: FLAT | Edge: +6.8 bps | Mode: NONE | FSM: IDLE | Pos: NONE
+2026-10-27 09:41:19,792 [INFO] ================================================================================
+2026-10-27 09:41:19,792 [INFO] >>> PERIODIC PERFORMANCE AUDIT (Elapsed: 60.0 min | Bars: 360)
+2026-10-27 09:41:19,792 [INFO] --- TRADING PERFORMANCE ---
+2026-10-27 09:41:19,792 [INFO]     Closed Trades: 1 | Wins: 0 | Win Rate: 0.0%
+2026-10-27 09:41:19,792 [INFO]     Total Net PnL: -22.17 bps | Avg PnL: -22.17 bps
+2026-10-27 09:41:19,792 [INFO]     Profit Factor: 0.00 | Total Fees Paid: 7.00 bps
+2026-10-27 09:41:19,793 [INFO] --- FORWARD PREDICTION ACCURACY ---
+2026-10-27 09:41:19,793 [INFO]     Horizon 10s: Overall Acc:  89.1% (359 smp) | Active Excursion:   0.0% (0 sig) | Directional Sign Acc:   0.0% (0 sig)
+2026-10-27 09:41:19,793 [INFO]     Horizon 30s: Overall Acc:  87.1% (357 smp) | Active Excursion:  91.9% (62 sig) | Directional Sign Acc:  91.9% (62 sig)
+2026-10-27 09:41:19,793 [INFO]     Horizon 1m : Overall Acc:  88.4% (354 smp) | Active Excursion:  90.3% (62 sig) | Directional Sign Acc:  90.3% (62 sig)
+2026-10-27 09:41:19,793 [INFO]     Horizon 5m : Overall Acc:  95.8% (330 smp) | Active Excursion:  87.6% (105 sig) | Directional Sign Acc:  87.6% (105 sig)
+2026-10-27 09:41:19,793 [INFO]     Horizon 15m: Overall Acc:  94.7% (266 smp) | Active Excursion:  94.5% (91 sig) | Directional Sign Acc:  94.5% (91 sig)
+2026-10-27 09:41:19,793 [INFO]     Tier Accuracies -> Tactical(1m): 88.4% | Meso(15m): 64.7% | Macro(15m): 39.1%
+2026-10-27 09:41:19,793 [INFO] ================================================================================
+2026-10-27 09:41:22,106 [INFO] Stopping WebSocket ingestor & REST companion poller...
+2026-10-27 09:41:22,915 [INFO] ================================================================================
+2026-10-27 09:41:22,915 [INFO] SESSION CONCLUDED SUCCESSFULLY
+2026-10-27 09:41:22,915 [INFO] Total Time: 60.0 min | Total Bars: 360 | Closed Trades: 1
+2026-10-27 09:41:22,915 [INFO] Win Rate: 0.0% | Total Net PnL: -22.17 bps
+2026-10-27 09:41:22,915 [INFO] Final Metrics Saved: D:\PrivateProjects\BTC Futures\scratch\live_session_final_metrics.json
+2026-10-27 09:41:22,915 [INFO] Ledger Saved: D:\PrivateProjects\BTC Futures\scratch\live_hierarchical_session_1h_ledger.jsonl
+2026-10-27 09:41:22,915 [INFO] ================================================================================
+2026-10-27 09:41:22,917 [INFO] 1-Hour session finished. Exiting process.

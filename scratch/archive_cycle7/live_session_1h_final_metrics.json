@@ -1,0 +1,151 @@
+{
+  "session_duration_minutes": 60.01,
+  "bars_evaluated": 360,
+  "total_trades": 5,
+  "winning_trades": 3,
+  "win_rate_pct": 60.0,
+  "total_net_pnl_bps": -25.86,
+  "avg_net_pnl_bps": -5.17,
+  "accuracy_summary": {
+    "10s": {
+      "evaluated_samples": 359,
+      "overall_accuracy_pct": 87.47,
+      "active_signals_count": 0,
+      "active_precision_pct": 0.0,
+      "sign_accuracy_pct": 0.0,
+      "sign_samples": 0
+    },
+    "30s": {
+      "evaluated_samples": 357,
+      "overall_accuracy_pct": 79.83,
+      "active_signals_count": 70,
+      "active_precision_pct": 85.71,
+      "sign_accuracy_pct": 85.71,
+      "sign_samples": 70
+    },
+    "1m": {
+      "evaluated_samples": 354,
+      "overall_accuracy_pct": 79.1,
+      "active_signals_count": 70,
+      "active_precision_pct": 85.71,
+      "sign_accuracy_pct": 85.71,
+      "sign_samples": 70
+    },
+    "5m": {
+      "evaluated_samples": 324,
+      "overall_accuracy_pct": 91.36,
+      "active_signals_count": 195,
+      "active_precision_pct": 87.69,
+      "sign_accuracy_pct": 87.69,
+      "sign_samples": 195
+    },
+    "15m": {
+      "evaluated_samples": 270,
+      "overall_accuracy_pct": 92.22,
+      "active_signals_count": 147,
+      "active_precision_pct": 87.07,
+      "sign_accuracy_pct": 87.07,
+      "sign_samples": 147
+    },
+    "tiers": {
+      "macro": {
+        "evaluated": 270,
+        "accuracy_pct": 42.96
+      },
+      "meso": {
+        "evaluated": 270,
+        "accuracy_pct": 66.3
+      },
+      "tactical": {
+        "evaluated": 354,
+        "accuracy_pct": 79.1
+      },
+      "micro": {
+        "evaluated": 359,
+        "accuracy_pct": 87.47
+      }
+    }
+  },
+  "closed_trades": [
+    {
+      "symbol": "BTCUSDT",
+      "side": "BUY",
+      "entry_price": 80290.7,
+      "exit_price": 80266.7,
+      "quantity": 0.022,
+      "entry_ts_ms": 1793063450000,
+      "exit_ts_ms": 1793063770000,
+      "holding_duration_sec": 320.0,
+      "gross_return_bps": -2.9891,
+      "total_fee_bps": 4.0,
+      "net_return_bps": -6.9891,
+      "peak_mfe_bps": 5.1812,
+      "max_mae_bps": -3.0016,
+      "exit_reason": "MACRO_REVERSAL_MAKER_EXIT"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "BUY",
+      "entry_price": 80145.3,
+      "exit_price": 80181.36538500001,
+      "quantity": 0.017,
+      "entry_ts_ms": 1793064470000,
+      "exit_ts_ms": 1793064710000,
+      "holding_duration_sec": 240.0,
+      "gross_return_bps": 4.5,
+      "total_fee_bps": 4.0,
+      "net_return_bps": 0.5,
+      "peak_mfe_bps": 7.3367,
+      "max_mae_bps": -1.5347,
+      "exit_reason": "MICRO_TRAILING_MAKER_TP"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "BUY",
+      "entry_price": 80188.4,
+      "exit_price": 80225.339712,
+      "quantity": 0.017,
+      "entry_ts_ms": 1793065110000,
+      "exit_ts_ms": 1793065250000,
+      "holding_duration_sec": 140.0,
+      "gross_return_bps": 4.6066,
+      "total_fee_bps": 4.0,
+      "net_return_bps": 0.6066,
+      "peak_mfe_bps": 7.8066,
+      "max_mae_bps": 0.0,
+      "exit_reason": "MICRO_TRAILING_MAKER_TP"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "BUY",
+      "entry_price": 80271.8,
+      "exit_price": 80323.313024,
+      "quantity": 0.026,
+      "entry_ts_ms": 1793065390000,
+      "exit_ts_ms": 1793065430000,
+      "holding_duration_sec": 40.0,
+      "gross_return_bps": 6.4173,
+      "total_fee_bps": 4.0,
+      "net_return_bps": 2.4173,
+      "peak_mfe_bps": 9.6173,
+      "max_mae_bps": 0.0,
+      "exit_reason": "MICRO_TRAILING_MAKER_TP"
+    },
+    {
+      "symbol": "BTCUSDT",
+      "side": "BUY",
+      "entry_price": 80295.9,
+      "exit_price": 80172.3,
+      "quantity": 0.029,
+      "entry_ts_ms": 1793065590000,
+      "exit_ts_ms": 1793065790000,
+      "holding_duration_sec": 200.0,
+      "gross_return_bps": -15.3931,
+      "total_fee_bps": 7.0,
+      "net_return_bps": -22.3931,
+      "peak_mfe_bps": 0.0,
+      "max_mae_bps": -15.3931,
+      "exit_reason": "HARD_STOP_LOSS_TAKER"
+    }
+  ]
+}

@@ -1,0 +1,404 @@
+[
+  {
+    "slot": "Champion",
+    "name": "Reigning Champion: Cycle 35 Reversion Pure Scalper",
+    "problem_addressed": "Foundational Conformal Certainty Baseline (+111.63 bps Peak Cumulative Net)",
+    "total_trades": 40,
+    "avg_trades_per_hour": 5.71,
+    "overall_win_rate": 40.0,
+    "total_net_pnl": -223.82,
+    "cycle_breakdown": [
+      {
+        "cycle": "cycle12",
+        "trades": 5,
+        "wins": 1,
+        "losses": 4,
+        "win_rate": 20.0,
+        "net_pnl": -31.07
+      },
+      {
+        "cycle": "cycle17",
+        "trades": 8,
+        "wins": 5,
+        "losses": 3,
+        "win_rate": 62.5,
+        "net_pnl": -22.41
+      },
+      {
+        "cycle": "cycle35",
+        "trades": 4,
+        "wins": 1,
+        "losses": 3,
+        "win_rate": 25.0,
+        "net_pnl": -2.89
+      },
+      {
+        "cycle": "cycle48",
+        "trades": 5,
+        "wins": 2,
+        "losses": 3,
+        "win_rate": 40.0,
+        "net_pnl": -29.24
+      },
+      {
+        "cycle": "cycle57",
+        "trades": 8,
+        "wins": 3,
+        "losses": 5,
+        "win_rate": 37.5,
+        "net_pnl": -71.56
+      },
+      {
+        "cycle": "cycle58",
+        "trades": 4,
+        "wins": 0,
+        "losses": 4,
+        "win_rate": 0.0,
+        "net_pnl": -54.16
+      },
+      {
+        "cycle": "cycle59",
+        "trades": 6,
+        "wins": 4,
+        "losses": 2,
+        "win_rate": 66.7,
+        "net_pnl": -12.49
+      }
+    ]
+  },
+  {
+    "slot": "Challenger 1",
+    "name": "Challenger 1: Cycle 59 Winner ($6 Range Envelope Scalper)",
+    "problem_addressed": "Solves range midpoint whipsaw by entering within $6 of 15m extremes (+14.58b maker win in Cycle 59)",
+    "total_trades": 45,
+    "avg_trades_per_hour": 6.43,
+    "overall_win_rate": 42.2,
+    "total_net_pnl": -214.85,
+    "cycle_breakdown": [
+      {
+        "cycle": "cycle12",
+        "trades": 6,
+        "wins": 2,
+        "losses": 4,
+        "win_rate": 33.3,
+        "net_pnl": -23.18
+      },
+      {
+        "cycle": "cycle17",
+        "trades": 9,
+        "wins": 6,
+        "losses": 3,
+        "win_rate": 66.7,
+        "net_pnl": -16.13
+      },
+      {
+        "cycle": "cycle35",
+        "trades": 5,
+        "wins": 1,
+        "losses": 4,
+        "win_rate": 20.0,
+        "net_pnl": -16.26
+      },
+      {
+        "cycle": "cycle48",
+        "trades": 5,
+        "wins": 2,
+        "losses": 3,
+        "win_rate": 40.0,
+        "net_pnl": -21.09
+      },
+      {
+        "cycle": "cycle57",
+        "trades": 8,
+        "wins": 3,
+        "losses": 5,
+        "win_rate": 37.5,
+        "net_pnl": -71.56
+      },
+      {
+        "cycle": "cycle58",
+        "trades": 5,
+        "wins": 0,
+        "losses": 5,
+        "win_rate": 0.0,
+        "net_pnl": -62.87
+      },
+      {
+        "cycle": "cycle59",
+        "trades": 7,
+        "wins": 5,
+        "losses": 2,
+        "win_rate": 71.4,
+        "net_pnl": -3.77
+      }
+    ]
+  },
+  {
+    "slot": "Challenger 2",
+    "name": "Challenger 2: Exhaustion-Aware $6 Envelope Scalper",
+    "problem_addressed": "Solves tail-chasing losses (Cycle 59 Trade 3) by vetoing entries in bottom/top 20% of extended range",
+    "total_trades": 34,
+    "avg_trades_per_hour": 4.86,
+    "overall_win_rate": 32.4,
+    "total_net_pnl": -219.04,
+    "cycle_breakdown": [
+      {
+        "cycle": "cycle12",
+        "trades": 6,
+        "wins": 2,
+        "losses": 4,
+        "win_rate": 33.3,
+        "net_pnl": -23.18
+      },
+      {
+        "cycle": "cycle17",
+        "trades": 6,
+        "wins": 4,
+        "losses": 2,
+        "win_rate": 66.7,
+        "net_pnl": -12.4
+      },
+      {
+        "cycle": "cycle35",
+        "trades": 3,
+        "wins": 0,
+        "losses": 3,
+        "win_rate": 0.0,
+        "net_pnl": -19.4
+      },
+      {
+        "cycle": "cycle48",
+        "trades": 3,
+        "wins": 0,
+        "losses": 3,
+        "win_rate": 0.0,
+        "net_pnl": -21.62
+      },
+      {
+        "cycle": "cycle57",
+        "trades": 7,
+        "wins": 2,
+        "losses": 5,
+        "win_rate": 28.6,
+        "net_pnl": -76.64
+      },
+      {
+        "cycle": "cycle58",
+        "trades": 5,
+        "wins": 0,
+        "losses": 5,
+        "win_rate": 0.0,
+        "net_pnl": -62.87
+      },
+      {
+        "cycle": "cycle59",
+        "trades": 4,
+        "wins": 3,
+        "losses": 1,
+        "win_rate": 75.0,
+        "net_pnl": -2.93
+      }
+    ]
+  },
+  {
+    "slot": "Challenger 3",
+    "name": "Challenger 3: Active Frequency $5 Envelope Scalper",
+    "problem_addressed": "Solves trade starvation / overly conservative 0-trade sessions by lowering edge hurdle to 3.5 bps",
+    "total_trades": 46,
+    "avg_trades_per_hour": 6.57,
+    "overall_win_rate": 41.3,
+    "total_net_pnl": -238.12,
+    "cycle_breakdown": [
+      {
+        "cycle": "cycle12",
+        "trades": 6,
+        "wins": 2,
+        "losses": 4,
+        "win_rate": 33.3,
+        "net_pnl": -23.18
+      },
+      {
+        "cycle": "cycle17",
+        "trades": 9,
+        "wins": 6,
+        "losses": 3,
+        "win_rate": 66.7,
+        "net_pnl": -18.9
+      },
+      {
+        "cycle": "cycle35",
+        "trades": 5,
+        "wins": 1,
+        "losses": 4,
+        "win_rate": 20.0,
+        "net_pnl": -16.26
+      },
+      {
+        "cycle": "cycle48",
+        "trades": 5,
+        "wins": 2,
+        "losses": 3,
+        "win_rate": 40.0,
+        "net_pnl": -21.09
+      },
+      {
+        "cycle": "cycle57",
+        "trades": 9,
+        "wins": 3,
+        "losses": 6,
+        "win_rate": 33.3,
+        "net_pnl": -92.06
+      },
+      {
+        "cycle": "cycle58",
+        "trades": 5,
+        "wins": 0,
+        "losses": 5,
+        "win_rate": 0.0,
+        "net_pnl": -62.87
+      },
+      {
+        "cycle": "cycle59",
+        "trades": 7,
+        "wins": 5,
+        "losses": 2,
+        "win_rate": 71.4,
+        "net_pnl": -3.77
+      }
+    ]
+  },
+  {
+    "slot": "Challenger 4",
+    "name": "Challenger 4: Stepped Ratchet $6 Envelope Scalper",
+    "problem_addressed": "Solves profit decay by locking +1.50b net at +4.5b and +3.50b net at +7.5b MFE",
+    "total_trades": 45,
+    "avg_trades_per_hour": 6.43,
+    "overall_win_rate": 42.2,
+    "total_net_pnl": -194.77,
+    "cycle_breakdown": [
+      {
+        "cycle": "cycle12",
+        "trades": 6,
+        "wins": 2,
+        "losses": 4,
+        "win_rate": 33.3,
+        "net_pnl": -23.18
+      },
+      {
+        "cycle": "cycle17",
+        "trades": 9,
+        "wins": 6,
+        "losses": 3,
+        "win_rate": 66.7,
+        "net_pnl": -16.13
+      },
+      {
+        "cycle": "cycle35",
+        "trades": 5,
+        "wins": 1,
+        "losses": 4,
+        "win_rate": 20.0,
+        "net_pnl": -16.26
+      },
+      {
+        "cycle": "cycle48",
+        "trades": 5,
+        "wins": 2,
+        "losses": 3,
+        "win_rate": 40.0,
+        "net_pnl": -1.01
+      },
+      {
+        "cycle": "cycle57",
+        "trades": 8,
+        "wins": 3,
+        "losses": 5,
+        "win_rate": 37.5,
+        "net_pnl": -71.56
+      },
+      {
+        "cycle": "cycle58",
+        "trades": 5,
+        "wins": 0,
+        "losses": 5,
+        "win_rate": 0.0,
+        "net_pnl": -62.87
+      },
+      {
+        "cycle": "cycle59",
+        "trades": 7,
+        "wins": 5,
+        "losses": 2,
+        "win_rate": 71.4,
+        "net_pnl": -3.77
+      }
+    ]
+  },
+  {
+    "slot": "Challenger 5",
+    "name": "Challenger 5: Dynamic Asymmetric Scalper",
+    "problem_addressed": "Combines $6 envelope, exhaustion guard, and fast trailing locks to maximize trade quality",
+    "total_trades": 34,
+    "avg_trades_per_hour": 4.86,
+    "overall_win_rate": 32.4,
+    "total_net_pnl": -219.04,
+    "cycle_breakdown": [
+      {
+        "cycle": "cycle12",
+        "trades": 6,
+        "wins": 2,
+        "losses": 4,
+        "win_rate": 33.3,
+        "net_pnl": -23.18
+      },
+      {
+        "cycle": "cycle17",
+        "trades": 6,
+        "wins": 4,
+        "losses": 2,
+        "win_rate": 66.7,
+        "net_pnl": -12.4
+      },
+      {
+        "cycle": "cycle35",
+        "trades": 3,
+        "wins": 0,
+        "losses": 3,
+        "win_rate": 0.0,
+        "net_pnl": -19.4
+      },
+      {
+        "cycle": "cycle48",
+        "trades": 3,
+        "wins": 0,
+        "losses": 3,
+        "win_rate": 0.0,
+        "net_pnl": -21.62
+      },
+      {
+        "cycle": "cycle57",
+        "trades": 7,
+        "wins": 2,
+        "losses": 5,
+        "win_rate": 28.6,
+        "net_pnl": -76.64
+      },
+      {
+        "cycle": "cycle58",
+        "trades": 5,
+        "wins": 0,
+        "losses": 5,
+        "win_rate": 0.0,
+        "net_pnl": -62.87
+      },
+      {
+        "cycle": "cycle59",
+        "trades": 4,
+        "wins": 3,
+        "losses": 1,
+        "win_rate": 75.0,
+        "net_pnl": -2.93
+      }
+    ]
+  }
+]
